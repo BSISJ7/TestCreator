@@ -1,0 +1,10 @@
+
+*.properties
+*.xml
+*.xml
+*.xml
+XMLTest.xml
+*.bak
+
+# Project exclude paths
+/out/

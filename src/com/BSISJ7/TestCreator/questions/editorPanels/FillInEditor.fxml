@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<DialogPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="com.BSISJ7.TestCreator.questions.editorPanels.FillInEditor"
+            prefWidth="600">
+    <content>
+        <BorderPane>
+            <top>
+                <VBox>
+                    <HBox spacing="20">
+                        <Label text="Question Name"/>
+                        <TextField fx:id="questionName"/>
+                    </HBox>
+
+                    <ToolBar>
+                        <HBox spacing="10">
+                            <Button fx:id="addWordBtn" onAction="#toggleAddWord" text="Add Word">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                            <Button fx:id="removeWordBtn" onAction="#toggleRemoveWord" text="Remove Word">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                        </HBox>
+                    </ToolBar>
+                </VBox>
+            </top>
+            <center>
+                <HBox>
+                    <VBox>
+                        <Label text="Word Bank"/>
+                        <ListView fx:id="wordBankListView"/>
+                    </VBox>
+                    <VBox>
+                        <Label text="Question"/>
+                        <ScrollPane fx:id="questionScrollPane"/>
+                    </VBox>
+                </HBox>
+            </center>
+        </BorderPane>
+    </content>
+
+
+</DialogPane>

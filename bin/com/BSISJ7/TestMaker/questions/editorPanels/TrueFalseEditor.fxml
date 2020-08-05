@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
+            fx:controller="com.BSISJ7.TestCreator.questions.editorPanels.TrueFalseEditor">
+
+
+    <content>
+        <BorderPane>
+            <top>
+                <HBox spacing="20">
+                    <Label text="Question Name"/>
+                    <TextField fx:id="questionName"/>
+                </HBox>
+            </top>
+            <center>
+                <VBox spacing="10">
+                    <TextArea fx:id="trueFalseTextArea"/>
+                    <HBox spacing="10">
+                        <RadioButton fx:id="trueBtn" text="True"/>
+                        <RadioButton fx:id="falseBtn" text="False"/>
+                    </HBox>
+                </VBox>
+            </center>
+        </BorderPane>
+    </content>
+
+
+</DialogPane>

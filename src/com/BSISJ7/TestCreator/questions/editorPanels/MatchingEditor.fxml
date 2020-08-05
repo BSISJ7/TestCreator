@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<DialogPane xmlns:fx="http://javafx.com/fxml/1" fx:id="dialogPane" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="com.BSISJ7.TestCreator.questions.editorPanels.MatchingEditor">
+
+    <content>
+        <BorderPane>
+            <top>
+                <VBox>
+                    <HBox spacing="20">
+                        <Label text="Question Name"/>
+                        <TextField fx:id="questionName"/>
+                    </HBox>
+
+                    <ToolBar>
+                        <HBox spacing="10">
+                            <Button fx:id="addPairBtn" disable="true" onAction="#addPair" text="Add Pair">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                            <Button fx:id="removePairBtn" disable="true" onAction="#removePair" text="Remove Pair">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                            <Button fx:id="updateBtn" disable="true" onAction="#updatePair" text="Update Pair">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                        </HBox>
+                    </ToolBar>
+                </VBox>
+            </top>
+
+            <left>
+                <VBox>
+                    <Label text="Matching Question"/>
+                    <TextArea fx:id="questionTextArea" maxWidth="300"/>
+                    <Label text="Matching Answer"/>
+                    <TextArea fx:id="answerTextArea" maxWidth="300"/>
+                </VBox>
+            </left>
+
+            <center>
+                <HBox>
+                    <VBox>
+                        <Label text="Question List"/>
+                        <ScrollPane hbarPolicy="NEVER">
+                            <ListView fx:id="questionListView"/>
+                        </ScrollPane>
+                    </VBox>
+                    <VBox>
+                        <Label text="Answer List"/>
+                        <ScrollPane hbarPolicy="NEVER">
+                            <ListView fx:id="answerListView"/>
+                        </ScrollPane>
+                    </VBox>
+                </HBox>
+            </center>
+
+        </BorderPane>
+    </content>
+
+</DialogPane>

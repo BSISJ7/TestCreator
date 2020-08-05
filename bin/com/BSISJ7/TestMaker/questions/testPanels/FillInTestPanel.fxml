@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="mainWindow" xmlns="http://javafx.com/javafx"
+            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.FillInTestPanel">
+
+
+    <top>
+    </top>
+    <left>
+        <ListView fx:id="wordBankListView" />
+    </left>
+    <center>
+        <HBox fx:id="questionContainer"/>
+    </center>
+
+    <bottom>
+        <HBox>
+            <RadioButton fx:id="dispCorrectBtn" disable="true" text="Display Correct Answers" onAction="#dispCorrect"/>
+            <RadioButton fx:id="dispAnswersBtn" disable="true" text="Display Answers" onAction="#dispAnswers"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

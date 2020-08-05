@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.45-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-1.11.281-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-1.11.281-sources.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-1.11.281.jar" sourcepath="lib/aws-java-sdk-1.11.281-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/fluent-hc-4.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/httpclient-4.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/httpclient-cache-4.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/httpclient-win-4.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/httpcore-4.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/httpmime-4.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/jna-4.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/appache http lib/jna-platform-4.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.databind.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jar"/>
+	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.databind.jar.bak"/>
+	<classpathentry kind="lib" path="lib/reflections-0.9.9-RC1-uberjar.jar"/>
+	<classpathentry kind="lib" path="lib/guava-24.1-jre.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-3.22.0-GA.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/appache http lib"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

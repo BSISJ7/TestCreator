@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="testMenuPane"
+            fx:controller="com.BSISJ7.TestCreator.MainMenu"
+            stylesheets="@css/mainStyle.css">
+
+    <top>
+        <VBox>
+            <MenuBar>
+                <menus>
+                    <Menu text="File">
+                        <items>
+                            <MenuItem text="New Test" onAction="#createTest"/>
+                            <MenuItem text="Edit Test" onAction="#editTest"/>
+                            <MenuItem text="Exit" onAction="#exitProgram"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+            <ToolBar>
+                <HBox fx:id="menuBar" spacing="10">
+                    <!--<Button text="Main Menu" onAction="#loadMainMenu">-->
+                        <!--<tooltip>-->
+                            <!--<Tooltip text="Return to main menu"/>-->
+                        <!--</tooltip>-->
+                    <!--</Button>-->
+                    <Button text="New Test" onAction="#createTest">
+                        <tooltip>
+                            <Tooltip text="Creates a new test"/>
+                        </tooltip>
+                    </Button>
+                    <Button text="Edit Test" onAction="#editTest">
+                        <tooltip>
+                            <Tooltip text="Return to main menu"/>
+                        </tooltip>
+                    </Button>
+                    <Button text="Delete Test" onAction="#deleteTest">
+                        <tooltip>
+                            <Tooltip text="Return to main menu"/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="newQuestionBtn" text="New Question" onAction="#createNewQuestion" disable="true">
+                        <tooltip>
+                            <Tooltip text="Return to main menu"/>
+                        </tooltip>
+                    </Button>
+                </HBox>
+            </ToolBar>
+        </VBox>
+    </top>
+
+
+    <left>
+        <VBox>
+            <Label text="Test List"/>
+            <ListView fx:id="testListView" onKeyPressed="#deleteTestKeyPress" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="8">
+            <TextArea fx:id="testDescription" editable="false" VBox.vgrow="ALWAYS" wrapText="true"/>
+        </VBox>
+    </center>
+
+    <right>
+        <VBox>
+            <Label text="Question List"/>
+            <ListView fx:id="questionListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </right>
+</BorderPane>
