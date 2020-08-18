@@ -2,127 +2,101 @@ package com.BSISJ7.TestCreator.questions.testPanels;
 
 import com.BSISJ7.TestCreator.questions.MultipleChoice;
 import com.BSISJ7.TestCreator.questions.Question;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
-public class MultipleChoiceTestPanel extends Gradeable {
+public class MultChoiceTestPanel implements TestPanel {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 6030791732485081137L;
-    private JLabel questionText;
-    private MultipleChoice currentQuestion;
-    private boolean correctAnswer = false;
-    private JTextArea[] txtAreaAnswers;
-    private JPanel pnlAnswers;
-    private int selectedIndex = -1;
+    @FXML
+    private TextArea questionTextArea;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private BorderPane mainWindow;
 
-    public MultipleChoiceTestPanel() {
-        setBackground(SystemColor.inactiveCaptionBorder);
-        setPreferredSize(new Dimension(670, 432));
-        setLayout(null);
+    private List<RadioButton> radioButtons;
 
-        JPanel QuestionPanel = new JPanel();
-        QuestionPanel.setBackground(SystemColor.inactiveCaptionBorder);
-        QuestionPanel.setBorder(new TitledBorder(null, "Question", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        QuestionPanel.setBounds(25, 0, 617, 100);
-        add(QuestionPanel);
-        QuestionPanel.setLayout(null);
+    private MultipleChoice question;
 
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(10, 18, 597, 71);
-        QuestionPanel.add(scrollPane_1);
+    private ToggleGroup choiceToggle;
 
-        questionText = new JLabel();
-        questionText.setOpaque(true);
-        questionText.setBackground(Color.WHITE);
-        scrollPane_1.setViewportView(questionText);
+    private String selectedAnswer;
+    private int selectedIndex;
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(25, 116, 617, 291);
-        add(scrollPane);
-
-        pnlAnswers = new JPanel();
-        pnlAnswers.setBackground(SystemColor.activeCaption);
-        scrollPane.setViewportView(pnlAnswers);
-        pnlAnswers.setLayout(new GridBagLayout());
+    @FXML
+    public void initialize(){
+        choiceToggle = new ToggleGroup();
+        radioButtons = new ArrayList<>();
     }
 
-    public MultipleChoiceTestPanel(Question newQuestion) {
-        this();
-        setQuestion((MultipleChoice) newQuestion);
-    }
+    @Override
+    public void setupQuestion(Question question) {
+        this.question = (MultipleChoice) question;
+        int column = 0;
+        int row = 0;
 
-    public void setQuestion(MultipleChoice newQuestion) {
-        currentQuestion = newQuestion;
+        questionTextArea.setText(this.question.getMultChoiceQuestion());
+        for (String choice : this.question.getChoices()) {
+            RadioButton radioBtn = new RadioButton(choice);
+            radioBtn.setToggleGroup(choiceToggle);
+            radioBtn.setStyle("-fx-font-size: 15; -fx-padding: 15");
+            radioBtn.setAlignment(Pos.CENTER);
 
-        questionText.setText(currentQuestion.getMultChoiceQuestion());
-        txtAreaAnswers = new JTextArea[currentQuestion.getChoices().size()];
+            gridPane.add(radioBtn, column, row);
+            row = column == 1 ? row+1 : row;
+            column = column == 1 ? 0 : 1;
 
-        ArrayList<String> choices = new ArrayList<>(currentQuestion.getChoices());
-        Collections.shuffle(choices);
-
-        GridBagConstraints gbConst = new GridBagConstraints();
-        gbConst.gridx = 0;
-        gbConst.gridy = 0;
-        gbConst.ipady = 20;
-        for (int x = 0; x < choices.size(); x++) {
-            final int index = x;
-            txtAreaAnswers[x] = new JTextArea(choices.get(x));
-            txtAreaAnswers[x].setBorder(BorderFactory.createRaisedBevelBorder());
-            txtAreaAnswers[x].setMinimumSize(new Dimension(590, 70));
-            txtAreaAnswers[x].setEditable(false);
-            txtAreaAnswers[x].setName(x + "");
-            txtAreaAnswers[x].addMouseListener(new MouseListener() {
-                public void mouseClicked(MouseEvent arg0) {
-                    if (selectedIndex != -1)
-                        txtAreaAnswers[selectedIndex].setBackground(Color.WHITE);
-
-                    selectedIndex = Integer.parseInt(arg0.getComponent().getName());
-                    txtAreaAnswers[selectedIndex].setBackground(new Color(173, 255, 47));
-
-                    if (currentQuestion.getAnswerIndex() == selectedIndex)
-                        correctAnswer = true;
-                    else
-                        correctAnswer = true;
-                }
-
-                public void mouseEntered(MouseEvent arg0) {
-                    txtAreaAnswers[index].setBorder(BorderFactory.createRaisedBevelBorder());
-                }
-
-                public void mouseExited(MouseEvent arg0) {
-                    txtAreaAnswers[index].setBorder(BorderFactory.createRaisedBevelBorder());
-                }
-
-                public void mousePressed(MouseEvent arg0) {
-                    txtAreaAnswers[index].setBorder(BorderFactory.createLoweredBevelBorder());
-                }
-
-                public void mouseReleased(MouseEvent arg0) {
-                    txtAreaAnswers[index].setBorder(BorderFactory.createRaisedBevelBorder());
+            radioButtons.add(radioBtn);
+            radioBtn.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if (radioBtn.isSelected()) {
+                    selectedIndex = radioButtons.indexOf(radioBtn);
+                    selectedAnswer = radioBtn.getText();
                 }
             });
-
-            JScrollPane scrlTextAnswers = new JScrollPane(txtAreaAnswers[x]);
-            scrlTextAnswers.setPreferredSize(new Dimension(590, 70));
-            pnlAnswers.add(scrlTextAnswers, gbConst);
-            gbConst.gridy++;
         }
+        radioButtons.get(0).setSelected(true);
+        selectedAnswer = radioButtons.get(0).getText();
+    }
+
+    @Override
+    public String getFXMLName() {
+        return "MultChoiceTestPanel";
+    }
+
+    @Override
+    public Node getQuestionScene() {
+        return mainWindow;
+    }
+
+    @Override
+    public void disableAnswerChanges() {
+        radioButtons.forEach(radioBtn -> radioBtn.setDisable(true));
     }
 
     @Override
     public float getPointsScored() {
-        if (correctAnswer)
-            return currentQuestion.getWeight();
-        else
+        radioButtons.forEach(radioButton -> {
+            if(radioButton.getText().equals(question.getAnswer()))
+                radioButton.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 15; -fx-padding: 15");
+        });
+        if(question.getAnswer().equals(selectedAnswer)) {
+            return 1;
+        }
+        else {
+            radioButtons.get(selectedIndex).setStyle("-fx-text-fill: rgba(220,34,0,0.64);-fx-font-size: 15; -fx-padding: 15");
+            radioButtons.forEach(radioBtn -> {
+                if(radioBtn.getText().equals(selectedAnswer));
+            });
             return 0.0f;
+        }
     }
 }

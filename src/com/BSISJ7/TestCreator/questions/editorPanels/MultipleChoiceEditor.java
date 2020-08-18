@@ -117,7 +117,7 @@ public class MultChoiceEditor implements EditorPanel {
     }
 
     public void setupQuestion(Question question) {
-        this.question = (MultipleChoice)question.getCopy();
+        this.question = (MultipleChoice)question.copyQuestion();
         questionName.setText(this.question.getName());
         questionTextArea.setText(this.question.getMultChoiceQuestion());
 

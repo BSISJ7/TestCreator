@@ -3,7 +3,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane fx:id="mainWindow" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.MatchingTestPanel">
+            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.MatchingWordTestPanel">
 
     <left>
         <ListView fx:id="keyListView"/>

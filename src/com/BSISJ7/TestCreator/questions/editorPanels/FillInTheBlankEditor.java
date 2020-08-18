@@ -253,7 +253,7 @@ public class FillInEditor implements EditorPanel {
 
     @Override
     public void setupQuestion(Question question) {
-        this.question = (FillInTheBlank)question.getCopy();
+        this.question = (FillInTheBlank)question.copyQuestion();
         wordBankListView.setItems(FXCollections.observableArrayList(this.question.getWordBank()));
         fillTextPane.setText(this.question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
         setupHighlights();

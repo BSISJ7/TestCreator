@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <BorderPane fx:id="mainWindow" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.MultChoiceTestPanel">
+            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.MultipleChoiceTestPanel">
 
     <top>
         <TextArea fx:id="questionTextArea" editable="false"/>

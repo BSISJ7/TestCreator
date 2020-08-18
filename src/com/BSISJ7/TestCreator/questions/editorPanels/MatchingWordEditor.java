@@ -120,7 +120,7 @@ public class MatchingEditor implements EditorPanel {
 
     @Override
     public void setupQuestion(Question question) {
-        this.question = (MatchingWord) question.getCopy();
+        this.question = (MatchingWord) question.copyQuestion();
         questionListView.setItems(this.question.getKeyList());
         answerListView.setItems(this.question.getValueList());
         questionName.setText(question.getName());

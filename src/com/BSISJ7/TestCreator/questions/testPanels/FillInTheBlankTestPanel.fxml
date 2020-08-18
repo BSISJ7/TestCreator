@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="mainWindow" xmlns="http://javafx.com/javafx"
-            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.FillInTestPanel">
+            fx:controller="com.BSISJ7.TestCreator.questions.testPanels.FillInTheBlankTestPanel">
 
 
     <top>
