@@ -26,7 +26,7 @@ import static com.BSISJ7.TestCreator.utilities.WordAtCaretFinder.getWordAtCaret;
 import static javax.swing.text.Highlighter.Highlight;
 import static javax.swing.text.Highlighter.HighlightPainter;
 
-public class FillInEditor implements EditorPanel {
+public class FillInTheBlankEditor implements EditorPanel {
 
     private final static HighlightPainter NEW_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(196, 238, 129));
     private final static HighlightPainter SELECTED_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(193, 239, 248));
@@ -194,7 +194,8 @@ public class FillInEditor implements EditorPanel {
     private void addHighlight(int startOffset, int endOffset, HighlightPainter painter){
         try {
             questionHighlighter.addHighlight(startOffset, endOffset, painter);
-        }catch (BadLocationException e){e.printStackTrace();}
+        }catch (BadLocationException | NullPointerException e){e.printStackTrace();
+        }
     }
 
     private boolean isHighlighted(int wordLocation) {
@@ -253,7 +254,7 @@ public class FillInEditor implements EditorPanel {
 
     @Override
     public void setupQuestion(Question question) {
-        this.question = (FillInTheBlank)question.copyQuestion();
+        this.question = (FillInTheBlank)question.getCopy();
         wordBankListView.setItems(FXCollections.observableArrayList(this.question.getWordBank()));
         fillTextPane.setText(this.question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
         setupHighlights();

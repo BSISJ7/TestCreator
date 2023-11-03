@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="loginPane"
+    fx:controller="com.BSISJ7.TestCreator.LoginPanel"
+    stylesheets="@css/mainStyle.css"
+    alignment="CENTER"
+    spacing="10">
+
+    <Label text="Login"/>
+
+    <GridPane alignment="CENTER" hgap="10" vgap="10">
+        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="usernameField" promptText="Username" onAction="#loadMainMenu" maxWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" promptText="Password" onAction="#loadMainMenu" maxWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+    <Button fx:id="loginBtn" text="Login" onAction="#authenticate"/>
+    <Button fx:id="noLoginBtn" text="Continue without logging in." onAction="#loadMainMenu"/>
+    <Button fx:id="resetPasswordBtn" text="Reset Password" onAction="#resetPassword"/>
+    <Button fx:id="newUserBtn" text="New User" onAction="#createUser"/>
+</VBox>

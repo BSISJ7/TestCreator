@@ -15,6 +15,7 @@ import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.*;
@@ -49,7 +50,7 @@ public class FillInTheBlank extends Question {
 
     public static final String ANSWER_REPLACEMENT_REGEX = "\\[.+?\\] ?";
     private String fillQuestion = "";
-    private ArrayList<String> wordBank = new ArrayList<>();
+    private final ArrayList<String> wordBank = new ArrayList<>();
     private ArrayList<Integer> wordPositions = new ArrayList<>();
 
 
@@ -127,7 +128,7 @@ public class FillInTheBlank extends Question {
 
     @Override
     public boolean readyToRun() {
-        return wordBank.size() > 0 && fillQuestion.length() > 0;
+        return !wordBank.isEmpty() && !fillQuestion.isEmpty();
     }
 
     @Override
@@ -149,27 +150,25 @@ public class FillInTheBlank extends Question {
 
     @Override
     public TestPanel getTestPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/testPanels/" +
-                "FillInTestPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(TEST_PANELS_LOCATION +
+                "FillInTheBlankTestPanel.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
         loader.setRoot(new BorderPane());
-        TestPanel controller = loader.<TestPanel>getController();
+        TestPanel controller = loader.getController();
         controller.setupQuestion(this);
         return controller;
     }
 
     @Override
     public EditorPanel getEditPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/editorPanels/" +
-                "FillInEditor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EDITOR_PANELS_LOCATION + "FillInTheBlankEditor.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
         loader.setRoot(new BorderPane());
-        EditorPanel controller = loader.<EditorPanel>getController();
-        return controller;
+        return loader.getController();
     }
 
     @Override
@@ -187,9 +186,11 @@ public class FillInTheBlank extends Question {
 
     @Override
     public void autofillData() {
-        fillQuestion = "Matching question is completely changed to now [match] mulitple questions and answers\n" +
-                "Question worth is weighted instead of [correct] or incorrect\n" +
-                "Scores are now determined [based] on question weight";
+        fillQuestion = """
+                Matching question is completely changed to now [match] mulitple questions and answers
+                Question worth is weighted instead of [correct] or incorrect
+                Scores are now determined [based] on question weight
+                """;
 
         for(int x = 0; x < 5; x++){
             int randPos = new Random().nextInt(fillQuestion.length());

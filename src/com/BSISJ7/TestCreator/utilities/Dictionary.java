@@ -19,7 +19,7 @@ public class Dictionary {
     private Dictionary(){
         dictionary = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(Main.workDir+"\\Dictionary.txt")));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(Main.workDir+File.separator+"Dictionary.txt")));
             String word;
             while((word = reader.readLine()) != null) {
                 dictionary.add(word);
@@ -40,5 +40,9 @@ public class Dictionary {
     public void addWord(String newWord){
         dictionary.add(newWord);
         Collections.sort(dictionary);
+    }
+
+    public int size(){
+        return dictionary.size();
     }
 }

@@ -12,9 +12,16 @@
                 <menus>
                     <Menu text="File">
                         <items>
+                            <MenuItem text="Run Test" onAction="#runTest"/>
                             <MenuItem text="New Test" onAction="#createTest"/>
+                            <MenuItem text="Begin Test" onAction="#runTest"/>
                             <MenuItem text="Edit Test" onAction="#editTest"/>
                             <MenuItem text="Exit" onAction="#exitProgram"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Login">
+                        <items>
+                            <MenuItem text="Login as Different User" onAction="#openLoginPanel"/>
                         </items>
                     </Menu>
                 </menus>
@@ -29,6 +36,11 @@
                     <Button text="New Test" onAction="#createTest">
                         <tooltip>
                             <Tooltip text="Creates a new test"/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="beginTestBtn" text="Begin Test" onAction="#runTest" disable="true">
+                        <tooltip>
+                            <Tooltip text="Begin the selected test"/>
                         </tooltip>
                     </Button>
                     <Button text="Edit Test" onAction="#editTest">

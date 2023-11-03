@@ -2,6 +2,11 @@ package com.BSISJ7.TestCreator.questions.testPanels;
 
 import com.BSISJ7.TestCreator.questions.MultipleChoice;
 import com.BSISJ7.TestCreator.questions.Question;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,11 +16,18 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MultipleChoiceTestPanel extends Gradeable {
+public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel{
 
     /**
      *
      */
+
+    @FXML
+    private TextArea questionTextArea;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private BorderPane mainWindow;
     private static final long serialVersionUID = 6030791732485081137L;
     private JLabel questionText;
     private MultipleChoice currentQuestion;
@@ -24,7 +36,9 @@ public class MultipleChoiceTestPanel extends Gradeable {
     private JPanel pnlAnswers;
     private int selectedIndex = -1;
 
-    public MultipleChoiceTestPanel() {
+
+
+    public MultipleChoiceTestPanelV2() {
         setBackground(SystemColor.inactiveCaptionBorder);
         setPreferredSize(new Dimension(670, 432));
         setLayout(null);
@@ -55,7 +69,7 @@ public class MultipleChoiceTestPanel extends Gradeable {
         pnlAnswers.setLayout(new GridBagLayout());
     }
 
-    public MultipleChoiceTestPanel(Question newQuestion) {
+    public MultipleChoiceTestPanelV2(Question newQuestion) {
         this();
         setQuestion((MultipleChoice) newQuestion);
     }
@@ -124,5 +138,25 @@ public class MultipleChoiceTestPanel extends Gradeable {
             return currentQuestion.getWeight();
         else
             return 0.0f;
+    }
+
+    @Override
+    public void setupQuestion(Object question) {
+        setQuestion((MultipleChoice) question);
+    }
+
+    @Override
+    public String getFXMLName() {
+        return "MultChoiceTestPanel";
+    }
+
+    @Override
+    public Node getQuestionScene() {
+        return mainWindow;
+    }
+
+    @Override
+    public void disableAnswerChanges() {
+
     }
 }

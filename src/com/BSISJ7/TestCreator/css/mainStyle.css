@@ -97,8 +97,7 @@
 }
 
 
-
-#cirlce-button {
+#circle-button {
     -fx-padding: 5 22 5 22;
     -fx-border-color: rgba(40, 40, 40, 0.91);
     -fx-border-width: 2;
@@ -109,8 +108,21 @@
     -fx-text-fill: #282828;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
     -fx-border-radius: 40px;
-    -fx-effect: dropshadow(three-pass-box, rgb(44, 74, 0), 10, 0, 2, 3);
+    -fx-effect: dropshadow(three-pass-box, rgb(17, 27, 1), 10, 0, 2, 3);
     -fx-fill: rgba(15, 149, 52, 0.51);
+}
+#circle-button:hover{
+    -fx-border-color: rgb(30, 180, 105);
+    /* -fx-text-fill: #5e8c57; */
+    -fx-translate-x: 1px;
+    -fx-translate-y: 1px;
+    -fx-transition: all 1s ease-in-out;
+}
+
+#circle-button:active{
+    -fx-translate-x: 2px;
+    -fx-translate-y: 2px;
+    -fx-transition: all 1s ease-in-out;
 }
 
 #flagged-button{

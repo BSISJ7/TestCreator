@@ -3,7 +3,7 @@ package com.BSISJ7.TestCreator;
 import com.BSISJ7.TestCreator.questions.Question;
 import com.BSISJ7.TestCreator.questions.editorPanels.EditorPanel;
 import com.BSISJ7.TestCreator.questions.editorPanels.NewQuestionEditor;
-import com.BSISJ7.TestCreator.questions.testPanels.RunTestPanel;
+import com.BSISJ7.TestCreator.questions.testPanels.TestingPanel;
 import com.BSISJ7.TestCreator.testCreation.TestEditDialog;
 import com.BSISJ7.TestCreator.testIO.TestData;
 import javafx.application.Platform;
@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
@@ -25,11 +26,10 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
-import static com.BSISJ7.TestCreator.Test.shortDateFormat;
 import static java.lang.System.nanoTime;
 
 public class MainMenu {
@@ -43,6 +43,8 @@ public class MainMenu {
     @FXML
     Button newQuestionBtn;
     @FXML
+    Button beginTestBtn;
+    @FXML
     private ListView<Test> testListView;
     @FXML
     private ListView<Question> questionListView;
@@ -50,27 +52,33 @@ public class MainMenu {
     @FXML
     private HBox menuBar;
 
+    public static final String MAIN_MENU_LOCATION = "/com/BSISJ7/TestCreator/MainMenu.fxml";
+    public static final String OS_TYPE = System.getProperty("os.name");
+
     @FXML
     public void initialize() {
         ContextMenu testContextMenu = new ContextMenu();
 
-        MenuItem runTestItem = new MenuItem("Run Test");
-        runTestItem.setOnAction(event -> runTest());
+        MenuItem loginItem = new MenuItem("Login");
+        loginItem.setOnAction(_ -> openLoginPanel());
+
+        MenuItem runTestItem = new MenuItem("Run");
+        runTestItem.setOnAction(_ -> runTest());
 
         MenuItem deleteTestItem = new MenuItem("Delete");
-        deleteTestItem.setOnAction(event -> deleteTest());
+        deleteTestItem.setOnAction(_ -> deleteTest());
 
         MenuItem editTestItem = new MenuItem("Edit");
-        editTestItem.setOnAction(event -> editTest());
+        editTestItem.setOnAction(_ -> editTest());
 
-        MenuItem createNewQuestion = new MenuItem("New Question");
-        createNewQuestion.setOnAction(event -> createNewQuestion());
-        testContextMenu.getItems().addAll(runTestItem, createNewQuestion, editTestItem, deleteTestItem);
+        MenuItem createQuestionItem = new MenuItem("New Question");
+        createQuestionItem.setOnAction(_ -> createNewQuestion());
+        testContextMenu.getItems().addAll(createQuestionItem, editTestItem, deleteTestItem);
 
         questionContextMenu = new ContextMenu();
 
         MenuItem deleteQuestionItem = new MenuItem("Delete Question");
-        deleteQuestionItem.setOnAction(event -> deleteQuestion());
+        deleteQuestionItem.setOnAction(_ -> deleteQuestion());
 
         MenuItem editQuestionItem = new MenuItem("Edit Question");
         editQuestionItem.setOnAction(event -> editQuestion());
@@ -125,13 +133,13 @@ public class MainMenu {
         testListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
                 newQuestionBtn.setDisable(false);
+                beginTestBtn.setDisable(false);
                 testDescription.setText(selectedTest().getDescription());
-//                reviewDate.setText(selectedTest()
-//                        .getReviewDate().format(shortDateFormat));
                 questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
             } else {
                 newQuestionBtn.setDisable(true);
-                reviewDate.setText("");
+                beginTestBtn.setDisable(true);
+//                reviewDate.setText("");
                 testDescription.setText("");
             }
         });
@@ -318,10 +326,10 @@ public class MainMenu {
     public void runTest() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/testPanels/" +
-                    "RunTestPanel.fxml"));
+                    "TestingPanel.fxml"));
             Parent runTestPanel = loader.load();
-            RunTestPanel controller = loader.getController();
-            controller.setupTest(selectedTest());
+            TestingPanel testController = loader.getController();
+            testController.setupTest(selectedTest());
             Stage stage = (Stage) testMenuPane.getScene().getWindow();
             stage.getScene().setRoot(runTestPanel);
         } catch (IOException e) {
@@ -337,8 +345,8 @@ public class MainMenu {
     @FXML
     public void loadMainMenu(ActionEvent event) {
         try {
-            Parent testMenuPane = FXMLLoader.load(getClass().getResource("/com/BSISJ7/TestCreator/" +
-                    "MainMenu.fxml"));
+            Parent testMenuPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/BSISJ7/TestCreator/" +
+                    "MainMenu.fxml")));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(testMenuPane);
         } catch (IOException e) {
@@ -377,17 +385,14 @@ public class MainMenu {
         }
     }
 
-    /**
-     * Not implemented yet
-     */
-    public void setReviewDate() {
-
-        if (selectedTest().getReviewDate().isBefore(LocalDateTime.now())) {
-            reviewDate.setText("");
-        } else {
-            reviewDate.setText(selectedTest().getReviewDate().format(shortDateFormat));
-        }
-    }
+//    public void setReviewDate() {
+//
+//        if (selectedTest().getReviewDate().isBefore(LocalDateTime.now())) {
+//            reviewDate.setText("");
+//        } else {
+//            reviewDate.setText(selectedTest().getReviewDate().format(shortDateFormat));
+//        }
+//    }
 
     /**
      * @return Returns the selected test from testListView
@@ -404,10 +409,9 @@ public class MainMenu {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Question Editor");
         dialog.initOwner(testMenuPane.getScene().getWindow());
-        String panelName = selectedQuestion().getEditPanel().getClass().getSimpleName();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/com/BSISJ7/TestCreator/questions/editorPanels/" +
-                panelName+".fxml"));
+        loader.setLocation(getClass().getResource(Question.EDITOR_PANELS_LOCATION +
+                selectedQuestion().getClass().getSimpleName() + "Editor.fxml"));
         try {
             dialog.getDialogPane().setContent(loader.load());
         } catch (IOException e) {
@@ -451,5 +455,17 @@ public class MainMenu {
         TestData.getInstance().getTests().clear();
         questionListView.getItems().clear();
         autoFillTests();
+    }
+
+    @FXML
+    private void openLoginPanel() {
+        try {
+            Stage stage = (Stage) testMenuPane.getScene().getWindow();
+            stage.setTitle("Login");
+            stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/BSISJ7/TestCreator/loginPanel.fxml"))), 800, 500));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

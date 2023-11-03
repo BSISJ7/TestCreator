@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 
-public class TrueFalseTestPanel implements TestPanel {
+public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
 
     @FXML
     public TextArea questionText;
@@ -39,8 +39,8 @@ public class TrueFalseTestPanel implements TestPanel {
     }
 
     @Override
-    public void setupQuestion(Question question) {
-        this.question = (TrueFalse) question;
+    public void setupQuestion(TrueFalse question) {
+        this.question = question;
         questionText.setText(this.question.getTrueFalseQuestion());
         trueBtn.setSelected(this.question.trueSelected());
     }

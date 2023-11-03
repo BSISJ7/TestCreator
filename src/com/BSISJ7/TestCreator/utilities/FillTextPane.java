@@ -1,6 +1,6 @@
 package com.BSISJ7.TestCreator.utilities;
 
-import com.BSISJ7.TestCreator.questions.editorPanels.FillInEditor;
+import com.BSISJ7.TestCreator.questions.editorPanels.FillInTheBlankEditor;
 import com.BSISJ7.TestCreator.utilities.DefaultFillHighlighter.HighlightInfo;
 
 import javax.swing.*;
@@ -21,20 +21,20 @@ import static java.util.Arrays.asList;
 
 public class FillTextPane extends JTextPane {
 
-    private Stack<String> textUndoStack = new Stack<>();
-    private Stack<String> textRedoStack = new Stack<>();
+    private final Stack<String> textUndoStack = new Stack<>();
+    private final Stack<String> textRedoStack = new Stack<>();
 
-    private Stack<ArrayList<HighlightInfo>> highlightUndoStack = new Stack<>();
-    private Stack<ArrayList<HighlightInfo>> highlightRedoStack = new Stack<>();
+    private final Stack<ArrayList<HighlightInfo>> highlightUndoStack = new Stack<>();
+    private final Stack<ArrayList<HighlightInfo>> highlightRedoStack = new Stack<>();
 
     private final FillTextPane fillTextPane = this;
 
-    private boolean settingUp = false;
-    private DefaultFillHighlighter fillHighlighter = new DefaultFillHighlighter();
+    private final boolean settingUp = false;
+    private final DefaultFillHighlighter fillHighlighter = new DefaultFillHighlighter();
 
     public FillTextPane() {}
 
-    public FillTextPane(FillInEditor fillInEditor){
+    public FillTextPane(FillInTheBlankEditor fillInEditor){
         setHighlighter(fillHighlighter);
 
         getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ctrl Z"), "Undo");
@@ -55,7 +55,7 @@ public class FillTextPane extends JTextPane {
                         try {
                             fillHighlighter.addHighlight(highlight.getIntStart(), highlight.getIntEnd(), highlight.getPainter());
                             System.out.println("Adding Highlight At: "+highlight.getStartOffset());
-                        } catch (BadLocationException e) {
+                        } catch (BadLocationException | NullPointerException e) {
                             e.printStackTrace();
                         }
                     });
@@ -66,7 +66,7 @@ public class FillTextPane extends JTextPane {
         getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ctrl Y"), "Redo");
         getActionMap().put("Redo", new TextAction("") {
             public void actionPerformed(ActionEvent event) {
-                if (textRedoStack.size() > 0) {
+                if (!textRedoStack.isEmpty()) {
                     pushHighlights();
                     textUndoStack.push(fillTextPane.getText());
 
@@ -75,7 +75,7 @@ public class FillTextPane extends JTextPane {
                     highlightRedoStack.pop().forEach(highlight -> {
                         try {
                             fillHighlighter.addHighlight(highlight.getIntStart(), highlight.getIntEnd(), highlight.getPainter());
-                        } catch (BadLocationException e) {
+                        } catch (BadLocationException | NullPointerException e) {
                             e.printStackTrace();
                         }
                     });
@@ -103,7 +103,7 @@ public class FillTextPane extends JTextPane {
                 if(endOfHighlight) {
                     try {
                         fillHighlighter.addHighlight(startOffset, endOffset, SELECTED_WORD_PAINT);
-                    } catch (BadLocationException e) {
+                    } catch (BadLocationException | NullPointerException e) {
                         e.printStackTrace();
                     }
                 }
@@ -226,7 +226,7 @@ public class FillTextPane extends JTextPane {
                 } catch (BadLocationException e) {e.printStackTrace();}
                 try {
                     fillHighlighter.addHighlight(startOffset, endOffset, SELECTED_WORD_PAINT);
-                } catch (BadLocationException e) {
+                } catch (BadLocationException | NullPointerException e) {
                     e.printStackTrace();
                 }
             }

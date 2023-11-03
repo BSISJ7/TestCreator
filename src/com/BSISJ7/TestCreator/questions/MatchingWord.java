@@ -130,8 +130,8 @@ public class MatchingWord extends Question{
 
     @Override
     public TestPanel getTestPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/testPanels/" +
-                "MatchingTestPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(TEST_PANELS_LOCATION +
+                "MatchingWordTestPanel.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
@@ -143,14 +143,14 @@ public class MatchingWord extends Question{
 
     @Override
     public EditorPanel getEditPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/editorPanels/" +
-                "MatchingEditor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EDITOR_PANELS_LOCATION +
+                "MatchingWordEditor.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
         loader.setRoot(new BorderPane());
-        EditorPanel controller = loader.<EditorPanel>getController();
-        return controller;    }
+        return loader.<EditorPanel>getController();
+    }
 
     @Override
     public int getGradableParts() {

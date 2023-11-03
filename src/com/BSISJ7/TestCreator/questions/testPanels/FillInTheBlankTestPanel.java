@@ -1,7 +1,6 @@
 package com.BSISJ7.TestCreator.questions.testPanels;
 
 import com.BSISJ7.TestCreator.questions.FillInTheBlank;
-import com.BSISJ7.TestCreator.questions.Question;
 import com.BSISJ7.TestCreator.utilities.FillTextPane;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.StyledDocument;
@@ -27,9 +28,10 @@ import java.util.*;
 
 import static com.BSISJ7.TestCreator.questions.FillInTheBlank.*;
 import static com.BSISJ7.TestCreator.utilities.WordAtCaretFinder.getWordAtCaret;
+import static java.lang.System.out;
 
 
-public class FillInTestPanel implements TestPanel {
+public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
 
     @FXML
     private BorderPane mainWindow;
@@ -53,7 +55,7 @@ public class FillInTestPanel implements TestPanel {
 
     private List<String> wordBank;
     private List<Integer> wordOffsets;
-    private List<Integer> origOffsets;
+    private List<Integer> origOffsetsList;
 
     private String previousHover = "";
     private String emptySpace = "";
@@ -61,10 +63,10 @@ public class FillInTestPanel implements TestPanel {
     private int prevPosition = -1;
     private int caretPosition = -1;
 
-    private boolean showingAnswer = false;
+    private boolean isShowingAnswer = false;
     private boolean showingCorrectAnswers = false;
     private boolean keyPressed;
-    private boolean testGraded = false;
+    private boolean isTestGraded = false;
 
 
     public void initialize() {
@@ -80,7 +82,7 @@ public class FillInTestPanel implements TestPanel {
         questionTextArea.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent event) {
                 event.consume();
-                if(!testGraded) {
+                if(!isTestGraded) {
                     int startOffset = questionTextArea.getCurrentHighlightOffset();
                     int endOffset = startOffset + emptySpace.length();
 
@@ -126,53 +128,70 @@ public class FillInTestPanel implements TestPanel {
             }
             public void keyReleased(KeyEvent event) {
                 event.consume();
-                if(!testGraded) {
+                if(!isTestGraded) {
                     keyPressed = false;
                 }
             }
         });
 
         questionTextArea.addMouseMotionListener(new MouseMotionListener() {
+            private int lastPos;
+
             public void mouseDragged(MouseEvent e) {}
             public void mouseMoved(MouseEvent e) {
                 if (!showingCorrectAnswers) {
                     caretPosition = questionTextArea.viewToModel2D(e.getPoint());
                     int startOffset = getNearestStartOffset(caretPosition);
                     int endOffset = startOffset + emptySpace.length();
+                    boolean isCaretBetweenOffsets = startOffset <= caretPosition && caretPosition < endOffset;
 
-                    if (startOffset < caretPosition && caretPosition < endOffset && !testGraded) {
+                    if (lastPos != caretPosition) {
+                        lastPos = caretPosition;
+                    }
+
+                    //Change cursor to a hand if it is hovering an answer blank.
+                    if (isCaretBetweenOffsets && !isTestGraded) {
+                        mainWindow.setCursor(javafx.scene.Cursor.HAND);
                         questionTextArea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    } else if (!testGraded) {
+                    } else if (!isTestGraded) {
+                        mainWindow.setCursor(javafx.scene.Cursor.DEFAULT);
                         questionTextArea.setCursor(Cursor.getDefaultCursor());
                     }
 
-                    if (testGraded && startOffset < caretPosition && caretPosition < endOffset && !showingAnswer
-                            && origOffsets.size() > 0) {
+                    if (isTestGraded && isCaretBetweenOffsets && !isShowingAnswer && !origOffsetsList.isEmpty()
+                        && wordOffsets.contains(startOffset)) {
                         try {
-                            int wordLocation = wordOffsets.indexOf(startOffset);
+//                            out.println(STR. """
+//                            CaretPos: \{ caretPosition }
+//                            Start Offset: \{ startOffset }
+//                            End Offset: \{ endOffset }
+//                            """ );
+
                             String hoveredWord = getWordAtCaret(questionTextArea.getText(), startOffset);
-                            String correctWord = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsets.get(wordLocation));
+                            String correctWord = getWordAtCaret(question.getFillQuestion().replace("\r",
+                                    ""), origOffsetsList.get(wordOffsets.indexOf(startOffset)));
 
                             if (!hoveredWord.equalsIgnoreCase(correctWord)) {
+                                //Fill in remaining space with ' '
                                 String blankSpaces = " ".repeat(emptySpace.length() - correctWord.length());
 
                                 doc.remove(startOffset, emptySpace.length());
                                 doc.insertString(startOffset, correctWord + blankSpaces, INCORRECT_WORD);
                                 previousHover = hoveredWord;
                                 prevPosition = startOffset;
-                                showingAnswer = true;
+                                isShowingAnswer = true;
                             }
-                        } catch (BadLocationException | NullPointerException exception) {
+                        } catch(BadLocationException | NullPointerException exception){
                             exception.printStackTrace();
                         }
-                    } else if (testGraded && (caretPosition < startOffset || endOffset < caretPosition) && showingAnswer) {
+                    } else if (isTestGraded && (caretPosition < startOffset || endOffset < caretPosition) && isShowingAnswer) {
                         String blankSpaces = " ".repeat(emptySpace.length() - previousHover.length());
 
                         try {
                             doc.remove(prevPosition, emptySpace.length());
                             doc.insertString(prevPosition, previousHover + blankSpaces, INCORRECT_WORD);
                             previousHover = "";
-                            showingAnswer = false;
+                            isShowingAnswer = false;
                             prevPosition = -1;
                         } catch (BadLocationException | NullPointerException exception) {
                             exception.printStackTrace();
@@ -189,13 +208,11 @@ public class FillInTestPanel implements TestPanel {
                     int caretPosition = questionTextArea.viewToModel2D(e.getPoint());
                     int nearestStartOffset = getNearestStartOffset(caretPosition);
                     int endOffset = nearestStartOffset + emptySpace.length();
-                    if (nearestStartOffset <= caretPosition && caretPosition < endOffset && !keyPressed && !testGraded) {
+                    if (nearestStartOffset <= caretPosition && caretPosition < endOffset && !keyPressed && !isTestGraded) {
                         questionTextArea.replaceLastHighlight(UNSELECTED_WORD);
                         questionTextArea.setHighlight(nearestStartOffset, emptySpace.length(), SELECTED_WORD, true);
-                        SwingUtilities.invokeLater(() -> {
-                            Platform.runLater(swingNode::requestFocus);
-                            setCaretAtWordEnd(nearestStartOffset);
-                        });
+                        Platform.runLater(swingNode::requestFocus);
+                        setCaretAtWordEnd(nearestStartOffset);
                     }
                 }
             }
@@ -205,8 +222,16 @@ public class FillInTestPanel implements TestPanel {
             public void mouseExited(MouseEvent e) {}
         });
 
+        questionTextArea.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                questionTextArea.repaint();
+                out.println("Component shown");
+            }
+        });
+
         wordBankListView.setOnMouseClicked(event -> {
-            if(!testGraded && !showingCorrectAnswers && wordBankListView.getSelectionModel().getSelectedIndex() != -1) {
+            if(!isTestGraded && !showingCorrectAnswers && wordBankListView.getSelectionModel().getSelectedIndex() != -1) {
                 try {
                     String selectedWord = wordBankListView.getSelectionModel().getSelectedItem();
                     int startOffset = questionTextArea.getCurrentHighlightOffset();
@@ -235,11 +260,11 @@ public class FillInTestPanel implements TestPanel {
 
 //        https://stackoverflow.com/questions/9486631/disable-double-click-selection-in-a-jtextcomponent
 //        StanislavL
-        DefaultCaret c=new DefaultCaret() {
+        DefaultCaret c = new DefaultCaret() {
             public void mouseClicked(MouseEvent e) {
 //                int numClicks = SwingUtilities2.getAdjustedClickCount(getComponent(), e);
                 int numClicks = e.getClickCount();
-                boolean leftClick = e.getButton() == 1;
+//                boolean leftClick = e.getButton() == 1;
                 if (! e.isConsumed() && SwingUtilities.isLeftMouseButton(e) && numClicks == 2) {
                     return;
                 }
@@ -260,7 +285,7 @@ public class FillInTestPanel implements TestPanel {
     }
 
     private void selectWord(int keyCode){
-        if(!testGraded && !showingCorrectAnswers) {
+        if(!isTestGraded && !showingCorrectAnswers) {
             keyPressed = true;
             List<Integer> sortedWordOffsets = new ArrayList<>(wordOffsets);
             sortedWordOffsets.sort(Integer::compareTo);
@@ -288,7 +313,7 @@ public class FillInTestPanel implements TestPanel {
                     nextWordIndex++;
 
                 int startOffset = sortedWordOffsets.get(nextWordIndex);
-                System.out.println(startOffset);
+                out.println(startOffset);
 
                 questionTextArea.replaceLastHighlight(UNSELECTED_WORD);
                 questionTextArea.setHighlight(startOffset, emptySpace.length(), SELECTED_WORD, true);
@@ -306,13 +331,24 @@ public class FillInTestPanel implements TestPanel {
                 .reduce(0, (pos1, pos2) -> pos1 > pos2 ? pos1 : pos2);
     }
 
-    public void setupQuestion(Question question) {
+    public void setupQuestion(FillInTheBlank question) {
         int maxWordLength = 0;
-        this.question = (FillInTheBlank) question;
+        this.question = question;
         long randNum = System.nanoTime();
 
-        origOffsets = new ArrayList<>(this.question.getWordPositions());
-        Collections.sort(origOffsets);
+        questionTextArea.setPreferredSize(new Dimension(800, 500));
+        questionTextArea.addAncestorListener(new AncestorListener() {
+            public void ancestorAdded(AncestorEvent event) {}
+
+            public void ancestorRemoved(AncestorEvent event) {}
+
+            public void ancestorMoved(AncestorEvent event) {
+                questionTextArea.repaint();
+            }
+        });
+
+        origOffsetsList = new ArrayList<>(this.question.getWordPositions());
+        Collections.sort(origOffsetsList);
 
         wordBank = new ArrayList<>(this.question.getWordBank());
         Collections.shuffle(wordBank, new Random(randNum));
@@ -334,7 +370,7 @@ public class FillInTestPanel implements TestPanel {
         questionTextArea.setFont(font);
 
 
-        //Replace all wordbank words with spaces and underline them
+        //Replace all word-bank words with spaces and underline them
         for (int x = 0; x < wordBank.size(); x++) {
             String word = wordBank.get(x);
             int position = wordOffsets.get(x);
@@ -366,10 +402,13 @@ public class FillInTestPanel implements TestPanel {
         }
     }
 
+    /**
+     * Displays the correct answers in the corresponding blanks.
+     */
     private void displayCorrectAnswers(){
-        if(testGraded && !showingCorrectAnswers) {
+        if(isTestGraded && !showingCorrectAnswers) {
             for (int x = 0; x < wordOffsets.size(); x++) {
-                String correctAnswer = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsets.get(x));
+                String correctAnswer = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsetsList.get(x));
                 String blankSpaces = " ".repeat(emptySpace.length() - correctAnswer.length());
                 String answer = wordBank.get(x);
                 try {
@@ -388,11 +427,14 @@ public class FillInTestPanel implements TestPanel {
         }
     }
 
+    /**
+     * Displays the given user answers in the corresponding blanks.
+     */
     private void displayAnswers(){
-        if(testGraded && showingCorrectAnswers) {
+        if(isTestGraded && showingCorrectAnswers) {
             for (int x = 0; x < wordOffsets.size(); x++) {
                 String answer = wordBank.get(x);
-                String correctAnswer = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsets.get(x));
+                String correctAnswer = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsetsList.get(x));
                 String blankSpaces = " ".repeat(emptySpace.length() - answer.length());
 
                 try {
@@ -417,7 +459,7 @@ public class FillInTestPanel implements TestPanel {
     private void setCaretAtWordEnd(int startOffset){
         questionTextArea.setCaretPosition(startOffset + emptySpace.length());
         for(int x = startOffset; x < startOffset + emptySpace.length(); x++){
-            if(questionTextArea.getText().substring(x, x+1).equals(" ")) {
+            if(questionTextArea.getText().charAt(x) == ' ') {
                 questionTextArea.setCaretPosition(x);
                 break;
             }
@@ -438,12 +480,13 @@ public class FillInTestPanel implements TestPanel {
     public void disableAnswerChanges() {
         questionTextArea.setEditable(false);
         wordBankListView.setDisable(true);
+        mainWindow.setCursor(javafx.scene.Cursor.DEFAULT);
     }
 
     @Override
     public float getPointsScored() {
         float score = 0.0f;
-        testGraded = true;
+        isTestGraded = true;
         questionTextArea.clearHighlights();
         dispAnswersBtn.setSelected(true);
         dispAnswersBtn.setDisable(false);
@@ -453,7 +496,7 @@ public class FillInTestPanel implements TestPanel {
         for(int x = 0; x < wordOffsets.size(); x++){
             int endOffset = wordOffsets.get(x) + emptySpace.length();
             String answer = questionTextArea.getText().substring(wordOffsets.get(x), endOffset).trim();
-            String answerCheck = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsets.get(x));
+            String answerCheck = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsetsList.get(x));
             if(answer.equalsIgnoreCase(answerCheck)) {
                 score++;//= question.getWeight() / question.getWordBank().size();
                 questionTextArea.setHighlight(wordOffsets.get(x), emptySpace.length(), CORRECT_WORD, true);

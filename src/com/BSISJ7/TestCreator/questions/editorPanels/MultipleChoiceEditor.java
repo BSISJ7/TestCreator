@@ -10,7 +10,7 @@ import javafx.scene.control.cell.TextFieldListCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class MultChoiceEditor implements EditorPanel {
+public class MultipleChoiceEditor implements EditorPanel {
 
     @FXML
     public Button removeChoiceBtn;
@@ -117,7 +117,7 @@ public class MultChoiceEditor implements EditorPanel {
     }
 
     public void setupQuestion(Question question) {
-        this.question = (MultipleChoice)question.copyQuestion();
+        this.question = (MultipleChoice)question.getCopy();
         questionName.setText(this.question.getName());
         questionTextArea.setText(this.question.getMultChoiceQuestion());
 

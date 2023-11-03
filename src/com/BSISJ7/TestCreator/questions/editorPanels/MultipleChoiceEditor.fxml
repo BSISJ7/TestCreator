@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <DialogPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
-            fx:controller="com.BSISJ7.TestCreator.questions.editorPanels.MultChoiceEditor">
+            fx:controller="com.BSISJ7.TestCreator.questions.editorPanels.MultipleChoiceEditor">
 
     <content>
         <BorderPane>

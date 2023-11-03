@@ -129,27 +129,26 @@ public class MultipleChoice extends Question {
 
     @Override
     public TestPanel getTestPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/testPanels/" +
-                "MultChoiceTestPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(TEST_PANELS_LOCATION
+                +"MultipleChoiceTestPanel.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
         loader.setRoot(new BorderPane());
-        TestPanel controller = loader.<TestPanel>getController();
+        TestPanel controller = loader.getController();
         controller.setupQuestion(this);
         return controller;
     }
 
     @Override
     public EditorPanel getEditPanel() throws IllegalStateException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/BSISJ7/TestCreator/questions/editorPanels/" +
-                "MultChoiceEditor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EDITOR_PANELS_LOCATION
+                +"MultipleChoiceEditor.fxml"));
         try {
             loader.load();
         } catch (IOException e) {e.printStackTrace();}
         loader.setRoot(new BorderPane());
-        EditorPanel controller = loader.<EditorPanel>getController();
-        return controller;
+        return loader.<EditorPanel>getController();
     }
 
     @Override
@@ -159,6 +158,9 @@ public class MultipleChoice extends Question {
 
     @Override
     public void autofillData() {
+        if(Dictionary.getDictionary().size() < 1)
+            return;
+
         for(int x = 0; x < 5; x++){
             choices.add(Dictionary.getDictionary().getRandomWord());
         }

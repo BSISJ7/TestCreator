@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class MatchingEditor implements EditorPanel {
+public class MatchingWordEditor implements EditorPanel {
 
 
     @FXML
@@ -120,7 +120,7 @@ public class MatchingEditor implements EditorPanel {
 
     @Override
     public void setupQuestion(Question question) {
-        this.question = (MatchingWord) question.copyQuestion();
+        this.question = (MatchingWord) question.getCopy();
         questionListView.setItems(this.question.getKeyList());
         answerListView.setItems(this.question.getValueList());
         questionName.setText(question.getName());

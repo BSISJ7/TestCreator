@@ -29,16 +29,30 @@ import javax.swing.plaf.TextUI;
 import javax.swing.text.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Vector;
 
 
 public class DefaultFillHighlighter extends DefaultHighlighter {
 
     public void removeHighlightAt(int offset){
-        highlights.forEach(highlightInfo -> {
-            if (highlightInfo.getStartOffset() == offset)
-                removeHighlight(highlightInfo);
-        });
+
+//        highlights.forEach(highlightInfo -> {
+//            if (highlightInfo.getStartOffset() == offset)
+//                removeHighlight(highlightInfo);
+//
+//        });
+
+
+        Iterator<HighlightInfo> highlightIterator = highlights.iterator();
+        while(highlightIterator.hasNext()) {
+            HighlightInfo iterator = highlightIterator.next();
+            if (iterator.getStartOffset() == offset) {
+                highlightIterator.remove();
+            }
+        }
+
     }
 
     public ArrayList<HighlightInfo> getHighlightList(){
@@ -80,11 +94,11 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
      * interface of a JTextComponent.  Installs the editor, and
      * removes any existing highlights.
      *
-     * @param c the editor component
+     * @param component the editor component
      * @see Highlighter#install
      */
-    public void install(JTextComponent c) {
-        component = c;
+    public void install(JTextComponent component) {
+        this.component = component;
         removeAllHighlights();
     }
 
@@ -92,62 +106,79 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
      * Called when the UI is being removed from the interface of
      * a JTextComponent.
      *
-     * @param c the component
+     * @param component the component
      * @see Highlighter#deinstall
      */
-    public void deinstall(JTextComponent c) {
-        component = null;
+    public void deinstall(JTextComponent component) {
+        this.component = null;
     }
 
     /**
      * Adds a highlight to the view.  Returns a tag that can be used
      * to refer to the highlight.
      *
-     * @param p0   the start offset of the range to highlight &gt;= 0
-     * @param p1   the end offset of the range to highlight &gt;= p0
-     * @param p    the painter to use to actually render the highlight
+     * @param startOffset   the start offset of the range to highlight &gt;= 0
+     * @param endOffset   the end offset of the range to highlight &gt;= p0
+     * @param highlightPainter    the painter to use to actually render the highlight
      * @return     an object that can be used as a tag
      *   to refer to the highlight
      * @exception BadLocationException if the specified location is invalid
      */
-    public Object addHighlight(int p0, int p1, HighlightPainter p) throws BadLocationException {
-        if (p0 < 0) {
-            throw new BadLocationException("Invalid start offset", p0);
-        }
+    public Object addHighlight(int startOffset, int endOffset, HighlightPainter highlightPainter)
+            throws BadLocationException, NullPointerException {
+//        if (Objects.isNull(component.getDocument())) throw new NullPointerException();
 
-        if (p1 < p0) {
-            throw new BadLocationException("Invalid end offset", p1);
-        }
+        if (startOffset < 0)
+            throw new BadLocationException("Invalid start offset", startOffset);
 
-        Document doc = component.getDocument();
-        HighlightInfo i = (getDrawsLayeredHighlights() &&
-                (p instanceof LayeredHighlighter.LayerPainter)) ?
-                new LayeredHighlightInfo() : new HighlightInfo();
-        i.painter = p;
-        i.p0 = doc.createPosition(p0);
-        i.p1 = doc.createPosition(p1);
-        highlights.add(i);
-        safeDamageRange(p0, p1);
-        return i;
+        if (endOffset < startOffset)
+            throw new BadLocationException("Invalid end offset", endOffset);
+
+        if (Objects.nonNull(component)) {
+            Document doc = component.getDocument();
+            HighlightInfo highlightInfo = (getDrawsLayeredHighlights() &&
+                    (highlightPainter instanceof LayeredHighlighter.LayerPainter)) ?
+                    new LayeredHighlightInfo() : new HighlightInfo();
+            highlightInfo.painter = highlightPainter;
+            highlightInfo.p0 = doc.createPosition(startOffset);
+            highlightInfo.p1 = doc.createPosition(endOffset);
+            highlights.add(highlightInfo);
+            safeDamageRange(startOffset, endOffset);
+            return highlightInfo;
+        }else
+            return new HighlightInfo();
     }
 
     /**
      * Removes a highlight from the view.
      *
-     * @param tag the reference to the highlight
+     * @param highlight the reference to the highlight
      */
-    public void removeHighlight(Object tag) {
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
+    public void removeHighlight(Object highlight) {
+        if (highlight instanceof LayeredHighlightInfo) {
+            LayeredHighlightInfo lhi = (LayeredHighlightInfo)highlight;
             if (lhi.width > 0 && lhi.height > 0) {
                 component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
         }
         else {
-            HighlightInfo info = (HighlightInfo) tag;
+            HighlightInfo info = (HighlightInfo) highlight;
             safeDamageRange(info.p0, info.p1);
         }
-        highlights.remove(tag);
+
+        //Removes the highlight from the list
+        //Causes ConcurrentModificationException
+//        highlights.remove(highlight);
+
+        // Removes the highlight from the list
+        // Copilot suggestion
+        Iterator<HighlightInfo> highlightIterator = highlights.iterator();
+        while(highlightIterator.hasNext()) {
+            HighlightInfo iterator = highlightIterator.next();
+            if (iterator.equals(highlight)) {
+                highlightIterator.remove();
+            }
+        }
     }
 
     /**
@@ -217,49 +248,47 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
     /**
      * Changes a highlight.
      *
-     * @param tag the highlight tag
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @param highlightTag the highlight tag
+     * @param startOffset the beginning of the range &gt;= 0
+     * @param endOffset the end of the range &gt;= p0
      * @exception BadLocationException if the specified location is invalid
      */
-    public void changeHighlight(Object tag, int p0, int p1) throws BadLocationException {
-        if (p0 < 0) {
-            throw new BadLocationException("Invalid beginning of the range", p0);
-        }
+    public void changeHighlight(Object highlightTag, int startOffset, int endOffset) throws BadLocationException {
+        if (Objects.isNull(component)) return;
 
-        if (p1 < p0) {
-            throw new BadLocationException("Invalid end of the range", p1);
-        }
+        if (startOffset < 0) throw new BadLocationException("Invalid beginning of the range", startOffset);
+
+        if (endOffset < startOffset) throw new BadLocationException("Invalid end of the range", endOffset);
 
         Document doc = component.getDocument();
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
+        if (highlightTag instanceof LayeredHighlightInfo) {
+            LayeredHighlightInfo lhi = (LayeredHighlightInfo)highlightTag;
             if (lhi.width > 0 && lhi.height > 0) {
                 component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
             // Mark the highlights region as invalid, it will reset itself
             // next time asked to paint.
             lhi.width = lhi.height = 0;
-            lhi.p0 = doc.createPosition(p0);
-            lhi.p1 = doc.createPosition(p1);
-            safeDamageRange(Math.min(p0, p1), Math.max(p0, p1));
+            lhi.p0 = doc.createPosition(startOffset);
+            lhi.p1 = doc.createPosition(endOffset);
+            safeDamageRange(Math.min(startOffset, endOffset), Math.max(startOffset, endOffset));
         }
         else {
-            HighlightInfo info = (HighlightInfo) tag;
+            HighlightInfo info = (HighlightInfo) highlightTag;
             int oldP0 = info.p0.getOffset();
             int oldP1 = info.p1.getOffset();
-            if (p0 == oldP0) {
-                safeDamageRange(Math.min(oldP1, p1),
-                        Math.max(oldP1, p1));
-            } else if (p1 == oldP1) {
-                safeDamageRange(Math.min(p0, oldP0),
-                        Math.max(p0, oldP0));
+            if (startOffset == oldP0) {
+                safeDamageRange(Math.min(oldP1, endOffset),
+                        Math.max(oldP1, endOffset));
+            } else if (endOffset == oldP1) {
+                safeDamageRange(Math.min(startOffset, oldP0),
+                        Math.max(startOffset, oldP0));
             } else {
                 safeDamageRange(oldP0, oldP1);
-                safeDamageRange(p0, p1);
+                safeDamageRange(startOffset, endOffset);
             }
-            info.p0 = doc.createPosition(p0);
-            info.p1 = doc.createPosition(p1);
+            info.p0 = doc.createPosition(startOffset);
+            info.p1 = doc.createPosition(endOffset);
         }
     }
 

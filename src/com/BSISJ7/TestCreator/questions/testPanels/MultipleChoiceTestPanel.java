@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultChoiceTestPanel implements TestPanel {
+public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
 
     @FXML
     private TextArea questionTextArea;
@@ -39,8 +39,8 @@ public class MultChoiceTestPanel implements TestPanel {
     }
 
     @Override
-    public void setupQuestion(Question question) {
-        this.question = (MultipleChoice) question;
+    public void setupQuestion(MultipleChoice question) {
+        this.question = question;
         int column = 0;
         int row = 0;
 

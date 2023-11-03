@@ -1,5 +1,7 @@
 package com.BSISJ7.TestCreator.questions;
 
+import com.BSISJ7.TestCreator.Main;
+import com.BSISJ7.TestCreator.MainMenu;
 import com.BSISJ7.TestCreator.Test;
 import com.BSISJ7.TestCreator.questions.editorPanels.EditorPanel;
 import com.BSISJ7.TestCreator.questions.testPanels.TestPanel;
@@ -12,6 +14,7 @@ import org.w3c.dom.Node;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
@@ -24,23 +27,42 @@ import static com.BSISJ7.TestCreator.testIO.XMLIO.findNode;
 
 public abstract class Question implements TestableQuestion{
 
+    public static final String sysSeparator;
+    static{
+        if(System.getProperty("os.name").toLowerCase().contains("win"))
+            sysSeparator = "\\"+File.separator;
+        else
+            sysSeparator = File.separator;
+    }
+//    public static final String EDITOR_PANELS_LOCATION = ("/src/com/BSISJ7/TestCreator/questions/editorPanels/")
+//            .replaceAll("/", sysSeparator);
+//    public static final String TEST_PANELS_LOCATION = ("/src/com/BSISJ7/TestCreator/questions/testPanels/")
+//            .replaceAll("/", sysSeparator);
+
+    public static final String EDITOR_PANELS_LOCATION = ("/src/com/BSISJ7/TestCreator/questions/editorPanels/");
+    public static final String TEST_PANELS_LOCATION = ("/src/com/BSISJ7/TestCreator/questions/testPanels/");
+
+
     final static String INVALID_XML = "[^"
             + "\u0001-\uD7FF"
             + "\uE000-\uFFFD"
             + "\ud800\udc00-\udbff\udfff"
             + "]+";
+
     private final static List<String> questionTypes = new ArrayList<String>();
+
     static Set<Class<? extends Question>> questionClasses;
+
     Test test;
+
     String questionName = "";
+    String questionType;
 
     List<String> tags = new ArrayList();
 
     LocalDateTime DATE_CREATED = LocalDateTime.now();
 
     int gradableParts = 0;
-
-    String questionType;
 
     float questionWeight;
 
@@ -95,17 +117,8 @@ public abstract class Question implements TestableQuestion{
                             .getConstructor(String.class, String.class, Test.class);
 
             return (Question) constructor.newInstance(name, type, test);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException |
+                IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return null;
@@ -201,4 +214,5 @@ public abstract class Question implements TestableQuestion{
     public int getGradableParts() {
         return 1;
     }
+
 }
