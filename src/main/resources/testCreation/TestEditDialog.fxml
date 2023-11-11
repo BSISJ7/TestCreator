@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
+            fx:controller="TestCreator.testCreation.TestEditDialog">
+<!--            stylesheets="@/css/mainStyle.css">-->
+
+    <content>
+        <GridPane hgap="10" vgap="10">
+            <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="testName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Description" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="testDesc" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Review Date" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="reviewDate" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+    </content>
+</DialogPane>

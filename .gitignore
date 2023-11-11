@@ -1,10 +1,16 @@
 
 *.properties
 *.xml
-*.xml
-*.xml
 XMLTest.xml
 *.bak
+
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
 # Project exclude paths
 /out/

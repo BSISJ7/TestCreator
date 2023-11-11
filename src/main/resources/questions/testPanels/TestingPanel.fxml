@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="TestCreator.questions.testPanels.TestingPanel">
+<!--        stylesheets="@../../css/mainStyle.css"-->
+
+    <top>
+        <VBox>
+            <Label fx:id="testNameLbl"/>
+            <Label fx:id="timerLbl"/>
+            <ToolBar>
+                <HBox spacing="10">
+                    <Button fx:id="mainMenuBtn" onAction="#returnToTestMenu" text="Test Menu" id="circle-button">
+                        <tooltip>
+                            <Tooltip text="Goes to next question."/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="prevQuestionBtn" onAction="#prevQuestion" text="Previous Question"
+                            id="circle-button">
+                        <tooltip>
+                            <Tooltip text="Goes to previous question."/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="nextQuestionBtn" onAction="#nextQuestion" text="Next Question" id="circle-button">
+                        <tooltip>
+                            <Tooltip text="Goes to next question."/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="finishTestBtn" onAction="#checkCorrectAnswers" text="Grade Test" id="circle-button">
+                        <tooltip>
+                            <Tooltip text="End your current test session and have your test graded."/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="flagQuestionBtn" onAction="#flagQuestion" text="Flag" id="circle-button">
+                        <tooltip>
+                            <Tooltip text="Flag current question for review."/>
+                        </tooltip>
+                    </Button>
+                </HBox>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox>
+            <BorderPane fx:id="questionDisplay"/>
+        </VBox>
+    </center>
+
+    <right>
+        <ScrollPane>
+            <VBox fx:id="shortcutBtnsPane" maxWidth="100" spacing="10">
+
+            </VBox>
+        </ScrollPane>
+    </right>
+
+    <bottom>
+        <HBox fx:id="reviewDisplayVBox" spacing="50">
+            <Label fx:id="numCorrectLbl" text="Correct Answers: 0"/>
+            <Label fx:id="percentCorrectLbl" text="Percent Correct: 0.0%"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

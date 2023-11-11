@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.login.WebLogin">
+    <center>
+        <VBox fx:id="loginPane" alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
+            <TextField fx:id="usernameField" promptText="Username" maxWidth="200" />
+            <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200" />
+            <Button text="Login" fx:id="loginBtn" onAction="#authenticate" maxWidth="200" />
+            <Hyperlink text="Guest Login" fx:id="noLoginBtn" onAction="#loadMainMenu" />
+            <Hyperlink text="New User" fx:id="newUserBtn" onAction="#createUser" />
+            <Hyperlink text="Reset Password" fx:id="resetPasswordBtn" onAction="#resetPassword" />
+        </VBox>
+    </center>
+</BorderPane>
