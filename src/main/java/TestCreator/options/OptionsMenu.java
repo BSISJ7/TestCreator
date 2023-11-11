@@ -8,7 +8,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
@@ -43,7 +42,7 @@ public class OptionsMenu {
     @FXML
     public void initialize() {
         StageManager.setTitle("Options");
-        okayButton.setOnAction(event -> {
+        okayButton.setOnAction(_ -> {
             try{
                 StageManager.setScene("/MainMenu.fxml");
             } catch (IOException e) {
@@ -51,7 +50,7 @@ public class OptionsMenu {
                 throw new RuntimeException(e);
             }
         });
-        cancelButton.setOnAction(event -> {
+        cancelButton.setOnAction(_ -> {
             try{
                 StageManager.setScene("/MainMenu.fxml");
             } catch (IOException e) {
@@ -60,51 +59,42 @@ public class OptionsMenu {
             }
         });
 
-        Platform.runLater(() -> {
-            themeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue == nordDark) {
-                    projectCssTheme = "/css/themes/nord-dark.css";
-                } else if (newValue == nordLight) {
-                    projectCssTheme = "/css/themes/nord-light.css";
-                } else if (newValue == dracula) {
-                    projectCssTheme = "/css/themes/dracula.css";
-                } else if (newValue == cupertinoDark) {
-                    projectCssTheme = "/css/themes/cupertino-dark.css";
-                } else if (newValue == cupertinoLight) {
-                    projectCssTheme = "/css/themes/cupertino-light.css";
-                } else if (newValue == primerDark) {
-                    projectCssTheme = "/css/themes/primer-dark.css";
-                } else if (newValue == primerLight) {
-                    projectCssTheme = "/css/themes/primer-light.css";
-                } else if (newValue == DarkTheme) {
-                    projectCssTheme = "/css/themes/DarkTheme.css";
-                }
+        Platform.runLater(() -> themeGroup.selectedToggleProperty().addListener((_, _, newValue) -> {
+            if (newValue == nordDark) {
+                projectCssTheme = "/css/themes/nord-dark.css";
+            } else if (newValue == nordLight) {
+                projectCssTheme = "/css/themes/nord-light.css";
+            } else if (newValue == dracula) {
+                projectCssTheme = "/css/themes/dracula.css";
+            } else if (newValue == cupertinoDark) {
+                projectCssTheme = "/css/themes/cupertino-dark.css";
+            } else if (newValue == cupertinoLight) {
+                projectCssTheme = "/css/themes/cupertino-light.css";
+            } else if (newValue == primerDark) {
+                projectCssTheme = "/css/themes/primer-dark.css";
+            } else if (newValue == primerLight) {
+                projectCssTheme = "/css/themes/primer-light.css";
+            } else if (newValue == DarkTheme) {
+                projectCssTheme = "/css/themes/DarkTheme.css";
+            }
 
-                try{
-                    StageManager.setScene("/options/OptionsMenu.fxml");
-                } catch (IOException e) {
-                    FXML_ALERT.showAndWait();
-                    throw new RuntimeException(e);
-                }
-            });
-        });
+            try{
+                StageManager.setScene("/options/OptionsMenu.fxml");
+            } catch (IOException e) {
+                FXML_ALERT.showAndWait();
+                throw new RuntimeException(e);
+            }
+        }));
 
-        if (projectCssTheme.equals("/css/themes/nord-dark.css")) {
-            nordDark.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/nord-light.css")) {
-            nordLight.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/dracula.css")) {
-            dracula.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/cupertino-dark.css")) {
-            cupertinoDark.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/cupertino-light.css")) {
-            cupertinoLight.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/primer-dark.css")) {
-            primerDark.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/primer-light.css")) {
-            primerLight.setSelected(true);
-        } else if (projectCssTheme.equals("/css/themes/DarkTheme.css")) {
-            DarkTheme.setSelected(true);
+        switch (projectCssTheme) {
+            case "/css/themes/nord-dark.css" -> nordDark.setSelected(true);
+            case "/css/themes/nord-light.css" -> nordLight.setSelected(true);
+            case "/css/themes/dracula.css" -> dracula.setSelected(true);
+            case "/css/themes/cupertino-dark.css" -> cupertinoDark.setSelected(true);
+            case "/css/themes/cupertino-light.css" -> cupertinoLight.setSelected(true);
+            case "/css/themes/primer-dark.css" -> primerDark.setSelected(true);
+            case "/css/themes/primer-light.css" -> primerLight.setSelected(true);
+            case "/css/themes/DarkTheme.css" -> DarkTheme.setSelected(true);
         }
     }
 
