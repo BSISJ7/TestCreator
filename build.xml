@@ -1,0 +1,10 @@
+<project name="TestCreator" default="compile">
+    <!-- Compile the classes and copy other files to conform to the WAR structure -->
+    <target name="compile">
+    </target>
+
+    <!-- Create the WAR file -->    
+    <target name="war">
+        <mkdir dir="dist" />
+    </target>
+</project>
