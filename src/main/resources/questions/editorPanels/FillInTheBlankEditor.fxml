@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<DialogPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
-            fx:controller="TestCreator.questions.editorPanels.FillInTheBlankEditor"
-            prefWidth="600">
-    <content>
-        <BorderPane>
-            <top>
-                <VBox>
-                    <HBox spacing="20">
-                        <Label text="Question Name"/>
-                        <TextField fx:id="questionName"/>
-                    </HBox>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.editorPanels.FillInTheBlankEditor">
+   <children>
+        <VBox>
+            <HBox spacing="20">
+                <Label text="Question Name" />
+                <TextField fx:id="questionName" />
+            </HBox>
 
-                    <ToolBar>
-                        <HBox spacing="10">
-                            <Button fx:id="addWordBtn" onAction="#toggleAddWord" text="Add Word">
-                                <tooltip>
-                                    <Tooltip text="Sets this choice as the correct answer."/>
-                                </tooltip>
-                            </Button>
-                            <Button fx:id="removeWordBtn" onAction="#toggleRemoveWord" text="Remove Word">
-                                <tooltip>
-                                    <Tooltip text="Sets this choice as the correct answer."/>
-                                </tooltip>
-                            </Button>
-                        </HBox>
-                    </ToolBar>
-                </VBox>
-            </top>
-            <center>
-                <HBox>
-                    <VBox>
-                        <Label text="Word Bank"/>
-                        <ListView fx:id="wordBankListView"/>
-                    </VBox>
-                    <VBox>
-                        <Label text="Question"/>
-                        <ScrollPane fx:id="questionScrollPane"/>
-                    </VBox>
+                  <ToolBar>
+                <HBox spacing="10">
+                    <Button fx:id="addWordBtn" onAction="#toggleAddWord" text="Add Word">
+                        <tooltip>
+                            <Tooltip text="Sets this choice as the correct answer." />
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="removeWordBtn" onAction="#toggleRemoveWord" text="Remove Word">
+                        <tooltip>
+                            <Tooltip text="Sets this choice as the correct answer." />
+                        </tooltip>
+                    </Button>
                 </HBox>
-            </center>
-        </BorderPane>
-    </content>
-
-
-</DialogPane>
+            </ToolBar>
+        </VBox>
+        <HBox>
+            <VBox>
+                <Label text="Word Bank" />
+                <ListView fx:id="wordBankListView" />
+            </VBox>
+            <VBox>
+                <Label text="Question" />
+                <ScrollPane fx:id="questionScrollPane" />
+            </VBox>
+        </HBox>
+          <HBox alignment="TOP_CENTER" spacing="50.0">
+            <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept" />
+            <Button fx:id="cancelBtn" onAction="#cancel" text="Cancel" />
+        </HBox>
+   </children>
+</VBox>

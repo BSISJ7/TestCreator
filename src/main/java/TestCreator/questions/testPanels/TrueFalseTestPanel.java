@@ -23,7 +23,7 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
     private URL location;
     private ToggleGroup toggleGroup;
     @FXML
-    private BorderPane mainWindow;
+    private BorderPane rootNode;
 
     @FXML
     public void initialize() {
@@ -38,10 +38,10 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
     }
 
     @Override
-    public void setupQuestion(TrueFalse question) {
+    public void setupQuestion(TrueFalse question){
         this.question = question;
-        questionText.setText(this.question.getTrueFalseQuestion());
-        trueBtn.setSelected(this.question.trueSelected());
+        questionText.setText(question.getTrueFalseQuestion());
+        trueBtn.setSelected(question.trueSelected());
     }
 
     @Override
@@ -50,26 +50,22 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
     }
 
     @Override
-    public Node getQuestionScene() {
-        return mainWindow;
-    }
-
-    @Override
     public void disableAnswerChanges() {
         falseBtn.setDisable(true);
         trueBtn.setDisable(true);
-        System.out.println("Disabled");
+    }
+
+    @Override
+    public Node getRootNode() {
+        return rootNode;
     }
 
     @Override
     public float getPointsScored() {
-
-        if (question.trueSelected()) {
+        if (question.trueSelected())
             trueBtn.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 20; -fx-padding: 15");
-        } else if (!question.trueSelected()) {
+        else if (!question.trueSelected())
             falseBtn.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 20; -fx-padding: 15");
-        }
-
 
         if (trueBtn.isSelected() && !question.trueSelected()) {
             trueBtn.setStyle("-fx-text-fill: rgba(220,34,0,0.64);-fx-font-size: 20; -fx-padding: 15");

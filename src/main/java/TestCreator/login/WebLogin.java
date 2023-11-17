@@ -1,17 +1,13 @@
 package TestCreator.login;
 
-import TestCreator.Main;
-import TestCreator.User;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.UserManager;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import java.io.IOException;
 
-import static TestCreator.MainMenu.MAIN_MENU_LOCATION;
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
@@ -50,7 +46,7 @@ public class WebLogin {
         try{
             UserManager.addUser(username);
             UserManager.setCurrentUser(username);
-            StageManager.setScene(MAIN_MENU_LOCATION);
+            StageManager.setScene("/MainMenu.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);

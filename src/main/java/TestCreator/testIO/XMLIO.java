@@ -1,8 +1,10 @@
 package TestCreator.testIO;
 
-import TestCreator.questions.Question;
 import TestCreator.Main;
 import TestCreator.Test;
+import TestCreator.questions.Question;
+import TestCreator.utilities.TestManager;
+import javafx.scene.control.Alert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,6 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class XMLIO {
@@ -98,7 +101,7 @@ public class XMLIO {
         return tests;
     }
 
-    public void saveTests(ArrayList<Test> tests) {
+    public void saveTests(List<Test> tests) {
         tests.forEach(test -> {
             testsRootNode.appendChild(test.getTestAsXMLNode(XMLDocument));
             saveChanges();
@@ -115,19 +118,17 @@ public class XMLIO {
             Node testsRootNode = XMLDocument.createElement("Tests");
 
             XMLDocument.appendChild(testsRootNode);
-            TestData.getInstance().getTests().stream().map(test -> testsRootNode.appendChild(test.getTestAsXMLNode(XMLDocument)));
+            TestManager.getInstance().getObservableTestList().stream().map(test -> testsRootNode.appendChild(test.getTestAsXMLNode(XMLDocument)));
             DOMSource source = new DOMSource(XMLDocument);
             StreamResult result = new StreamResult(XML_SAVE_LOCATION);
             transformer.transform(source, result);
-        } catch (TransformerConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error saving test. Please try again.").showAndWait();
         } catch (NullPointerException e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error saving test. Please try again.").showAndWait();
             System.exit(0);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
         }
     }
 

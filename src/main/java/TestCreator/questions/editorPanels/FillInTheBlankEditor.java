@@ -1,12 +1,7 @@
 package TestCreator.questions.editorPanels;
 
-import TestCreator.Main;
 import TestCreator.questions.FillInTheBlank;
-import TestCreator.questions.Question;
-import TestCreator.utilities.DefaultFillHighlighter;
-import TestCreator.utilities.FillTextPane;
-import TestCreator.utilities.StageManager;
-import TestCreator.utilities.WordAtCaretFinder;
+import TestCreator.utilities.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingNode;
@@ -15,8 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
+import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import java.awt.*;
@@ -28,14 +25,14 @@ import java.util.ArrayList;
 import static javax.swing.text.Highlighter.Highlight;
 import static javax.swing.text.Highlighter.HighlightPainter;
 
-public class FillInTheBlankEditor implements EditorPanel {
+public class FillInTheBlankEditor extends QuestionEditor<FillInTheBlank> {
 
     private final static HighlightPainter NEW_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(196, 238, 129));
     private final static HighlightPainter SELECTED_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(193, 239, 248));
     private final static HighlightPainter DELETE_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(248, 96, 97));
     @FXML
     ScrollPane questionScrollPane;
-    private FillTextPane fillTextPane = new FillTextPane(this);
+    private final FillTextPane questionTextPane = new FillTextPane(this);
     private DefaultFillHighlighter questionHighlighter;
     private int prevWordLocation = -1;
     private String prevWord;
@@ -54,21 +51,30 @@ public class FillInTheBlankEditor implements EditorPanel {
 
     public void initialize() {
         StageManager.setTitle("Fill In The Blank Editor");
-        fillTextPane.setVisible(true);
-        fillTextPane.setPreferredSize(new Dimension(300, 400));
 
-        questionHighlighter = fillTextPane.getHighlighter();
+        questionHighlighter = questionTextPane.getHighlighter();
 
-        fillTextPane.addMouseMotionListener(new MouseMotionListener() {
+        questionTextPane.setVisible(true);
+        questionTextPane.setPreferredSize(new Dimension(300, 400));
+
+        questionTextPane.addAncestorListener(new AncestorListener() {
+            public void ancestorAdded(AncestorEvent event) {}
+            public void ancestorRemoved(AncestorEvent event) {}
+            public void ancestorMoved(AncestorEvent event) {
+                SwingUtilities.invokeLater(questionTextPane::repaint);
+            }
+        });
+
+        questionTextPane.addMouseMotionListener(new MouseMotionListener() {
             public void mouseDragged(MouseEvent e) {
             }
 
             public void mouseMoved(MouseEvent e) {
-                int caretPosition = fillTextPane.viewToModel(e.getPoint());
-                String hoveredWord = WordAtCaretFinder.getWordAtCaret(fillTextPane.getText(), caretPosition).replaceAll("[.!?]+(?=[\\s]|$)", "");
+                int caretPosition = questionTextPane.viewToModel(e.getPoint());
+                String hoveredWord = WordAtCaretFinder.getWordAtCaret(questionTextPane.getText(), caretPosition).replaceAll("[.!?]+(?=[\\s]|$)", "");
 
                 if (!hoveredWord.trim().equalsIgnoreCase("") && addingWord || removingWord) {
-                    int wordLocation = WordAtCaretFinder.getPositionStart(fillTextPane.getText(), caretPosition);
+                    int wordLocation = WordAtCaretFinder.getPositionStart(questionTextPane.getText(), caretPosition);
 
                     if (addingWord && !mouseHeld && prevWordLocation != wordLocation) {
                         removeHighlightAt(prevWordLocation);
@@ -100,11 +106,11 @@ public class FillInTheBlankEditor implements EditorPanel {
             }
         });
 
-        fillTextPane.addMouseListener(new MouseListener() {
+        questionTextPane.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                int caretPosition = fillTextPane.viewToModel(e.getPoint());
-                String hoveredWord = WordAtCaretFinder.getWordAtCaret(fillTextPane.getText(), caretPosition).replaceAll("[.!?]+(?=[\\s]|$)", "");
-                int wordLocation = WordAtCaretFinder.getPositionStart(fillTextPane.getText(), caretPosition);
+                int caretPosition = questionTextPane.viewToModel(e.getPoint());
+                String hoveredWord = WordAtCaretFinder.getWordAtCaret(questionTextPane.getText(), caretPosition).replaceAll("[.!?]+(?=[\\s]|$)", "");
+                int wordLocation = WordAtCaretFinder.getPositionStart(questionTextPane.getText(), caretPosition);
 
                 if (removingWord && isInWordBank(hoveredWord)) {
                     removeHighlightAt(wordLocation);
@@ -145,7 +151,7 @@ public class FillInTheBlankEditor implements EditorPanel {
                 question.setName(questionName.getText()));
 
         SwingNode swNode = new SwingNode();
-        swNode.setContent(fillTextPane);
+        swNode.setContent(questionTextPane);
         questionScrollPane.setContent(swNode);
     }
 
@@ -153,15 +159,15 @@ public class FillInTheBlankEditor implements EditorPanel {
         ArrayList<String> wordBank = new ArrayList<>();
         ArrayList<Integer> wordLocations = new ArrayList<>();
 
-        int selectionStart = fillTextPane.getSelectionStart();
-        int selectionEnd = fillTextPane.getSelectionEnd();
-        fillTextPane.select(-1, -1);
+        int selectionStart = questionTextPane.getSelectionStart();
+        int selectionEnd = questionTextPane.getSelectionEnd();
+        questionTextPane.select(-1, -1);
 
         String word;
-        int textLength = fillTextPane.getText().length();
+        int textLength = questionTextPane.getText().length();
         for (Highlight highlightedWords : questionHighlighter.getHighlights()) {
             if (highlightedWords.getEndOffset() <= textLength) {
-                word = fillTextPane.getText().substring(highlightedWords.getStartOffset(), highlightedWords.getEndOffset());
+                word = questionTextPane.getText().substring(highlightedWords.getStartOffset(), highlightedWords.getEndOffset());
                 if (!word.trim().equalsIgnoreCase("")) {
                     wordLocations.add(highlightedWords.getStartOffset());
                     wordBank.add(word);
@@ -171,11 +177,11 @@ public class FillInTheBlankEditor implements EditorPanel {
 
         question.setWordBank(wordBank);
         question.setWordPositions(wordLocations);
-        question.setFillInQuestion(fillTextPane.getText());
+        question.setFillInQuestion(questionTextPane.getText());
 
         Platform.runLater(() -> wordBankListView.setItems(FXCollections.observableArrayList(wordBank)));
         wordBankListView.refresh();
-        fillTextPane.select(selectionStart, selectionEnd);
+        questionTextPane.select(selectionStart, selectionEnd);
     }
 
     private void removeHighlightAt(int wordLocation) {
@@ -219,13 +225,13 @@ public class FillInTheBlankEditor implements EditorPanel {
     @FXML
     public void toggleRemoveWord() {
         if (removingWord) {
-            fillTextPane.setEnabled(true);
+            questionTextPane.setEnabled(true);
             Platform.runLater(() -> removeWordBtn.setText("Remove Word"));
             removingWord = false;
         } else {
-            fillTextPane.setEnabled(false);
-            fillTextPane.setSelectionStart(-1);
-            fillTextPane.setSelectionEnd(-1);
+            questionTextPane.setEnabled(false);
+            questionTextPane.setSelectionStart(-1);
+            questionTextPane.setSelectionEnd(-1);
             removeWordBtn.setText("Cancel Remove");
             removingWord = true;
             if (addingWord)
@@ -236,14 +242,14 @@ public class FillInTheBlankEditor implements EditorPanel {
     @FXML
     public void toggleAddWord() {
         if (addingWord) {
-            fillTextPane.setEnabled(true);
+            questionTextPane.setEnabled(true);
             Platform.runLater(() -> addWordBtn.setText("Add Word"));
             addingWord = false;
             removeHighlightAt(prevWordLocation);
         } else {
-            fillTextPane.setEnabled(false);
-            fillTextPane.setSelectionStart(-1);
-            fillTextPane.setSelectionEnd(-1);
+            questionTextPane.setEnabled(false);
+            questionTextPane.setSelectionStart(-1);
+            questionTextPane.setSelectionEnd(-1);
             addWordBtn.setText("Cancel Add");
             addingWord = true;
             if (removingWord)
@@ -252,17 +258,17 @@ public class FillInTheBlankEditor implements EditorPanel {
     }
 
     @Override
-    public void setupQuestion(Question question) {
+    public void setupQuestion(FillInTheBlank question) {
         this.question = (FillInTheBlank) question.getCopy();
         wordBankListView.setItems(FXCollections.observableArrayList(this.question.getWordBank()));
-        fillTextPane.setText(this.question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
+        questionTextPane.setText(this.question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
         setupHighlights();
         questionName.setText(this.question.getName());
     }
 
     @Override
-    public FillInTheBlank getQuestion() {
-        return question;
+    public void setupQuestion() {
+        setupQuestion(new FillInTheBlank(STR."Question \{ TestManager.getInstance().getNumOfQuestions()}"));
     }
 
     private void setupHighlights() {

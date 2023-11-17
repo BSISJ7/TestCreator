@@ -4567,7 +4567,11 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
 }
 
 .tool-bar {
-  -fx-background-color: -color-border-muted, -color-bg-subtle;
+/*TODO see if the original BG color is needed*/
+  /*-color-border-muted: #4C566A;
+  -color-border-subtle: #3B4252;
+  -fx-background-color: -color-border-muted, -color-bg-subtle;*/
+  -fx-background-color: #4C566A, #3B4252;
   -fx-background-insets: 0, 0 0 1px 0;
   -fx-padding: 4px 0.3em 4px 0.3em;
   -fx-spacing: 4px;
@@ -4665,4 +4669,31 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
   -fx-padding: 8px 12px 8px 12px;
   -fx-opacity: 0.85;
   -fx-effect: dropshadow(three-pass-box, -color-shadow-default, 8px, 0.6, 0, 2);
+}
+
+
+
+
+/**
+ *  My modifications to the css for the controls
+ */
+
+ /* Fix text being too light for white background */
+.text-area {
+    -fx-text-fill: #000000;
+    -font-size: 14px;
+}
+
+.flagQuestionBtn {
+    -fx-border-color: #ff0000;
+}
+.flagQuestionBtn.selectedQuestionBtn {
+    -fx-border-color: #ff9999;
+}
+
+.correctAnswer {
+    -fx-text-fill: #0deb50;
+}
+.wrongAnswer {
+    -fx-text-fill: #ff0000;
 }

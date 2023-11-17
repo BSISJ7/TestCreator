@@ -1,7 +1,6 @@
 package TestCreator.questions.testPanels;
 
 import TestCreator.questions.MatchingWord;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -34,7 +32,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     @FXML
     private URL location;
     @FXML
-    private BorderPane mainWindow;
+    private BorderPane rootNode;
 
     private Callback valueFactory;
     private Callback keyFactory;
@@ -51,8 +49,9 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         valueHoverIndex = -1;
         ContextMenu contextMenu = new ContextMenu();
 
+//        TODO: Add clear selection button
         MenuItem clearItem = new MenuItem("Clear Selection");
-        clearItem.setOnAction(event -> clearSelection());
+        clearItem.setOnAction(_ -> clearSelection());
         contextMenu.getItems().addAll(clearItem);
 
         keyFactory = new Callback<ListView<String>, TextFieldListCell<String>>() {
@@ -238,9 +237,9 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
     @Override
     public void setupQuestion(MatchingWord question) {
-        this.question = (MatchingWord) question;
-        List<String> shuffledKeys = new ArrayList<>(this.question.getKeyList());
-        List<String> shuffledValues = new ArrayList<>(this.question.getValueList());
+        this.question = question;
+        List<String> shuffledKeys = new ArrayList<>(question.getKeyList());
+        List<String> shuffledValues = new ArrayList<>(question.getValueList());
         Collections.shuffle(shuffledKeys);
         Collections.shuffle(shuffledValues);
         keyListView.setItems(FXCollections.observableArrayList(shuffledKeys));
@@ -260,14 +259,14 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     }
 
     @Override
-    public Node getQuestionScene() {
-        return mainWindow;
-    }
-
-    @Override
     public void disableAnswerChanges() {
         keyListView.setDisable(true);
         valueListView.setDisable(true);
+    }
+
+    @Override
+    public Node getRootNode() {
+        return rootNode;
     }
 
     @Override
@@ -284,7 +283,6 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             if (keyValue.getValue().equals(value)) {
                 isCorrectAnswerList.add(true);
                 points++;
-//                System.out.println("Adding Points: "+points);
             } else {
                 keyValue.setValue(value);
                 isCorrectAnswerList.add(false);

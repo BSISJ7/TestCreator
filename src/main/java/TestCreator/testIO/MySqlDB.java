@@ -57,7 +57,6 @@ public class MySqlDB implements Runnable {
             dbConn = DriverManager.getConnection("jdbc:" + serverName + "://" + hostName + ":" + portNum, connProps);
             PreparedStatement stmnt = dbConn.prepareStatement("CREATE DATABASE IF NOT EXISTS " + dbName);
             stmnt.execute();
-            System.out.println("Setup Complete");
         } catch (SQLException SQLE) {
             System.out.println("Setup Database Error: " + SQLE);
         }
@@ -91,7 +90,6 @@ public class MySqlDB implements Runnable {
         try {
             //Connect to DB
             dbConn = DriverManager.getConnection("jdbc:" + serverName + "://" + hostName + ":" + portNum + "/" + dbName, connProps);
-            System.out.println("Connection Complete");
         } catch (Exception dbError) {
             System.out.println("Error connecting to database: " + dbError);
         }
@@ -103,7 +101,6 @@ public class MySqlDB implements Runnable {
     public void disconnectFromDB() {
         try {
             //dbConn = DriverManager.
-            System.out.println("Connection Complete");
         } catch (Exception dbError) {
             System.out.println("Error connecting to database: " + dbError);
         }
@@ -194,7 +191,7 @@ public class MySqlDB implements Runnable {
             Statement stmnt = dbConn.createStatement();
             stmnt.executeUpdate("delete from " + dbName + " where test_name='" + test.getName() + "'");
         } catch (SQLException SQLE) {
-            System.out.println("MySQLDB.deleteTestKeyPress SQL Exception: " + SQLE);
+            System.out.println("MySQLDB.checkKeyPress SQL Exception: " + SQLE);
         }
     }
 

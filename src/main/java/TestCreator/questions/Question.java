@@ -1,10 +1,7 @@
 package TestCreator.questions;
 
 import TestCreator.Test;
-import TestCreator.questions.editorPanels.EditorPanel;
 import TestCreator.questions.testPanels.TestPanel;
-import TestCreator.testIO.XMLIO;
-import org.reflections.Reflections;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,28 +10,40 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
+import java.util.UUID;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
 public abstract class Question implements TestableQuestion {
 
     public static final String sysSeparator;
-    public static final String EDITOR_PANELS_LOCATION = ("/TestCreator/questions/editorPanels/");
-    public static final String TEST_PANELS_LOCATION = ("/TestCreator/questions/testPanels/");
-    final static String INVALID_XML = "[^"
-            + "\u0001-\uD7FF"
-            + "\uE000-\uFFFD"
-            + "\ud800\udc00-\udbff\udfff"
-            + "]+";
-    private final static List<String> questionTypes = new ArrayList<String>();
-    static Set<Class<? extends Question>> questionClasses;
+
+    public enum QuestionTypes {
+        MULTIPLE_CHOICE("MultipleChoice", "Multiple Choice"),
+        TRUE_FALSE("TrueFalse", "True False"),
+        MATCHING_WORD("MatchingWord", "Matching Word"),
+        FILL_IN_THE_BLANK("FillInTheBlank", "Fill In The Blank");
+
+        private final String questionType;
+        private final String displayName;
+
+        QuestionTypes(String questionType, String displayName) {
+            this.questionType = questionType;
+            this.displayName = displayName;
+        }
+
+        public String getQuestionType() {
+            return questionType;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
 
     static {
         if (System.getProperty("os.name").toLowerCase().contains("win"))
@@ -45,39 +54,28 @@ public abstract class Question implements TestableQuestion {
 
     Test test;
 
-    String questionName = "";
-    String questionType;
-
-    List<String> tags = new ArrayList();
-
-    LocalDateTime DATE_CREATED = LocalDateTime.now();
-
-    int gradableParts = 0;
+    String questionName;
+    QuestionTypes questionType;
 
     float questionWeight;
 
     Document XMLDocument;
 
-    static{
-        Reflections reflection = new Reflections("TestCreator.questions");
-        questionClasses = reflection.getSubTypesOf(Question.class);
-        questionClasses.forEach(e -> questionTypes.add(e.getSimpleName()));
-        Collections.sort(questionTypes);
-    }
+    String ID = UUID.randomUUID().toString();
 
-    public Question(String questionName, String questionType) {
+    public Question(String questionName, QuestionTypes questionType) {
         this(questionName);
         this.questionType = questionType;
     }
 
-    public Question(String questionName, String questionType, Test test) {
+    public Question(String questionName, QuestionTypes questionType, Test test) {
         this(questionName, questionType);
         this.test = test;
     }
 
     public Question(String questionName) {
         this.questionName = questionName;
-        questionType = questionTypes.get(0);
+        questionType = QuestionTypes.MULTIPLE_CHOICE;
         questionWeight = 1.0F;
 
         try {
@@ -95,26 +93,15 @@ public abstract class Question implements TestableQuestion {
     }
 
     public Question() {
-        this("New Question");
+        this(STR."Question");
+        questionName = STR."\{questionName} \{ID.substring(0,5)}";
     }
 
-
-//    public static void initializeQuestionTypeList() {
-//        Reflections reflection = new Reflections("TestCreator.questions");
-//        questionClasses = reflection.getSubTypesOf(Question.class);
-//        questionClasses.forEach(e -> questionTypes.add(e.getSimpleName()));
-//        Collections.sort(questionTypes);
-//    }
-
-    public static Question getQuestionInstance(String name, String type, Test test) throws NullPointerException {
+    public static Question getQuestionInstance(String name, QuestionTypes type, Test test) throws NullPointerException {
         try {
             Constructor<?> constructor =
                     Class.forName("TestCreator.questions." + type)
                             .getConstructor(String.class, String.class, Test.class);
-
-//            Constructor<?> constructor =
-//                    Class.forName("com.BSISJ7.TestCreator.questions." + type)
-//                            .getConstructor(String.class, String.class, Test.class);
 
             return (Question) constructor.newInstance(name, type, test);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException |
@@ -124,17 +111,8 @@ public abstract class Question implements TestableQuestion {
         return null;
     }
 
-
-    public static List<String> getQuestionTypesList() {
-        return Collections.unmodifiableList(questionTypes);
-    }
-
     public String getType() {
         return this.getClass().getSimpleName();
-    }
-
-    public void setQuestionType(String type) {
-        questionType = type;
     }
 
     public Test getOwningTest() {
@@ -170,7 +148,7 @@ public abstract class Question implements TestableQuestion {
         question.appendChild(name);
 
         Element type = XMLDocument.createElement("QuestionType");
-        type.setTextContent(questionType);
+        type.setTextContent(questionType.getQuestionType());
         question.appendChild(type);
 
         Element weight = XMLDocument.createElement("QuestionWeight");
@@ -184,17 +162,14 @@ public abstract class Question implements TestableQuestion {
         return getQuestionAsXMLNode(XMLDocument);
     }
 
-    public Question loadQuestionFromXMLNode(Node question) {
-        XMLIO.getInstance();
-        questionName = findNode("QuestionName", question).getTextContent();
-        questionType = findNode("QuestionType", question).getTextContent();
-        questionWeight = Float.parseFloat(findNode("QuestionWeight", question).getTextContent());
-
-        return this;
+    public void loadQuestionFromXMLNode(Node question) {
+        questionName = Objects.requireNonNull(findNode("QuestionName", question)).getTextContent();
+        questionType = QuestionTypes.valueOf(Objects.requireNonNull(findNode("QuestionType", question)).getTextContent());
+        questionWeight = Float.parseFloat(Objects.requireNonNull(findNode("QuestionWeight", question)).getTextContent());
     }
 
     public Question getCopy() {
-        Question copy = getQuestionInstance(getName(), getType(), test);
+        Question copy = getQuestionInstance(getName(), QuestionTypes.valueOf(getType()), test);
         copy.loadQuestionFromXMLNode(getQuestionAsXMLNode());
         return copy;
     }
@@ -204,15 +179,32 @@ public abstract class Question implements TestableQuestion {
     }
 
     public int compareTo(Question question) {
-        return this.questionName.compareTo(question.getName());
+        return ID.compareTo(question.getID());
     }
 
-    public abstract TestPanel getTestPanel() throws IllegalStateException;
 
-    public abstract EditorPanel getEditPanel() throws IllegalStateException;
+    public abstract TestPanel getTestPanel() throws IOException;
+
 
     public int getGradableParts() {
         return 1;
     }
 
+    public String getID() {
+        return ID;
+    }
+
+    public static Question createQuestion(QuestionTypes questionType) {
+        switch(questionType){
+            case MATCHING_WORD -> {
+                return new MatchingWord();
+            }case TRUE_FALSE -> {
+                return new TrueFalse();
+            }case FILL_IN_THE_BLANK -> {
+                return new FillInTheBlank();
+            }default -> {
+                return new MultipleChoice();
+            }
+        }
+    }
 }

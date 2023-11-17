@@ -1,25 +1,23 @@
 package TestCreator.questions.editorPanels;
 
-import TestCreator.Main;
 import TestCreator.questions.MultipleChoice;
-import TestCreator.questions.Question;
 import TestCreator.utilities.StageManager;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class MultipleChoiceEditor implements EditorPanel {
+public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
     @FXML
     public Button removeChoiceBtn;
     @FXML
     public Button setCorrectBtn;
+    public Button acceptBtn;
+    public Button cancelBtn;
     @FXML
     TextArea questionTextArea;
     @FXML
@@ -28,26 +26,25 @@ public class MultipleChoiceEditor implements EditorPanel {
     TextArea choiceTextArea;
     @FXML
     ListView<String> choicesListView;
-    private MultipleChoice question;
     private boolean choiceMouseEntered;
     private ContextMenu choiceContext;
 
     private ObservableList<String> choiceObsList;
     
-
+    private MultipleChoice question;
 
 
     public void initialize() {
         StageManager.setTitle("Multiple Choice Editor");
         choiceContext = new ContextMenu();
         MenuItem removeChoiceItem = new MenuItem("Remove Choice");
-        removeChoiceItem.setOnAction(event -> removeChoice());
+        removeChoiceItem.setOnAction(_ -> removeChoice());
         MenuItem correctChoiceItem = new MenuItem("Set Correct Choice");
-        correctChoiceItem.setOnAction(event -> setCorrectAnswer());
+        correctChoiceItem.setOnAction(_ -> setCorrectAnswer());
 
         choiceContext.getItems().addAll(correctChoiceItem, removeChoiceItem);
 
-        Callback choiceCellFactory = new Callback<ListView<String>, TextFieldListCell<String>>() {
+        Callback<ListView<String>, ListCell<String>> choiceCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<String> call(ListView<String> param) {
                 TextFieldListCell<String> shortDescCell = new TextFieldListCell<String>() {
@@ -67,7 +64,7 @@ public class MultipleChoiceEditor implements EditorPanel {
                     }
                 };
 
-                shortDescCell.emptyProperty().addListener((observable, wasEmpty, isNowEmpty) -> {
+                shortDescCell.emptyProperty().addListener((_, _, isNowEmpty) -> {
                     if (isNowEmpty) {
                         shortDescCell.setContextMenu(null);
                     } else {
@@ -75,7 +72,7 @@ public class MultipleChoiceEditor implements EditorPanel {
                     }
                 });
 
-                shortDescCell.setConverter(new StringConverter<String>() {
+                shortDescCell.setConverter(new StringConverter<>() {
                     @Override
                     public String toString(String choice) {
                         if (choice != null) {
@@ -96,55 +93,52 @@ public class MultipleChoiceEditor implements EditorPanel {
             }
         };
 
-        choicesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        choicesListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (choicesListView.getSelectionModel().getSelectedIndex() >= 0 && choiceMouseEntered) {
                 choiceTextArea.setDisable(false);
-                removeChoiceBtn.setDisable(false);
-                setCorrectBtn.setDisable(false);
                 choiceTextArea.setText(choiceObsList.get(choicesListView.getSelectionModel().getSelectedIndex()));
-            } else if (choicesListView.getItems().size() == 0) {
+            } else if (choicesListView.getItems().isEmpty()) {
                 choiceTextArea.setDisable(true);
-                removeChoiceBtn.setDisable(true);
-                setCorrectBtn.setDisable(true);
             }
             choicesListView.refresh();
         });
 
         choicesListView.setCellFactory(choiceCellFactory);
 
-        if (choicesListView.getItems().size() > 0)
+        if (!choicesListView.getItems().isEmpty())
             choicesListView.getSelectionModel().select(0);
 
-        choicesListView.setOnMouseEntered(event -> choiceMouseEntered = true);
-        choicesListView.setOnMouseExited(event -> choiceMouseEntered = false);
+        choicesListView.setOnMouseEntered(_ -> choiceMouseEntered = true);
+        choicesListView.setOnMouseExited(_ -> choiceMouseEntered = false);
 
 
-        questionName.textProperty().addListener((observable, oldValue, newValue) ->
+        questionName.textProperty().addListener((_, _, _) ->
                 question.setName(questionName.getText()));
     }
 
-    public void setupQuestion(Question question) {
-        this.question = (MultipleChoice) question.getCopy();
+    public void setupQuestion(MultipleChoice question) {
+        this.question = question;
         questionName.setText(this.question.getName());
         questionTextArea.setText(this.question.getMultChoiceQuestion());
 
         choiceObsList = FXCollections.observableList(this.question.getChoices());
         choicesListView.setItems(choiceObsList);
-        if (choiceObsList.size() > 0) {
+        if (!choiceObsList.isEmpty()) {
             choicesListView.getSelectionModel().select(0);
             choiceTextArea.setText(choiceObsList.get(0));
         }
 
         if (!choicesListView.getSelectionModel().isEmpty()) {
             choicesListView.getSelectionModel().select(0);
-            setCorrectBtn.setDisable(false);
-            removeChoiceBtn.setDisable(false);
         }
+
+        setCorrectBtn.disableProperty().bind(choicesListView.getSelectionModel().selectedItemProperty().isNull());
+        removeChoiceBtn.disableProperty().bind(choicesListView.getSelectionModel().selectedItemProperty().isNull());
     }
 
     @Override
-    public MultipleChoice getQuestion() {
-        return question;
+    public void setupQuestion() {
+        setupQuestion(new MultipleChoice());
     }
 
     @FXML

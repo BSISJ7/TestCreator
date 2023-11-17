@@ -20,7 +20,7 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @FXML
     private GridPane gridPane;
     @FXML
-    private BorderPane mainWindow;
+    private BorderPane rootNode;
 
     private List<RadioButton> radioButtons;
 
@@ -43,8 +43,8 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
         int column = 0;
         int row = 0;
 
-        questionTextArea.setText(this.question.getMultChoiceQuestion());
-        for (String choice : this.question.getChoices()) {
+        questionTextArea.setText(question.getMultChoiceQuestion());
+        for (String choice : question.getChoices()) {
             RadioButton radioBtn = new RadioButton(choice);
             radioBtn.setToggleGroup(choiceToggle);
             radioBtn.setStyle("-fx-font-size: 15; -fx-padding: 15");
@@ -72,13 +72,13 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     }
 
     @Override
-    public Node getQuestionScene() {
-        return mainWindow;
+    public void disableAnswerChanges() {
+        radioButtons.forEach(radioBtn -> radioBtn.setDisable(true));
     }
 
     @Override
-    public void disableAnswerChanges() {
-        radioButtons.forEach(radioBtn -> radioBtn.setDisable(true));
+    public Node getRootNode() {
+        return rootNode;
     }
 
     @Override

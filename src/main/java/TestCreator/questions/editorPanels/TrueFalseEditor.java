@@ -1,19 +1,12 @@
 package TestCreator.questions.editorPanels;
 
-import TestCreator.Main;
-import TestCreator.questions.Question;
 import TestCreator.questions.TrueFalse;
 import TestCreator.utilities.StageManager;
-import javafx.application.Platform;
+import TestCreator.utilities.TestManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
-public class TrueFalseEditor implements EditorPanel {
-
+public class TrueFalseEditor extends QuestionEditor<TrueFalse> {
 
     @FXML
     public TextField questionName;
@@ -23,8 +16,10 @@ public class TrueFalseEditor implements EditorPanel {
     public RadioButton trueBtn;
     @FXML
     public RadioButton falseBtn;
-
-    private TrueFalse question;
+    @FXML
+    public Button acceptBtn;
+    @FXML
+    public Button cancelBtn;
 
     @FXML
     public void initialize() {
@@ -33,17 +28,17 @@ public class TrueFalseEditor implements EditorPanel {
         trueBtn.setToggleGroup(trueFalseToggle);
         falseBtn.setToggleGroup(trueFalseToggle);
 
-        questionName.textProperty().addListener((observable, oldValue, newValue) ->
+        questionName.textProperty().addListener((_, _, _) ->
                 question.setName(questionName.getText()));
 
-        trueFalseTextArea.textProperty().addListener((observable, oldValue, newValue) ->
+        trueFalseTextArea.textProperty().addListener((_, _, _) ->
                 question.setTrueFalseQuestion(trueFalseTextArea.getText()));
     }
 
     @Override
-    public void setupQuestion(Question question) {
+    public void setupQuestion(TrueFalse question) {
         this.question = (TrueFalse) question.getCopy();
-        trueFalseTextArea.setText(((TrueFalse) question).getTrueFalseQuestion());
+        trueFalseTextArea.setText(question.getTrueFalseQuestion());
         questionName.setText(question.getName());
 
         if (this.question.trueSelected())
@@ -53,7 +48,7 @@ public class TrueFalseEditor implements EditorPanel {
     }
 
     @Override
-    public TrueFalse getQuestion() {
-        return question;
+    public void setupQuestion() {
+        setupQuestion(new TrueFalse(STR."Question \{ TestManager.getInstance().getNumOfQuestions()}"));
     }
 }

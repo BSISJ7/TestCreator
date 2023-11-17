@@ -1,87 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="testMenuPane"
-            fx:controller="TestCreator.MainMenu">
-<!--            stylesheets="@css/mainStyle.css">-->
+<GridPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="TestCreator.MainMenu">
 
-    <top>
-        <VBox>
-            <MenuBar>
-                <Menu text="File">
-                    <MenuItem text="Run Test" onAction="#runTest"/>
-                    <MenuItem text="New Test" onAction="#createTest"/>
-                    <MenuItem text="Begin Test" onAction="#runTest"/>
-                    <MenuItem text="Edit Test" onAction="#editTest"/>
-                    <MenuItem text="Exit" onAction="#exitProgram"/>
-                </Menu>
-                <Menu text="Login">
-                    <MenuItem text="Login as Different User" onAction="#openLoginPanel"/>
-                </Menu>
-                <Menu text="Settings">
-                    <MenuItem text="Themes" onAction="#openOptionMenu"/>
-                </Menu>
-            </MenuBar>
-            <ToolBar>
-                <HBox fx:id="menuBar" spacing="10">
-                    <!--<Button text="Main Menu" onAction="#loadMainMenu">-->
-                    <!--<tooltip>-->
-                    <!--<Tooltip text="Return to main menu"/>-->
-                    <!--</tooltip>-->
-                    <!--</Button>-->
-                    <Button text="New Test" onAction="#createTest">
-                        <tooltip>
-                            <Tooltip text="Creates a new test"/>
-                        </tooltip>
-                    </Button>
-                    <Button fx:id="beginTestBtn" text="Begin Test" onAction="#runTest" disable="true">
-                        <tooltip>
-                            <Tooltip text="Begin the selected test"/>
-                        </tooltip>
-                    </Button>
-                    <Button text="Edit Test" onAction="#editTest">
-                        <tooltip>
-                            <Tooltip text="Return to main menu"/>
-                        </tooltip>
-                    </Button>
-                    <Button text="Delete Test" onAction="#deleteTest">
-                        <tooltip>
-                            <Tooltip text="Return to main menu"/>
-                        </tooltip>
-                    </Button>
-                    <Button fx:id="newQuestionBtn" text="New Question" onAction="#createNewQuestion" disable="true">
-                        <tooltip>
-                            <Tooltip text="Return to main menu"/>
-                        </tooltip>
-                    </Button>
-                </HBox>
-            </ToolBar>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <VBox fx:id="menuBarVBox" alignment="TOP_CENTER">
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem onAction="#beginTest" text="Run Test"/>
+                <MenuItem onAction="#createTest" text="New Test"/>
+                <MenuItem onAction="#beginTest" text="Begin Test"/>
+                <MenuItem onAction="#editTest" text="Edit Test"/>
+                <MenuItem onAction="#exitProgram" text="Exit"/>
+            </Menu>
+
+            <Menu text="Login">
+                <MenuItem onAction="#openLoginPanel" text="Login as Different User"/>
+            </Menu>
+
+            <Menu text="Settings">
+                <MenuItem onAction="#openOptionsMenu" text="Themes"/>
+            </Menu>
+        </MenuBar>
+
+        <ToolBar>
+            <HBox fx:id="menuBar" spacing="10">
+                <Button fx:id="newTestBtn" onAction="#createTest" text="New Test">
+                    <tooltip>
+                        <Tooltip text="Creates a new test"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="beginTestBtn" disable="true" onAction="#beginTest" text="Begin Test">
+                    <tooltip>
+                        <Tooltip text="Begin the selected test"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="editTestBtn" disable="true" onAction="#editTest" text="Edit Test">
+                    <tooltip>
+                        <Tooltip text="Return to main menu"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="deleteTestBtn" disable="true" onAction="#deleteTest" text="Delete Test">
+                    <tooltip>
+                        <Tooltip text="Return to main menu"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="newQuestionBtn" disable="true" onAction="#createNewQuestion" text="New Question">
+                    <tooltip>
+                        <Tooltip text="Return to main menu."/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="editQuestionBtn" disable="true" onAction="#editQuestion" text="Edit Question">
+                    <tooltip>
+                        <Tooltip text="Edit selected question."/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="deleteQuestionBtn" disable="true" onAction="#deleteQuestion" text="Delete Question">
+                    <tooltip>
+                        <Tooltip text="Delete selected question."/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </ToolBar>
+    </VBox>
+
+    <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+        <VBox alignment="CENTER" prefHeight="314.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" text="Test List" VBox.vgrow="ALWAYS"/>
+            <ListView fx:id="testListView" onKeyPressed="#checkKeyPress" VBox.vgrow="ALWAYS"/>
         </VBox>
-    </top>
 
-
-    <left>
-        <VBox>
-            <Label text="Test List"/>
-            <ListView fx:id="testListView" onKeyPressed="#deleteTestKeyPress" VBox.vgrow="ALWAYS"/>
-        </VBox>
-    </left>
-
-    <center>
-        <VBox spacing="8">
-            <TextArea fx:id="testDescription" editable="false" VBox.vgrow="ALWAYS" wrapText="true"/>
-        </VBox>
-    </center>
-
-    <right>
-        <VBox>
-            <Label text="Question List"/>
+        <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" text="Question List" VBox.vgrow="ALWAYS"/>
             <ListView fx:id="questionListView" VBox.vgrow="ALWAYS"/>
         </VBox>
-    </right>
-</BorderPane>
-
-
-
-
-
+    </HBox>
+</GridPane>

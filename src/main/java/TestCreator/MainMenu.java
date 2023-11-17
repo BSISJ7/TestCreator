@@ -1,46 +1,42 @@
 package TestCreator;
 
 import TestCreator.questions.Question;
-import TestCreator.testIO.TestData;
+import TestCreator.questions.editorPanels.QuestionEditor;
+import TestCreator.testCreation.TestEditor;
+import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
+import TestCreator.utilities.TestManager;
 import TestCreator.utilities.UserManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
-import static java.lang.System.nanoTime;
-
 public class MainMenu {
-
-    public static final String MAIN_MENU_LOCATION = "/MainMenu.fxml";
-    public static final String OS_TYPE = System.getProperty("os.name");
     @FXML
-    BorderPane testMenuPane;
+    public Button newTestBtn;
     @FXML
-    TextArea testDescription;
+    public VBox menuBarVBox;
     @FXML
-    Label reviewDate;
+    public Button editTestBtn;
+    @FXML
+    public Button deleteTestBtn;
+    @FXML
+    public Button editQuestionBtn;
+    public Button deleteQuestionBtn;
     @FXML
     Button newQuestionBtn;
     @FXML
@@ -53,9 +49,28 @@ public class MainMenu {
     @FXML
     private HBox menuBar;
     
-
-
     public void initialize() {
+        testListView.setItems(TestManager.getInstance().getObservableTestList());
+        if (TestManager.getInstance().getSelectedTest() != null) {
+            testListView.getSelectionModel().select(TestManager.getInstance().getSelectedTest());
+            questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
+
+            if (TestManager.getInstance().getSelectedQuestion() != null)
+                questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
+            else{
+                questionListView.getSelectionModel().select(0);
+                TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+            }
+            beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
+        }
+
+
+        newQuestionBtn.disableProperty().bind(testListView.getSelectionModel().selectedItemProperty().isNull());
+        deleteTestBtn.disableProperty().bind(testListView.getSelectionModel().selectedItemProperty().isNull());
+        editTestBtn.disableProperty().bind(testListView.getSelectionModel().selectedItemProperty().isNull());
+        editQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
+        deleteQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
+
         StageManager.setTitle("Main Menu - %s".formatted(UserManager.getCurrentUsername()));
         ContextMenu testContextMenu = new ContextMenu();
 
@@ -63,7 +78,7 @@ public class MainMenu {
         loginItem.setOnAction(_ -> openLoginPanel());
 
         MenuItem runTestItem = new MenuItem("Run");
-        runTestItem.setOnAction(_ -> runTest());
+        runTestItem.setOnAction(_ -> beginTest());
 
         MenuItem deleteTestItem = new MenuItem("Delete");
         deleteTestItem.setOnAction(_ -> deleteTest());
@@ -81,10 +96,10 @@ public class MainMenu {
         deleteQuestionItem.setOnAction(_ -> deleteQuestion());
 
         MenuItem editQuestionItem = new MenuItem("Edit Question");
-        editQuestionItem.setOnAction(event -> editQuestion());
+        editQuestionItem.setOnAction(_ -> editQuestion());
         questionContextMenu.getItems().addAll(editQuestionItem, deleteQuestionItem);
 
-        Callback testCellFactory = new Callback<ListView<Test>, TextFieldListCell<Test>>() {
+        Callback<ListView<Test>, ListCell<Test>> testCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<Test> call(ListView<Test> param) {
                 TextFieldListCell<Test> shortDescCell = new TextFieldListCell<Test>() {
@@ -92,8 +107,7 @@ public class MainMenu {
                         super.updateItem(test, empty);
 
                         if (test != null && !empty) {
-                            if (!test.readyToRun())
-//                                setStyle("-fx-background-color: tomato");
+                            if (test.notReadyToRun())
                                 setTextFill(Color.TOMATO);
                             else
                                 setTextFill(Color.BLACK);
@@ -112,14 +126,13 @@ public class MainMenu {
                     @Override
                     public Test fromString(String name) {
                         if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
-                            testDescription.setText(selectedTest().getDescription());
                             return selectedTest();
                         } else
                             return null;
                     }
                 });
 
-                shortDescCell.emptyProperty().addListener((observable, wasEmpty, isNowEmpty) -> {
+                shortDescCell.emptyProperty().addListener((_, _, isNowEmpty) -> {
                     if (isNowEmpty) {
                         shortDescCell.setContextMenu(null);
                     } else {
@@ -131,18 +144,17 @@ public class MainMenu {
             }
         };
 
-        testListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        testListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
-                newQuestionBtn.setDisable(false);
-                beginTestBtn.setDisable(false);
-                testDescription.setText(selectedTest().getDescription());
+                TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
                 questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
-            } else {
-                newQuestionBtn.setDisable(true);
-                beginTestBtn.setDisable(true);
-//                reviewDate.setText("");
-                testDescription.setText("");
+                if (questionListView.getItems().contains(TestManager.getInstance().getSelectedQuestion())) {
+                    questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
+                }
+                beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
             }
+            TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
+            beginTestBtn.setDisable(true);
         });
 
         testListView.setOnMouseClicked(click -> {
@@ -154,9 +166,7 @@ public class MainMenu {
         testListView.setCellFactory(testCellFactory);
         testListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        autoFillTests();
-
-        Callback questionCellFactory = new Callback<ListView<Question>, TextFieldListCell<Question>>() {
+        Callback<ListView<Question>, ListCell<Question>> questionCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<Question> call(ListView<Question> param) {
                 TextFieldListCell<Question> shortDescCell = new TextFieldListCell<Question>() {
@@ -189,7 +199,7 @@ public class MainMenu {
                     }
                 });
 
-                shortDescCell.emptyProperty().addListener((observable, wasEmpty, isNowEmpty) -> {
+                shortDescCell.emptyProperty().addListener((_, _, isNowEmpty) -> {
                     if (isNowEmpty) {
                         shortDescCell.setContextMenu(null);
                     } else {
@@ -216,13 +226,19 @@ public class MainMenu {
                 editQuestion();
         });
 
+        questionListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
+            if (questionListView.getSelectionModel().getSelectedIndex() >= 0)
+                TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+        });
+
         if (Main.TESTING_MODE) {
             Button resetTestBtn = new Button("Reset Tests");
-            resetTestBtn.setOnAction(event -> resetTests());
+            resetTestBtn.setOnAction(_ -> resetTests());
             menuBar.getChildren().addAll(resetTestBtn);
         }
     }
 
+    @FXML
     private void deleteQuestion() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Question");
@@ -234,12 +250,12 @@ public class MainMenu {
             questionListView.getItems().remove(selectedQuestion());
             questionListView.refresh();
             testListView.refresh();
-            TestData.getInstance().saveTests();
+            IOManager.getInstance().saveTests();
         }
     }
 
     @FXML
-    public void deleteTestKeyPress(KeyEvent keyEvent) {
+    public void checkKeyPress(KeyEvent keyEvent) {
         if (testListView.getSelectionModel().getSelectedIndex() >= 0 && keyEvent.getCode().equals(KeyCode.DELETE))
             deleteTest();
         else if (testListView.getSelectionModel().getSelectedIndex() >= 0 && keyEvent.getCode().equals(KeyCode.ENTER))
@@ -247,12 +263,6 @@ public class MainMenu {
     }
 
     @FXML
-    public void deleteTest(ActionEvent event) {
-        if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
-            deleteTest();
-        }
-    }
-
     private void deleteTest() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Test");
@@ -261,35 +271,38 @@ public class MainMenu {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             questionListView.getItems().clear();
-            TestData.getInstance().removeTest(selectedTest());
-            TestData.getInstance().saveTests();
+            IOManager.getInstance().removeTest(selectedTest());
+            IOManager.getInstance().saveTests();
             testListView.refresh();
             questionListView.refresh();
+            IOManager.getInstance().saveTests();
         }
     }
 
     @FXML
     public void createTest() {
         try{
-            StageManager.setScene("/testCreation/TestEditDialog.fxml");
+            StageManager.setScene("/testCreation/TestEditor.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
+        ((TestEditor) StageManager.getStageController()).setTest(new Test());
     }
 
     @FXML
     public void editTest() throws RuntimeException {
         try{
-            StageManager.setScene("/testCreation/TestEditDialog.fxml");
+            StageManager.setScene("/testCreation/TestEditor.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
+        ((TestEditor) StageManager.getStageController()).setTest(TestManager.getInstance().getSelectedTest());
     }
 
     @FXML
-    public void runTest() {
+    public void beginTest() {
         try{
             StageManager.setScene("/questions/testPanels/TestingPanel.fxml");
         } catch (IOException e) {
@@ -324,7 +337,9 @@ public class MainMenu {
         return questionListView.getSelectionModel().getSelectedItem();
     }
 
+    @FXML
     private void editQuestion() {
+        TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
         try {
             StageManager.setScene("/questions/editorPanels/" +
                     selectedQuestion().getClass().getSimpleName() + "Editor.fxml");
@@ -332,35 +347,15 @@ public class MainMenu {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
+        ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
+                .getSelectedQuestion());
     }
 
-    private void autoFillTests() {
-        if(Main.TESTING_MODE) {
-            while (TestData.getInstance().size() < 4) {
-                TestData.getInstance().addTest(new Test("Test #" + new Random(nanoTime()).nextInt(999)));
-            }
-
-            System.out.println("Test Data Size: " + TestData.getInstance().size());
-
-            TestData.getInstance().getTests().forEach(test -> {
-                for (int x = 0; test.getQuestionList().size() < 4; x++) {
-                    String qName = Question.getQuestionTypesList().get(x) + " #" + new Random().nextInt(200);
-                    Question newQuestion = Question.getQuestionInstance(qName, Question.getQuestionTypesList().get(x), test);
-                    newQuestion.autofillData();
-                    if (newQuestion.readyToRun()) {
-                        test.addQuestion(newQuestion);
-                    }
-                }
-            });
-            testListView.setItems(TestData.getInstance().getTests());
-            TestData.getInstance().saveTests();
-        }
-    }
 
     private void resetTests() {
-        TestData.getInstance().getTests().clear();
+        TestManager.getInstance().getObservableTestList().clear();
         questionListView.getItems().clear();
-        autoFillTests();
+        TestManager.getInstance().autoFillTests();
     }
 
     @FXML
@@ -373,13 +368,7 @@ public class MainMenu {
         }
     }
 
-    public void onTestListViewClicked(MouseEvent mouseEvent) {
-    }
-
-    public void onQuestionListViewClicked(MouseEvent mouseEvent) {
-    }
-
-    public void openOptionMenu(ActionEvent actionEvent) {
+    public void openOptionsMenu() {
         try {
             StageManager.setScene("/options/OptionsMenu.fxml");
         } catch (IOException e) {

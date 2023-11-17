@@ -1,14 +1,10 @@
 package TestCreator.questions;
 
 import TestCreator.Test;
-import TestCreator.questions.editorPanels.EditorPanel;
-import TestCreator.questions.testPanels.MatchingWordTestPanel;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,12 +19,13 @@ public class MatchingWord extends Question {
     private ObservableList<String> values = FXCollections.observableArrayList();
 
     public MatchingWord() {
-        this("Matching Question");
+        super();
+        questionType = QuestionTypes.MATCHING_WORD;
     }
 
     public MatchingWord(String questionName) {
         super(questionName);
-        questionType = "MatchingWord";
+        questionType = QuestionTypes.MATCHING_WORD;
     }
 
     public MatchingWord(String questionName, Test test) {
@@ -36,12 +33,12 @@ public class MatchingWord extends Question {
         this.test = test;
     }
 
-    public MatchingWord(String questionName, String type) {
+    public MatchingWord(String questionName, QuestionTypes type) {
         this(questionName);
         questionType = type;
     }
 
-    public MatchingWord(String questionName, String type, Test test) {
+    public MatchingWord(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
     }
@@ -108,7 +105,7 @@ public class MatchingWord extends Question {
     }
 
     @Override
-    public MatchingWord loadQuestionFromXMLNode(Node questionNode) {
+    public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
 
         NodeList questions = ((Element) questionNode).getElementsByTagName("MatchingQuestion");
@@ -120,8 +117,6 @@ public class MatchingWord extends Question {
         for (int x = 0; x < answers.getLength(); x++) {
             values.add(answers.item(x).getTextContent());
         }
-
-        return this;
     }
 
 
@@ -131,23 +126,8 @@ public class MatchingWord extends Question {
     }
 
     @Override
-    public TestPanel getTestPanel() throws IllegalStateException {
-        try {
-            StageManager.setScene(("/questions/testPanels/MatchingWordTestPanel.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new MatchingWordTestPanel();
-    }
-
-    @Override
-    public EditorPanel getEditPanel() throws IllegalStateException {
-        try {
-            StageManager.setScene((EDITOR_PANELS_LOCATION + "MatchingWordEditor.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public TestPanel getTestPanel() throws IOException {
+        return (TestPanel) StageManager.getController("/questions/testPanels/MatchingWordTestPanel.fxml");
     }
 
     @Override

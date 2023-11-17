@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="mainWindow" xmlns="http://javafx.com/javafx"
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="rootNode" xmlns="http://javafx.com/javafx"
             fx:controller="TestCreator.questions.testPanels.MatchingWordTestPanel">
 
     <left>

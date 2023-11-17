@@ -1,6 +1,7 @@
 package TestCreator;
 
 import TestCreator.utilities.StageManager;
+import TestCreator.utilities.TestManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -9,11 +10,11 @@ public class Main extends Application {
 
     public final static String workDir = System.getProperty("user.dir");
 
-    public static final boolean TESTING_MODE = true;
+    public static final boolean TESTING_MODE = false;
 
-    private static Stage stage;
 
     public static void main(String[] args) {
+        TestManager.getInstance().autoFillTests();
         launch(Main.class, args);
     }
 
@@ -28,9 +29,5 @@ public class Main extends Application {
             Platform.exit();
             System.exit(0);
         });
-    }
-
-    public static Stage getStage() {
-        return stage;
     }
 }

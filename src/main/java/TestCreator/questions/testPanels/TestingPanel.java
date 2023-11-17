@@ -1,10 +1,9 @@
 package TestCreator.questions.testPanels;
 
-import TestCreator.Main;
 import TestCreator.Test;
 import TestCreator.questions.Question;
 import TestCreator.utilities.StageManager;
-import TestCreator.utilities.UserManager;
+import TestCreator.utilities.TestManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -23,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static TestCreator.MainMenu.MAIN_MENU_LOCATION;
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
@@ -40,7 +37,7 @@ public class TestingPanel {
     public Button nextQuestionBtn;
     public HBox reviewDisplayVBox;
     @FXML
-    private VBox shortcutBtnsPane;
+    private VBox shortcutBtnsVBox;
     @FXML
     private BorderPane questionDisplay;
     @FXML
@@ -60,11 +57,11 @@ public class TestingPanel {
     private List<Question> questionList;
 
     public void initialize() {
-        StageManager.setTitle("[%s]: Question %s".formatted(testNameLbl.getText(), questionIndex + 1));
+        StageManager.setTitle(STR."[\{testNameLbl.getText()}]: Question \{+(questionIndex + 1)}" );
+        setupTest(TestManager.getInstance().getSelectedTest());
 
         LocalTime tempTimer = LocalTime.of(0, 0, 0);
         timerLbl.setText(DateTimeFormatter.ofPattern("HH:mm:ss").format(tempTimer));
-
 
         timer.schedule(new TimerTask() {
             @Override
@@ -80,57 +77,66 @@ public class TestingPanel {
         questionList = new ArrayList<>(test.getQuestionList());
 
         questionList = questionList.stream()
-                .filter(question -> Objects.nonNull(question.getTestPanel()) && question.readyToRun())
+                .filter(question -> {
+                    try {
+                        return Objects.nonNull(question.getTestPanel()) && question.readyToRun();
+                    } catch (IOException e) {
+                        return false;
+                    }
+                })
                 .collect(Collectors.toList());
 
         for (int x = 0; x < questionList.size(); x++) {
             try {
                 testPanels.add(questionList.get(x).getTestPanel());
-                Button button = new Button(x + 1 + "");
-                button.setId("circle-button");
-                button.minHeight(40);
-                button.setMinWidth(40);
-                button.setOnAction(_ -> {
-                    questionIndex = Integer.parseInt(button.getText()) - 1;
-                    loadTestPane();
+                testPanels.get(x).setupQuestion(questionList.get(x));
+                Button loadQuestionBtn = new Button(x + 1 + "");
+                loadQuestionBtn.minHeight(40);
+                loadQuestionBtn.setMinWidth(40);
+                loadQuestionBtn.focusedProperty().addListener((_, _, _) -> {
+                    if (loadQuestionBtn.isFocused())
+                        loadQuestionBtn.getStyleClass().add("selectedQuestionBtn");
+                    else
+                        loadQuestionBtn.getStyleClass().remove("selectedQuestionBtn");
                 });
-                questionBtnList.add(button);
-                shortcutBtnsPane.getChildren().add(button);
+                loadQuestionBtn.setOnAction(_ -> {
+                    questionIndex = Integer.parseInt(loadQuestionBtn.getText()) - 1;
+                    loadQuestionPane();
+                });
+                questionBtnList.add(loadQuestionBtn);
+                shortcutBtnsVBox.getChildren().add(loadQuestionBtn);
                 totalParts += questionList.get(x).getGradableParts();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 questionList.remove(questionList.get(x));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
 
+        TestManager.getInstance().setSelectedQuestion(questionList.get(0));
         testNameLbl.setText(test.getName());
         questionIndex = 0;
-        loadTestPane();
+        loadQuestionPane();
     }
 
     public void prevQuestion() {
         if (--questionIndex < 0)
             questionIndex = questionList.size() - 1;
-        loadTestPane();
+        loadQuestionPane();
     }
 
     public void nextQuestion() {
         if (++questionIndex >= questionList.size())
             questionIndex = 0;
-        loadTestPane();
+        loadQuestionPane();
     }
 
-    private void loadTestPane() {
-        try {
-            String panelName = questionList.get(questionIndex).getTestPanel().getClass().getSimpleName();
-            StageManager.setScene("/TestCreator/questions/testPanels/" + panelName + ".fxml");
-            testNameLbl.setText("Question Name: " + test.getQuestionAtIndex((questionIndex)).getName());
-            setFlagText();
-            questionDisplay.setCenter(testPanels.get(questionIndex).getQuestionScene());
-        } catch (IOException e) {
-            FXML_ALERT.showAndWait();
-            throw new RuntimeException(e);
-        }
+    private void loadQuestionPane() {
+        TestManager.getInstance().setSelectedQuestion(questionList.get(questionIndex));
+        testNameLbl.setText("" + test.getQuestionAtIndex((questionIndex)).getName());
+        questionDisplay.setCenter(testPanels.get(questionIndex).getRootNode());
+        setFlagText();
     }
 
     public void checkCorrectAnswers() {
@@ -145,9 +151,11 @@ public class TestingPanel {
             numberCorrect = 0;
 
             for (TestPanel testPanel : testPanels) {
+//                button.getStyleClass().add("correctAnswer");
                 numberCorrect += testPanel.getPointsScored();
                 testPanel.disableAnswerChanges();
             }
+
 
             float percentCorrect = ((float) numberCorrect / (float) totalParts) * 100;
             percentCorrectLbl.setText("Percent Correct: " + (int) percentCorrect + "%");
@@ -181,7 +189,7 @@ public class TestingPanel {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try{
-                StageManager.setScene(MAIN_MENU_LOCATION);
+                StageManager.setScene("/MainMenu.fxml");
             } catch (IOException e) {
                 FXML_ALERT.showAndWait();
                 throw new RuntimeException(e);
@@ -193,10 +201,12 @@ public class TestingPanel {
     private void flagQuestion() {
         if (!flaggedList.contains(questionIndex)) {
             flaggedList.add(questionIndex);
-            questionBtnList.get(questionIndex).setId("flagged-button");
+            questionBtnList.get(questionIndex).getStyleClass().add("flagQuestionBtn");
+            questionBtnList.get(questionIndex).requestFocus();
         } else {
             flaggedList.remove(Integer.valueOf(questionIndex));
-            questionBtnList.get(questionIndex).setId("circle-button");
+            questionBtnList.get(questionIndex).getStyleClass().remove("flagQuestionBtn");
+            questionBtnList.get(questionIndex).requestFocus();
         }
         setFlagText();
     }

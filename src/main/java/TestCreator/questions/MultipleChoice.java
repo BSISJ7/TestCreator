@@ -1,12 +1,9 @@
 package TestCreator.questions;
 
-import TestCreator.utilities.Dictionary;
 import TestCreator.Test;
-import TestCreator.questions.editorPanels.EditorPanel;
 import TestCreator.questions.testPanels.TestPanel;
+import TestCreator.utilities.DictionaryManager;
 import TestCreator.utilities.StageManager;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 
 import static TestCreator.testIO.XMLIO.findNode;
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 public class MultipleChoice extends Question {
 
@@ -50,20 +46,22 @@ public class MultipleChoice extends Question {
 
     public MultipleChoice(String questionName) {
         super(questionName);
-        questionType = "MultipleChoice";
-        choices = new ArrayList<String>();
+        questionType = QuestionTypes.MULTIPLE_CHOICE;
+        choices = new ArrayList<>();
     }
 
     public MultipleChoice() {
-        this("Multiple Choice Question");
+        super();
+        questionType = QuestionTypes.MULTIPLE_CHOICE;
+        choices = new ArrayList<>();
     }
 
-    public MultipleChoice(String questionName, String type) {
+    public MultipleChoice(String questionName, QuestionTypes type) {
         this(questionName);
         questionType = type;
     }
 
-    public MultipleChoice(String questionName, String type, Test test) {
+    public MultipleChoice(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
     }
@@ -112,7 +110,7 @@ public class MultipleChoice extends Question {
     }
 
     @Override
-    public MultipleChoice loadQuestionFromXMLNode(Node questionNode) throws NullPointerException {
+    public void loadQuestionFromXMLNode(Node questionNode) throws NullPointerException {
         super.loadQuestionFromXMLNode(questionNode);
         multChoiceQuestion = findNode("MultQuestion", questionNode).getTextContent();
         answerIndex = Integer.parseInt(findNode("AnswerIndex", questionNode).getTextContent());
@@ -120,8 +118,6 @@ public class MultipleChoice extends Question {
         for (int x = 0; x < choices.getLength(); x++) {
             this.choices.add(choices.item(x).getTextContent());
         }
-
-        return this;
     }
 
     @Override
@@ -130,24 +126,8 @@ public class MultipleChoice extends Question {
     }
 
     @Override
-    public TestPanel getTestPanel() throws IllegalStateException {
-        try {
-            StageManager.setScene(("/questions/testPanels/MultipleChoiceTestPanel.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public EditorPanel getEditPanel() throws IllegalStateException {
-        try{
-            StageManager.setScene((EDITOR_PANELS_LOCATION + "MultipleChoiceEditor.fxml"));
-        } catch (IOException e) {
-            FXML_ALERT.showAndWait();
-            throw new RuntimeException(e);
-        }
-        return null;
+    public TestPanel getTestPanel() throws IOException {
+        return (TestPanel) StageManager.getController("/questions/testPanels/MultipleChoiceTestPanel.fxml");
     }
 
     @Override
@@ -157,11 +137,11 @@ public class MultipleChoice extends Question {
 
     @Override
     public void autofillData() {
-        if (Dictionary.getDictionary().size() < 1)
+        if (DictionaryManager.getDictionary().size() < 1)
             return;
 
         for (int x = 0; x < 5; x++) {
-            choices.add(Dictionary.getDictionary().getRandomWord());
+            choices.add(DictionaryManager.getDictionary().getRandomWord());
         }
         int answerLocation = new Random().nextInt(5);
         answerIndex = answerLocation;

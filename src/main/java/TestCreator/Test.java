@@ -7,31 +7,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Test {
 
     public final static DateTimeFormatter shortDateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     public final static DateTimeFormatter shortTimeFormat = DateTimeFormatter.ofPattern("hh:mm");
-    private ArrayList<Question> questionList;
+    private final List<Question> questionList = new ArrayList<>();
     private String testName;
-    private String description;
-    private LocalDateTime reviewDateTime;
-    private LocalDateTime DATE_CREATED;
-    private String ID;
+    private String description = "";
+    private static final LocalDateTime DATE_CREATED = LocalDateTime.now();
+    private String ID = UUID.randomUUID().toString();
 
     public Test(String name) {
-        ID = UUID.randomUUID().toString();
-        testName = name;
-        reviewDateTime = LocalDateTime.now().plusDays(1L);
-        description = "";
-        questionList = new ArrayList<Question>();
+        testName = STR."\{name} \{ID.substring(0, 5)}";
     }
 
     public Test(String name, String description) {
@@ -66,34 +60,6 @@ public class Test {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Returns the date this test is set to be reviewed at.
-     */
-    public LocalDateTime getReviewDate() {
-        return reviewDateTime;
-    }
-
-    /**
-     * Sets the date this test will be reviewed at.
-     */
-    public void setReviewDate(LocalDate revDate) {
-        reviewDateTime = LocalDateTime.of(revDate, reviewDateTime.toLocalTime());
-    }
-
-    /**
-     * Sets the time this test will be reviewed at.
-     */
-    public void setReviewDate(LocalTime revTime) {
-        reviewDateTime = LocalDateTime.of(reviewDateTime.toLocalDate(), revTime);
-    }
-
-    /**
-     * Sets the date time this test will be reviewed at.
-     */
-    public void setReviewDate(LocalDateTime revDateTime) {
-        reviewDateTime = revDateTime;
     }
 
     /**
@@ -175,24 +141,24 @@ public class Test {
     }
 
     public void loadFromXMLNode(Element testNode) {
-        testName = XMLIO.findNode("TestName", testNode).getTextContent();
-        description = XMLIO.findNode("TestDescription", testNode).getTextContent();
+        testName = Objects.requireNonNull(XMLIO.findNode("TestName", testNode)).getTextContent();
+        description = Objects.requireNonNull(XMLIO.findNode("TestDescription", testNode)).getTextContent();
         for (Node questionNode : XmlUtil.asList(testNode.getElementsByTagName("Question"))) {
             try {
-                String questionName = XMLIO.findNode("QuestionName", questionNode).getTextContent();
-                String questionType = XMLIO.findNode("QuestionType", questionNode).getTextContent();
+                String questionName = Objects.requireNonNull(XMLIO.findNode("QuestionName", questionNode)).getTextContent();
+                Question.QuestionTypes questionType = Question.QuestionTypes.valueOf(Objects.requireNonNull(XMLIO.
+                        findNode("QuestionType", questionNode)).getTextContent());
                 Question newQuestion = Question.getQuestionInstance(questionName, questionType, this);
                 newQuestion.loadQuestionFromXMLNode(questionNode);
                 questionList.add(newQuestion);
             } catch (NullPointerException e) {
-                System.out.println();
             }
         }
     }
 
-    public boolean readyToRun() {
-        if (questionList == null || questionList.size() == 0)
-            return false;
-        return questionList.stream().anyMatch(question -> question.readyToRun());
+    public boolean notReadyToRun() {
+        if (questionList.isEmpty())
+            return true;
+        return questionList.stream().noneMatch(Question::readyToRun);
     }
 }

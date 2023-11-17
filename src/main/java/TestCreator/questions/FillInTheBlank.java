@@ -1,13 +1,9 @@
 package TestCreator.questions;
 
-import TestCreator.questions.testPanels.FillInTheBlankTestPanel;
+import TestCreator.Test;
+import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.WordAtCaretFinder;
-import TestCreator.Test;
-import TestCreator.questions.editorPanels.EditorPanel;
-import TestCreator.questions.testPanels.TestPanel;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,12 +51,13 @@ public class FillInTheBlank extends Question {
 
 
     public FillInTheBlank() {
-        this("Fill In Question");
+        super();
+        questionType = QuestionTypes.FILL_IN_THE_BLANK;
     }
 
     public FillInTheBlank(String questionName) {
         super(questionName);
-        questionType = "FillInTheBlank";
+        questionType = QuestionTypes.FILL_IN_THE_BLANK;
     }
 
     public FillInTheBlank(String questionName, Test test) {
@@ -68,12 +65,12 @@ public class FillInTheBlank extends Question {
         this.test = test;
     }
 
-    public FillInTheBlank(String questionName, String type) {
+    public FillInTheBlank(String questionName, QuestionTypes type) {
         this(questionName);
         questionType = type;
     }
 
-    public FillInTheBlank(String questionName, String type, Test test) {
+    public FillInTheBlank(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
     }
@@ -132,7 +129,7 @@ public class FillInTheBlank extends Question {
     }
 
     @Override
-    public FillInTheBlank loadQuestionFromXMLNode(Node questionNode) {
+    public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
         fillQuestion = Objects.requireNonNull(findNode("FillInQuestion", questionNode)).getTextContent();
 
@@ -145,22 +142,11 @@ public class FillInTheBlank extends Question {
         for (int x = 0; x < wordBankPos.getLength(); x++) {
             wordPositions.add(Integer.parseInt(wordBankPos.item(x).getTextContent()));
         }
-        return this;
     }
 
     @Override
-    public TestPanel getTestPanel() throws IllegalStateException {
-        try {
-            StageManager.setScene(("/questions/testPanels/FillInTheBlankTestPanel.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new FillInTheBlankTestPanel();
-    }
-
-    @Override
-    public EditorPanel getEditPanel() throws IllegalStateException {
-        return null;
+    public TestPanel getTestPanel() throws IOException {
+        return (TestPanel) StageManager.getController("/questions/testPanels/FillInTheBlankTestPanel.fxml");
     }
 
     @Override

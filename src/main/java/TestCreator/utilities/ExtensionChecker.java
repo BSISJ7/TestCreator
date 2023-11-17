@@ -4,6 +4,23 @@ import java.io.File;
 
 public class ExtensionChecker {
 
+    public static enum ImageExtensions {
+        JPG("jpg"),
+        JPEG("jpeg"),
+        BMP("bmp"),
+        PNG("png"),
+        GIF("gif");
+
+        private String extension;
+
+        private ImageExtensions(String extension) {
+            this.extension = extension;
+        }
+        public String getExtension() {
+            return extension;
+        }
+    }
+
     public static String getExt(File checkFile) {
         //javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
         //String filetype = fc.getTypeDescription(new java.io.File(checkFile.getPath()));
@@ -31,7 +48,12 @@ public class ExtensionChecker {
 
     public static boolean isImage(String imageName) {
         File checkFile = new File(imageName);
-        return (ExtensionChecker.getExt(checkFile).equalsIgnoreCase("jpg") || ExtensionChecker.getExt(checkFile).equalsIgnoreCase("bmp")
-                && !checkFile.getName().equalsIgnoreCase("blank.jpg"));
+        String extension = ExtensionChecker.getExt(checkFile);
+        for (ImageExtensions imageExtension : ImageExtensions.values()) {
+            if (extension.equalsIgnoreCase(imageExtension.getExtension())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

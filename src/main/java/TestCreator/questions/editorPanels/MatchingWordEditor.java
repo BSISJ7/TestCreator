@@ -1,15 +1,13 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MatchingWord;
-import TestCreator.questions.Question;
-import javafx.application.Platform;
+import TestCreator.utilities.StageManager;
+import TestCreator.utilities.TestManager;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
-public class MatchingWordEditor implements EditorPanel {
+public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
 
 
     @FXML
@@ -29,14 +27,11 @@ public class MatchingWordEditor implements EditorPanel {
     @FXML
     public Button updateBtn;
 
-    private MatchingWord question;
-
     private boolean updating;
-    private boolean isNewQuestion = false;
-    private boolean isNewAnswer = false;
 
     @FXML
     public void initialize() {
+        StageManager.setTitle("Matching Word Editor");
 
         updating = false;
 
@@ -44,24 +39,18 @@ public class MatchingWordEditor implements EditorPanel {
 
         checkForChanges(answerListView, questionListView);
 
-        ChangeListener newPairListener = (observable, oldValue, newValue) -> {
-            if (!questionTextArea.getText().trim().equalsIgnoreCase("")
-                    && !answerTextArea.getText().trim().equalsIgnoreCase("")
-                    && !question.getKeyList().contains(questionTextArea.getText())
-                    && !question.getValueList().contains(answerTextArea.getText())) {
-                addPairBtn.setDisable(false);
-            } else
-                addPairBtn.setDisable(true);
+        ChangeListener<String> newPairListener = (_, _, _) -> {
+            addPairBtn.setDisable(questionTextArea.getText().trim().equalsIgnoreCase("")
+                    || answerTextArea.getText().trim().equalsIgnoreCase("")
+                    || question.getKeyList().contains(questionTextArea.getText())
+                    || question.getValueList().contains(answerTextArea.getText()));
 
-            if ((!answerListView.getItems().contains(answerTextArea.getText())
-                    || !questionListView.getItems().contains(questionTextArea.getText()))
-                    && !answerTextArea.getText().trim().equalsIgnoreCase("")
-                    && !questionTextArea.getText().trim().equalsIgnoreCase("")
-                    && !questionListView.getSelectionModel().isEmpty()) {
 
-                updateBtn.setDisable(false);
-            } else
-                updateBtn.setDisable(true);
+            updateBtn.setDisable((answerListView.getItems().contains(answerTextArea.getText())
+                    && questionListView.getItems().contains(questionTextArea.getText()))
+                    || answerTextArea.getText().trim().equalsIgnoreCase("")
+                    || questionTextArea.getText().trim().equalsIgnoreCase("")
+                    || questionListView.getSelectionModel().isEmpty());
         };
 
         questionTextArea.textProperty().addListener(newPairListener);
@@ -69,15 +58,15 @@ public class MatchingWordEditor implements EditorPanel {
 
         ContextMenu pairContextMenu = new ContextMenu();
         MenuItem removePair = new MenuItem("Remove Pair");
-        removePair.setOnAction(event -> removePair());
+        removePair.setOnAction(_ -> removePair());
         pairContextMenu.getItems().addAll(removePair);
 
-        questionName.textProperty().addListener((observable, oldValue, newValue) ->
+        questionName.textProperty().addListener((_, _, _) ->
                 question.setName(questionName.getText()));
     }
 
     private void checkForChanges(ListView<String> questionListView, ListView<String> answerListView) {
-        questionListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        questionListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (!updating) {
                 if (questionListView.getSelectionModel().getSelectedIndex() >= 0) {
                     removePairBtn.setDisable(false);
@@ -101,8 +90,6 @@ public class MatchingWordEditor implements EditorPanel {
             questionTextArea.setText("");
             answerTextArea.setText("");
             updateBtn.setDisable(true);
-            isNewAnswer = false;
-            isNewQuestion = false;
             questionListView.getSelectionModel().select(questionListView.getItems().size() - 1);
         }
     }
@@ -115,13 +102,11 @@ public class MatchingWordEditor implements EditorPanel {
             answerListView.getItems().remove(index);
             question.removeKeyAt(index);
             question.removeValueAt(index);
-            isNewAnswer = false;
-            isNewQuestion = false;
         }
     }
 
     @Override
-    public void setupQuestion(Question question) {
+    public void setupQuestion(MatchingWord question) {
         this.question = (MatchingWord) question.getCopy();
         questionListView.setItems(this.question.getKeyList());
         answerListView.setItems(this.question.getValueList());
@@ -129,13 +114,12 @@ public class MatchingWordEditor implements EditorPanel {
     }
 
     @Override
-    public MatchingWord getQuestion() {
-        question.getKeyList().forEach(item -> System.out.println(item));
-        return question;
+    public void setupQuestion() {
+        setupQuestion(new MatchingWord(STR."Question \{ TestManager.getInstance().getNumOfQuestions()}"));
     }
 
     @FXML
-    public void updatePair(ActionEvent actionEvent) {
+    public void updatePair() {
         updating = true;
 
         question.setQuestionAt(questionListView.getSelectionModel().getSelectedIndex(),
@@ -146,7 +130,5 @@ public class MatchingWordEditor implements EditorPanel {
         updateBtn.setDisable(true);
         addPairBtn.setDisable(true);
         updating = false;
-        isNewAnswer = false;
-        isNewQuestion = false;
     }
 }

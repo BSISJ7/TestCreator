@@ -1,18 +1,13 @@
 module TestCreator {
-    requires java.xml;
-    requires javafx.fxml;
-    requires javafx.graphics;
+    requires javafx.base;
     requires javafx.controls;
-    requires javafx.media;
-    requires javafx.swing;
-    requires javafx.web;
-    requires java.sql;
-    requires mysql.connector.j;
-    requires java.desktop;
-    requires aws.java.sdk.dynamodb;
-    requires aws.java.sdk.core;
+    requires javafx.fxml;
     requires org.reflections;
-
+    requires java.xml;
+    requires javafx.swing;
+    requires aws.java.sdk.core;
+    requires aws.java.sdk.dynamodb;
+    requires java.sql;
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;
     opens TestCreator.login to javafx.fxml;

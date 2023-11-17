@@ -1,14 +1,14 @@
 package TestCreator.login;
 
-import TestCreator.Main;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import java.io.IOException;
+
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
@@ -46,7 +46,7 @@ public class PasswordResetPanel {
 
     public void returnToLogin() {
         try {
-            StageManager.setScene("WebLogin.fxml");
+            StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);

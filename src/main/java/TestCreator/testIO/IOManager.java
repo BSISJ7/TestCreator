@@ -6,40 +6,31 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public class TestData {
+public class IOManager {
 
-    private static final TestData instance = new TestData();
+    public enum IOType {
+        XML(0),
+        MYSQL(1),
+        DYNAMODB(2);
+
+        private int storageTypeIndex;
+
+        IOType(int typeIndex) {
+            storageTypeIndex = typeIndex;
+        }
+    }
+
+    private static final IOManager instance = new IOManager();
     private static IOType IOType;
     private ObservableList<Test> tests;
 
-    private TestData() {
+    private IOManager() {
         IOType = IOType.XML;
         loadTests();
     }
 
-    public static TestData getInstance() {
+    public static IOManager getInstance() {
         return instance;
-    }
-
-    public ObservableList<Test> getTests() {
-        return tests;
-    }
-
-    public void addTest(Test test) {
-        tests.add(test);
-    }
-
-    public void removeItemAtIndex(int index) {
-        tests.remove(index);
-    }
-
-    public void removeTest(String name) {
-        for (Test test : tests) {
-            if (test.getName().equals(name)) {
-                removeTest(test);
-                break;
-            }
-        }
     }
 
     public int size() {
@@ -77,18 +68,6 @@ public class TestData {
             case XML:
                 XMLIO.getInstance().updateTest(oldTest, newTest);
                 break;
-        }
-    }
-
-    public enum IOType {
-        XML(0),
-        MYSQL(1),
-        DYNAMODB(2);
-
-        private int typeIndex;
-
-        IOType(int typeIndex) {
-            this.typeIndex = typeIndex;
         }
     }
 }

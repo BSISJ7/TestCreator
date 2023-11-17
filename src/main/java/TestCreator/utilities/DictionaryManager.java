@@ -2,18 +2,21 @@ package TestCreator.utilities;
 
 import TestCreator.Main;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Dictionary {
+public class DictionaryManager {
 
     private static final List<String> DICTIONARY_LIST = new ArrayList<>();
-    private static final Dictionary DICTIONARY = new Dictionary();
+    private static final DictionaryManager DICTIONARY = new DictionaryManager();
 
-    private Dictionary() {
+    private DictionaryManager() {
         initialize();
     }
 
@@ -30,7 +33,7 @@ public class Dictionary {
         }
     }
 
-    public static Dictionary getDictionary() {
+    public static DictionaryManager getDictionary() {
         return DICTIONARY;
     }
 

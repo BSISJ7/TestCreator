@@ -1,7 +1,6 @@
 package TestCreator.questions.testPanels;
 
 import TestCreator.questions.MultipleChoice;
-import TestCreator.questions.Question;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -16,7 +15,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
+//TODO see if this should replace the old MultipleChoiceTestPanel
+public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<MultipleChoice> {
 
     private static final long serialVersionUID = 6030791732485081137L;
     /**
@@ -28,9 +28,9 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
     @FXML
     private GridPane gridPane;
     @FXML
-    private BorderPane mainWindow;
+    private BorderPane rootNode;
     private JLabel questionText;
-    private MultipleChoice currentQuestion;
+    private MultipleChoice question;
     private boolean correctAnswer = false;
     private JTextArea[] txtAreaAnswers;
     private JPanel pnlAnswers;
@@ -68,18 +68,14 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
         pnlAnswers.setLayout(new GridBagLayout());
     }
 
-    public MultipleChoiceTestPanelV2(Question newQuestion) {
-        this();
-        setQuestion((MultipleChoice) newQuestion);
-    }
+    @Override
+    public void setupQuestion(MultipleChoice question) {
+        this.question = question;
 
-    public void setQuestion(MultipleChoice newQuestion) {
-        currentQuestion = newQuestion;
+        questionText.setText(question.getMultChoiceQuestion());
+        txtAreaAnswers = new JTextArea[question.getChoices().size()];
 
-        questionText.setText(currentQuestion.getMultChoiceQuestion());
-        txtAreaAnswers = new JTextArea[currentQuestion.getChoices().size()];
-
-        ArrayList<String> choices = new ArrayList<>(currentQuestion.getChoices());
+        ArrayList<String> choices = new ArrayList<>(question.getChoices());
         Collections.shuffle(choices);
 
         GridBagConstraints gbConst = new GridBagConstraints();
@@ -101,7 +97,7 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
                     selectedIndex = Integer.parseInt(arg0.getComponent().getName());
                     txtAreaAnswers[selectedIndex].setBackground(new Color(173, 255, 47));
 
-                    if (currentQuestion.getAnswerIndex() == selectedIndex)
+                    if (question.getAnswerIndex() == selectedIndex)
                         correctAnswer = true;
                     else
                         correctAnswer = true;
@@ -134,14 +130,9 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
     @Override
     public float getPointsScored() {
         if (correctAnswer)
-            return currentQuestion.getWeight();
+            return question.getWeight();
         else
             return 0.0f;
-    }
-
-    @Override
-    public void setupQuestion(Object question) {
-        setQuestion((MultipleChoice) question);
     }
 
     @Override
@@ -150,12 +141,12 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel {
     }
 
     @Override
-    public Node getQuestionScene() {
-        return mainWindow;
+    public void disableAnswerChanges() {
+
     }
 
     @Override
-    public void disableAnswerChanges() {
-
+    public Node getRootNode() {
+        return rootNode;
     }
 }

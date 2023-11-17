@@ -1,11 +1,8 @@
 package TestCreator.questions;
 
 import TestCreator.Test;
-import TestCreator.questions.editorPanels.EditorPanel;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +10,6 @@ import org.w3c.dom.Node;
 import java.io.IOException;
 
 import static TestCreator.testIO.XMLIO.findNode;
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 public class TrueFalse extends Question {
 
@@ -21,12 +17,13 @@ public class TrueFalse extends Question {
     private boolean trueFalse = true;
 
     public TrueFalse() {
-        this("True False Question");
+        super();
+        questionType = QuestionTypes.TRUE_FALSE;
     }
 
     public TrueFalse(String questionName) {
         super(questionName);
-        questionType = "TrueFalse";
+        questionType = QuestionTypes.TRUE_FALSE;
         question = "";
     }
 
@@ -35,12 +32,12 @@ public class TrueFalse extends Question {
         this.test = test;
     }
 
-    public TrueFalse(String questionName, String type) {
+    public TrueFalse(String questionName, QuestionTypes type) {
         this(questionName);
         questionType = type;
     }
 
-    public TrueFalse(String questionName, String type, Test test) {
+    public TrueFalse(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
     }
@@ -85,28 +82,14 @@ public class TrueFalse extends Question {
     }
 
     @Override
-    public TrueFalse loadQuestionFromXMLNode(Node questionNode) {
+    public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
         this.question = findNode("TrueFalseQuestion", questionNode).getTextContent();
         trueFalse = Boolean.parseBoolean(findNode("TrueFalse", questionNode).getTextContent());
-
-        return this;
     }
 
-    @Override
-    public TestPanel getTestPanel() throws IllegalStateException {
-        return null;
-    }
-
-    @Override
-    public EditorPanel getEditPanel() throws IllegalStateException {
-        try{
-            StageManager.setScene(("/questions/editorPanels/TrueFalseEditor.fxml"));
-        } catch (IOException e) {
-            FXML_ALERT.showAndWait();
-            throw new RuntimeException(e);
-        }
-        return null;
+    public TestPanel getTestPanel() throws IllegalStateException, IOException {
+        return (TestPanel) StageManager.getController("/questions/testPanels/TrueFalseTestPanel.fxml");
     }
 
     @Override
@@ -118,6 +101,5 @@ public class TrueFalse extends Question {
     public void autofillData() {
         question = "Is this a true false question?";
         trueFalse = true;
-
     }
 }
