@@ -72,10 +72,10 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<Mu
     public void setupQuestion(MultipleChoice question) {
         this.question = question;
 
-        questionText.setText(question.getMultChoiceQuestion());
-        txtAreaAnswers = new JTextArea[question.getChoices().size()];
+        questionText.setText(question.getQuestionText());
+        txtAreaAnswers = new JTextArea[question.getChoicesCopy().size()];
 
-        ArrayList<String> choices = new ArrayList<>(question.getChoices());
+        ArrayList<String> choices = new ArrayList<>(question.getChoicesCopy());
         Collections.shuffle(choices);
 
         GridBagConstraints gbConst = new GridBagConstraints();

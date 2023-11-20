@@ -1,7 +1,7 @@
 package TestCreator.testIO;
 
-import TestCreator.questions.MultipleChoice;
 import TestCreator.Test;
+import TestCreator.questions.MultipleChoice;
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
@@ -148,7 +148,7 @@ public class DynamoDBSaver {
         itemUpdate.put("Choices", new AttributeValueUpdate()
                 .withAction(AttributeAction.PUT)
                 .withValue(new AttributeValue()
-                        .withSS((String[]) multipleChoiceQuestion.getChoices().toArray())));
+                        .withSS((String[]) multipleChoiceQuestion.getChoicesCopy().toArray())));
 
         ReturnValue returnValues = ReturnValue.ALL_NEW;
 

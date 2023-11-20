@@ -14,7 +14,7 @@
                     </HBox>
                 </HBox>
                 <Label text="Question"/>
-                <TextArea fx:id="questionTextArea" onKeyReleased="#questionKeyTyped"/>
+                <TextArea fx:id="questionTextArea"/>
                 <ToolBar>
                     <HBox spacing="10">
                         <Button onAction="#newChoice" text="New Choice"/>

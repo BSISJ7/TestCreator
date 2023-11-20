@@ -8,6 +8,7 @@ module TestCreator {
     requires aws.java.sdk.core;
     requires aws.java.sdk.dynamodb;
     requires java.sql;
+    requires java.net.http;
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;
     opens TestCreator.login to javafx.fxml;

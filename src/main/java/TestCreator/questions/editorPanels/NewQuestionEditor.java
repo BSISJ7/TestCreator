@@ -41,9 +41,8 @@ public class NewQuestionEditor {
         Stream.of(Question.QuestionTypes.values()).forEach(type -> observableList.add(type.getDisplayName()));
         typesChoiceBox.setItems(observableList);
         typesChoiceBox.getSelectionModel().select(0);
-        typesChoiceBox.getSelectionModel().selectedIndexProperty().addListener((_, _, _) ->{
-            questionType = Question.QuestionTypes.valueOf(typesChoiceBox.getSelectionModel().getSelectedItem()
-                    .replace(" ", "_").toUpperCase());
+        typesChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newQuestionType) ->{
+            questionType = Question.QuestionTypes.valueOf(newQuestionType.replace(" ", "_").toUpperCase());
             question = Question.createQuestion(questionType);
             questionName.setText(question.getName());
         });
@@ -66,6 +65,6 @@ public class NewQuestionEditor {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
-        ((QuestionEditor) StageManager.getStageController()).setupQuestion(question);
+        ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false);
     }
 }

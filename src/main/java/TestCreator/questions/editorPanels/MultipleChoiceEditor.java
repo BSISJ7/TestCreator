@@ -27,35 +27,33 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
     @FXML
     ListView<String> choicesListView;
     private boolean choiceMouseEntered;
-    private ContextMenu choiceContext;
-
     private ObservableList<String> choiceObsList;
-    
-    private MultipleChoice question;
 
+    private int answerIndex = -1;
+    
 
     public void initialize() {
         StageManager.setTitle("Multiple Choice Editor");
-        choiceContext = new ContextMenu();
+
+        ContextMenu choiceContext = new ContextMenu();
         MenuItem removeChoiceItem = new MenuItem("Remove Choice");
         removeChoiceItem.setOnAction(_ -> removeChoice());
         MenuItem correctChoiceItem = new MenuItem("Set Correct Choice");
         correctChoiceItem.setOnAction(_ -> setCorrectAnswer());
-
         choiceContext.getItems().addAll(correctChoiceItem, removeChoiceItem);
 
         Callback<ListView<String>, ListCell<String>> choiceCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<String> call(ListView<String> param) {
-                TextFieldListCell<String> shortDescCell = new TextFieldListCell<String>() {
+                TextFieldListCell<String> shortDescCell = new TextFieldListCell<>() {
                     public void updateItem(String choice, boolean empty) {
                         setStyle(null);
                         super.updateItem(choice, empty);
                         if (choice != null && !empty) {
-                            if (choicesListView.getItems().indexOf(choice) == question.getAnswerIndex()
+                            if (choicesListView.getItems().indexOf(choice) == answerIndex
                                     && choicesListView.getItems().indexOf(choice) == choicesListView.getSelectionModel().getSelectedIndex()) {
                                 setStyle("-fx-background-color: #9dbf68");
-                            } else if (choicesListView.getItems().indexOf(choice) == question.getAnswerIndex()
+                            } else if (choicesListView.getItems().indexOf(choice) == answerIndex
                                     && choicesListView.getItems().indexOf(choice) != choicesListView.getSelectionModel().getSelectedIndex()) {
                                 setStyle("-fx-background-color: #c4ee81");
                             } else
@@ -95,7 +93,6 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
         choicesListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (choicesListView.getSelectionModel().getSelectedIndex() >= 0 && choiceMouseEntered) {
-                choiceTextArea.setDisable(false);
                 choiceTextArea.setText(choiceObsList.get(choicesListView.getSelectionModel().getSelectedIndex()));
             } else if (choicesListView.getItems().isEmpty()) {
                 choiceTextArea.setDisable(true);
@@ -110,56 +107,54 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
         choicesListView.setOnMouseEntered(_ -> choiceMouseEntered = true);
         choicesListView.setOnMouseExited(_ -> choiceMouseEntered = false);
-
-
-        questionName.textProperty().addListener((_, _, _) ->
-                question.setName(questionName.getText()));
     }
 
     public void setupQuestion(MultipleChoice question) {
         this.question = question;
         questionName.setText(this.question.getName());
-        questionTextArea.setText(this.question.getMultChoiceQuestion());
+        questionTextArea.setText(this.question.getQuestionText());
+        answerIndex = question.getAnswerIndex();
 
-        choiceObsList = FXCollections.observableList(this.question.getChoices());
+        choiceObsList = FXCollections.observableList(question.getChoicesCopy());
         choicesListView.setItems(choiceObsList);
         if (!choiceObsList.isEmpty()) {
             choicesListView.getSelectionModel().select(0);
             choiceTextArea.setText(choiceObsList.get(0));
         }
 
-        if (!choicesListView.getSelectionModel().isEmpty()) {
+        if (!choicesListView.getSelectionModel().isEmpty())
             choicesListView.getSelectionModel().select(0);
-        }
 
+        choiceTextArea.disableProperty().bind(choicesListView.getSelectionModel().selectedItemProperty().isNull());
         setCorrectBtn.disableProperty().bind(choicesListView.getSelectionModel().selectedItemProperty().isNull());
         removeChoiceBtn.disableProperty().bind(choicesListView.getSelectionModel().selectedItemProperty().isNull());
     }
 
     @Override
-    public void setupQuestion() {
-        setupQuestion(new MultipleChoice());
+    public void updateQuestion() {
+        question.setAnswerIndex(choicesListView.getSelectionModel().getSelectedIndex());
+        question.setQuestionText(questionTextArea.getText());
+        question.setAnswerIndex(answerIndex);
+        question.setName(questionName.getText());
+        question.setChoices(choiceObsList);
     }
 
     @FXML
     public void setCorrectAnswer() {
-        question.setAnswerIndex(choicesListView.getSelectionModel().getSelectedIndex());
+        answerIndex = choicesListView.getSelectionModel().getSelectedIndex();
         choicesListView.refresh();
     }
 
     @FXML
     public void removeChoice() {
         int selectedIndex = choicesListView.getSelectionModel().getSelectedIndex();
-        if (question.getAnswerIndex() > selectedIndex) {
-            question.setAnswerIndex(question.getAnswerIndex() - 1);
-        } else if (question.getAnswerIndex() == selectedIndex) {
-            question.setAnswerIndex(-1);
-        }
+        if (answerIndex > selectedIndex) answerIndex--;
+        else if (answerIndex == selectedIndex)
+            answerIndex = -1;
 
         choiceObsList.remove(selectedIndex);
-        selectedIndex = (selectedIndex != choicesListView.getItems().size()) ?
-                selectedIndex : selectedIndex - 1;
-        if (selectedIndex >= 0) {
+        selectedIndex = (selectedIndex != choicesListView.getItems().size()) ? selectedIndex : selectedIndex - 1;
+        if (!choicesListView.getSelectionModel().isEmpty()) {
             choicesListView.getSelectionModel().select(selectedIndex);
             choiceTextArea.setText(choicesListView.getSelectionModel().getSelectedItem());
         } else {
@@ -169,7 +164,7 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
     @FXML
     public void newChoice() {
-        choiceTextArea.setDisable(false);
+        choicesListView.setDisable(false);
         choiceObsList.add("");
         choicesListView.getSelectionModel().select(choicesListView.getItems().size() - 1);
         choiceTextArea.setText("");
@@ -185,8 +180,4 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
         }
     }
 
-    @FXML
-    public void questionKeyTyped() {
-        question.setQuestion(questionTextArea.getText());
-    }
 }

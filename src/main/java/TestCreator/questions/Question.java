@@ -11,8 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,7 +24,7 @@ public abstract class Question implements TestableQuestion {
         MULTIPLE_CHOICE("MultipleChoice", "Multiple Choice"),
         TRUE_FALSE("TrueFalse", "True False"),
         MATCHING_WORD("MatchingWord", "Matching Word"),
-        FILL_IN_THE_BLANK("FillInTheBlank", "Fill In The Blank");
+        FILL_THE_BLANK("FillTheBlank", "Fill The Blank");
 
         private final String questionType;
         private final String displayName;
@@ -97,20 +95,6 @@ public abstract class Question implements TestableQuestion {
         questionName = STR."\{questionName} \{ID.substring(0,5)}";
     }
 
-    public static Question getQuestionInstance(String name, QuestionTypes type, Test test) throws NullPointerException {
-        try {
-            Constructor<?> constructor =
-                    Class.forName("TestCreator.questions." + type)
-                            .getConstructor(String.class, String.class, Test.class);
-
-            return (Question) constructor.newInstance(name, type, test);
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException |
-                 IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String getType() {
         return this.getClass().getSimpleName();
     }
@@ -148,7 +132,7 @@ public abstract class Question implements TestableQuestion {
         question.appendChild(name);
 
         Element type = XMLDocument.createElement("QuestionType");
-        type.setTextContent(questionType.getQuestionType());
+        type.setTextContent(questionType.name());
         question.appendChild(type);
 
         Element weight = XMLDocument.createElement("QuestionWeight");
@@ -169,7 +153,7 @@ public abstract class Question implements TestableQuestion {
     }
 
     public Question getCopy() {
-        Question copy = getQuestionInstance(getName(), QuestionTypes.valueOf(getType()), test);
+        Question copy = createQuestion(questionName, questionType, test);
         copy.loadQuestionFromXMLNode(getQuestionAsXMLNode());
         return copy;
     }
@@ -200,10 +184,24 @@ public abstract class Question implements TestableQuestion {
                 return new MatchingWord();
             }case TRUE_FALSE -> {
                 return new TrueFalse();
-            }case FILL_IN_THE_BLANK -> {
-                return new FillInTheBlank();
+            }case FILL_THE_BLANK -> {
+                return new FillTheBlank();
             }default -> {
                 return new MultipleChoice();
+            }
+        }
+    }
+
+    public static Question createQuestion(String name, QuestionTypes type, Test test){
+        switch(type){
+            case MATCHING_WORD -> {
+                return new MatchingWord(name, type, test);
+            }case TRUE_FALSE -> {
+                return new TrueFalse(name, type, test);
+            }case FILL_THE_BLANK -> {
+                return new FillTheBlank(name, type, test);
+            }default -> {
+                return new MultipleChoice(name, type, test);
             }
         }
     }

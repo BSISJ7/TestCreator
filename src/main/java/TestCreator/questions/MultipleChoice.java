@@ -4,6 +4,7 @@ import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.DictionaryManager;
 import TestCreator.utilities.StageManager;
+import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,6 +13,7 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import static TestCreator.testIO.XMLIO.findNode;
@@ -70,8 +72,8 @@ public class MultipleChoice extends Question {
         return choices.get(answerIndex);
     }
 
-    public List<String> getChoices() {
-        return choices;
+    public List<String> getChoicesCopy() {
+        return new ArrayList<>(choices);
     }
 
     public int getAnswerIndex() {
@@ -82,11 +84,11 @@ public class MultipleChoice extends Question {
         answerIndex = index;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestionText(String question) {
         multChoiceQuestion = question;
     }
 
-    public String getMultChoiceQuestion() {
+    public String getQuestionText() {
         return multChoiceQuestion;
     }
 
@@ -112,8 +114,8 @@ public class MultipleChoice extends Question {
     @Override
     public void loadQuestionFromXMLNode(Node questionNode) throws NullPointerException {
         super.loadQuestionFromXMLNode(questionNode);
-        multChoiceQuestion = findNode("MultQuestion", questionNode).getTextContent();
-        answerIndex = Integer.parseInt(findNode("AnswerIndex", questionNode).getTextContent());
+        multChoiceQuestion = Objects.requireNonNull(findNode("MultQuestion", questionNode)).getTextContent();
+        answerIndex = Integer.parseInt(Objects.requireNonNull(findNode("AnswerIndex", questionNode)).getTextContent());
         NodeList choices = ((Element) questionNode).getElementsByTagName("Choice");
         for (int x = 0; x < choices.getLength(); x++) {
             this.choices.add(choices.item(x).getTextContent());
@@ -126,8 +128,8 @@ public class MultipleChoice extends Question {
     }
 
     @Override
-    public TestPanel getTestPanel() throws IOException {
-        return (TestPanel) StageManager.getController("/questions/testPanels/MultipleChoiceTestPanel.fxml");
+    public TestPanel<MultipleChoice> getTestPanel() throws IOException {
+        return (TestPanel<MultipleChoice>) StageManager.getController("/questions/testPanels/MultipleChoiceTestPanel.fxml");
     }
 
     @Override
@@ -147,5 +149,10 @@ public class MultipleChoice extends Question {
         answerIndex = answerLocation;
         multChoiceQuestion = "Which is the correct word?";
 
+    }
+
+    public void setChoices(ObservableList<String> choiceObsList) {
+        choices.clear();
+        choices.addAll(choiceObsList);
     }
 }

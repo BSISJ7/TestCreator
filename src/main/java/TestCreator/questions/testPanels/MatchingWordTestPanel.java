@@ -238,14 +238,12 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     @Override
     public void setupQuestion(MatchingWord question) {
         this.question = question;
-        List<String> shuffledKeys = new ArrayList<>(question.getKeyList());
-        List<String> shuffledValues = new ArrayList<>(question.getValueList());
+        List<String> shuffledKeys = question.getKeyListCopy();
+        List<String> shuffledValues = question.getValueListCopy();
         Collections.shuffle(shuffledKeys);
         Collections.shuffle(shuffledValues);
         keyListView.setItems(FXCollections.observableArrayList(shuffledKeys));
         valueListView.setItems(FXCollections.observableArrayList(shuffledValues));
-//        shuffledKeys.forEach(word -> matchingPairs.put(word, null));
-
         keyListView.setCellFactory(keyFactory);
         valueListView.setCellFactory(valueFactory);
         keyListView.refresh();
@@ -278,8 +276,8 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         float points = 0.0f;
 
         for (Map.Entry<String, String> keyValue : matchingPairs.entrySet()) {
-            int index = question.getKeyList().indexOf(keyValue.getKey());
-            String value = question.getValueList().get(index);
+            int index = question.getKeyIndex(keyValue.getKey());
+            String value = question.getValueAt(index);
             if (keyValue.getValue().equals(value)) {
                 isCorrectAnswerList.add(true);
                 points++;
@@ -289,12 +287,12 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             }
         }
 
-        while (isCorrectAnswerList.size() < question.getKeyList().size()) {
+        while (isCorrectAnswerList.size() < question.numberOfKeys()) {
             isCorrectAnswerList.add(false);
         }
 
-        for (int x = 0; x < question.getKeyList().size(); x++) {
-            matchingPairs.put(question.getKeyList().get(x), question.getValueList().get(x));
+        for (int x = 0; x < question.numberOfKeys(); x++) {
+            matchingPairs.put(question.getKeyAt(x), question.getValueListCopy().get(x));
         }
 
         keyListView.refresh();

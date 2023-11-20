@@ -1,10 +1,7 @@
 package TestCreator.testIO;
 
 import TestCreator.Test;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
+import TestCreator.utilities.TestManager;
 
 public class IOManager {
 
@@ -22,7 +19,6 @@ public class IOManager {
 
     private static final IOManager instance = new IOManager();
     private static IOType IOType;
-    private ObservableList<Test> tests;
 
     private IOManager() {
         IOType = IOType.XML;
@@ -33,14 +29,10 @@ public class IOManager {
         return instance;
     }
 
-    public int size() {
-        return tests.size();
-    }
-
-    private void loadTests() {
+    public void loadTests() {
         switch (IOType) {
             case XML:
-                tests = FXCollections.observableArrayList(XMLIO.getInstance().loadTests());
+                XMLIO.getInstance().loadTests();
                 break;
         }
     }
@@ -48,19 +40,18 @@ public class IOManager {
     public void saveTests() {
         switch (IOType) {
             case XML:
-                XMLIO.getInstance().saveTests(new ArrayList<>(tests));
+                XMLIO.getInstance().saveTests();
                 break;
         }
     }
 
-    public void removeTest(Test test) {
-        tests.remove(test);
-
+    public void deleteTest(Test test) {
         switch (IOType) {
             case XML:
                 XMLIO.getInstance().deleteTest(test);
                 break;
         }
+        TestManager.getInstance().removeTest(test);
     }
 
     public void updateTest(Test oldTest, Test newTest) {

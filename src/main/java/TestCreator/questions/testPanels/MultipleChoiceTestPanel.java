@@ -43,8 +43,8 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
         int column = 0;
         int row = 0;
 
-        questionTextArea.setText(question.getMultChoiceQuestion());
-        for (String choice : question.getChoices()) {
+        questionTextArea.setText(question.getQuestionText());
+        for (String choice : question.getChoicesCopy()) {
             RadioButton radioBtn = new RadioButton(choice);
             radioBtn.setToggleGroup(choiceToggle);
             radioBtn.setStyle("-fx-font-size: 15; -fx-padding: 15");

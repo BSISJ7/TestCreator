@@ -4,6 +4,8 @@ import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.WordAtCaretFinder;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +22,7 @@ import java.util.*;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
-public class FillInTheBlank extends Question {
+public class FillTheBlank extends Question {
 
     public final static SimpleAttributeSet UNSELECTED_WORD = new SimpleAttributeSet();
     public final static SimpleAttributeSet SELECTED_WORD = new SimpleAttributeSet();
@@ -45,37 +47,37 @@ public class FillInTheBlank extends Question {
         StyleConstants.setBackground(CORRECT_WORD, Color.GREEN.brighter().brighter());
     }
 
-    private final ArrayList<String> wordBank = new ArrayList<>();
+    private final ObservableList<String> wordBank = FXCollections.observableArrayList();
     private String fillQuestion = "";
     private ArrayList<Integer> wordPositions = new ArrayList<>();
 
 
-    public FillInTheBlank() {
+    public FillTheBlank() {
         super();
-        questionType = QuestionTypes.FILL_IN_THE_BLANK;
+        questionType = QuestionTypes.FILL_THE_BLANK;
     }
 
-    public FillInTheBlank(String questionName) {
+    public FillTheBlank(String questionName) {
         super(questionName);
-        questionType = QuestionTypes.FILL_IN_THE_BLANK;
+        questionType = QuestionTypes.FILL_THE_BLANK;
     }
 
-    public FillInTheBlank(String questionName, Test test) {
+    public FillTheBlank(String questionName, Test test) {
         this(questionName);
         this.test = test;
     }
 
-    public FillInTheBlank(String questionName, QuestionTypes type) {
+    public FillTheBlank(String questionName, QuestionTypes type) {
         this(questionName);
         questionType = type;
     }
 
-    public FillInTheBlank(String questionName, QuestionTypes type, Test test) {
+    public FillTheBlank(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
     }
 
-    public void setFillInQuestion(String fillQuestion) {
+    public void setFillTheBlankQuestion(String fillQuestion) {
         this.fillQuestion = fillQuestion.replaceAll("(\\r)", "");
     }
 
@@ -91,11 +93,11 @@ public class FillInTheBlank extends Question {
         wordBank.remove(answer);
     }
 
-    public List<String> getWordBank() {
-        return Collections.unmodifiableList(wordBank);
+    public ObservableList<String> getWordBankCopy() {
+        return FXCollections.observableArrayList(wordBank);
     }
 
-    public void setWordBank(ArrayList<String> newWordBank) {
+    public void setWordBank(List<String> newWordBank) {
         wordBank.clear();
         wordBank.addAll(newWordBank);
     }
@@ -103,7 +105,7 @@ public class FillInTheBlank extends Question {
     @Override
     public Element getQuestionAsXMLNode(Document XMLDocument) {
         Element question = super.getQuestionAsXMLNode(XMLDocument);
-        Element fillInAnswer = XMLDocument.createElement("FillInQuestion");
+        Element fillInAnswer = XMLDocument.createElement("FillTheBlankQuestion");
         fillInAnswer.setTextContent(fillQuestion);
 
         wordBank.forEach(word -> {
@@ -131,7 +133,7 @@ public class FillInTheBlank extends Question {
     @Override
     public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
-        fillQuestion = Objects.requireNonNull(findNode("FillInQuestion", questionNode)).getTextContent();
+        fillQuestion = Objects.requireNonNull(findNode("FillTheBlankQuestion", questionNode)).getTextContent();
 
         NodeList wordBankItems = ((Element) questionNode).getElementsByTagName("WordBankItem");
         for (int x = 0; x < wordBankItems.getLength(); x++) {
@@ -146,7 +148,7 @@ public class FillInTheBlank extends Question {
 
     @Override
     public TestPanel getTestPanel() throws IOException {
-        return (TestPanel) StageManager.getController("/questions/testPanels/FillInTheBlankTestPanel.fxml");
+        return (TestPanel) StageManager.getController("/questions/testPanels/FillTheBlankTestPanel.fxml");
     }
 
     @Override
@@ -154,11 +156,11 @@ public class FillInTheBlank extends Question {
         return wordBank.size();
     }
 
-    public List<Integer> getWordPositions() {
+    public List<Integer> getAnswerOffsets() {
         return Collections.unmodifiableList(wordPositions);
     }
 
-    public void setWordPositions(ArrayList<Integer> locations) {
+    public void setWordIndicies(ArrayList<Integer> locations) {
         wordPositions = new ArrayList<>(locations);
     }
 

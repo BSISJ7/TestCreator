@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class MatchingWord extends Question {
 
-    private ObservableList<String> keys = FXCollections.observableArrayList();
-    private ObservableList<String> values = FXCollections.observableArrayList();
+    private final ObservableList<String> keys = FXCollections.observableArrayList();
+    private final ObservableList<String> values = FXCollections.observableArrayList();
 
     public MatchingWord() {
         super();
@@ -80,12 +80,28 @@ public class MatchingWord extends Question {
         values.remove(index);
     }
 
-    public ObservableList<String> getKeyList() {
-        return keys;
+    public ObservableList<String> getKeyListCopy() {
+        return FXCollections.observableArrayList(keys);
     }
 
-    public ObservableList<String> getValueList() {
-        return values;
+    public ObservableList<String> getValueListCopy() {
+        return FXCollections.observableArrayList(values);
+    }
+
+    public int getKeyIndex(String key) {
+        return keys.indexOf(key);
+    }
+
+    public String getKeyAt(int index) {
+        return keys.get(index);
+    }
+
+    public String getValueAt(int index) {
+        return values.get(index);
+    }
+
+    public int numberOfKeys() {
+        return keys.size();
     }
 
     @Override
@@ -147,5 +163,15 @@ public class MatchingWord extends Question {
             keys.add(num1 + " + " + num2 + " = ");
             values.add(num1 + num2 + "");
         }
+    }
+
+    public void setKeys(ObservableList<String> keys) {
+        this.keys.clear();
+        this.keys.addAll(keys);
+    }
+
+    public void setValues(ObservableList<String> values) {
+        this.values.clear();
+        this.values.addAll(values);
     }
 }

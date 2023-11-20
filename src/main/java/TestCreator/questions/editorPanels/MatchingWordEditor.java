@@ -2,10 +2,11 @@ package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MatchingWord;
 import TestCreator.utilities.StageManager;
-import TestCreator.utilities.TestManager;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.util.List;
 
 public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
 
@@ -27,30 +28,45 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
     @FXML
     public Button updateBtn;
 
-    private boolean updating;
-
     @FXML
     public void initialize() {
         StageManager.setTitle("Matching Word Editor");
 
-        updating = false;
-
-        checkForChanges(questionListView, answerListView);
-
-        checkForChanges(answerListView, questionListView);
+        questionListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
+            if (!questionListView.getSelectionModel().isEmpty()) {
+                answerListView.getSelectionModel().select(questionListView.getSelectionModel().getSelectedIndex());
+                questionTextArea.setText(questionListView.getItems().get(questionListView.getSelectionModel().getSelectedIndex()));                questionTextArea.setText(questionListView.getItems().get(questionListView.getSelectionModel().getSelectedIndex()));
+                answerTextArea.setText(answerListView.getItems().get(answerListView.getSelectionModel().getSelectedIndex()));
+            }
+        });
+        answerListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
+            if (!answerListView.getSelectionModel().isEmpty()) {
+                questionListView.getSelectionModel().select(answerListView.getSelectionModel().getSelectedIndex());
+                questionTextArea.setText(questionListView.getItems().get(questionListView.getSelectionModel().getSelectedIndex()));                questionTextArea.setText(questionListView.getItems().get(questionListView.getSelectionModel().getSelectedIndex()));
+                answerTextArea.setText(answerListView.getItems().get(answerListView.getSelectionModel().getSelectedIndex()));
+            }
+        });
+        removePairBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull()
+                .or(answerListView.getSelectionModel().selectedItemProperty().isNull()));
 
         ChangeListener<String> newPairListener = (_, _, _) -> {
-            addPairBtn.setDisable(questionTextArea.getText().trim().equalsIgnoreCase("")
-                    || answerTextArea.getText().trim().equalsIgnoreCase("")
-                    || question.getKeyList().contains(questionTextArea.getText())
-                    || question.getValueList().contains(answerTextArea.getText()));
+            addPairBtn.setDisable(
+                questionTextArea.getText().trim().isEmpty()
+                || answerTextArea.getText().trim().isEmpty()
+                || questionListView.getItems().contains(questionTextArea.getText())
+                || answerListView.getItems().contains(answerTextArea.getText())
+            );
 
-
-            updateBtn.setDisable((answerListView.getItems().contains(answerTextArea.getText())
-                    && questionListView.getItems().contains(questionTextArea.getText()))
-                    || answerTextArea.getText().trim().equalsIgnoreCase("")
-                    || questionTextArea.getText().trim().equalsIgnoreCase("")
-                    || questionListView.getSelectionModel().isEmpty());
+            updateBtn.setDisable(
+                    containsExceptAt(questionListView.getItems(), questionTextArea.getText(),
+                        questionListView.getSelectionModel().getSelectedIndex())
+                    || containsExceptAt(answerListView.getItems(), answerTextArea.getText(),
+                        answerListView.getSelectionModel().getSelectedIndex())
+                    || answerTextArea.getText().trim().isEmpty()
+                    || questionTextArea.getText().trim().isEmpty()
+                    || questionListView.getSelectionModel().isEmpty()
+                    || answerListView.getSelectionModel().isEmpty()
+            );
         };
 
         questionTextArea.textProperty().addListener(newPairListener);
@@ -60,75 +76,68 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
         MenuItem removePair = new MenuItem("Remove Pair");
         removePair.setOnAction(_ -> removePair());
         pairContextMenu.getItems().addAll(removePair);
-
-        questionName.textProperty().addListener((_, _, _) ->
-                question.setName(questionName.getText()));
-    }
-
-    private void checkForChanges(ListView<String> questionListView, ListView<String> answerListView) {
-        questionListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
-            if (!updating) {
-                if (questionListView.getSelectionModel().getSelectedIndex() >= 0) {
-                    removePairBtn.setDisable(false);
-                    answerListView.getSelectionModel().select(questionListView.getSelectionModel().getSelectedIndex());
-                    questionTextArea.setText(question.getMatchingQuestion(questionListView.getSelectionModel().getSelectedIndex()));
-                    answerTextArea.setText(question.getMatchingAnswer(answerListView.getSelectionModel().getSelectedIndex()));
-                } else {
-                    removePairBtn.setDisable(true);
-                    updateBtn.setDisable(true);
-                }
-            }
-        });
     }
 
     @FXML
     public void addPair() {
-        if (!question.getKeyList().contains(questionTextArea.getText()) &&
-                !question.getValueList().contains(answerTextArea.getText())) {
-            question.addKey(questionTextArea.getText());
-            question.addValue(answerTextArea.getText());
+        if (!questionListView.getItems().contains(questionTextArea.getText()) &&
+                !answerListView.getItems().contains(answerTextArea.getText())) {
+            questionListView.getItems().add(questionTextArea.getText());
+            answerListView.getItems().add(answerTextArea.getText());
             questionTextArea.setText("");
             answerTextArea.setText("");
             updateBtn.setDisable(true);
-            questionListView.getSelectionModel().select(questionListView.getItems().size() - 1);
+            addPairBtn.setDisable(true);
+            questionListView.getSelectionModel().selectLast();
+            answerListView.getSelectionModel().select(questionListView.getSelectionModel().getSelectedIndex());
+            System.out.println(questionListView.getSelectionModel().getSelectedItem());
+            System.out.println(answerListView.getSelectionModel().getSelectedItem());
         }
     }
 
     @FXML
     public void removePair() {
         if (!questionListView.getSelectionModel().isEmpty()) {
-            int index = questionListView.getSelectionModel().getSelectedIndex();
-            questionListView.getItems().remove(index);
-            answerListView.getItems().remove(index);
-            question.removeKeyAt(index);
-            question.removeValueAt(index);
+            questionListView.getItems().remove(questionListView.getSelectionModel().getSelectedIndex());
+            answerListView.getItems().remove(answerListView.getSelectionModel().getSelectedIndex());
+            if(!questionListView.getItems().isEmpty()) {
+                questionListView.getSelectionModel().clearSelection();
+                questionListView.getSelectionModel().selectLast();
+                answerListView.getSelectionModel().select(questionListView.getSelectionModel().getSelectedIndex());
+            }
         }
     }
 
     @Override
     public void setupQuestion(MatchingWord question) {
-        this.question = (MatchingWord) question.getCopy();
-        questionListView.setItems(this.question.getKeyList());
-        answerListView.setItems(this.question.getValueList());
+        this.question = question;
+        questionListView.setItems(question.getKeyListCopy());
+        answerListView.setItems(question.getValueListCopy());
         questionName.setText(question.getName());
     }
 
     @Override
-    public void setupQuestion() {
-        setupQuestion(new MatchingWord(STR."Question \{ TestManager.getInstance().getNumOfQuestions()}"));
+    public void updateQuestion() {
+        question.setName(questionName.getText());
+        question.setKeys(questionListView.getItems());
+        question.setValues(answerListView.getItems());
     }
 
     @FXML
     public void updatePair() {
-        updating = true;
-
-        question.setQuestionAt(questionListView.getSelectionModel().getSelectedIndex(),
-                questionTextArea.getText());
-        question.setAnswerAt(answerListView.getSelectionModel().getSelectedIndex(),
-                answerTextArea.getText());
-
-        updateBtn.setDisable(true);
+        questionListView.getItems().set(questionListView.getSelectionModel().getSelectedIndex(), questionTextArea.getText());
+        answerListView.getItems().set(answerListView.getSelectionModel().getSelectedIndex(), answerTextArea.getText());
         addPairBtn.setDisable(true);
-        updating = false;
+    }
+
+    private boolean containsExceptAt(List<String> list, String value, int selectedIndex){
+        if(selectedIndex < 0)
+            return false;
+        for (int i = 0; i < list.size(); i++) {
+            if (i != selectedIndex && list.get(i).equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

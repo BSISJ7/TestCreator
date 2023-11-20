@@ -28,15 +28,15 @@ public class TestManager {
     }
 
     public void addTest(Test test) {
-        if (!testList.contains(test))
+        if (!testList.contains(test)) {
             testList.add(test);
+        }
     }
 
     public void removeTest(Test test) {
         testList.remove(test);
         if(!testList.isEmpty()) {
-            selectedTest = testList.get(0);
-            questionList = selectedTest.getQuestionList();
+            setSelectedTest(testList.get(0));
             if (!questionList.isEmpty()) selectedQuestion = questionList.get(0);
         }
     }
@@ -71,18 +71,18 @@ public class TestManager {
 
     public void setSelectedTest(Test test) {
         selectedTest = test;
-
+        questionList = selectedTest.getQuestionList();
     }
 
     public Question getSelectedQuestion() {
         return selectedQuestion;
     }
 
-    public void setSelectedQuestion(Question question) { selectedQuestion = question;
-    }
+    public void setSelectedQuestion(Question question) { selectedQuestion = question;}
 
     public ObservableList<Test> getObservableTestList() {
-        return FXCollections.observableArrayList(FXCollections.observableArrayList(testList));
+        ObservableList<Test> obsList = FXCollections.observableArrayList(testList);
+        return FXCollections.observableArrayList(testList);
     }
 
     public void addQuestion(Question question) {
@@ -97,8 +97,7 @@ public class TestManager {
             testList.forEach(test -> {
                 Arrays.asList(Question.QuestionTypes.values()).forEach(questionType -> {
                     String qName = STR."\{questionType} # \{new Random().nextInt(200)}";
-                    Question newQuestion = Question.getQuestionInstance(qName, questionType, test);
-                    assert newQuestion != null; //TODO Review this
+                    Question newQuestion = Question.createQuestion(qName, questionType, test);
                     newQuestion.autofillData();
                     if (newQuestion.readyToRun()) test.addQuestion(newQuestion);
                 });
@@ -125,5 +124,9 @@ public class TestManager {
 
     public int getNumOfTests() {
         return testList.size();
+    }
+
+    public Test getTestAt(int index) {
+        return testList.get(index);
     }
 }

@@ -13,7 +13,7 @@ import static TestCreator.testIO.XMLIO.findNode;
 
 public class TrueFalse extends Question {
 
-    private String question;
+    private String questionText = "";
     private boolean trueFalse = true;
 
     public TrueFalse() {
@@ -24,7 +24,7 @@ public class TrueFalse extends Question {
     public TrueFalse(String questionName) {
         super(questionName);
         questionType = QuestionTypes.TRUE_FALSE;
-        question = "";
+        questionText = "";
     }
 
     public TrueFalse(String questionName, Test test) {
@@ -43,11 +43,11 @@ public class TrueFalse extends Question {
     }
 
     public String getTrueFalseQuestion() {
-        return question;
+        return questionText;
     }
 
     public void setTrueFalseQuestion(String question) {
-        this.question = question;
+        this.questionText = question;
     }
 
     public void setTrueFalse(boolean boolAnswer) {
@@ -60,7 +60,7 @@ public class TrueFalse extends Question {
 
     @Override
     public boolean readyToRun() {
-        if (question.equals(""))
+        if (questionText.equals(""))
             return false;
         else
             return true;
@@ -71,7 +71,7 @@ public class TrueFalse extends Question {
         Element questionNode = super.getQuestionAsXMLNode(XMLDocument);
 
         Element question = XMLDocument.createElement("TrueFalseQuestion");
-        question.setTextContent(this.question);
+        question.setTextContent(this.questionText);
         questionNode.appendChild(question);
 
         Element trueFalseElement = XMLDocument.createElement("TrueFalse");
@@ -84,7 +84,7 @@ public class TrueFalse extends Question {
     @Override
     public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
-        this.question = findNode("TrueFalseQuestion", questionNode).getTextContent();
+        this.questionText = findNode("TrueFalseQuestion", questionNode).getTextContent();
         trueFalse = Boolean.parseBoolean(findNode("TrueFalse", questionNode).getTextContent());
     }
 
@@ -99,7 +99,7 @@ public class TrueFalse extends Question {
 
     @Override
     public void autofillData() {
-        question = "Is this a true false question?";
+        questionText = "Is this a true false question?";
         trueFalse = true;
     }
 }

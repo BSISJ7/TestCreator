@@ -1,5 +1,6 @@
 package TestCreator;
 
+import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.application.Application;
@@ -14,6 +15,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        IOManager.getInstance().loadTests();
         TestManager.getInstance().autoFillTests();
         launch(Main.class, args);
     }

@@ -271,10 +271,9 @@ public class MainMenu {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             questionListView.getItems().clear();
-            IOManager.getInstance().removeTest(selectedTest());
-            IOManager.getInstance().saveTests();
-            testListView.refresh();
             questionListView.refresh();
+            testListView.refresh();
+            IOManager.getInstance().deleteTest(selectedTest());
             IOManager.getInstance().saveTests();
         }
     }
@@ -348,7 +347,7 @@ public class MainMenu {
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
-                .getSelectedQuestion());
+                .getSelectedQuestion(), true);
     }
 
 

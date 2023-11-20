@@ -3,25 +3,8 @@
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
  */
+
 package TestCreator.utilities;
 
 import javax.swing.*;
@@ -29,44 +12,20 @@ import javax.swing.plaf.TextUI;
 import javax.swing.text.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Vector;
 
 
 public class DefaultFillHighlighter extends DefaultHighlighter {
-
-    /**
-     * Default implementation of LayeredHighlighter.LayerPainter that can
-     * be used for painting highlights.
-     * <p>
-     * As of 1.4 this field is final.
-     */
-    public static final LayeredHighlighter.LayerPainter DefaultPainter = new DefaultHighlightPainter(null);
     private final static HighlightInfo[] noHighlights =
             new HighlightInfo[0];
-    private ArrayList<HighlightInfo> highlights = new ArrayList<HighlightInfo>();
+    private final ArrayList<HighlightInfo> highlights = new ArrayList<>();
     private JTextComponent component;
     private boolean drawsLayeredHighlights;
-    private SafeDamager safeDamager = new SafeDamager();
+    private final SafeDamager safeDamager = new SafeDamager();
 
     public void removeHighlightAt(int offset) {
-
-//        highlights.forEach(highlightInfo -> {
-//            if (highlightInfo.getStartOffset() == offset)
-//                removeHighlight(highlightInfo);
-//
-//        });
-
-
-        Iterator<HighlightInfo> highlightIterator = highlights.iterator();
-        while (highlightIterator.hasNext()) {
-            HighlightInfo iterator = highlightIterator.next();
-            if (iterator.getStartOffset() == offset) {
-                highlightIterator.remove();
-            }
-        }
-
+        highlights.removeIf(iterator -> iterator.getStartOffset() == offset);
     }
 
     public ArrayList<HighlightInfo> getHighlightList() {
@@ -76,27 +35,26 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
     /**
      * Renders the highlights.
      *
-     * @param g the graphics context
+     * @param graphics the graphics context
      */
-    public void paint(Graphics g) {
+    public void paint(Graphics graphics) {
         // PENDING(prinz) - should cull ranges not visible
-        int len = highlights.size();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < highlights.size(); i++) {
             HighlightInfo info = highlights.get(i);
             if (!(info instanceof LayeredHighlightInfo)) {
                 // Avoid allocing unless we need it.
-                Rectangle a = component.getBounds();
+                Rectangle rectangle = component.getBounds();
                 Insets insets = component.getInsets();
-                a.x = insets.left;
-                a.y = insets.top;
-                a.width -= insets.left + insets.right;
-                a.height -= insets.top + insets.bottom;
-                for (; i < len; i++) {
+                rectangle.x = insets.left;
+                rectangle.y = insets.top;
+                rectangle.width -= insets.left + insets.right;
+                rectangle.height -= insets.top + insets.bottom;
+                for (; i < highlights.size(); i++) {
                     info = highlights.get(i);
                     if (!(info instanceof LayeredHighlightInfo)) {
                         HighlightPainter p = info.getPainter();
-                        p.paint(g, info.getStartOffset(), info.getEndOffset(),
-                                a, component);
+                        p.paint(graphics, info.getStartOffset(), info.getEndOffset(),
+                                rectangle, component);
                     }
                 }
             }
@@ -140,7 +98,6 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
      */
     public Object addHighlight(int startOffset, int endOffset, HighlightPainter highlightPainter)
             throws BadLocationException, NullPointerException {
-//        if (Objects.isNull(component.getDocument())) throw new NullPointerException();
 
         if (startOffset < 0)
             throw new BadLocationException("Invalid start offset", startOffset);
@@ -163,6 +120,34 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
             return new HighlightInfo();
     }
 
+    public int getHighlightIndex(Highlight highlight){
+        return highlights.indexOf(highlight);
+    }
+
+    public Object setHighlight(int startOffset, int endOffset, HighlightPainter highlightPainter, Highlight highlight)
+            throws BadLocationException, NullPointerException {
+
+        if (startOffset < 0)
+            throw new BadLocationException("Invalid start offset", startOffset);
+
+        if (endOffset < startOffset)
+            throw new BadLocationException("Invalid end offset", endOffset);
+
+        if (Objects.nonNull(component)) {
+            Document doc = component.getDocument();
+            HighlightInfo highlightInfo = (getDrawsLayeredHighlights() &&
+                    (highlightPainter instanceof LayeredHighlighter.LayerPainter)) ?
+                    new LayeredHighlightInfo() : new HighlightInfo();
+            highlightInfo.painter = highlightPainter;
+            highlightInfo.p0 = doc.createPosition(startOffset);
+            highlightInfo.p1 = doc.createPosition(endOffset);
+            highlights.set(getHighlightIndex(highlight), highlightInfo);
+            safeDamageRange(startOffset, endOffset);
+            return highlightInfo;
+        } else
+            return new HighlightInfo();
+    }
+
     /**
      * Removes a highlight from the view.
      *
@@ -178,20 +163,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
             HighlightInfo info = (HighlightInfo) highlight;
             safeDamageRange(info.p0, info.p1);
         }
-
-        //Removes the highlight from the list
-        //Causes ConcurrentModificationException
-//        highlights.remove(highlight);
-
-        // Removes the highlight from the list
-        // Copilot suggestion
-        Iterator<HighlightInfo> highlightIterator = highlights.iterator();
-        while (highlightIterator.hasNext()) {
-            HighlightInfo iterator = highlightIterator.next();
-            if (iterator.equals(highlight)) {
-                highlightIterator.remove();
-            }
-        }
+        highlights.removeIf(iterator -> iterator.equals(highlight));
     }
 
     /**
@@ -200,15 +172,15 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
     public void removeAllHighlights() {
         TextUI mapper = component.getUI();
         if (getDrawsLayeredHighlights()) {
-            int len = highlights.size();
-            if (len != 0) {
+            int length = highlights.size();
+            if (length != 0) {
                 int minX = 0;
                 int minY = 0;
                 int maxX = 0;
                 int maxY = 0;
                 int p0 = -1;
                 int p1 = -1;
-                for (int i = 0; i < len; i++) {
+                for (int i = 0; i < length; i++) {
                     HighlightInfo hi = highlights.get(i);
                     if (hi instanceof LayeredHighlightInfo) {
                         LayeredHighlightInfo info = (LayeredHighlightInfo) hi;
@@ -238,11 +210,11 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
                 highlights.clear();
             }
         } else if (mapper != null) {
-            int len = highlights.size();
-            if (len != 0) {
+            int length = highlights.size();
+            if (length != 0) {
                 int p0 = Integer.MAX_VALUE;
                 int p1 = 0;
-                for (int i = 0; i < len; i++) {
+                for (int i = 0; i < length; i++) {
                     HighlightInfo info = highlights.get(i);
                     p0 = Math.min(p0, info.p0.getOffset());
                     p1 = Math.max(p1, info.p1.getOffset());
@@ -597,8 +569,8 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
                 if (mapper != null && lastDoc == component.getDocument()) {
                     // the Document should be the same to properly
                     // display highlights
-                    int len = p0.size();
-                    for (int i = 0; i < len; i++) {
+                    int length = p0.size();
+                    for (int i = 0; i < length; i++) {
                         mapper.damageRange(component,
                                 p0.get(i).getOffset(),
                                 p1.get(i).getOffset());
@@ -667,7 +639,6 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
             }
             startOffset = p0;
             endOffset = p1;
-            System.out.printf("p0: %d   :   p1: %d%n", p0, p1);
             this.painter = painter;
         }
 

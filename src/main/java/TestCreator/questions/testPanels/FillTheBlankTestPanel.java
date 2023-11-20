@@ -1,6 +1,6 @@
 package TestCreator.questions.testPanels;
 
-import TestCreator.questions.FillInTheBlank;
+import TestCreator.questions.FillTheBlank;
 import TestCreator.utilities.FillTextPane;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -26,11 +26,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.*;
 
-import static TestCreator.questions.FillInTheBlank.*;
+import static TestCreator.questions.FillTheBlank.*;
 import static TestCreator.utilities.WordAtCaretFinder.getWordAtCaret;
 
 
-public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
+public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
     private final FillTextPane questionTextPane = new FillTextPane();
     @FXML
@@ -45,7 +45,7 @@ public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
     private RadioButton dispCorrectBtn;
     @FXML
     private RadioButton dispAnswersBtn;
-    private FillInTheBlank question;
+    private FillTheBlank question;
 
     private StyledDocument doc = questionTextPane.getStyledDocument();
 
@@ -335,7 +335,7 @@ public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
                 .reduce(0, (pos1, pos2) -> pos1 > pos2 ? pos1 : pos2);
     }
 
-    public void setupQuestion(FillInTheBlank question) {
+    public void setupQuestion(FillTheBlank question) {
         this.question = question;
         int maxWordLength = 0;
         long randNum = System.nanoTime();
@@ -350,12 +350,12 @@ public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
             }
         });
 
-        origOffsetsList = new ArrayList<>(question.getWordPositions());
+        origOffsetsList = new ArrayList<>(question.getAnswerOffsets());
         Collections.sort(origOffsetsList);
 
-        wordBank = new ArrayList<>(question.getWordBank());
+        wordBank = question.getWordBankCopy();
         Collections.shuffle(wordBank, new Random(randNum));
-        wordOffsets = new ArrayList<>(question.getWordPositions());
+        wordOffsets = new ArrayList<>(question.getAnswerOffsets());
         Collections.shuffle(wordOffsets, new Random(randNum));
         List<Integer> sortedPositions = new ArrayList<>(wordOffsets);
         sortedPositions.sort(Comparator.naturalOrder());
@@ -503,7 +503,7 @@ public class FillInTheBlankTestPanel implements TestPanel<FillInTheBlank> {
             String answer = questionTextPane.getText().substring(wordOffsets.get(x), endOffset).trim();
             String answerCheck = getWordAtCaret(question.getFillQuestion().replace("\r", ""), origOffsetsList.get(x));
             if (answer.equalsIgnoreCase(answerCheck)) {
-                score++;//= question.getWeight() / question.getWordBank().size();
+                score++;
                 questionTextPane.setHighlight(wordOffsets.get(x), emptySpace.length(), CORRECT_WORD, true);
             } else {
                 questionTextPane.setHighlight(wordOffsets.get(x), emptySpace.length(), INCORRECT_WORD, true);

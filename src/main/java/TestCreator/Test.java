@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Test {
-
     public final static DateTimeFormatter shortDateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     public final static DateTimeFormatter shortTimeFormat = DateTimeFormatter.ofPattern("hh:mm");
     private final List<Question> questionList = new ArrayList<>();
@@ -126,6 +125,10 @@ public class Test {
     public Node getTestAsXMLNode(Document XMLDocument) {
         Node testNode = XMLDocument.createElement("Test");
 
+        Node testID = XMLDocument.createElement("ID");
+        testID.setTextContent(ID);
+        testNode.appendChild(testID);
+
         Node name = XMLDocument.createElement("TestName");
         name.setTextContent(testName);
         testNode.appendChild(name);
@@ -141,6 +144,7 @@ public class Test {
     }
 
     public void loadFromXMLNode(Element testNode) {
+        ID = Objects.requireNonNull(XMLIO.findNode("ID", testNode)).getTextContent();
         testName = Objects.requireNonNull(XMLIO.findNode("TestName", testNode)).getTextContent();
         description = Objects.requireNonNull(XMLIO.findNode("TestDescription", testNode)).getTextContent();
         for (Node questionNode : XmlUtil.asList(testNode.getElementsByTagName("Question"))) {
@@ -148,7 +152,7 @@ public class Test {
                 String questionName = Objects.requireNonNull(XMLIO.findNode("QuestionName", questionNode)).getTextContent();
                 Question.QuestionTypes questionType = Question.QuestionTypes.valueOf(Objects.requireNonNull(XMLIO.
                         findNode("QuestionType", questionNode)).getTextContent());
-                Question newQuestion = Question.getQuestionInstance(questionName, questionType, this);
+                Question newQuestion = Question.createQuestion(questionName, questionType, this);
                 newQuestion.loadQuestionFromXMLNode(questionNode);
                 questionList.add(newQuestion);
             } catch (NullPointerException e) {
@@ -160,5 +164,22 @@ public class Test {
         if (questionList.isEmpty())
             return true;
         return questionList.stream().noneMatch(Question::readyToRun);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Test test = (Test) obj;
+        return Objects.equals(ID, test.ID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID);
     }
 }

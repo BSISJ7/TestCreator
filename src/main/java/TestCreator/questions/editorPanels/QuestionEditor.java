@@ -13,22 +13,29 @@ public abstract class QuestionEditor<T extends Question> {
 
     T question;
 
+    boolean editing = false;
+
     public T getQuestion() {
         return question;
     }
 
     public abstract void setupQuestion(T question);
 
-    public abstract void setupQuestion();
+    public void setupQuestion(T question, boolean editing){
+        this.editing = editing;
+        setupQuestion(question);
+    }
+
 
     public void acceptQuestion() {
-        if (!TestManager.getInstance().containsQuestion(question)) {
+        if (!TestManager.getInstance().containsQuestion(question) && !editing)
             TestManager.getInstance().addQuestion(question);
-        }
+
+        updateQuestion();
         IOManager.getInstance().saveTests();
 
         try {
-            StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
+            StageManager.setScene("/MainMenu.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
@@ -37,11 +44,15 @@ public abstract class QuestionEditor<T extends Question> {
 
     public void cancel() {
         try {
-            StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
+            if(editing)
+                StageManager.setScene("/MainMenu.fxml");
+            else
+                StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
     }
 
+    public abstract void updateQuestion();
 }
