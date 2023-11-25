@@ -20,31 +20,12 @@ import static TestCreator.testIO.XMLIO.findNode;
 
 public class MultipleChoice extends Question {
 
-    private List<String> choices;
+    private final List<String> choices;
 
     private String multChoiceQuestion = "";
     private int answerIndex = -1;
 
-    public MultipleChoice(String questionName, List<String> choices) {
-        this(questionName);
-        this.choices = choices;
-    }
-
-    public MultipleChoice(String questionName, int answerIndex, List<String> choices) {
-        this(questionName);
-        this.choices = choices;
-        this.answerIndex = answerIndex;
-    }
-
-    public MultipleChoice(String questionName, List<String> choices, Test test) {
-        this(questionName, test);
-        this.choices = choices;
-    }
-
-    public MultipleChoice(String questionName, Test test) {
-        this(questionName);
-        this.test = test;
-    }
+    public static final int MAX_CHOICES = 10;
 
     public MultipleChoice(String questionName) {
         super(questionName);
@@ -103,9 +84,9 @@ public class MultipleChoice extends Question {
         multQuestion.setTextContent(multChoiceQuestion);
         question.appendChild(multQuestion);
 
-        for (int x = 0; x < choices.size(); x++) {
+        for (String s : choices) {
             Element choice = XMLDocument.createElement("Choice");
-            choice.setTextContent(choices.get(x));
+            choice.setTextContent(s);
             question.appendChild(choice);
         }
         return question;
@@ -145,8 +126,7 @@ public class MultipleChoice extends Question {
         for (int x = 0; x < 5; x++) {
             choices.add(DictionaryManager.getDictionary().getRandomWord());
         }
-        int answerLocation = new Random().nextInt(5);
-        answerIndex = answerLocation;
+        answerIndex = new Random().nextInt(5);
         multChoiceQuestion = "Which is the correct word?";
 
     }

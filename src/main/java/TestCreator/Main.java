@@ -11,7 +11,7 @@ public class Main extends Application {
 
     public final static String workDir = System.getProperty("user.dir");
 
-    public static final boolean TESTING_MODE = false;
+    public static final boolean TESTING_MODE = true;
 
 
     public static void main(String[] args) {

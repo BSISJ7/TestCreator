@@ -29,9 +29,8 @@ public class FillTextPane extends JTextPane {
 
     private final FillTextPane fillTextPane = this;
 
-    private final boolean settingUp = false;
     private final DefaultFillHighlighter fillHighlighter = new DefaultFillHighlighter();
-    private List<FillHighlight> highlightList = new ArrayList<>();
+    private final List<FillHighlight> highlightList = new ArrayList<>();
 
     private final static List<Character> EXCLUDED_HIGHLIGHT_CHARS = asList(' ', '\t', '\n', '\r', ';', ':', ',', '<',
             '>', '`', '~', '.', '!', '?', '/', '@', '#', '$', '%', '^', '&', '*', '(', ')',
@@ -44,7 +43,7 @@ public class FillTextPane extends JTextPane {
         setHighlighter(fillHighlighter);
 
         //TODO Fix undo
-//        getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ctrl Z"), "Undo");
+        getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ctrl Z"), "Undo");
         getActionMap().put("Undo", new TextAction("") {
             public void actionPerformed(ActionEvent event) {
                 if (!textUndoStack.empty()) {

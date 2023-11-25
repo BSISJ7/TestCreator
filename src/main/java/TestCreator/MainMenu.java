@@ -1,12 +1,12 @@
 package TestCreator;
 
+import TestCreator.login.UserManager;
 import TestCreator.questions.Question;
 import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.testCreation.TestEditor;
 import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
-import TestCreator.utilities.UserManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -46,9 +45,7 @@ public class MainMenu {
     @FXML
     private ListView<Question> questionListView;
     private ContextMenu questionContextMenu;
-    @FXML
-    private HBox menuBar;
-    
+
     public void initialize() {
         testListView.setItems(TestManager.getInstance().getObservableTestList());
         if (TestManager.getInstance().getSelectedTest() != null) {
@@ -63,7 +60,6 @@ public class MainMenu {
             }
             beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
         }
-
 
         newQuestionBtn.disableProperty().bind(testListView.getSelectionModel().selectedItemProperty().isNull());
         deleteTestBtn.disableProperty().bind(testListView.getSelectionModel().selectedItemProperty().isNull());
@@ -145,16 +141,14 @@ public class MainMenu {
         };
 
         testListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
-            if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
+            if (!testListView.getSelectionModel().isEmpty()) {
                 TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
                 questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
                 if (questionListView.getItems().contains(TestManager.getInstance().getSelectedQuestion())) {
                     questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
                 }
                 beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
-            }
-            TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
-            beginTestBtn.setDisable(true);
+            }else beginTestBtn.setDisable(true);
         });
 
         testListView.setOnMouseClicked(click -> {
@@ -230,12 +224,6 @@ public class MainMenu {
             if (questionListView.getSelectionModel().getSelectedIndex() >= 0)
                 TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
         });
-
-        if (Main.TESTING_MODE) {
-            Button resetTestBtn = new Button("Reset Tests");
-            resetTestBtn.setOnAction(_ -> resetTests());
-            menuBar.getChildren().addAll(resetTestBtn);
-        }
     }
 
     @FXML
@@ -272,8 +260,9 @@ public class MainMenu {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             questionListView.getItems().clear();
             questionListView.refresh();
-            testListView.refresh();
             IOManager.getInstance().deleteTest(selectedTest());
+            testListView.getItems().remove(selectedTest());
+            testListView.refresh();
             IOManager.getInstance().saveTests();
         }
     }

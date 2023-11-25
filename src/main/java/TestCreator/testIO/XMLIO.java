@@ -27,7 +27,7 @@ public class XMLIO {
     public static final File XML_SAVE_LOCATION = new File("SavedTests.xml");
     private static Document XMLDocument;
     private static Node testsRootNode;
-    private static XMLIO xmlIoInstance = new XMLIO();
+    private static final XMLIO xmlIoInstance = new XMLIO();
 
     private XMLIO() {
         try {
@@ -46,6 +46,10 @@ public class XMLIO {
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not create save file.");
+            alert.showAndWait();
         }
     }
 
@@ -70,9 +74,11 @@ public class XMLIO {
             }
 
             for (Node testNode : XmlUtil.asList(testsRootNode.getChildNodes())) {
-                Test newTest = new Test();
-                newTest.loadFromXMLNode((Element) testNode);
-                TestManager.getInstance().addTest(newTest);
+                if (testNode instanceof Element) {
+                    Test newTest = new Test();
+                    newTest.loadFromXMLNode((Element) testNode);
+                    TestManager.getInstance().addTest(newTest);
+                }
             }
         }catch (NullPointerException e) {
             new File("SavedTests.xml").delete();
@@ -85,8 +91,8 @@ public class XMLIO {
     public void saveTests() {
         for(int x = 0; x < TestManager.getInstance().getNumOfTests(); x++){
             testsRootNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
-            saveChanges();
         }
+        saveChanges();
     }
 
     private void saveChanges() {
@@ -104,13 +110,9 @@ public class XMLIO {
             DOMSource source = new DOMSource(XMLDocument);
             StreamResult result = new StreamResult(XML_SAVE_LOCATION);
             transformer.transform(source, result);
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | NullPointerException e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error saving test. Please try again.").showAndWait();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error saving test. Please try again.").showAndWait();
-//            System.exit(0);
+            new Alert(Alert.AlertType.ERROR, "Could not save changes.").showAndWait();
         }
     }
 
@@ -132,9 +134,9 @@ public class XMLIO {
 
     private Node getTestNode(String testID) throws NullPointerException {
         for (Node testNode : XmlUtil.asList(testsRootNode.getChildNodes())) {
-            if (findNode("ID", testNode).getTextContent().equals(testID)) {
+            Node idNode = findNode("ID", testNode);
+            if (idNode != null && idNode.getTextContent().equals(testID))
                 return testNode;
-            }
         }
         return null;
     }
@@ -152,7 +154,7 @@ public class XMLIO {
     }
 
     public void updateTest(Test oldTest, Test newTest) {
-        testsRootNode.replaceChild(getTestNode(oldTest.getName()), newTest.getTestAsXMLNode(XMLDocument));
+        testsRootNode.replaceChild(getTestNode(oldTest.getID()), newTest.getTestAsXMLNode(XMLDocument));
     }
 
 
@@ -161,23 +163,21 @@ public class XMLIO {
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             createSaveFile(docBuilder);
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
+        } catch (ParserConfigurationException | TransformerException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not create save file.");
+            alert.showAndWait();
         }
     }
 
-    private static void createSaveFile(DocumentBuilder docBuilder) {
-        try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            XMLDocument = docBuilder.newDocument();
-            testsRootNode = XMLDocument.createElement("Tests");
-            XMLDocument.appendChild(testsRootNode);
-            DOMSource source = new DOMSource(XMLDocument);
-            StreamResult saveLocation = new StreamResult(XML_SAVE_LOCATION);
-            transformer.transform(source, saveLocation);
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
+    private static void createSaveFile(DocumentBuilder docBuilder) throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        XMLDocument = docBuilder.newDocument();
+        testsRootNode = XMLDocument.createElement("Tests");
+        XMLDocument.appendChild(testsRootNode);
+        DOMSource source = new DOMSource(XMLDocument);
+        StreamResult saveLocation = new StreamResult(XML_SAVE_LOCATION);
+        transformer.transform(source, saveLocation);
     }
 }

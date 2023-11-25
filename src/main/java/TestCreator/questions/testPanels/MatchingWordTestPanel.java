@@ -5,10 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,16 +31,16 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     @FXML
     private BorderPane rootNode;
 
-    private Callback valueFactory;
-    private Callback keyFactory;
-    private Map<String, Integer> valueIndicies;
+    private Callback<ListView<String>, ListCell<String>> valueFactory;
+    private Callback<ListView<String>, ListCell<String>> keyFactory;
+    private Map<String, Integer> valueIndices;
 
     private boolean testIsOver = false;
-    private List<Boolean> isCorrectAnswerList = new ArrayList<>();
+    private final List<Boolean> isCorrectAnswerList = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        valueIndicies = new HashMap<>();
+        valueIndices = new HashMap<>();
         matchingPairs = new LinkedHashMap<>();
         keyHoverIndex = -1;
         valueHoverIndex = -1;
@@ -54,21 +51,21 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         clearItem.setOnAction(_ -> clearSelection());
         contextMenu.getItems().addAll(clearItem);
 
-        keyFactory = new Callback<ListView<String>, TextFieldListCell<String>>() {
+        keyFactory = new Callback<>() {
             @Override
             public TextFieldListCell<String> call(ListView<String> param) {
-                TextFieldListCell<String> TextFieldListCell = new TextFieldListCell<String>() {
-                    public void updateItem(String key, boolean empty) {
+                TextFieldListCell<String> TextFieldListCell = new TextFieldListCell<>() {
+                    public void updateItem(String key, boolean isEmptyCell) {
 
                         //If value has been paired with a key prepend key index to text
                         int keyIndex = getMatchingKeyIndex(key);
                         if (keyIndex >= 0)
-                            super.updateItem(keyIndex + 1 + ". " + key, empty);
+                            super.updateItem(keyIndex + 1 + ". " + key, isEmptyCell);
                         else
-                            super.updateItem(key, empty);
+                            super.updateItem(key, isEmptyCell);
 
-                        if (key != null && !empty) {
-                            boolean correct = keyIndex >= 0 && isCorrectAnswerList.size() > 0
+                        if (key != null && !isEmptyCell) {
+                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty()
                                     && isCorrectAnswerList.get(keyIndex);
                             if (!testIsOver || correct) {
                                 boolean isSelected = (keyListView.getSelectionModel().getSelectedIndex() >= 0)
@@ -83,24 +80,22 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 //                                    setStyle("-fx-text-fill: black;");
 //                                }
 
-
                                 if (isSelected && keyHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
-                                else if (isSelected && keyHoverIndex == thisIndex)
+                                else if (isSelected)
                                     setStyle("-fx-background-color: rgb(0,200,0)");
-                                else if (!isSelected && keyHoverIndex == thisIndex)
+                                else if (keyHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-
-                            } else if (testIsOver && !correct) {
+                            } else {
                                 setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                             }
-                        } else//Reset style of empty cells
+                        } else//Reset style of isEmptyCell cells
                             setStyle(null);
                     }
                 };
 
                 //If the key is paired with a value highlight it in the valueListView
-                TextFieldListCell.setOnMouseEntered(event -> {
+                TextFieldListCell.setOnMouseEntered(_ -> {
                     if (!testIsOver && TextFieldListCell.getItem() != null) {
                         keyHoverIndex = TextFieldListCell.getIndex();
                         String matchingPair = matchingPairs.get(keyListView.getItems().get(keyHoverIndex));
@@ -114,7 +109,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
                 resetHoverIndexes(TextFieldListCell);
 
-                TextFieldListCell.emptyProperty().addListener((observable, wasEmpty, isEmpty) -> {
+                TextFieldListCell.emptyProperty().addListener((_, _, isEmpty) -> {
                     if (isEmpty) {
                         TextFieldListCell.setContextMenu(null);
                     } else {
@@ -125,10 +120,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             }
         };
 
-        valueFactory = new Callback<ListView<String>, TextFieldListCell<String>>() {
+        valueFactory = new Callback<>() {
             @Override
             public TextFieldListCell<String> call(ListView<String> param) {
-                TextFieldListCell<String> TextFieldListCell = new TextFieldListCell<String>() {
+                TextFieldListCell<String> TextFieldListCell = new TextFieldListCell<>() {
                     public void updateItem(String value, boolean empty) {
 
                         int keyIndex = getMatchingKeyIndex(findKeyFromValue(value));
@@ -138,7 +133,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                             super.updateItem(value, empty);
 
                         if (value != null && !empty) {
-                            boolean correct = keyIndex >= 0 && isCorrectAnswerList.size() > 0 && isCorrectAnswerList.get(keyIndex);
+                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty() && isCorrectAnswerList.get(keyIndex);
                             if (!testIsOver || correct) {
                                 boolean isSelected = (valueListView.getSelectionModel().getSelectedIndex() >= 0)
                                         && valueListView.getSelectionModel().getSelectedItem().equals(value);
@@ -151,13 +146,12 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
                                 if (isSelected && valueHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
-                                else if (isSelected && valueHoverIndex == thisIndex)
+                                else if (isSelected)
                                     setStyle("-fx-background-color: rgb(0,200,0)");
-                                else if (!isSelected && valueHoverIndex == thisIndex)
+                                else if (valueHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
 
-                            } else if (testIsOver && !correct)
-                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                            } else setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                         } else//Reset style of new cells being painted
                             setStyle(null);
                     }
@@ -165,15 +159,15 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
 
                 //If the value is paired with a key highlight it in the keyListView
-                TextFieldListCell.setOnMouseEntered(event -> {
+                TextFieldListCell.setOnMouseEntered(_ -> {
                     if (!testIsOver && TextFieldListCell.getItem() != null) {
                         valueHoverIndex = TextFieldListCell.getIndex();
-                        if (valueIndicies.containsValue(valueHoverIndex)) {
+                        if (valueIndices.containsValue(valueHoverIndex)) {
                             try {
                                 String questionKey = findKeyFromValue(valueListView.getItems().get(valueHoverIndex));
                                 keyHoverIndex = keyListView.getItems().indexOf(questionKey);
                                 keyListView.refresh();
-                            } catch (NullPointerException NPE) {
+                            } catch (NullPointerException _) {
                             }
                         }
                         valueListView.refresh();
@@ -181,7 +175,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                 });
                 resetHoverIndexes(TextFieldListCell);
 
-                TextFieldListCell.emptyProperty().addListener((observable, wasEmpty, isEmpty) -> {
+                TextFieldListCell.emptyProperty().addListener((_, _, isEmpty) -> {
                     if (isEmpty) {
                         TextFieldListCell.setContextMenu(null);
                     } else {
@@ -193,7 +187,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         };
 
         //
-        EventHandler<MouseEvent> listClicked = event -> {
+        EventHandler<MouseEvent> listClicked = _ -> {
             if (keyListView.getSelectionModel().getSelectedIndex() >= 0 && valueListView.getSelectionModel().getSelectedIndex() >= 0 && !testIsOver) {
 //                if(matchingPairs.containsValue(valueListView.getSelectionModel().getSelectedItem())) {
                 for (Map.Entry<String, String> keyValuePairs : matchingPairs.entrySet()) {
@@ -202,7 +196,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                     }
                 }
 //                }
-                valueIndicies.put(keyListView.getSelectionModel().getSelectedItem(), valueListView.getSelectionModel().getSelectedIndex());
+                valueIndices.put(keyListView.getSelectionModel().getSelectedItem(), valueListView.getSelectionModel().getSelectedIndex());
                 matchingPairs.put(keyListView.getSelectionModel().getSelectedItem(), valueListView.getSelectionModel().getSelectedItem());
                 keyHoverIndex = keyListView.getSelectionModel().getSelectedIndex();
                 valueHoverIndex = valueListView.getSelectionModel().getSelectedIndex();
@@ -221,7 +215,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     }
 
     private void resetHoverIndexes(TextFieldListCell<String> textFieldListCell) {
-        textFieldListCell.setOnMouseExited(event -> {
+        textFieldListCell.setOnMouseExited(_ -> {
             if (!testIsOver) {
                 keyHoverIndex = -1;
                 valueHoverIndex = -1;
@@ -248,7 +242,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         valueListView.setCellFactory(valueFactory);
         keyListView.refresh();
 
-        keyListView.getItems().forEach(key -> valueIndicies.put(key, -1));
+        keyListView.getItems().forEach(key -> valueIndices.put(key, -1));
     }
 
     @Override
@@ -314,7 +308,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         for (Map.Entry<String, String> keyValuePairs : matchingPairs.entrySet()) {
             if (keyValuePairs.getKey().equals(key) && keyValuePairs.getValue() != null)
                 return index;
-            else if (keyValuePairs.getKey().equals(key) && keyValuePairs.getValue() == null)
+            else if (keyValuePairs.getKey().equals(key))
                 return -1;
             index++;
         }

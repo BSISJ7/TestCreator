@@ -18,6 +18,8 @@ public class MatchingWord extends Question {
     private final ObservableList<String> keys = FXCollections.observableArrayList();
     private final ObservableList<String> values = FXCollections.observableArrayList();
 
+    public static final int MAX_PAIRS = 10;
+
     public MatchingWord() {
         super();
         questionType = QuestionTypes.MATCHING_WORD;
@@ -26,11 +28,6 @@ public class MatchingWord extends Question {
     public MatchingWord(String questionName) {
         super(questionName);
         questionType = QuestionTypes.MATCHING_WORD;
-    }
-
-    public MatchingWord(String questionName, Test test) {
-        this(questionName);
-        this.test = test;
     }
 
     public MatchingWord(String questionName, QuestionTypes type) {
@@ -44,40 +41,8 @@ public class MatchingWord extends Question {
     }
 
 
-    public void setQuestionAt(int index, String text) throws IndexOutOfBoundsException {
-        keys.set(index, text);
-    }
-
-    public void setAnswerAt(int index, String text) throws IndexOutOfBoundsException {
-        values.set(index, text);
-    }
-
-    public String getMatchingQuestion(int index) {
-        return keys.get(index);
-    }
-
-    public String getMatchingAnswer(int index) {
-        return values.get(index);
-    }
-
-    public void addKey(String question) {
-        keys.add(question);
-    }
-
-    public void addValue(String answer) {
-        values.add(answer);
-    }
-
     public int getTotalPairs() {
         return keys.size();
-    }
-
-    public void removeKeyAt(int index) {
-        keys.remove(index);
-    }
-
-    public void removeValueAt(int index) {
-        values.remove(index);
     }
 
     public ObservableList<String> getKeyListCopy() {

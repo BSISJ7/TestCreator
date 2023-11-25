@@ -1,29 +1,31 @@
-package TestCreator;
+package TestCreator.login;
+
+import TestCreator.Test;
 
 import java.util.ArrayList;
 
 public class User{
     private final ArrayList<Test> TESTS_CREATED = new ArrayList<>();
 
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
+    private String username = "";
+    private String hashedPassword = "";
+    private String firstName = "";
+    private String lastName = "";
+    private String email = "";
+    private String phoneNumber = "";
 
-    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber) {
+    public User(String username, String hashedPassword, String firstName, String lastName, String email, String phoneNumber) {
         this.username = username;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String username, String password) {
+    public User(String username, String hashedPassword) {
         this.username = username;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
     }
 
     public User(String username) {
@@ -41,12 +43,12 @@ public class User{
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 
     public String getFirstName() {

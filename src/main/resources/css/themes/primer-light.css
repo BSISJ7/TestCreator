@@ -4666,3 +4666,7 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
   -fx-opacity: 0.85;
   -fx-effect: dropshadow(three-pass-box, -color-shadow-default, 6px, 0.3, 0, 2);
 }
+
+.mainMenuBtn{
+  -fx-max-height: 10px;
+}

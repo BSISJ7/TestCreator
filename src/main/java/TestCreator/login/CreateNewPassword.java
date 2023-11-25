@@ -2,8 +2,10 @@ package TestCreator.login;
 
 import TestCreator.utilities.PasswordChecker;
 import TestCreator.utilities.StageManager;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -11,37 +13,24 @@ import java.io.IOException;
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 import static TestCreator.utilities.PasswordChecker.*;
 
+public class CreateNewPassword {
 
-public class CreateUser {
-    @FXML
-    public CheckBox passVisibleCheckBox;
-    public TextField passwordFieldVisible;
-    public Label minLengthReqLabel;
     public Label maxLengthReqLabel;
+    public Button changePassButton;
+    public PasswordField passwordField;
     public Label specialCharReqLabel;
     public Label numberReqLabel;
     public Label lowerCaseReqLabel;
     public Label upperCaseReqLabel;
-    @FXML
     public VBox requirementsVBox;
-    public TextField emailTextField;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button createUserButton;
+    public Label minLengthReqLabel;
+    public Label matchReqLabel;
+    public PasswordField passwordConfirmField;
 
     public void initialize() {
-        usernameField.textProperty().addListener((_, _, _) -> validateInputs());
+        StageManager.setTitle("Create New Password");
         passwordField.textProperty().addListener((_, _, _) -> validateInputs());
-        emailTextField.textProperty().addListener((_, _, _) -> validateInputs());
-
-        passwordFieldVisible.visibleProperty().bind(passwordField.visibleProperty().not());
-        passwordFieldVisible.textProperty().bindBidirectional(passwordField.textProperty());
-        passwordFieldVisible.managedProperty().bind(passwordField.visibleProperty().not());
-        passwordField.managedProperty().bind(passwordField.visibleProperty());
-        passwordField.visibleProperty().bind(passVisibleCheckBox.selectedProperty().not());
+        passwordConfirmField.textProperty().addListener((_, _, _) -> validateInputs());
 
         minLengthReqLabel.setText("Password must be at least " + MIN_LENGTH + " characters long.");
         maxLengthReqLabel.setText("Password must be at most " + MAX_LENGTH + " characters long.");
@@ -60,16 +49,13 @@ public class CreateUser {
     }
 
     private void validateInputs() {
-        boolean isUsernameValid = usernameField.getText().length() <= 50 && !usernameField.getText().isEmpty();
-        usernameField.setStyle(isUsernameValid ? "-fx-border-color: green" : "-fx-border-color: red");
-
         boolean isPasswordValid = PasswordChecker.isPasswordCorrect(passwordField.getText());
+        boolean isPasswordConfirmValid = passwordField.getText().equals(passwordConfirmField.getText());
+
         passwordField.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
-        passwordFieldVisible.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
+        passwordConfirmField.setStyle(isPasswordConfirmValid ? "-fx-border-color: green" : "-fx-border-color: red");
 
-        boolean isEmailValid = emailTextField.getText().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-                || emailTextField.getText().isEmpty();
-
+        matchReqLabel.setStyle(isPasswordConfirmValid ? "-fx-text-fill: black" : "-fx-text-fill: red");
         minLengthReqLabel.setStyle(PasswordChecker.checkMinLength(passwordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
         maxLengthReqLabel.setStyle(PasswordChecker.checkMaxLength(passwordField.getText())
@@ -83,37 +69,25 @@ public class CreateUser {
         specialCharReqLabel.setStyle(PasswordChecker.checkSpecialChar(passwordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
 
-        createUserButton.setDisable(!(isUsernameValid && isPasswordValid && isEmailValid));
+        changePassButton.setDisable(!(isPasswordValid) || !(isPasswordConfirmValid));
     }
 
-    @FXML
-    private void addUser() {
-        if (!createUserButton.isDisabled()) {
-            try {
-                UserManager.addUser(usernameField.getText(), UserAuthenticator.generateStrongPasswordHash(passwordField.getText()));
-                goToLoginPage();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText("New User Created");
-                alert.setContentText("New user created successfully.");
-                alert.showAndWait();
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("New User Error");
-                alert.setContentText("Error creating new user: " + e.getMessage());
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    @FXML
-    private void goToLoginPage() {
+    public void goToLoginPage() {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
+    }
+
+    public void changePassword() {
+        UserManager.setCurrentUserPassword(passwordField.getText());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Password Changed");
+        alert.setHeaderText("Password Changed");
+        alert.setContentText("Your password has been changed.");
+        alert.showAndWait();
+        goToLoginPage();
     }
 }

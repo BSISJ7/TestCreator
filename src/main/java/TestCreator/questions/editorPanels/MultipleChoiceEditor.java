@@ -92,11 +92,8 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
         };
 
         choicesListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
-            if (choicesListView.getSelectionModel().getSelectedIndex() >= 0 && choiceMouseEntered) {
+            if (choicesListView.getSelectionModel().getSelectedIndex() >= 0 && choiceMouseEntered)
                 choiceTextArea.setText(choiceObsList.get(choicesListView.getSelectionModel().getSelectedIndex()));
-            } else if (choicesListView.getItems().isEmpty()) {
-                choiceTextArea.setDisable(true);
-            }
             choicesListView.refresh();
         });
 
@@ -164,6 +161,14 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
     @FXML
     public void newChoice() {
+        if(choicesListView.getItems().size() >= MultipleChoice.MAX_CHOICES) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Too many choices");
+            alert.setContentText("You can only have 10 choices per question");
+            alert.showAndWait();
+            return;
+        }
         choicesListView.setDisable(false);
         choiceObsList.add("");
         choicesListView.getSelectionModel().select(choicesListView.getItems().size() - 1);

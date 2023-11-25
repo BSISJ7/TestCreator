@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
-public class TestingPanel {
+public class TestContainerPanel {
 
     private final List<TestPanel> testPanels = new ArrayList<>();
     private final Timer timer = new Timer();

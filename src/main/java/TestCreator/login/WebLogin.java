@@ -1,7 +1,6 @@
 package TestCreator.login;
 
 import TestCreator.utilities.StageManager;
-import TestCreator.utilities.UserManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -27,24 +26,25 @@ public class WebLogin {
     @FXML
     private Button loginBtn;
 
+    private int loginAttempts = 0;
+
 
     public void initialize() {
-
+        UserManager.initialize();
         loginBtn.disableProperty().bind(usernameField.textProperty().isEmpty()
                 .or(passwordField.textProperty().isEmpty()));
 
         passwordField.setOnAction(_ -> {
-            if (!loginBtn.isDisabled()) authenticate();
+            if (!loginBtn.isDisabled()) login();
         });
         usernameField.setOnAction(_ -> {
-            if (!loginBtn.isDisabled()) authenticate();
+            if (!loginBtn.isDisabled()) login();
         });
     }
 
     @FXML
     void loadMainMenu(String username) {
         try{
-            UserManager.addUser(username);
             UserManager.setCurrentUser(username);
             StageManager.setScene("/MainMenu.fxml");
         } catch (IOException e) {
@@ -59,17 +59,26 @@ public class WebLogin {
     }
 
     @FXML
-    public void authenticate() {
+    public void login() {
+        if(loginAttempts >= 3){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("WebLogin Failed");
+            alert.setContentText("Too many failed login attempts. Please reset your password.");
+            alert.showAndWait();
+            resetPassword();
+            return;
+        }
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        if (username.equals("admin") && password.equals("pass")) {
+        if (UserManager.isAuthorized(username, password)) {
             loadMainMenu(username);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("WebLogin Failed");
             alert.setContentText("Incorrect username or password.");
             alert.showAndWait();
+            loginAttempts++;
         }
     }
 

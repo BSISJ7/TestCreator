@@ -41,6 +41,15 @@ public class DictionaryManager {
         return DICTIONARY_LIST.get(new Random(System.nanoTime()).nextInt(DICTIONARY_LIST.size()));
     }
 
+    public String getRandomWords(int numberOfWords){
+        StringBuilder randomWords = new StringBuilder();
+        for(int i = 0; i < numberOfWords; i++){
+            randomWords.append(getRandomWord());
+        }
+        return randomWords.toString();
+
+    }
+
     public void addWord(String newWord) {
         DICTIONARY_LIST.add(newWord);
         Collections.sort(DICTIONARY_LIST);

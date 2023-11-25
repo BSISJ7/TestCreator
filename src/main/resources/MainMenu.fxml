@@ -2,19 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="TestCreator.MainMenu">
-
-    <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
-        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
-    </rowConstraints>
-
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="TestCreator.MainMenu">
     <VBox fx:id="menuBarVBox" alignment="TOP_CENTER">
-        <MenuBar>
+        <MenuBar VBox.vgrow="ALWAYS">
             <Menu text="File">
                 <MenuItem onAction="#beginTest" text="Run Test"/>
                 <MenuItem onAction="#createTest" text="New Test"/>
@@ -32,39 +23,44 @@
             </Menu>
         </MenuBar>
 
-        <ToolBar>
+        <ToolBar VBox.vgrow="ALWAYS">
             <HBox fx:id="menuBar" spacing="10">
-                <Button fx:id="newTestBtn" onAction="#createTest" text="New Test">
+                <Button fx:id="newTestBtn" onAction="#createTest" text="New Test" styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Creates a new test"/>
                     </tooltip>
                 </Button>
 
-                <Button fx:id="beginTestBtn" disable="true" onAction="#beginTest" text="Begin Test">
+                <Button fx:id="beginTestBtn" disable="true" onAction="#beginTest" text="Begin Test"
+                        styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Begin the selected test"/>
                     </tooltip>
                 </Button>
 
-                <Button fx:id="editTestBtn" disable="true" onAction="#editTest" text="Edit Test">
+                <Button fx:id="editTestBtn" disable="true" onAction="#editTest" text="Edit Test"
+                        styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Return to main menu"/>
                     </tooltip>
                 </Button>
 
-                <Button fx:id="deleteTestBtn" disable="true" onAction="#deleteTest" text="Delete Test">
+                <Button fx:id="deleteTestBtn" disable="true" onAction="#deleteTest" text="Delete Test"
+                        styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Return to main menu"/>
                     </tooltip>
                 </Button>
 
-                <Button fx:id="newQuestionBtn" disable="true" onAction="#createNewQuestion" text="New Question">
+                <Button fx:id="newQuestionBtn" disable="true" onAction="#createNewQuestion" text="New Question"
+                        styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Return to main menu."/>
                     </tooltip>
                 </Button>
 
-                <Button fx:id="editQuestionBtn" disable="true" onAction="#editQuestion" text="Edit Question">
+                <Button fx:id="editQuestionBtn" disable="true" onAction="#editQuestion" text="Edit Question"
+                        styleClass="mainMenuBtn">
                     <tooltip>
                         <Tooltip text="Edit selected question."/>
                     </tooltip>
@@ -79,7 +75,7 @@
         </ToolBar>
     </VBox>
 
-    <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+    <HBox>
         <VBox alignment="CENTER" prefHeight="314.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
             <Label alignment="CENTER" text="Test List" VBox.vgrow="ALWAYS"/>
             <ListView fx:id="testListView" onKeyPressed="#checkKeyPress" VBox.vgrow="ALWAYS"/>
@@ -90,4 +86,4 @@
             <ListView fx:id="questionListView" VBox.vgrow="ALWAYS"/>
         </VBox>
     </HBox>
-</GridPane>
+</VBox>

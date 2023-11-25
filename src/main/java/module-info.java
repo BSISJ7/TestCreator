@@ -9,6 +9,10 @@ module TestCreator {
     requires aws.java.sdk.dynamodb;
     requires java.sql;
     requires java.net.http;
+    requires software.amazon.awssdk.regions;
+    requires software.amazon.awssdk.services.secretsmanager;
+    requires java.mail;
+
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;
     opens TestCreator.login to javafx.fxml;
@@ -18,8 +22,8 @@ module TestCreator {
     opens TestCreator.questions to javafx.fxml;
 
     exports TestCreator to javafx.graphics, javafx.fxml;
-    exports TestCreator.login to javafx.fxml;
     exports TestCreator.options to javafx.fxml;
     exports TestCreator.questions.testPanels to javafx.fxml;
     exports TestCreator.questions.editorPanels to javafx.fxml, javafx.graphics;
+    exports TestCreator.login to javafx.fxml, javafx.graphics;
 }
