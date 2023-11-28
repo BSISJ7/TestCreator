@@ -53,11 +53,10 @@ public class TestContainerPanel {
     private Test test;
     private int totalParts = 0;
     private int questionIndex;
-    private int numberCorrect;
     private List<Question> questionList;
 
     public void initialize() {
-        StageManager.setTitle(STR."[\{testNameLbl.getText()}]: Question \{+(questionIndex + 1)}" );
+        StageManager.setTitle(STR."[\{testNameLbl.getText()}]: Question \{ (questionIndex + 1) }" );
         setupTest(TestManager.getInstance().getSelectedTest());
 
         LocalTime tempTimer = LocalTime.of(0, 0, 0);
@@ -134,7 +133,7 @@ public class TestContainerPanel {
 
     private void loadQuestionPane() {
         TestManager.getInstance().setSelectedQuestion(questionList.get(questionIndex));
-        testNameLbl.setText("" + test.getQuestionAtIndex((questionIndex)).getName());
+        testNameLbl.setText(test.getQuestionAtIndex((questionIndex)).getName());
         questionDisplay.setCenter(testPanels.get(questionIndex).getRootNode());
         setFlagText();
     }
@@ -148,12 +147,10 @@ public class TestContainerPanel {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             finishTestBtn.setDisable(true);
             timer.cancel();
-            numberCorrect = 0;
+            int numberCorrect = 0;
 
             for (TestPanel testPanel : testPanels) {
-//                button.getStyleClass().add("correctAnswer");
-                numberCorrect += testPanel.getPointsScored();
-                testPanel.disableAnswerChanges();
+                numberCorrect += (int) testPanel.getPointsScored();
             }
 
 

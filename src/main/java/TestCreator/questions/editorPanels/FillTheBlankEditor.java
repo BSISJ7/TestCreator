@@ -9,9 +9,9 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
@@ -28,6 +28,9 @@ import static javax.swing.text.Highlighter.Highlight;
 import static javax.swing.text.Highlighter.HighlightPainter;
 
 public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
+    public Button acceptBtn;
+    public Button cancelBtn;
+    public CheckBox displayAnswersCheckBox;
     @FXML
     ScrollPane questionScrollPane;
     private final FillTextPane questionTextPane = new FillTextPane(this);
@@ -69,7 +72,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
             }
 
             public void mouseMoved(MouseEvent e) {
-                int caretPosition = questionTextPane.viewToModel(e.getPoint());
+                int caretPosition = questionTextPane.viewToModel2D(e.getPoint());
                 String hoveredWord = WordAtCaretFinder.getWordAtCaret(questionTextPane.getText(), caretPosition).replaceAll("[.!?]+(?=[\\s]|$)", "");
 
                 if (!hoveredWord.trim().equalsIgnoreCase("") && addingWord || removingWord) {
@@ -154,6 +157,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         SwingNode swNode = new SwingNode();
         swNode.setContent(questionTextPane);
         questionScrollPane.setContent(swNode);
+
+        Platform.runLater(wordBankListView::refresh);
     }
 
     public void updateWordBank() {
@@ -186,8 +191,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     }
 
     private boolean insideHighlight(int startOffset, int endOffset) {
-        return !questionHighlighter.getHighlightList().stream()
-                .noneMatch(highlight -> !(endOffset < highlight.getStartOffset() || highlight.getEndOffset() < startOffset));
+        return questionHighlighter.getHighlightList().stream()
+                .anyMatch(highlight -> !(endOffset < highlight.getStartOffset() || highlight.getEndOffset() < startOffset));
     }
 
     private void addHighlight(int startOffset, int endOffset, HighlightPainter painter) {
@@ -261,6 +266,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         questionTextPane.setText(question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
         answerOffsets.addAll(question.getAnswerOffsets());
         questionName.setText(question.getName());
+        displayAnswersCheckBox.setSelected(question.hintsDisplayed());
         setupHighlights();
     }
 
@@ -269,7 +275,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         question.setWordBank(wordBankListView.getItems());
         question.setFillTheBlankQuestion(questionTextPane.getText());
         question.setName(questionName.getText());
-        question.setWordIndicies(answerOffsets);
+        question.setWordIndexes(answerOffsets);
+        question.setDisplayAnswers(displayAnswersCheckBox.isSelected());
     }
 
     private void setupHighlights() {

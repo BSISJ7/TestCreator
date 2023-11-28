@@ -124,7 +124,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
         return highlights.indexOf(highlight);
     }
 
-    public Object setHighlight(int startOffset, int endOffset, HighlightPainter highlightPainter, Highlight highlight)
+    public void setHighlight(int startOffset, int endOffset, HighlightPainter highlightPainter, Highlight highlight)
             throws BadLocationException, NullPointerException {
 
         if (startOffset < 0)
@@ -143,9 +143,9 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
             highlightInfo.p1 = doc.createPosition(endOffset);
             highlights.set(getHighlightIndex(highlight), highlightInfo);
             safeDamageRange(startOffset, endOffset);
-            return highlightInfo;
-        } else
-            return new HighlightInfo();
+        } else {
+            new HighlightInfo();
+        }
     }
 
     /**
@@ -154,8 +154,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
      * @param highlight the reference to the highlight
      */
     public void removeHighlight(Object highlight) {
-        if (highlight instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo) highlight;
+        if (highlight instanceof LayeredHighlightInfo lhi) {
             if (lhi.width > 0 && lhi.height > 0) {
                 component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
@@ -180,10 +179,8 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
                 int maxY = 0;
                 int p0 = -1;
                 int p1 = -1;
-                for (int i = 0; i < length; i++) {
-                    HighlightInfo hi = highlights.get(i);
-                    if (hi instanceof LayeredHighlightInfo) {
-                        LayeredHighlightInfo info = (LayeredHighlightInfo) hi;
+                for (HighlightInfo hi : highlights) {
+                    if (hi instanceof LayeredHighlightInfo info) {
                         minX = Math.min(minX, info.x);
                         minY = Math.min(minY, info.y);
                         maxX = Math.max(maxX, info.x + info.width);
@@ -205,6 +202,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
                     try {
                         safeDamageRange(p0, p1);
                     } catch (BadLocationException e) {
+                        e.printStackTrace();
                     }
                 }
                 highlights.clear();
@@ -214,14 +212,14 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
             if (length != 0) {
                 int p0 = Integer.MAX_VALUE;
                 int p1 = 0;
-                for (int i = 0; i < length; i++) {
-                    HighlightInfo info = highlights.get(i);
+                for (HighlightInfo info : highlights) {
                     p0 = Math.min(p0, info.p0.getOffset());
                     p1 = Math.max(p1, info.p1.getOffset());
                 }
                 try {
                     safeDamageRange(p0, p1);
                 } catch (BadLocationException e) {
+                    e.printStackTrace();
                 }
 
                 highlights.clear();
@@ -245,8 +243,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
         if (endOffset < startOffset) throw new BadLocationException("Invalid end of the range", endOffset);
 
         Document doc = component.getDocument();
-        if (highlightTag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo) highlightTag;
+        if (highlightTag instanceof LayeredHighlightInfo lhi) {
             if (lhi.width > 0 && lhi.height > 0) {
                 component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
@@ -310,8 +307,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
                                        JTextComponent editor, View view) {
         for (int counter = highlights.size() - 1; counter >= 0; counter--) {
             HighlightInfo tag = highlights.get(counter);
-            if (tag instanceof LayeredHighlightInfo) {
-                LayeredHighlightInfo lhi = (LayeredHighlightInfo) tag;
+            if (tag instanceof LayeredHighlightInfo lhi) {
                 int start = lhi.getStartOffset();
                 int end = lhi.getEndOffset();
                 if ((p0 < start && p1 > start) ||
@@ -362,7 +358,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
      */
     public static class DefaultHighlightPainter extends LayeredHighlighter.LayerPainter {
 
-        private Color color;
+        private final Color color;
 
         /**
          * Constructs a new highlight painter. If <code>c</code> is null,
@@ -550,14 +546,14 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
     /**
      * This class invokes <code>mapper.damageRange</code> in
      * EventDispatchThread. The only one instance per Highlighter
-     * is cretaed. When a number of ranges should be damaged
+     * is created. When a number of ranges should be damaged
      * it collects them into queue and damages
      * them in consecutive order in <code>run</code>
      * call.
      */
     class SafeDamager implements Runnable {
-        private Vector<Position> p0 = new Vector<Position>(10);
-        private Vector<Position> p1 = new Vector<Position>(10);
+        private final Vector<Position> p0 = new Vector<>(10);
+        private final Vector<Position> p1 = new Vector<>(10);
         private Document lastDoc = null;
 
         /**

@@ -41,11 +41,7 @@ public class PasswordResetRequest {
             }
         });
         resetPassphraseTextField.setOnKeyTyped(_ -> {
-            if (!resetPassphraseTextField.getText().isEmpty() && !resetPassphraseString.isEmpty()) {
-                resetButton.setDisable(false);
-            } else {
-                resetButton.setDisable(true);
-            }
+            resetButton.setDisable(resetPassphraseTextField.getText().isEmpty() || resetPassphraseString.isEmpty());
         });
     }
 

@@ -8,14 +8,8 @@ public class DuplicateChecker {
 
         boolean isDuplicate = false;
 
-        for (int x = 0; x < list.length; x++) {
-			/*if(newValue instanceof String){
-				if(((String)newValue).equalsIgnoreCase(((String)data[x]))){
-					isDuplicate = true;
-					break;
-				}
-			}*/
-            if (newValue.equalsIgnoreCase(list[x])) {
+        for (String s : list) {
+            if (newValue.equalsIgnoreCase(s)) {
                 isDuplicate = true;
                 break;
             }

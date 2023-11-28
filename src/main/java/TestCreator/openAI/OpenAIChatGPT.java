@@ -20,7 +20,7 @@ public class OpenAIChatGPT {
         String prompt = """
             Generate 1 correct answer and %s incorrect answers. Keep the answers brief. Give the correct answer first.
             Surround the correct answer with asterisks.
-            Use the following prompt to generate your answers: 
+            Use the following prompt to generate your answers:
             %s
         """.formatted(numChoices - 1, question.getQuestionText());
 

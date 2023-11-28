@@ -1,6 +1,7 @@
 package TestCreator.login;
 
 import TestCreator.utilities.StageManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -98,5 +99,10 @@ public class WebLogin {
             FXML_ALERT.showAndWait();
             throw new RuntimeException(e);
         }
+    }
+
+    public void guestLogin(ActionEvent actionEvent) {
+        UserManager.setCurrentUser("Guest");
+        loadMainMenu();
     }
 }

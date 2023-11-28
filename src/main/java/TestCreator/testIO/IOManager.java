@@ -6,15 +6,9 @@ import TestCreator.utilities.TestManager;
 public class IOManager {
 
     public enum IOType {
-        XML(0),
-        MYSQL(1),
-        DYNAMODB(2);
-
-        private int storageTypeIndex;
-
-        IOType(int typeIndex) {
-            storageTypeIndex = typeIndex;
-        }
+        XML(),
+        MYSQL(),
+        DYNAMODB();
     }
 
     private static final IOManager instance = new IOManager();

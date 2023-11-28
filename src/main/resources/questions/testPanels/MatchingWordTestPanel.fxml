@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="rootNode" xmlns="http://javafx.com/javafx"
-            fx:controller="TestCreator.questions.testPanels.MatchingWordTestPanel">
+<?import javafx.scene.layout.HBox?>
+<HBox alignment="TOP_CENTER"
+      maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308"
+      xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="rootNode"
+      fx:controller="TestCreator.questions.testPanels.MatchingWordTestPanel">
 
-    <left>
-        <ListView fx:id="keyListView"/>
-    </left>
-    <right>
-        <ListView fx:id="valueListView"/>
-    </right>
-
-</BorderPane>
+    <ListView fx:id="keyListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+    <ListView fx:id="valueListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+</HBox>

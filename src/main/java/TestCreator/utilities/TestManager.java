@@ -70,7 +70,7 @@ public class TestManager {
 
     public void autoFillTests() {
         if (Main.TESTING_MODE) {
-            for (int x = testList.size(); x < 4; x++) {
+            for (int x = testList.size(); x < Question.QuestionTypes.values().length; x++) {
                 Test newTest = new Test(STR. "Test # \{ new Random(nanoTime()).nextInt(999) }" );
                 Arrays.stream(Question.QuestionTypes.values()).forEach(questionType -> {
                     String qName = STR. "\{ questionType } # \{ new Random().nextInt(200) }" ;

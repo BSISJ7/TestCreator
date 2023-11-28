@@ -2,7 +2,10 @@
 
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
-<BorderPane fx:id="rootNode" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.testPanels.MultipleChoiceTestPanel">
+<BorderPane fx:id="rootNode"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="TestCreator.questions.testPanels.MultipleChoiceTestPanel">
 
     <top>
         <TextArea fx:id="questionTextArea" editable="false" BorderPane.alignment="TOP_CENTER" />

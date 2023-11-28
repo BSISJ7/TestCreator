@@ -21,13 +21,12 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
     TrueFalse question;
     @FXML
     private URL location;
-    private ToggleGroup toggleGroup;
     @FXML
     private BorderPane rootNode;
 
     @FXML
     public void initialize() {
-        toggleGroup = new ToggleGroup();
+        ToggleGroup toggleGroup = new ToggleGroup();
         trueBtn.setToggleGroup(toggleGroup);
         falseBtn.setToggleGroup(toggleGroup);
 
@@ -42,17 +41,6 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
         this.question = question;
         questionText.setText(question.getTrueFalseQuestion());
         trueBtn.setSelected(question.trueSelected());
-    }
-
-    @Override
-    public String getFXMLName() {
-        return location.toString();
-    }
-
-    @Override
-    public void disableAnswerChanges() {
-        falseBtn.setDisable(true);
-        trueBtn.setDisable(true);
     }
 
     @Override

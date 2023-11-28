@@ -46,13 +46,12 @@ public class Score {
     }
 
     public String toString() {
-        String scoreOutput = """
+        return """
                 Score: %s
                 Max Score: %s
                 Percentage: %s
                 Letter Grade: %s
                 """.formatted(score, maxScore, getPercentage() * 100, getLetterGrade());
-        return scoreOutput;
     }
 
 

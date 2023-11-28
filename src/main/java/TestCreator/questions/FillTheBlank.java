@@ -3,7 +3,6 @@ package TestCreator.questions;
 import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
-import TestCreator.utilities.WordAtCaretFinder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
@@ -17,8 +16,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.*;
+import java.util.Objects;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
@@ -32,7 +33,6 @@ public class FillTheBlank extends Question {
     public final static HighlightPainter NEW_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(196, 238, 129));
     public final static HighlightPainter SELECTED_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(193, 239, 248));
     public final static HighlightPainter DELETE_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(248, 96, 97));
-    public static final String ANSWER_REPLACEMENT_REGEX = "\\[.+?\\] ?";
 
     static {
         StyleConstants.setUnderline(UNSELECTED_WORD, true);
@@ -50,6 +50,8 @@ public class FillTheBlank extends Question {
     private final ObservableList<String> wordBank = FXCollections.observableArrayList();
     private String fillQuestion = "";
     private ArrayList<Integer> wordPositions = new ArrayList<>();
+
+    private boolean displayAnswers = true;
 
 
     public FillTheBlank() {
@@ -120,6 +122,10 @@ public class FillTheBlank extends Question {
             question.appendChild(newPos);
         });
 
+        Element displayAnswers = XMLDocument.createElement("DisplayAnswers");
+        displayAnswers.setTextContent(String.valueOf(this.displayAnswers));
+        question.appendChild(displayAnswers);
+
         question.appendChild(fillInAnswer);
 
         return question;
@@ -144,6 +150,8 @@ public class FillTheBlank extends Question {
         for (int x = 0; x < wordBankPos.getLength(); x++) {
             wordPositions.add(Integer.parseInt(wordBankPos.item(x).getTextContent()));
         }
+
+        displayAnswers = Boolean.parseBoolean(Objects.requireNonNull(findNode("DisplayAnswers", questionNode)).getTextContent());
     }
 
     @Override
@@ -160,29 +168,55 @@ public class FillTheBlank extends Question {
         return Collections.unmodifiableList(wordPositions);
     }
 
-    public void setWordIndicies(ArrayList<Integer> locations) {
+    public void setWordIndexes(ArrayList<Integer> locations) {
         wordPositions = new ArrayList<>(locations);
     }
 
     @Override
     public void autofillData() {
-        fillQuestion = """
-                Matching question is completely changed to now [match] mulitple questions and answers
-                Question worth is weighted instead of [correct] or incorrect
-                Scores are now determined [based] on question weight
-                """;
+        int maxQuestions = 5;
+        StringBuilder fillBuilder = new StringBuilder();
+        for(int x = 0; x < maxQuestions; x++) {
+            //generate two random numbers from 1 to 100
+            int randNum1 = 1 + (int) (Math.random() * ((100 - 1) + 1));
+            int randNum2 = 1 + (int) (Math.random() * ((100 - 1) + 1));
 
-        for (int x = 0; x < 5; x++) {
-            int randPos = new Random().nextInt(fillQuestion.length());
-            String word = WordAtCaretFinder.getWordAtCaret(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
-            int position = WordAtCaretFinder.getPositionStart(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
+            String mathProblem = STR."\{randNum1} + \{randNum2} = \{randNum1 + randNum2}";
+            fillBuilder.append((x == maxQuestions-1) ? mathProblem : mathProblem + "\n");
 
-            if (wordPositions.contains(position)) {
-                x--;
-                continue;
-            }
-            wordBank.add(word);
-            wordPositions.add(position);
+            int answerPosition = fillBuilder.indexOf(STR."\{randNum1 + randNum2}");
+            String answer = String.valueOf(randNum1 + randNum2);
+
+            wordBank.add(answer);
+            wordPositions.add(answerPosition);
         }
+        fillQuestion = fillBuilder.toString();
+
+//        fillQuestion = """
+//                Matching question is completely changed to now [match] multiple questions and answers
+//                Question worth is weighted instead of [correct] or incorrect
+//                Scores are now determined [based] on question weight
+//                """;
+//
+//        for (int x = 0; x < 5; x++) {
+//            int randPos = new Random().nextInt(fillQuestion.length());
+//            String word = WordAtCaretFinder.getWordAtCaret(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
+//            int position = WordAtCaretFinder.getPositionStart(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
+//
+//            if (wordPositions.contains(position)) {
+//                x--;
+//                continue;
+//            }
+//            wordBank.add(word);
+//            wordPositions.add(position);
+//        }
+    }
+
+    public boolean hintsDisplayed() {
+        return displayAnswers;
+    }
+
+    public void setDisplayAnswers(boolean displayAnswers) {
+        this.displayAnswers = displayAnswers;
     }
 }

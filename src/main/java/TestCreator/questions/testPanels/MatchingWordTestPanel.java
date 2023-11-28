@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -29,7 +29,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     @FXML
     private URL location;
     @FXML
-    private BorderPane rootNode;
+    private HBox rootNode;
 
     private Callback<ListView<String>, ListCell<String>> valueFactory;
     private Callback<ListView<String>, ListCell<String>> keyFactory;
@@ -67,18 +67,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                         if (key != null && !isEmptyCell) {
                             boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty()
                                     && isCorrectAnswerList.get(keyIndex);
-                            if (!testIsOver || correct) {
+                            if (!testIsOver) {
                                 boolean isSelected = (keyListView.getSelectionModel().getSelectedIndex() >= 0)
                                         && keyListView.getSelectionModel().getSelectedItem().equals(key);
                                 int thisIndex = keyListView.getItems().indexOf(key);
-
-//                                if(matchingPairs.get(key) != null) {
-//                                    setStyle("-fx-text-fill: black;");
-//                                    setFont(Font.font("Verdana", FontWeight.BOLD, 70));
-//                                }
-//                                else {
-//                                    setStyle("-fx-text-fill: black;");
-//                                }
 
                                 if (isSelected && keyHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
@@ -86,9 +78,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                                     setStyle("-fx-background-color: rgb(0,200,0)");
                                 else if (keyHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-                            } else {
+                            }  else if(correct){
+                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
+                            }   else
                                 setStyle("-fx-background-color: rgba(220,34,0,0.62)");
-                            }
                         } else//Reset style of isEmptyCell cells
                             setStyle(null);
                     }
@@ -134,15 +127,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
                         if (value != null && !empty) {
                             boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty() && isCorrectAnswerList.get(keyIndex);
-                            if (!testIsOver || correct) {
+                            if (!testIsOver) {
                                 boolean isSelected = (valueListView.getSelectionModel().getSelectedIndex() >= 0)
                                         && valueListView.getSelectionModel().getSelectedItem().equals(value);
                                 int thisIndex = valueListView.getItems().indexOf(value);
-
-//                                if (matchingPairs.containsValue(value))
-//                                    setStyle("-fx-text-fill: rgb(0,250,0);");
-//                                else
-//                                    setStyle("-fx-text-fill: black;");
 
                                 if (isSelected && valueHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
@@ -151,7 +139,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                                 else if (valueHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
 
-                            } else setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                            } else if(correct){
+                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
+                            } else
+                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                         } else//Reset style of new cells being painted
                             setStyle(null);
                     }
@@ -186,16 +177,13 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             }
         };
 
-        //
         EventHandler<MouseEvent> listClicked = _ -> {
             if (keyListView.getSelectionModel().getSelectedIndex() >= 0 && valueListView.getSelectionModel().getSelectedIndex() >= 0 && !testIsOver) {
-//                if(matchingPairs.containsValue(valueListView.getSelectionModel().getSelectedItem())) {
                 for (Map.Entry<String, String> keyValuePairs : matchingPairs.entrySet()) {
                     if (keyValuePairs.getValue() != null && keyValuePairs.getValue().equals(valueListView.getSelectionModel().getSelectedItem())) {
                         keyValuePairs.setValue(null);
                     }
                 }
-//                }
                 valueIndices.put(keyListView.getSelectionModel().getSelectedItem(), valueListView.getSelectionModel().getSelectedIndex());
                 matchingPairs.put(keyListView.getSelectionModel().getSelectedItem(), valueListView.getSelectionModel().getSelectedItem());
                 keyHoverIndex = keyListView.getSelectionModel().getSelectedIndex();
@@ -243,17 +231,6 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         keyListView.refresh();
 
         keyListView.getItems().forEach(key -> valueIndices.put(key, -1));
-    }
-
-    @Override
-    public String getFXMLName() {
-        return location.toString();
-    }
-
-    @Override
-    public void disableAnswerChanges() {
-        keyListView.setDisable(true);
-        valueListView.setDisable(true);
     }
 
     @Override

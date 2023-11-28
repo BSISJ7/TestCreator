@@ -2,6 +2,7 @@ package TestCreator.questions.testPanels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 import java.util.List;
 import java.util.Random;
 
@@ -15,10 +16,11 @@ class MatchingCellRenderer extends JButton implements ListCellRenderer<String> {
     public static final int QUESTION_RENDERER = 0;
     public static final int ANSWER_RENDERER = 1;
 
-    public static final long serialVersionUID = new Random(System.nanoTime()).nextLong();
+    @Serial
+    private static final long serialVersionUID = new Random(System.nanoTime()).nextLong();
     private int hoverIndex;
     private List<Integer> matchingItemIndexes;
-    private int rendererType;
+    private final int rendererType;
 
     public MatchingCellRenderer(int rendererType) {
         setOpaque(true);
@@ -41,9 +43,9 @@ class MatchingCellRenderer extends JButton implements ListCellRenderer<String> {
 
         if (isSelected && hoverIndex != index)
             setBackground(new Color(0, 150, 0));
-        else if (isSelected && hoverIndex == index)
+        else if (isSelected)
             setBackground(new Color(0, 200, 0));
-        else if (!isSelected && hoverIndex == index)
+        else if (hoverIndex == index)
             setBackground(SystemColor.inactiveCaption);
         else
             setBackground(SystemColor.inactiveCaptionBorder);

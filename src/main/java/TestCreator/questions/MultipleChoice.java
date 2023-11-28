@@ -2,7 +2,6 @@ package TestCreator.questions;
 
 import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
-import TestCreator.utilities.DictionaryManager;
 import TestCreator.utilities.StageManager;
 import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
@@ -20,7 +19,7 @@ import static TestCreator.testIO.XMLIO.findNode;
 
 public class MultipleChoice extends Question {
 
-    private final List<String> choices;
+    private final List<String> choices = new ArrayList<>();
 
     private String multChoiceQuestion = "";
     private int answerIndex = -1;
@@ -30,13 +29,11 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String questionName) {
         super(questionName);
         questionType = QuestionTypes.MULTIPLE_CHOICE;
-        choices = new ArrayList<>();
     }
 
     public MultipleChoice() {
         super();
         questionType = QuestionTypes.MULTIPLE_CHOICE;
-        choices = new ArrayList<>();
     }
 
     public MultipleChoice(String questionName, QuestionTypes type) {
@@ -84,10 +81,10 @@ public class MultipleChoice extends Question {
         multQuestion.setTextContent(multChoiceQuestion);
         question.appendChild(multQuestion);
 
-        for (String s : choices) {
-            Element choice = XMLDocument.createElement("Choice");
-            choice.setTextContent(s);
-            question.appendChild(choice);
+        for (String choice : choices) {
+            Element choiceNode = XMLDocument.createElement("Choice");
+            choiceNode.setTextContent(choice);
+            question.appendChild(choiceNode);
         }
         return question;
     }
@@ -120,15 +117,17 @@ public class MultipleChoice extends Question {
 
     @Override
     public void autofillData() {
-        if (DictionaryManager.getDictionary().size() < 1)
-            return;
+        int randNum1 = new Random().nextInt(100);
+        int randNum2 = new Random().nextInt(100);
+        multChoiceQuestion = STR."What is the sum of \{randNum1} and \{randNum2}?";
+        choices.add(Integer.toString(randNum1 + randNum2));
 
-        for (int x = 0; x < 5; x++) {
-            choices.add(DictionaryManager.getDictionary().getRandomWord());
+        for(int x = 0; x < 5; x++){
+            randNum1 = new Random().nextInt(100);
+            randNum2 = new Random().nextInt(100);
+            choices.add(Integer.toString(randNum1 + randNum2));
         }
-        answerIndex = new Random().nextInt(5);
-        multChoiceQuestion = "Which is the correct word?";
-
+        answerIndex = 0;
     }
 
     public void setChoices(ObservableList<String> choiceObsList) {

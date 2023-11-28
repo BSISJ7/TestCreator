@@ -37,7 +37,7 @@ public class OptionsMenu {
     private Button okayButton;
     @FXML
     private Button cancelButton;
-    private static String projectCssTheme = "/css/themes/primer-light.css";
+    private static String projectCssTheme = "/css/themes/nord-light.css";
 
     @FXML
     public void initialize() {

@@ -6,10 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class DictionaryManager {
 
@@ -23,7 +21,7 @@ public class DictionaryManager {
     public static void initialize(){
         try {
             InputStream is = Main.class.getResourceAsStream("/textData/Dictionary.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8));
             String word;
             while ((word = reader.readLine()) != null) {
                 DICTIONARY_LIST.add(word);

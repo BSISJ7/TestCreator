@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -35,6 +36,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     private final FillTextPane questionTextPane = new FillTextPane();
     @FXML
     public ListView<String> wordBankListView;
+    public CheckBox displayAnswersCheckBox;
     @FXML
     private BorderPane rootNode;
     @FXML
@@ -72,6 +74,8 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             questionContainer.getChildren().addAll(swingNode);
             swingNode.requestFocus();
         });
+
+        wordBankListView.visibleProperty().bind(displayAnswersCheckBox.selectedProperty());
 
         dispCorrectBtn.setStyle("-fx-font-size: 15; -fx-padding: 10");
         dispAnswersBtn.setStyle("-fx-font-size: 15; -fx-padding: 10");
@@ -262,8 +266,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
         });
 
 
-//        https://stackoverflow.com/questions/9486631/disable-double-click-selection-in-a-jtextcomponent
-//        StanislavL
         DefaultCaret c = new DefaultCaret() {
             public void mouseClicked(MouseEvent e) {
 //                int numClicks = SwingUtilities2.getAdjustedClickCount(getComponent(), e);
@@ -341,7 +343,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
         long randNum = System.nanoTime();
 
         //TODO check if needed
-        questionTextPane.setPreferredSize(new Dimension(800, 500));
+//        questionTextPane.setPreferredSize(new Dimension(800, 500));
         questionTextPane.addAncestorListener(new AncestorListener() {
             public void ancestorAdded(AncestorEvent event) {}
             public void ancestorRemoved(AncestorEvent event) {}
@@ -398,6 +400,8 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
         ToggleGroup toggle = new ToggleGroup();
         dispAnswersBtn.setToggleGroup(toggle);
         dispCorrectBtn.setToggleGroup(toggle);
+
+        displayAnswersCheckBox.setSelected(question.hintsDisplayed());
     }
 
     private void adjustAnswerOffsets(int wordPosition, int increment) {
@@ -469,18 +473,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
                 break;
             }
         }
-    }
-
-    @Override
-    public String getFXMLName() {
-        return location.toString();
-    }
-
-    @Override
-    public void disableAnswerChanges() {
-        questionTextPane.setEditable(false);
-        wordBankListView.setDisable(true);
-        rootNode.setCursor(javafx.scene.Cursor.DEFAULT);
     }
 
     @Override

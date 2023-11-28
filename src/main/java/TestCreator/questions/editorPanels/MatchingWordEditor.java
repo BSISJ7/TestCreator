@@ -27,6 +27,8 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
     public Button removePairBtn;
     @FXML
     public Button updateBtn;
+    public Button acceptBtn;
+    public Button cancelBtn;
 
     @FXML
     public void initialize() {

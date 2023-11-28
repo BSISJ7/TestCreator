@@ -12,12 +12,14 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 
 //TODO see if this should replace the old MultipleChoiceTestPanel
-public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<MultipleChoice> {
+public class MultipleChoiceTestPanelV2 extends Gradable implements TestPanel<MultipleChoice> {
 
+    @Serial
     private static final long serialVersionUID = 6030791732485081137L;
     /**
      *
@@ -29,11 +31,11 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<Mu
     private GridPane gridPane;
     @FXML
     private BorderPane rootNode;
-    private JLabel questionText;
+    private final JLabel questionText;
     private MultipleChoice question;
     private boolean correctAnswer = false;
     private JTextArea[] txtAreaAnswers;
-    private JPanel pnlAnswers;
+    private final JPanel pnlAnswers;
     private int selectedIndex = -1;
 
 
@@ -97,10 +99,7 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<Mu
                     selectedIndex = Integer.parseInt(arg0.getComponent().getName());
                     txtAreaAnswers[selectedIndex].setBackground(new Color(173, 255, 47));
 
-                    if (question.getAnswerIndex() == selectedIndex)
-                        correctAnswer = true;
-                    else
-                        correctAnswer = true;
+                    correctAnswer = question.getAnswerIndex() == selectedIndex;
                 }
 
                 public void mouseEntered(MouseEvent arg0) {
@@ -133,16 +132,6 @@ public class MultipleChoiceTestPanelV2 extends Gradeable implements TestPanel<Mu
             return question.getWeight();
         else
             return 0.0f;
-    }
-
-    @Override
-    public String getFXMLName() {
-        return "MultChoiceTestPanel";
-    }
-
-    @Override
-    public void disableAnswerChanges() {
-
     }
 
     @Override

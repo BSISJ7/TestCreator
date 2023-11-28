@@ -932,9 +932,9 @@ Text {
 }
 .list-view .list-cell {
   -fx-background-color: -color-cell-bg;
-  -fx-text-fill: -color-cell-fg;
+  /* -fx-text-fill: -color-cell-fg; */
   -fx-padding: 0 0.5em 0 0.5em;
-  -fx-cell-size: 2.8em;
+  /* -fx-cell-size: 2.8em; */
   -fx-border-width: 0 0 1 0;
   -fx-border-color: transparent;
 }
@@ -4665,4 +4665,32 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
   -fx-padding: 8px 12px 8px 12px;
   -fx-opacity: 0.85;
   -fx-effect: dropshadow(three-pass-box, -color-shadow-default, 8px, 0.6, 0, 2);
+}
+
+
+
+
+
+/**
+ *  My modifications to the css for the controls
+ */
+
+ /* Fix text being too light for white background */
+.text-area {
+    -fx-text-fill: #000000;
+    -font-size: 14px;
+}
+
+.flagQuestionBtn {
+    -fx-border-color: #ff0000;
+}
+.flagQuestionBtn.selectedQuestionBtn {
+    -fx-border-color: #ff9999;
+}
+
+.correctAnswer {
+    -fx-text-fill: #0deb50;
+}
+.wrongAnswer {
+    -fx-text-fill: #ff0000;
 }

@@ -24,7 +24,8 @@ public abstract class Question implements TestableQuestion {
         MULTIPLE_CHOICE("MultipleChoice", "Multiple Choice"),
         TRUE_FALSE("TrueFalse", "True False"),
         MATCHING_WORD("MatchingWord", "Matching Word"),
-        FILL_THE_BLANK("FillTheBlank", "Fill The Blank");
+        FILL_THE_BLANK("FillTheBlank", "Fill The Blank"),
+        MULTIPLE_CHECKBOX("MultipleCheckBox", "Multiple CheckBox");
 
         private final String questionType;
         private final String displayName;
@@ -59,7 +60,7 @@ public abstract class Question implements TestableQuestion {
 
     Document XMLDocument;
 
-    String ID = UUID.randomUUID().toString();
+    final String ID = UUID.randomUUID().toString();
 
     public Question(String questionName, QuestionTypes questionType) {
         this(questionName);
@@ -73,7 +74,6 @@ public abstract class Question implements TestableQuestion {
 
     public Question(String questionName) {
         this.questionName = questionName;
-        questionType = QuestionTypes.MULTIPLE_CHOICE;
         questionWeight = 1.0F;
 
         try {
@@ -186,6 +186,8 @@ public abstract class Question implements TestableQuestion {
                 return new TrueFalse();
             }case FILL_THE_BLANK -> {
                 return new FillTheBlank();
+            }case MULTIPLE_CHECKBOX -> {
+                return new MultipleCheckBox();
             }default -> {
                 return new MultipleChoice();
             }
@@ -200,6 +202,8 @@ public abstract class Question implements TestableQuestion {
                 return new TrueFalse(name, type, test);
             }case FILL_THE_BLANK -> {
                 return new FillTheBlank(name, type, test);
+            }case MULTIPLE_CHECKBOX -> {
+                return new MultipleCheckBox(name, type, test);
             }default -> {
                 return new MultipleChoice(name, type, test);
             }

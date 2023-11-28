@@ -6,14 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.testCreation.TestEditor">
-   <VBox fx:id="testInfoVBox" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
-      <children>
-           <Label alignment="TOP_CENTER" maxWidth="200.0" text="Name" />
-           <TextField fx:id="testName" />
-           <Label text="Description" />
-           <TextArea fx:id="testDescription" />
-      </children>
-   </VBox>
+    <VBox fx:id="testInfoVBox" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+        <Label alignment="TOP_CENTER" maxWidth="200.0" text="Name"/>
+        <TextField fx:id="testName"/>
+        <Label text="Description"/>
+        <TextArea fx:id="testDescription"/>
+    </VBox>
 
     <HBox alignment="BOTTOM_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
         <Button fx:id="acceptBtn" onAction="#acceptTest" text="Accept" />

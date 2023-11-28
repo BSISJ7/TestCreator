@@ -15,7 +15,6 @@
             <RadioButton fx:id="falseBtn" text="False"/>
         </HBox>
     </VBox>
-
     <HBox alignment="TOP_CENTER" spacing="50.0">
         <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept"/>
         <Button fx:id="cancelBtn" onAction="#cancel" text="Cancel"/>

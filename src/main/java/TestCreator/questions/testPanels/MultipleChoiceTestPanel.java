@@ -20,7 +20,7 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @FXML
     private BorderPane rootNode;
 
-    private ObservableList<RadioButton> radioButtons;
+    private final ObservableList<RadioButton> radioButtons= FXCollections.observableArrayList();;
 
     private MultipleChoice question;
 
@@ -32,7 +32,6 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @FXML
     public void initialize() {
         choiceToggle = new ToggleGroup();
-        radioButtons = FXCollections.observableArrayList();
     }
 
     @Override
@@ -67,16 +66,6 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     }
 
     @Override
-    public String getFXMLName() {
-        return "MultChoiceTestPanel";
-    }
-
-    @Override
-    public void disableAnswerChanges() {
-        radioButtons.forEach(radioBtn -> radioBtn.setDisable(true));
-    }
-
-    @Override
     public Node getRootNode() {
         return rootNode;
     }
@@ -88,10 +77,10 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
                 radioButton.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 15; -fx-padding: 15");
         });
         if (question.getAnswer().equals(selectedAnswer)) {
-            return 1;
+            return 1 * question.getWeight();
         } else {
             radioButtons.get(selectedIndex).setStyle("-fx-text-fill: rgba(220,34,0,0.64);-fx-font-size: 15; -fx-padding: 15");
-            return 0.0f;
+            return 0.0f * question.getWeight();
         }
     }
 }

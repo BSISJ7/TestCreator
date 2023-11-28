@@ -105,8 +105,6 @@ public class FillTextPane extends JTextPane {
 
         fillTextPane.addKeyListener(new KeyListener() {
             public void keyReleased(KeyEvent event) {
-//                if (event.getModifiersEx() == InputEvent.CTRL_DOWN_MASK && event.getKeyChar() == 'v')
-//                    return;
             }
 
             @Override
@@ -138,16 +136,15 @@ public class FillTextPane extends JTextPane {
         highlightList.add(new FillHighlight(startOffset, length));
     }
 
-    public boolean removeHighlight(int startOffset) {
+    public void removeHighlight(int startOffset) {
         for (FillHighlight fillHighlight : highlightList) {
             if (fillHighlight.startOffset == startOffset) {
                 getStyledDocument().setCharacterAttributes(startOffset, fillHighlight.length,
                         new SimpleAttributeSet(), true);
                 highlightList.remove(fillHighlight);
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     public void clearHighlights() {
@@ -163,7 +160,7 @@ public class FillTextPane extends JTextPane {
     }
 
     public void replaceLastHighlight(SimpleAttributeSet selectionType) {
-        if (highlightList.size() > 0) {
+        if (!highlightList.isEmpty()) {
             FillHighlight previousHighlight = highlightList.get(highlightList.size() - 1);
             int prevStartOffset = previousHighlight.startOffset;
             int prevLength = previousHighlight.length;
@@ -215,10 +212,10 @@ public class FillTextPane extends JTextPane {
         highlightUndoStack.push(undoHighlights);
     }
 
-    private class FillHighlight {
+    private static class FillHighlight {
 
-        private int startOffset = 0;
-        private int length = 0;
+        private int startOffset;
+        private int length;
 
         private FillHighlight(int startOffset, int length) {
             this.startOffset = startOffset;

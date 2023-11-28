@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -36,6 +37,7 @@ public class MainMenu {
     @FXML
     public Button editQuestionBtn;
     public Button deleteQuestionBtn;
+    public HBox menuBar;
     @FXML
     Button newQuestionBtn;
     @FXML
@@ -98,19 +100,20 @@ public class MainMenu {
         Callback<ListView<Test>, ListCell<Test>> testCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<Test> call(ListView<Test> param) {
-                TextFieldListCell<Test> shortDescCell = new TextFieldListCell<Test>() {
+                TextFieldListCell<Test> shortDescCell = new TextFieldListCell<>() {
                     public void updateItem(Test test, boolean empty) {
                         super.updateItem(test, empty);
-
                         if (test != null && !empty) {
-                            if (test.notReadyToRun())
+                            if (test.notReadyToRun()) {
                                 setTextFill(Color.TOMATO);
+                                setTooltip(new Tooltip("This test is not ready to run. Please edit it to fix the errors."));
+                            }
                             else
                                 setTextFill(Color.BLACK);
                         }
                     }
                 };
-                shortDescCell.setConverter(new StringConverter<Test>() {
+                shortDescCell.setConverter(new StringConverter<>() {
                     @Override
                     public String toString(Test test) {
                         if (test != null)
@@ -149,12 +152,14 @@ public class MainMenu {
                 }
                 beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
             }else beginTestBtn.setDisable(true);
+            Platform.runLater(questionListView::refresh);
         });
 
         testListView.setOnMouseClicked(click -> {
             if (click.getClickCount() == 2) {
                 editTest();
             }
+            Platform.runLater(questionListView::refresh);//TODO why is the ListView blank when empty
         });
 
         testListView.setCellFactory(testCellFactory);
@@ -163,7 +168,7 @@ public class MainMenu {
         Callback<ListView<Question>, ListCell<Question>> questionCellFactory = new Callback<>() {
             @Override
             public TextFieldListCell<Question> call(ListView<Question> param) {
-                TextFieldListCell<Question> shortDescCell = new TextFieldListCell<Question>() {
+                TextFieldListCell<Question> shortDescCell = new TextFieldListCell<>() {
                     public void updateItem(Question question, boolean empty) {
                         super.updateItem(question, empty);
 
@@ -175,7 +180,7 @@ public class MainMenu {
                         }
                     }
                 };
-                shortDescCell.setConverter(new StringConverter<Question>() {
+                shortDescCell.setConverter(new StringConverter<>() {
                     @Override
                     public String toString(Question question) {
                         if (question != null) {
@@ -224,6 +229,9 @@ public class MainMenu {
             if (questionListView.getSelectionModel().getSelectedIndex() >= 0)
                 TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
         });
+
+        Platform.runLater(questionListView::refresh);
+        Platform.runLater(testListView::refresh);
     }
 
     @FXML

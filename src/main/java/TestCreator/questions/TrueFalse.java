@@ -8,13 +8,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
 public class TrueFalse extends Question {
 
     private String questionText = "";
-    private boolean trueFalse = true;
+    private boolean isTrue = true;
 
     public TrueFalse() {
         super();
@@ -50,20 +51,17 @@ public class TrueFalse extends Question {
         this.questionText = question;
     }
 
-    public void setTrueFalse(boolean boolAnswer) {
-        trueFalse = boolAnswer;
+    public void setTrue(boolean boolAnswer) {
+        isTrue = boolAnswer;
     }
 
     public boolean trueSelected() {
-        return trueFalse;
+        return isTrue;
     }
 
     @Override
     public boolean readyToRun() {
-        if (questionText.equals(""))
-            return false;
-        else
-            return true;
+        return !questionText.isEmpty();
     }
 
     @Override
@@ -75,7 +73,7 @@ public class TrueFalse extends Question {
         questionNode.appendChild(question);
 
         Element trueFalseElement = XMLDocument.createElement("TrueFalse");
-        trueFalseElement.setTextContent(Boolean.toString(trueFalse));
+        trueFalseElement.setTextContent(Boolean.toString(isTrue));
         questionNode.appendChild(trueFalseElement);
 
         return questionNode;
@@ -84,8 +82,8 @@ public class TrueFalse extends Question {
     @Override
     public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
-        this.questionText = findNode("TrueFalseQuestion", questionNode).getTextContent();
-        trueFalse = Boolean.parseBoolean(findNode("TrueFalse", questionNode).getTextContent());
+        this.questionText = Objects.requireNonNull(findNode("TrueFalseQuestion", questionNode)).getTextContent();
+        isTrue = Boolean.parseBoolean(Objects.requireNonNull(findNode("TrueFalse", questionNode)).getTextContent());
     }
 
     public TestPanel getTestPanel() throws IllegalStateException, IOException {
@@ -99,7 +97,11 @@ public class TrueFalse extends Question {
 
     @Override
     public void autofillData() {
-        questionText = "Is this a true false question?";
-        trueFalse = true;
+
+        int num1 = 100 + (int)(Math.random() * ((3000 - 100) + 1));
+        int num2 = 100 + (int)(Math.random() * ((3000 - 100) + 1));
+        float halfChance = (float) Math.random();
+        questionText = STR."The sum of \{num1} and \{num2} is \{(halfChance < 0.5) ? (num1 + num2) : (num1 - num2)}";
+        isTrue = halfChance < 0.5;
     }
 }

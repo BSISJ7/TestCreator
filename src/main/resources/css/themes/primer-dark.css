@@ -1673,9 +1673,9 @@ Text {
 }
 .list-view .list-cell {
   -fx-background-color: -color-cell-bg;
-  -fx-text-fill: -color-cell-fg;
+  /* -fx-text-fill: -color-cell-fg; */
   -fx-padding: 0 0.5em 0 0.5em;
-  -fx-cell-size: 2.8em;
+  /* -fx-cell-size: 2.8em; */
   -fx-border-width: 0 0 1 0;
   -fx-border-color: transparent;
 }
@@ -4696,4 +4696,10 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
 }
 .wrongAnswer {
     -fx-text-fill: #ff0000;
+}
+
+.list-cell {
+    -fx-border-height: 0px;
+    -fx-background-color: #9f9f9f;
+    -fx-color: #9f9f9f;
 }

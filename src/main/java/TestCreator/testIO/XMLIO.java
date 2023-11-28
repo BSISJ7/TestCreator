@@ -21,6 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class XMLIO {
 
@@ -143,13 +144,13 @@ public class XMLIO {
 
     public void deleteQuestion(Question question) {
         Node testNode = findNode(question.getOwningTest().getName(), testsRootNode);
-        Node questionNode = findNode(question.getName(), testNode);
+        Node questionNode = findNode(question.getName(), Objects.requireNonNull(testNode));
         testNode.removeChild(questionNode);
     }
 
     public void updateQuestion(Question question) {
         Node testNode = findNode(question.getOwningTest().getName(), testsRootNode);
-        Node questionNode = findNode(question.getName(), testNode);
+        Node questionNode = findNode(question.getName(), Objects.requireNonNull(testNode));
         testNode.replaceChild(question.getQuestionAsXMLNode(), questionNode);
     }
 

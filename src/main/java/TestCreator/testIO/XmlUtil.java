@@ -1,10 +1,5 @@
 package TestCreator.testIO;
 
-/**
- * Utility by Holger
- * https://stackoverflow.com/questions/19589231/can-i-iterate-through-a-nodelist-using-for-each-in-java
- */
-
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -22,7 +17,7 @@ public final class XmlUtil {
      */
     public static List<Node> asList(NodeList n) {
         return n.getLength() == 0 ?
-                Collections.<Node>emptyList() : new NodeListWrapper(n);
+                Collections.emptyList() : new NodeListWrapper(n);
     }
 
     static final class NodeListWrapper extends AbstractList<Node> implements RandomAccess {

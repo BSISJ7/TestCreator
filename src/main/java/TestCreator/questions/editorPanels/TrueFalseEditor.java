@@ -43,7 +43,7 @@ public class TrueFalseEditor extends QuestionEditor<TrueFalse> {
     @Override
     public void updateQuestion() {
         question.setName(questionName.getText());
-        question.setTrueFalse(trueBtn.isSelected());
+        question.setTrue(trueBtn.isSelected());
         question.setTrueFalseQuestion(trueFalseTextArea.getText());
     }
 }

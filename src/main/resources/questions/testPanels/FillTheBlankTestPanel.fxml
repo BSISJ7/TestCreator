@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.BorderPane?>
@@ -9,6 +10,7 @@
 
 
     <top>
+        <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers"/>
     </top>
     <left>
         <ListView fx:id="wordBankListView"/>

@@ -136,9 +136,7 @@ public class Test {
         Node description = XMLDocument.createElement("TestDescription");
         description.setTextContent(this.description);
         testNode.appendChild(description);
-        questionList.forEach(question -> {
-            testNode.appendChild(question.getQuestionAsXMLNode(XMLDocument));
-        });
+        questionList.forEach(question -> testNode.appendChild(question.getQuestionAsXMLNode(XMLDocument)));
 
         return testNode;
     }
@@ -156,6 +154,7 @@ public class Test {
                 newQuestion.loadQuestionFromXMLNode(questionNode);
                 questionList.add(newQuestion);
             } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         }
     }

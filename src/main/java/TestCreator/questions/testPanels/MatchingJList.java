@@ -1,19 +1,20 @@
 package TestCreator.questions.testPanels;
 
 import javax.swing.*;
+import java.io.Serial;
 import java.util.Random;
 
 public class MatchingJList extends JList<String> {
 
+    @Serial
     private static final long serialVersionUID = new Random(System.nanoTime()).nextLong();
-    private int hoverIndex;
 
     public MatchingJList() {
-        this(new DefaultListModel<String>());
+        this(new DefaultListModel<>());
     }
 
     public MatchingJList(ListModel<String> listModel) {
         super(listModel);
-        hoverIndex = 0;
+        int hoverIndex = 0;
     }
 }
