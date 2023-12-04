@@ -12,6 +12,10 @@ module TestCreator {
     requires software.amazon.awssdk.regions;
     requires software.amazon.awssdk.services.secretsmanager;
     requires java.mail;
+    requires jpro.webapi;
+    requires com.jfoenix;
+    requires software.amazon.awssdk.services.ses;
+    requires org.controlsfx.controls;
 
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;

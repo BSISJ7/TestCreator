@@ -1,70 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/8.0.121"
-            fx:controller="TestCreator.questions.testPanels.TestContainerPanel">
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.testPanels.TestContainerPanel"
+           fx:id="rootNode">
+    <BorderPane fx:id="contentPane">
 
-    <top>
-        <VBox>
-            <Label fx:id="testNameLbl"/>
-            <Label fx:id="timerLbl"/>
+        <top>
+            <VBox>
+                <Label fx:id="testNameLbl"/>
+                <Label fx:id="timerLbl"/>
 
-            <ToolBar>
-                <HBox spacing="10">
-                    <Button fx:id="mainMenuBtn" onAction="#returnToTestMenu" text="Main Menu" id="circle-button">
-                        <tooltip>
-                            <Tooltip text="Goes to next question."/>
-                        </tooltip>
-                    </Button>
+                <ToolBar>
+                    <HBox spacing="10">
+                        <Button id="circle-button" fx:id="mainMenuBtn" onAction="#returnToTestMenu" text="Main Menu">
+                            <tooltip>
+                                <Tooltip text="Goes to next question."/>
+                            </tooltip>
+                        </Button>
 
-                    <Button fx:id="prevQuestionBtn" onAction="#prevQuestion" text="Previous Question"
-                            id="circle-button">
-                        <tooltip>
-                            <Tooltip text="Goes to previous question."/>
-                        </tooltip>
-                    </Button>
+                        <Button id="circle-button" fx:id="prevQuestionBtn" onAction="#prevQuestion"
+                                text="Previous Question">
+                            <tooltip>
+                                <Tooltip text="Goes to previous question."/>
+                            </tooltip>
+                        </Button>
 
-                    <Button fx:id="nextQuestionBtn" onAction="#nextQuestion" text="Next Question" id="circle-button">
-                        <tooltip>
-                            <Tooltip text="Goes to next question."/>
-                        </tooltip>
-                    </Button>
+                        <Button id="circle-button" fx:id="nextQuestionBtn" onAction="#nextQuestion"
+                                text="Next Question">
+                            <tooltip>
+                                <Tooltip text="Goes to next question."/>
+                            </tooltip>
+                        </Button>
 
-                    <Button fx:id="finishTestBtn" onAction="#checkCorrectAnswers" text="Grade Test">
-                        <tooltip>
-                            <Tooltip text="End your current test session and have your test graded."/>
-                        </tooltip>
-                    </Button>
+                        <Button fx:id="finishTestBtn" onAction="#checkCorrectAnswers" text="Grade Test">
+                            <tooltip>
+                                <Tooltip text="End your current test session and have your test graded."/>
+                            </tooltip>
+                        </Button>
 
-                    <Button fx:id="flagQuestionBtn" onAction="#flagQuestion" text="Flag">
-                        <tooltip>
-                            <Tooltip text="Flag current question for review."/>
-                        </tooltip>
-                    </Button>
-                </HBox>
-            </ToolBar>
-        </VBox>
-    </top>
+                        <Button fx:id="flagQuestionBtn" onAction="#flagQuestion" text="Flag">
+                            <tooltip>
+                                <Tooltip text="Flag current question for review."/>
+                            </tooltip>
+                        </Button>
+                    </HBox>
+                </ToolBar>
+            </VBox>
+        </top>
 
-    <center>
-        <VBox>
-            <BorderPane fx:id="questionDisplay"/>
-        </VBox>
-    </center>
+        <center>
+            <VBox>
+                <BorderPane fx:id="questionDisplay"/>
+            </VBox>
+        </center>
 
-    <right>
-        <ScrollPane>
-            <VBox fx:id="shortcutBtnsVBox" maxWidth="100" spacing="10"/>
-        </ScrollPane>
-    </right>
+        <right>
+            <ScrollPane>
+                <VBox fx:id="shortcutBtnsVBox" maxWidth="100" spacing="10"/>
+            </ScrollPane>
+        </right>
 
-    <bottom>
-        <HBox fx:id="reviewDisplayVBox" spacing="50">
-            <Label fx:id="numCorrectLbl" text="Correct Answers: 0"/>
-            <Label fx:id="percentCorrectLbl" text="Percent Correct: 0.0%"/>
-        </HBox>
-    </bottom>
+        <bottom>
+            <HBox fx:id="reviewDisplayVBox" spacing="50">
+                <Label fx:id="numCorrectLbl" text="Correct Answers: 0"/>
+                <Label fx:id="percentCorrectLbl" text="Percent Correct: 0.0%"/>
+            </HBox>
+        </bottom>
 
-</BorderPane>
+    </BorderPane>
+</StackPane>

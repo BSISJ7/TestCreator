@@ -1,23 +1,25 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleChoice;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
 
     @FXML
-    public Button removeChoiceBtn;
+    private Button removeChoiceBtn;
     @FXML
-    public Button setCorrectBtn;
-    public Button acceptBtn;
-    public Button cancelBtn;
+    private Button setCorrectBtn;
+    @FXML
+    private StackPane rootNode;
     @FXML
     TextArea questionTextArea;
     @FXML
@@ -162,11 +164,7 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
     @FXML
     public void newChoice() {
         if(choicesListView.getItems().size() >= MultipleChoice.MAX_CHOICES) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Too many choices");
-            alert.setContentText("You can only have 10 choices per question");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "You can only have 10 choices per question.").show();
             return;
         }
         choicesListView.setDisable(false);
@@ -184,5 +182,4 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
             choicesListView.getSelectionModel().select(index);
         }
     }
-
 }

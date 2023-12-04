@@ -79,9 +79,10 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                                 else if (keyHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
                             }  else if(correct){
-                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            }   else
-                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                                    setStyle("-fx-background-color: rgba(0,150,0,0.62)");
+                            }   else {
+                                    setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                            }
                         } else//Reset style of isEmptyCell cells
                             setStyle(null);
                     }
@@ -141,8 +142,9 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
                             } else if(correct){
                                 setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            } else
+                            } else {
                                 setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                            }
                         } else//Reset style of new cells being painted
                             setStyle(null);
                     }

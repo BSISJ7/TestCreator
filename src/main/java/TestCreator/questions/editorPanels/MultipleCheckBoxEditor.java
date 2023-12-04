@@ -1,27 +1,34 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleCheckBox;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MultipleCheckBoxEditor extends QuestionEditor<MultipleCheckBox>{
 
-    public FlowPane answersContainer;
-    public Button acceptBtn;
-    public Button cancelBtn;
-    public Button addAnswerBtn;
-    public TextArea questionTextArea;
-    public TextField questionName;
-    public ScrollPane answerScroll;
-    public VBox rootPane;
+    @FXML
+    private StackPane rootNode;
+    @FXML
+    private FlowPane answersContainer;
+    @FXML
+    private TextArea questionTextArea;
+    @FXML
+    private TextField questionName;
+    @FXML
+    private ScrollPane answerScroll;
+    @FXML
+    private VBox containerVBox;
 
     public void initialize() {
         StageManager.setTitle("Multiple Checkbox Editor");
-        answerScroll.prefHeightProperty().bind(rootPane.heightProperty().multiply(0.33));
+        answerScroll.prefHeightProperty().bind(containerVBox.heightProperty().multiply(0.33));
     }
 
     public void setupQuestion(MultipleCheckBox question) {
@@ -49,11 +56,7 @@ public class MultipleCheckBoxEditor extends QuestionEditor<MultipleCheckBox>{
 
     public void addAnswer() {
         if(answersContainer.getChildren().size() > MultipleCheckBox.MAX_CHOICES) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Too many answers");
-            alert.setContentText("You can only have " + MultipleCheckBox.MAX_CHOICES + " answers");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "You can only have " + MultipleCheckBox.MAX_CHOICES + " answers").show();
             return;
         }
 

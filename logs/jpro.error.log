@@ -6736,3 +6736,4 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length
 	at TestCreator.MainMenu.initialize(MainMenu.java:156)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	... 89 common frames omitted
+2023-12-02 09:43:44,552 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node

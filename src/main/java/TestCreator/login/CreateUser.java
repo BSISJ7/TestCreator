@@ -1,30 +1,40 @@
 package TestCreator.login;
 
 import TestCreator.utilities.PasswordChecker;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.SesException;
+import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
 
 import java.io.IOException;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 import static TestCreator.utilities.PasswordChecker.*;
 
 
 public class CreateUser {
+    public StackPane rootNode;
     @FXML
-    public CheckBox passVisibleCheckBox;
-    public TextField passwordFieldVisible;
-    public Label minLengthReqLabel;
-    public Label maxLengthReqLabel;
-    public Label specialCharReqLabel;
-    public Label numberReqLabel;
-    public Label lowerCaseReqLabel;
-    public Label upperCaseReqLabel;
+    private CheckBox passVisibleCheckBox;
     @FXML
-    public VBox requirementsVBox;
-    public TextField emailTextField;
+    private TextField passwordFieldVisible;
+    @FXML
+    private Label minLengthReqLabel;
+    @FXML
+    private Label maxLengthReqLabel;
+    private Label specialCharReqLabel;
+    private Label numberReqLabel;
+    private Label lowerCaseReqLabel;
+    private Label upperCaseReqLabel;
+    @FXML
+    private VBox requirementsVBox;
+    @FXML
+    private TextField emailTextField;
     @FXML
     private TextField usernameField;
     @FXML
@@ -88,20 +98,19 @@ public class CreateUser {
 
     @FXML
     private void addUser() {
+
+        if(UserManager.emailDoesNotExist(emailTextField.getText())){
+            verifyEmail(emailTextField.getText());
+        }
+
+
         if (!createUserButton.isDisabled()) {
             try {
                 UserManager.addUser(usernameField.getText(), UserAuthenticator.generateStrongPasswordHash(passwordField.getText()));
+                new StackPaneAlert(rootNode, "New user created successfully.").show();
                 goToLoginPage();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText("New User Created");
-                alert.setContentText("New user created successfully.");
-                alert.showAndWait();
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("New User Error");
-                alert.setContentText("Error creating new user: " + e.getMessage());
+                new StackPaneAlert(rootNode, "Error creating new user: " + e.getMessage()).show();
                 throw new RuntimeException(e);
             }
         }
@@ -112,8 +121,33 @@ public class CreateUser {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
         }
+    }
+
+
+    public static void verifyEmail(String email) {
+        System.setProperty("aws.accessKeyId", System.getenv("AWS_SES_ACCESS_KEY"));
+        System.setProperty("aws.secretAccessKey", System.getenv("AWS_SES_SECRET_ACCESS_KEY"));
+
+        SesClient client = SesClient.builder()
+                .region(Region.US_EAST_2)
+                .build();
+
+        try {
+            VerifyEmailIdentityRequest request = VerifyEmailIdentityRequest.builder()
+                    .emailAddress(email)
+                    .build();
+
+            client.verifyEmailIdentity(request);
+            System.out.println("A verification email has been sent to " + email);
+
+        } catch (
+                SesException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+        client.close();
     }
 }

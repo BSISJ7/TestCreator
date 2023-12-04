@@ -2,17 +2,17 @@ package TestCreator.questions.testPanels;
 
 import TestCreator.Test;
 import TestCreator.questions.Question;
+import TestCreator.utilities.StackPaneAlert;
+import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -20,8 +20,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
 public class TestContainerPanel {
@@ -36,6 +34,10 @@ public class TestContainerPanel {
     public Button prevQuestionBtn;
     public Button nextQuestionBtn;
     public HBox reviewDisplayVBox;
+    @FXML
+    public StackPane rootNode;
+    @FXML
+    public BorderPane contentPane;
     @FXML
     private VBox shortcutBtnsVBox;
     @FXML
@@ -139,59 +141,55 @@ public class TestContainerPanel {
     }
 
     public void checkCorrectAnswers() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Grade Test");
-        alert.setHeaderText("Finish test and grade questions.");
-        alert.setContentText("Are you sure you want to end your test? Press OK to confirm, or cancel to back out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            finishTestBtn.setDisable(true);
-            timer.cancel();
-            int numberCorrect = 0;
+        new StackPaneDialogue(rootNode, "Are you sure you want to end your test? Press OK to confirm, or cancel to back out.")
+                .showAndWait().thenAccept(okayClicked -> {
+            if (okayClicked) {
+                finishTestBtn.setDisable(true);
+                timer.cancel();
+                int numberCorrect = 0;
 
-            for (TestPanel testPanel : testPanels) {
-                numberCorrect += (int) testPanel.getPointsScored();
+                for (TestPanel testPanel : testPanels) {
+                    numberCorrect += (int) testPanel.getPointsScored();
+                }
+
+
+                float percentCorrect = ((float) numberCorrect / (float) totalParts) * 100;
+                percentCorrectLbl.setText("Percent Correct: " + (int) percentCorrect + "%");
+                numCorrectLbl.setText("Correct Answers: " + numberCorrect + "/" + totalParts);
+
+                if (percentCorrect >= 90) {
+                    numCorrectLbl.setStyle("-fx-background-color: rgb(173, 255, 47)");
+                    percentCorrectLbl.setStyle("-fx-background-color: rgb(173, 255, 47)");
+                } else if (percentCorrect >= 80) {
+                    numCorrectLbl.setStyle("-fx-background-color: rgb(240, 255, 0)");
+                    percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 255, 0)");
+                } else if (percentCorrect >= 70) {
+                    numCorrectLbl.setStyle("-fx-background-color: rgb(240, 215, 0)");
+                    percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 215, 0)");
+                } else if (percentCorrect >= 65) {
+                    numCorrectLbl.setStyle("-fx-background-color: rgb(240, 140, 0)");
+                    percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 140, 0)");
+                } else {
+                    numCorrectLbl.setStyle("-fx-background-color: rgba(220,0,0,0.64)");
+                    percentCorrectLbl.setStyle("-fx-background-color: rgba(220,0,0,0.64)");
+                }
             }
-
-
-            float percentCorrect = ((float) numberCorrect / (float) totalParts) * 100;
-            percentCorrectLbl.setText("Percent Correct: " + (int) percentCorrect + "%");
-            numCorrectLbl.setText("Correct Answers: " + numberCorrect + "/" + totalParts);
-
-            if (percentCorrect >= 90) {
-                numCorrectLbl.setStyle("-fx-background-color: rgb(173, 255, 47)");
-                percentCorrectLbl.setStyle("-fx-background-color: rgb(173, 255, 47)");
-            } else if (percentCorrect >= 80) {
-                numCorrectLbl.setStyle("-fx-background-color: rgb(240, 255, 0)");
-                percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 255, 0)");
-            } else if (percentCorrect >= 70) {
-                numCorrectLbl.setStyle("-fx-background-color: rgb(240, 215, 0)");
-                percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 215, 0)");
-            } else if (percentCorrect >= 65) {
-                numCorrectLbl.setStyle("-fx-background-color: rgb(240, 140, 0)");
-                percentCorrectLbl.setStyle("-fx-background-color: rgb(240, 140, 0)");
-            } else {
-                numCorrectLbl.setStyle("-fx-background-color: rgba(220,0,0,0.64)");
-                percentCorrectLbl.setStyle("-fx-background-color: rgba(220,0,0,0.64)");
-            }
-        }
+        });
     }
 
     @FXML
-    public void returnToTestMenu(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Test Menu");
-        alert.setHeaderText("Exit test and return to the test menu.");
-        alert.setContentText("Progress will be lost, are you sure? Press OK to confirm, or cancel to back out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try{
-                StageManager.setScene("/MainMenu.fxml");
-            } catch (IOException e) {
-                FXML_ALERT.showAndWait();
-                throw new RuntimeException(e);
+    public void returnToTestMenu() {
+        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
+                .showAndWait().thenAccept(okayClicked -> {
+            if (okayClicked) {
+                try {
+                    StageManager.setScene("/MainMenu.fxml");
+                } catch (IOException e) {
+                    new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+                    throw new RuntimeException(e);
+                }
             }
-        }
+        });
     }
 
     @FXML

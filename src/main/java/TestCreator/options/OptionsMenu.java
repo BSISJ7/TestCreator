@@ -1,20 +1,24 @@
 package TestCreator.options;
 
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 public class OptionsMenu {
 
-    public RadioButton DarkTheme;
+    @FXML
+    private RadioButton DarkTheme;
+    @FXML
+    private StackPane rootNode;
     @FXML
     private ToggleGroup themeGroup;
 
@@ -37,7 +41,7 @@ public class OptionsMenu {
     private Button okayButton;
     @FXML
     private Button cancelButton;
-    private static String projectCssTheme = "/css/themes/nord-light.css";
+    private static String projectCssTheme = "/css/themes/primer-dark.css";
 
     @FXML
     public void initialize() {
@@ -46,7 +50,7 @@ public class OptionsMenu {
             try{
                 StageManager.setScene("/MainMenu.fxml");
             } catch (IOException e) {
-                FXML_ALERT.showAndWait();
+                new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
                 throw new RuntimeException(e);
             }
         });
@@ -54,7 +58,7 @@ public class OptionsMenu {
             try{
                 StageManager.setScene("/MainMenu.fxml");
             } catch (IOException e) {
-                FXML_ALERT.showAndWait();
+                new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
                 throw new RuntimeException(e);
             }
         });
@@ -81,7 +85,7 @@ public class OptionsMenu {
             try{
                 StageManager.setScene("/options/OptionsMenu.fxml");
             } catch (IOException e) {
-                FXML_ALERT.showAndWait();
+                new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
                 throw new RuntimeException(e);
             }
         }));
@@ -98,7 +102,21 @@ public class OptionsMenu {
         }
     }
 
-    public static String getProjectCssTheme() {
+  public static String getCssName() {
+        return switch (projectCssTheme) {
+            case "/css/themes/nord-dark.css" -> "nord-dark";
+            case "/css/themes/nord-light.css" -> "nord-light";
+            case "/css/themes/dracula.css" -> "dracula";
+            case "/css/themes/cupertino-dark.css" -> "cupertino-dark";
+            case "/css/themes/cupertino-light.css" -> "cupertino-light";
+            case "/css/themes/primer-dark.css" -> "primer-dark";
+            case "/css/themes/primer-light.css" -> "primer-light";
+            case "/css/themes/DarkTheme.css" -> "DarkTheme";
+            default -> "";
+        };
+    }
+
+    public static String getCssFullPath() {
         return Objects.requireNonNull(StageManager.class.getResource(projectCssTheme)).toExternalForm();
     }
 }

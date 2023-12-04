@@ -2,26 +2,28 @@ package TestCreator.testCreation;
 
 import TestCreator.Test;
 import TestCreator.testIO.IOManager;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
-
 public class TestEditor {
 
     @FXML
-    public Button acceptBtn;
+    private Button acceptBtn;
     @FXML
-    public Button cancelBtn;
+    private Button cancelBtn;
     @FXML
-    public VBox testInfoVBox;
+    private VBox testInfoVBox;
+    @FXML
+    private StackPane rootNode;
     @FXML
     TextField testName;
     @FXML
@@ -50,7 +52,7 @@ public class TestEditor {
         try {
             StageManager.setScene("/MainMenu.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
         }
     }

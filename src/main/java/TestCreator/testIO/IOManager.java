@@ -2,6 +2,7 @@ package TestCreator.testIO;
 
 import TestCreator.Test;
 import TestCreator.utilities.TestManager;
+import javafx.scene.layout.StackPane;
 
 public class IOManager {
 
@@ -13,6 +14,8 @@ public class IOManager {
 
     private static final IOManager instance = new IOManager();
     private static IOType IOType;
+
+    private StackPane rootNode;
 
     private IOManager() {
         IOType = IOType.XML;

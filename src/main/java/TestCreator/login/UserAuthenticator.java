@@ -24,7 +24,6 @@ public class UserAuthenticator {
             for (int i = 0; i < hash.length && i < testHash.length; i++) {
                 diff |= hash[i] ^ testHash[i];
             }
-            System.out.println("Diff: " + (diff == 0));
             return diff == 0;
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException("Error in enteredPassword hashing algorithm", e);

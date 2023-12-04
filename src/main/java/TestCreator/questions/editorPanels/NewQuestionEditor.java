@@ -2,6 +2,7 @@ package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,23 +10,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
-
 public class NewQuestionEditor {
 
-    public Button acceptBtn;
-    public Button cancelBtn;
     @FXML
-    ChoiceBox<String> typesChoiceBox;
+    private Button acceptBtn;
     @FXML
-    TextField questionName;
+    private Button cancelBtn;
     @FXML
-    VBox newQuestionVBox;
+    private StackPane rootNode;
+    @FXML
+    private ChoiceBox<String> typesChoiceBox;
+    @FXML
+    private TextField questionName;
 
     private Question question = new MultipleChoice();
 
@@ -53,7 +54,7 @@ public class NewQuestionEditor {
         try {
             StageManager.setScene("/MainMenu.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
         }
     }
@@ -63,9 +64,9 @@ public class NewQuestionEditor {
             System.out.println(questionType.getQuestionType());
             StageManager.setScene(STR."/questions/editorPanels/\{questionType.getQuestionType()}Editor.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, STR."Error loading \{questionType.getQuestionType()}Editor.fxml").show();
             throw new RuntimeException(e);
         }
-        ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false);
+        ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
     }
 }

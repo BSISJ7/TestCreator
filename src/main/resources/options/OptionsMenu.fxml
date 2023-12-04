@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="TestCreator.options.OptionsMenu">
+           fx:controller="TestCreator.options.OptionsMenu"
+           fx:id="rootNode">
 
     <fx:define>
         <ToggleGroup fx:id="themeGroup"/>

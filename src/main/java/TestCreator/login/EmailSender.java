@@ -10,6 +10,9 @@ public class EmailSender {
     public static final String SMTP_PASS = System.getenv("SMTP_PASS");
 
     public static void sendEmail(String to, String from, String host, String subject, String body, String username, String password) throws MessagingException {
+        to = to.toLowerCase();
+        from = from.toLowerCase();
+
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.host", host);
         properties.setProperty("mail.smtp.port", "587"); // Amazon SES SMTP uses port 587
@@ -31,6 +34,5 @@ public class EmailSender {
 
         Transport.send(message);
         System.out.println("Sent message successfully....");
-
     }
 }

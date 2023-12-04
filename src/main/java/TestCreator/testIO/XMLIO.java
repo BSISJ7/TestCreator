@@ -2,8 +2,10 @@ package TestCreator.testIO;
 
 import TestCreator.Test;
 import TestCreator.questions.Question;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.TestManager;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,6 +31,7 @@ public class XMLIO {
     private static Document XMLDocument;
     private static Node testsRootNode;
     private static final XMLIO xmlIoInstance = new XMLIO();
+    private static StackPane rootNode;
 
     private XMLIO() {
         try {
@@ -49,13 +52,17 @@ public class XMLIO {
             e.printStackTrace();
         } catch (TransformerException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not create save file.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Could not create save file. Exiting program.").showAndWait();
+            System.exit(1);
         }
     }
 
     public static XMLIO getInstance() {
         return xmlIoInstance;
+    }
+
+    public static void setTestsRootNode(StackPane stackNode) {
+        rootNode = stackNode;
     }
 
     public static Node findNode(String childNode, Node parent) throws NullPointerException {
@@ -166,8 +173,7 @@ public class XMLIO {
             createSaveFile(docBuilder);
         } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not create save file.");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "Could not create save file.").show();
         }
     }
 

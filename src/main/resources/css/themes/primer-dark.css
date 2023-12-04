@@ -4703,3 +4703,7 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
     -fx-background-color: #9f9f9f;
     -fx-color: #9f9f9f;
 }
+
+.brightListView .list-cell {
+  -fx-text-fill: white;
+}

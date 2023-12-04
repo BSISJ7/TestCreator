@@ -1,5 +1,6 @@
 package TestCreator;
 
+import TestCreator.login.User;
 import TestCreator.questions.Question;
 import TestCreator.testIO.XMLIO;
 import TestCreator.testIO.XmlUtil;
@@ -7,24 +8,26 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Test {
     public final static DateTimeFormatter shortDateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     public final static DateTimeFormatter shortTimeFormat = DateTimeFormatter.ofPattern("hh:mm");
     private final List<Question> questionList = new ArrayList<>();
-    private String testName;
+    private String testName = "";
     private String description = "";
-    private static final LocalDateTime DATE_CREATED = LocalDateTime.now();
     private String ID = UUID.randomUUID().toString();
+
+    private User user;
 
     public Test(String name) {
         testName = STR."\{name} \{ID.substring(0, 5)}";
+    }
+
+    public Test(String name, User user) {
+        this(name);
+        this.user = user;
     }
 
     public Test(String name, String description) {
@@ -141,11 +144,19 @@ public class Test {
         return testNode;
     }
 
-    public void loadFromXMLNode(Element testNode) {
-        ID = Objects.requireNonNull(XMLIO.findNode("ID", testNode)).getTextContent();
-        testName = Objects.requireNonNull(XMLIO.findNode("TestName", testNode)).getTextContent();
-        description = Objects.requireNonNull(XMLIO.findNode("TestDescription", testNode)).getTextContent();
-        for (Node questionNode : XmlUtil.asList(testNode.getElementsByTagName("Question"))) {
+    public void loadFromXMLNode(Element testNode){
+        Node IDNode = XMLIO.findNode("Test", testNode);
+        ID = IDNode == null ? "" : IDNode.getTextContent();
+
+        Node nameNode = XMLIO.findNode("TestName", testNode);
+        testName = nameNode == null ? "" : nameNode.getTextContent();
+
+        Node descriptionNode = XMLIO.findNode("TestDescription", testNode);
+        description = descriptionNode == null ? "" : descriptionNode.getTextContent();
+
+        Iterator<Node> questionIterator = XmlUtil.asList(testNode.getElementsByTagName("Question")).iterator();
+        while (questionIterator.hasNext()) {
+            Node questionNode = questionIterator.next();
             try {
                 String questionName = Objects.requireNonNull(XMLIO.findNode("QuestionName", questionNode)).getTextContent();
                 Question.QuestionTypes questionType = Question.QuestionTypes.valueOf(Objects.requireNonNull(XMLIO.
@@ -154,7 +165,8 @@ public class Test {
                 newQuestion.loadQuestionFromXMLNode(questionNode);
                 questionList.add(newQuestion);
             } catch (NullPointerException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -180,5 +192,21 @@ public class Test {
     @Override
     public int hashCode() {
         return Objects.hash(ID);
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

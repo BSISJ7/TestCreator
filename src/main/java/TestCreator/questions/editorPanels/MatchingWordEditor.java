@@ -1,10 +1,12 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MatchingWord;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
 import java.util.List;
 
@@ -27,8 +29,8 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
     public Button removePairBtn;
     @FXML
     public Button updateBtn;
-    public Button acceptBtn;
-    public Button cancelBtn;
+    @FXML
+    public StackPane rootNode;
 
     @FXML
     public void initialize() {
@@ -85,11 +87,7 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
     @FXML
     public void addPair() {
         if(questionListView.getItems().size() >= MatchingWord.MAX_PAIRS || answerListView.getItems().size() >= MatchingWord.MAX_PAIRS) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Too many pairs");
-            alert.setContentText("You can only have 10 pairs of matching questions and answers");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "You can only have 10 pairs of matching questions and answers.").show();
             return;
         }
         if (!questionListView.getItems().contains(questionTextArea.getText()) &&

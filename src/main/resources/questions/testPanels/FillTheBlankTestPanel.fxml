@@ -13,7 +13,7 @@
         <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers"/>
     </top>
     <left>
-        <ListView fx:id="wordBankListView"/>
+        <ListView fx:id="wordBankListView" styleClass="brightListView"/>
     </left>
     <center>
         <HBox fx:id="questionContainer"/>

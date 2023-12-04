@@ -23,7 +23,6 @@ import javax.swing.text.DefaultCaret;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URL;
 import java.util.List;
 import java.util.*;
 
@@ -39,8 +38,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     public CheckBox displayAnswersCheckBox;
     @FXML
     private BorderPane rootNode;
-    @FXML
-    private URL location;
     @FXML
     private HBox questionContainer;
     @FXML
@@ -75,7 +72,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             swingNode.requestFocus();
         });
 
-        wordBankListView.visibleProperty().bind(displayAnswersCheckBox.selectedProperty());
 
         dispCorrectBtn.setStyle("-fx-font-size: 15; -fx-padding: 10");
         dispAnswersBtn.setStyle("-fx-font-size: 15; -fx-padding: 10");
@@ -238,7 +234,8 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             }
         });
 
-        wordBankListView.setOnMouseClicked(event -> {
+        wordBankListView.visibleProperty().bind(displayAnswersCheckBox.selectedProperty());
+        wordBankListView.setOnMouseClicked(_ -> {
             if (!isTestGraded && !showingCorrectAnswers && wordBankListView.getSelectionModel().getSelectedIndex() != -1) {
                 try {
                     String selectedWord = wordBankListView.getSelectionModel().getSelectedItem();
@@ -342,8 +339,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
         int maxWordLength = 0;
         long randNum = System.nanoTime();
 
-        //TODO check if needed
-//        questionTextPane.setPreferredSize(new Dimension(800, 500));
         questionTextPane.addAncestorListener(new AncestorListener() {
             public void ancestorAdded(AncestorEvent event) {}
             public void ancestorRemoved(AncestorEvent event) {}

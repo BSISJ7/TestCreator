@@ -4724,3 +4724,7 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
 .wrongAnswer {
     -fx-text-fill: #ff0000;
 }
+
+.brightListView .list-cell {
+  -fx-text-fill: white;
+}

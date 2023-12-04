@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="TestCreator.questions.editorPanels.MultipleChoiceEditor">
-    <BorderPane>
-        <top>
-            <VBox>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.MultipleChoiceEditor"
+           fx:id="rootNode">
+    <VBox>
+        <BorderPane>
+            <top>
+                <VBox>
+                    <HBox>
+                        <HBox spacing="20">
+                            <Label text="Question Name"/>
+                            <TextField fx:id="questionName"/>
+                        </HBox>
+                    </HBox>
+                    <Label text="Question"/>
+                    <TextArea fx:id="questionTextArea"/>
+                    <ToolBar>
+                        <HBox spacing="10">
+                            <Button onAction="#newChoice" text="New Choice"/>
+                            <Button fx:id="setCorrectBtn" disable="true" onAction="#setCorrectAnswer"
+                                    text="Set Correct Answer">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                            <Button fx:id="removeChoiceBtn" disable="true" onAction="#removeChoice"
+                                    text="Remove Choice">
+                                <tooltip>
+                                    <Tooltip text="Sets this choice as the correct answer."/>
+                                </tooltip>
+                            </Button>
+                        </HBox>
+                    </ToolBar>
+                </VBox>
+            </top>
+            <center>
                 <HBox>
-                    <HBox spacing="20">
-                        <Label text="Question Name"/>
-                        <TextField fx:id="questionName"/>
-                    </HBox>
+                    <VBox>
+                        <Label text="Choices"/>
+                        <ListView fx:id="choicesListView" maxHeight="200"/>
+                    </VBox>
+                    <VBox>
+                        <Label text="Choice"/>
+                        <TextArea fx:id="choiceTextArea" onKeyReleased="#choiceKeyTyped" prefHeight="200"/>
+                    </VBox>
                 </HBox>
-                <Label text="Question"/>
-                <TextArea fx:id="questionTextArea"/>
-                <ToolBar>
-                    <HBox spacing="10">
-                        <Button onAction="#newChoice" text="New Choice"/>
-                        <Button fx:id="setCorrectBtn" disable="true" onAction="#setCorrectAnswer"
-                                text="Set Correct Answer">
-                            <tooltip>
-                                <Tooltip text="Sets this choice as the correct answer."/>
-                            </tooltip>
-                        </Button>
-                        <Button fx:id="removeChoiceBtn" disable="true" onAction="#removeChoice" text="Remove Choice">
-                            <tooltip>
-                                <Tooltip text="Sets this choice as the correct answer."/>
-                            </tooltip>
-                        </Button>
-                    </HBox>
-                </ToolBar>
-            </VBox>
-        </top>
-        <center>
-            <HBox>
-                <VBox>
-                    <Label text="Choices"/>
-                    <ListView fx:id="choicesListView" maxHeight="200"/>
-                </VBox>
-                <VBox>
-                    <Label text="Choice"/>
-                    <TextArea fx:id="choiceTextArea" onKeyReleased="#choiceKeyTyped" prefHeight="200"/>
-                </VBox>
-            </HBox>
-        </center>
-    </BorderPane>
+            </center>
+        </BorderPane>
 
-    <HBox alignment="TOP_CENTER" spacing="50.0">
-        <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept"/>
-        <Button fx:id="cancelBtn" onAction="#cancel" text="Cancel"/>
-    </HBox>
-</VBox>
+        <HBox alignment="TOP_CENTER" spacing="50.0">
+            <Button onAction="#acceptQuestion" text="Accept"/>
+            <Button onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

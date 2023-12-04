@@ -25,7 +25,8 @@ public abstract class Question implements TestableQuestion {
         TRUE_FALSE("TrueFalse", "True False"),
         MATCHING_WORD("MatchingWord", "Matching Word"),
         FILL_THE_BLANK("FillTheBlank", "Fill The Blank"),
-        MULTIPLE_CHECKBOX("MultipleCheckBox", "Multiple CheckBox");
+        MULTIPLE_CHECKBOX("MultipleCheckBox", "Multiple CheckBox"),
+        FLASH_CARD("FlashCard", "Flash Card");
 
         private final String questionType;
         private final String displayName;
@@ -179,33 +180,23 @@ public abstract class Question implements TestableQuestion {
     }
 
     public static Question createQuestion(QuestionTypes questionType) {
-        switch(questionType){
-            case MATCHING_WORD -> {
-                return new MatchingWord();
-            }case TRUE_FALSE -> {
-                return new TrueFalse();
-            }case FILL_THE_BLANK -> {
-                return new FillTheBlank();
-            }case MULTIPLE_CHECKBOX -> {
-                return new MultipleCheckBox();
-            }default -> {
-                return new MultipleChoice();
-            }
-        }
+        return createQuestion("", questionType, null);
     }
 
     public static Question createQuestion(String name, QuestionTypes type, Test test){
         switch(type){
             case MATCHING_WORD -> {
-                return new MatchingWord(name, type, test);
+                return test == null ? new MatchingWord() : new MatchingWord(name, type, test);
             }case TRUE_FALSE -> {
-                return new TrueFalse(name, type, test);
+                return test == null ? new TrueFalse() : new TrueFalse(name, type, test);
             }case FILL_THE_BLANK -> {
-                return new FillTheBlank(name, type, test);
+                return test == null ? new FillTheBlank() : new FillTheBlank(name, type, test);
             }case MULTIPLE_CHECKBOX -> {
-                return new MultipleCheckBox(name, type, test);
+                return test == null ? new MultipleCheckBox() : new MultipleCheckBox(name, type, test);
+            }case FLASH_CARD -> {
+                return  test == null ? new FlashCard() : new FlashCard(name, type, test);
             }default -> {
-                return new MultipleChoice(name, type, test);
+                return test == null ? new MultipleChoice() : new MultipleChoice(name, type, test);
             }
         }
     }

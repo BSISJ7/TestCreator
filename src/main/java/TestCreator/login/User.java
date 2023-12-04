@@ -1,6 +1,9 @@
 package TestCreator.login;
 
 import TestCreator.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 
@@ -94,6 +97,19 @@ public class User{
     //Return a copy of the TESTS_CREATED ArrayList
     public ArrayList<Test> getTestsCreated() {
         return new ArrayList<>(TESTS_CREATED);
+    }
+
+    public Node getUserAsXMLNode(Document XMLDocument) {
+        Node userNode = XMLDocument.createElement("User");
+        Node username = XMLDocument.createElement("Username");
+        username.setTextContent(getUsername());
+        userNode.appendChild(username);
+
+        return userNode;
+    }
+
+    public void loadFromXMLNode(Element userNode) {
+        setUsername(userNode.getChildNodes().item(0).getTextContent());
     }
 
     @Override

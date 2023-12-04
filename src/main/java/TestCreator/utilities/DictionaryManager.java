@@ -39,10 +39,11 @@ public class DictionaryManager {
         return DICTIONARY_LIST.get(new Random(System.nanoTime()).nextInt(DICTIONARY_LIST.size()));
     }
 
-    public String getRandomWords(int numberOfWords){
+    public String getRandomWords(int numberOfWords, String splitBy){
         StringBuilder randomWords = new StringBuilder();
         for(int i = 0; i < numberOfWords; i++){
             randomWords.append(getRandomWord());
+            if(i != numberOfWords - 1) randomWords.append(splitBy);
         }
         return randomWords.toString();
 

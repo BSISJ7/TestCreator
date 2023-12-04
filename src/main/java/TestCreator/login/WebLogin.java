@@ -1,14 +1,16 @@
 package TestCreator.login;
 
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 
 public class WebLogin {
@@ -17,6 +19,8 @@ public class WebLogin {
     public Hyperlink resetPasswordBtn;
     public Hyperlink noLoginBtn;
     public Hyperlink newUserBtn;
+    @FXML
+    private  StackPane rootNode;
 
     @FXML
     private TextField usernameField;
@@ -31,7 +35,8 @@ public class WebLogin {
 
 
     public void initialize() {
-        UserManager.initialize();
+
+        UserManager.initialize(rootNode);
         loginBtn.disableProperty().bind(usernameField.textProperty().isEmpty()
                 .or(passwordField.textProperty().isEmpty()));
 
@@ -46,26 +51,20 @@ public class WebLogin {
     @FXML
     void loadMainMenu(String username) {
         try{
+            System.out.println("Loading main menu");
             UserManager.setCurrentUser(username);
             StageManager.setScene("/MainMenu.fxml");
+            System.out.println("Main menu loaded");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
         }
     }
 
     @FXML
-    void loadMainMenu() {
-        loadMainMenu("Guest");
-    }
-
-    @FXML
     public void login() {
         if(loginAttempts >= 3){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("WebLogin Failed");
-            alert.setContentText("Too many failed login attempts. Please reset your password.");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "Too many failed login attempts. Please reset your password.").show();
             resetPassword();
             return;
         }
@@ -75,10 +74,7 @@ public class WebLogin {
         if (UserManager.isAuthorized(username, password)) {
             loadMainMenu(username);
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("WebLogin Failed");
-            alert.setContentText("Incorrect username or password.");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "Incorrect username or password.").show();
             loginAttempts++;
         }
     }
@@ -87,7 +83,7 @@ public class WebLogin {
         try{
             StageManager.setScene("/login/PasswordResetPanel.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading PasswordResetPanel").show();
             throw new RuntimeException(e);
         }
     }
@@ -96,13 +92,12 @@ public class WebLogin {
         try {
             StageManager.setScene("/login/CreateUser.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading CreateUser.fxml").show();
             throw new RuntimeException(e);
         }
     }
 
-    public void guestLogin(ActionEvent actionEvent) {
-        UserManager.setCurrentUser("Guest");
-        loadMainMenu();
+    public void guestLogin() {
+        loadMainMenu("Guest");
     }
 }

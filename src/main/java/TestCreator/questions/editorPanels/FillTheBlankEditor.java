@@ -28,7 +28,9 @@ import static javax.swing.text.Highlighter.Highlight;
 import static javax.swing.text.Highlighter.HighlightPainter;
 
 public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
+    @FXML
     public Button acceptBtn;
+    @FXML
     public Button cancelBtn;
     public CheckBox displayAnswersCheckBox;
     @FXML

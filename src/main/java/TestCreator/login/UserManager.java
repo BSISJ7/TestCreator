@@ -1,7 +1,8 @@
 package TestCreator.login;
 
 import TestCreator.testIO.UserDBIO;
-import javafx.scene.control.Alert;
+import TestCreator.utilities.StackPaneAlert;
+import javafx.scene.layout.StackPane;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,17 +19,12 @@ public class UserManager {
 //        if(Main.TESTING_MODE) GenerateUsers();
     }
 
-    public static void initialize() {
+    public static void initialize(StackPane rootNode) {
         try {
             userDBIO.setupUserTable();
             USER_LIST.addAll(userDBIO.getAllUsers());
         }catch (SQLException e){
-            System.out.println("Connection to database failed: " + e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Database Connection Error");
-            alert.setHeaderText("Database Connection Error");
-            alert.setContentText("Connection to database failed: " + e.getMessage());
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "Connection to database failed: " + e.getMessage()).show();
         }
     }
 
@@ -91,14 +87,14 @@ public class UserManager {
         return false;
     }
 
-    public static boolean emailExists(String email){
+    public static boolean emailDoesNotExist(String email){
         for (User user : USER_LIST) {
-            if (user.getEmail().equals(email)) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
                 currentUser = user;
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static String getCurrentUsername() {

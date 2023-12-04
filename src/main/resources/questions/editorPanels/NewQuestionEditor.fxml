@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox fx:id="newQuestionVBox" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx"
-      fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor">
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor"
+           fx:id="rootNode">
+    <VBox alignment="CENTER">
 
-    <ChoiceBox fx:id="typesChoiceBox" maxWidth="Infinity" />
-    <Label text="Name" />
-    <TextField fx:id="questionName" alignment="CENTER" />
+        <ChoiceBox fx:id="typesChoiceBox" maxWidth="Infinity"/>
+        <Label text="Name"/>
+        <TextField fx:id="questionName" alignment="CENTER"/>
 
 
-    <HBox alignment="TOP_CENTER" spacing="50.0">
-        <Button fx:id="acceptBtn" onAction="#addNewQuestion" text="Accept"/>
-        <Button fx:id="cancelBtn" onAction="#returnToMainMenu" text="Cancel"/>
-    </HBox>
-</VBox>
+        <HBox alignment="TOP_CENTER" spacing="50.0">
+            <Button fx:id="acceptBtn" onAction="#addNewQuestion" text="Accept"/>
+            <Button fx:id="cancelBtn" onAction="#returnToMainMenu" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

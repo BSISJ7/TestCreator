@@ -1,10 +1,13 @@
 package TestCreator;
 
 import TestCreator.login.UserManager;
+import TestCreator.options.OptionsMenu;
 import TestCreator.questions.Question;
 import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.testCreation.TestEditor;
 import TestCreator.testIO.IOManager;
+import TestCreator.utilities.StackPaneAlert;
+import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.application.Platform;
@@ -15,15 +18,13 @@ import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.util.Optional;
-
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 
 public class MainMenu {
     @FXML
@@ -38,6 +39,7 @@ public class MainMenu {
     public Button editQuestionBtn;
     public Button deleteQuestionBtn;
     public HBox menuBar;
+    public StackPane rootNode;
     @FXML
     Button newQuestionBtn;
     @FXML
@@ -48,6 +50,7 @@ public class MainMenu {
     private ListView<Question> questionListView;
     private ContextMenu questionContextMenu;
 
+    //TODO Fix DarkTheme pushing the menu bar buttons into the hamburger menu
     public void initialize() {
         testListView.setItems(TestManager.getInstance().getObservableTestList());
         if (TestManager.getInstance().getSelectedTest() != null) {
@@ -108,8 +111,19 @@ public class MainMenu {
                                 setTextFill(Color.TOMATO);
                                 setTooltip(new Tooltip("This test is not ready to run. Please edit it to fix the errors."));
                             }
-                            else
-                                setTextFill(Color.BLACK);
+                            else {
+                                switch (OptionsMenu.getCssName()){
+                                    case "nord-light" -> setTextFill(Color.BLACK);
+                                    case "cupertino-light" -> setTextFill(Color.BLACK);
+                                    case "primer-light" -> setTextFill(Color.BLACK);
+                                    case "nord-dark" -> setTextFill(Color.WHITE);
+                                    case "DarkTheme" -> setTextFill(Color.WHITE);
+                                    case "dracula" -> setTextFill(Color.WHITE);
+                                    case "cupertino-dark" -> setTextFill(Color.WHITE);
+                                    case "primer-dark" -> setTextFill(Color.WHITE);
+                                    default -> setTextFill(Color.GRAY);
+                                }
+                            }
                         }
                     }
                 };
@@ -175,8 +189,19 @@ public class MainMenu {
                         if (question != null && !empty) {
                             if (!question.readyToRun())
                                 setTextFill(Color.TOMATO);
-                            else
-                                setTextFill(Color.BLACK);
+                            else {
+                                switch (OptionsMenu.getCssName()){
+                                    case "nord-light" -> setTextFill(Color.BLACK);
+                                    case "cupertino-light" -> setTextFill(Color.BLACK);
+                                    case "primer-light" -> setTextFill(Color.BLACK);
+                                    case "nord-dark" -> setTextFill(Color.WHITE);
+                                    case "DarkTheme" -> setTextFill(Color.WHITE);
+                                    case "dracula" -> setTextFill(Color.WHITE);
+                                    case "cupertino-dark" -> setTextFill(Color.WHITE);
+                                    case "primer-dark" -> setTextFill(Color.WHITE);
+                                    default -> setTextFill(Color.GRAY);
+                                }
+                            }
                         }
                     }
                 };
@@ -236,18 +261,16 @@ public class MainMenu {
 
     @FXML
     private void deleteQuestion() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Question");
-        alert.setHeaderText("Delete Question: " + selectedQuestion().getName());
-        alert.setContentText("Are you sure? Press OK to confirm, or cancel to back out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            selectedTest().removeQuestion(selectedQuestion());
-            questionListView.getItems().remove(selectedQuestion());
-            questionListView.refresh();
-            testListView.refresh();
-            IOManager.getInstance().saveTests();
-        }
+        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
+                .showAndWait().thenAccept(okayClicked -> {
+            if (okayClicked) {
+                selectedTest().removeQuestion(selectedQuestion());
+                questionListView.getItems().remove(selectedQuestion());
+                questionListView.refresh();
+                testListView.refresh();
+                IOManager.getInstance().saveTests();
+            }
+        });
     }
 
     @FXML
@@ -260,19 +283,17 @@ public class MainMenu {
 
     @FXML
     private void deleteTest() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Test");
-        alert.setHeaderText("Delete Test: " + selectedTest().getName());
-        alert.setContentText("Are you sure? Press OK to confirm, or cancel to back out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            questionListView.getItems().clear();
-            questionListView.refresh();
-            IOManager.getInstance().deleteTest(selectedTest());
-            testListView.getItems().remove(selectedTest());
-            testListView.refresh();
-            IOManager.getInstance().saveTests();
-        }
+        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
+                .showAndWait().thenAccept(okayClicked -> {
+            if (okayClicked) {
+                questionListView.getItems().clear();
+                questionListView.refresh();
+                IOManager.getInstance().deleteTest(selectedTest());
+                testListView.getItems().remove(selectedTest());
+                testListView.refresh();
+                IOManager.getInstance().saveTests();
+            }
+        });
     }
 
     @FXML
@@ -280,7 +301,7 @@ public class MainMenu {
         try{
             StageManager.setScene("/testCreation/TestEditor.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(new Test());
@@ -291,7 +312,7 @@ public class MainMenu {
         try{
             StageManager.setScene("/testCreation/TestEditor.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(TestManager.getInstance().getSelectedTest());
@@ -302,7 +323,7 @@ public class MainMenu {
         try{
             StageManager.setScene("/questions/testPanels/TestingPanel.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading TestingPanel.fxml").show();
             throw new RuntimeException(e);
         }
     }
@@ -317,7 +338,7 @@ public class MainMenu {
         try {
             StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
             throw new RuntimeException(e);
         }
     }
@@ -340,11 +361,12 @@ public class MainMenu {
             StageManager.setScene("/questions/editorPanels/" +
                     selectedQuestion().getClass().getSimpleName() + "Editor.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading " +
+                    selectedQuestion().getClass().getSimpleName() + "Editor.fxml").show();
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
-                .getSelectedQuestion(), true);
+                .getSelectedQuestion(), true, rootNode);
     }
 
 
@@ -359,7 +381,7 @@ public class MainMenu {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
         }
     }
@@ -368,7 +390,7 @@ public class MainMenu {
         try {
             StageManager.setScene("/options/OptionsMenu.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
             throw new RuntimeException(e);
         }
     }

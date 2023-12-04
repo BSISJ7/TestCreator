@@ -4,18 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="TestCreator.questions.editorPanels.TrueFalseEditor">
+           fx:controller="TestCreator.questions.editorPanels.FlashCardEditor">
     <VBox alignment="CENTER">
         <HBox alignment="TOP_CENTER" prefWidth="478.0" spacing="20">
             <Label text="Question Name"/>
             <TextField fx:id="questionName"/>
         </HBox>
-        <VBox spacing="10">
-            <TextArea fx:id="trueFalseTextArea"/>
-            <HBox alignment="TOP_CENTER" spacing="50.0">
-                <RadioButton fx:id="trueBtn" text="True"/>
-                <RadioButton fx:id="falseBtn" text="False"/>
-            </HBox>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Flash Question"/>
+            <TextArea fx:id="flashQuestionTextArea"/>
+            <Label text="Flash Answer"/>
+            <TextArea fx:id="flashAnswerTextArea"/>
         </VBox>
         <HBox alignment="TOP_CENTER" spacing="50.0">
             <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept"/>

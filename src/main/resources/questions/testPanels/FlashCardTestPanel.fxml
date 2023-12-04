@@ -1,0 +1,16 @@
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="TestCreator.questions.testPanels.FlashCardTestPanel"
+      fx:id="rootNode">
+
+    <TextField fx:id="questionAnswerField"
+               onMouseClicked="#questionAnswerClicked"
+               editable="false"/>
+
+<!--    add a checkbox with text Correct and an on action setIsCorrect-->
+    <CheckBox fx:id="correctCheckBox" text="Correct"/>
+
+</VBox>

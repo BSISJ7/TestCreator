@@ -1,31 +1,45 @@
 package TestCreator.login;
 
 import TestCreator.utilities.PasswordChecker;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
 import static TestCreator.utilities.PasswordChecker.*;
 
 public class CreateNewPassword {
 
-    public Label maxLengthReqLabel;
-    public Button changePassButton;
-    public PasswordField passwordField;
-    public Label specialCharReqLabel;
-    public Label numberReqLabel;
-    public Label lowerCaseReqLabel;
-    public Label upperCaseReqLabel;
-    public VBox requirementsVBox;
-    public Label minLengthReqLabel;
-    public Label matchReqLabel;
-    public PasswordField passwordConfirmField;
+    @FXML
+    private Label maxLengthReqLabel;
+    @FXML
+    private Button changePassButton;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Label specialCharReqLabel;
+    @FXML
+    private Label numberReqLabel;
+    @FXML
+    private Label lowerCaseReqLabel;
+    @FXML
+    private Label upperCaseReqLabel;
+    @FXML
+    private VBox requirementsVBox;
+    @FXML
+    private Label minLengthReqLabel;
+    @FXML
+    private Label matchReqLabel;
+    @FXML
+    private PasswordField passwordConfirmField;
+    @FXML
+    private StackPane rootNode;
 
     public void initialize() {
         StageManager.setTitle("Create New Password");
@@ -76,18 +90,14 @@ public class CreateNewPassword {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
         }
     }
 
     public void changePassword() {
         UserManager.setCurrentUserPassword(passwordField.getText());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Password Changed");
-        alert.setHeaderText("Password Changed");
-        alert.setContentText("Your password has been changed.");
-        alert.showAndWait();
+        new StackPaneAlert(rootNode, "Your password has been changed.").show();
         goToLoginPage();
     }
 }

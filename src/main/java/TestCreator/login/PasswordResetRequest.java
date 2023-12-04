@@ -1,31 +1,35 @@
 package TestCreator.login;
 
 import TestCreator.utilities.DictionaryManager;
+import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-import static TestCreator.utilities.FXMLAlert.FXML_ALERT;
+import static TestCreator.login.EmailVerifier.isEmailVerified;
 
 
 public class PasswordResetRequest {
 
-    public Button sendButton;
-    public Button cancelButton;
-    public TextField emailTextField;
-    public VBox passwordResetPane;
-    public Label resetPassphraseLabel;
-    public TextField resetPassphraseTextField;
-    public Button resetButton;
-
+    @FXML
+    private Button sendButton;
+    @FXML
+    private TextField emailTextField;
+    @FXML
+    private Label resetPassphraseLabel;
+    @FXML
+    private TextField resetPassphraseTextField;
+    @FXML
+    private Button resetButton;
     private String resetPassphraseString;
+    @FXML
+    private StackPane rootNode;
 
     @FXML
     public void initialize() {
@@ -46,33 +50,28 @@ public class PasswordResetRequest {
     }
 
     public void sendPassResetEmail() {
-        if(!UserManager.emailExists(emailTextField.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Email Error");
-            alert.setHeaderText("Email Error");
-            alert.setContentText("The email address provided is not associated with an account.");
-            alert.showAndWait();
-            return;
+        if (!emailTextField.getText().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            new StackPaneAlert(rootNode, "Invalid email syntax.").show();
         }
-
-        try{
-            resetPassphraseString = DictionaryManager.getDictionary().getRandomWords(3);
-            EmailSender.sendEmail(emailTextField.getText(), "BrSanders@tutanota.com", "email-smtp.us-east-2.amazonaws.com",
-                    "Password Reset", STR."Enter the passphrase \{resetPassphraseString} to reset your password.", EmailSender.SMTP_USER, EmailSender.SMTP_PASS);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("EmailSender Sent");
-            alert.setContentText("An email has been sent to the address provided.");
-            alert.showAndWait();
-            resetPassphraseLabel.setVisible(true);
-            resetPassphraseTextField.setVisible(true);
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Email Error");
-            alert.setHeaderText("Email Error");
-            alert.setContentText("Email failed to send: " + mex.getMessage());
-            alert.showAndWait();
+        else if(UserManager.emailDoesNotExist(emailTextField.getText())){
+            new StackPaneAlert(rootNode, "The email address provided is not associated with an account.").show();
+        }
+        else if(!isEmailVerified(emailTextField.getText())){
+//            EmailVerifier.verifyEmail(emailTextField.getText());
+            new StackPaneAlert(rootNode, "The email address provided has not been verified yet. A verification email" +
+                    " has been sent to your email.").show();
+        } else {
+            try{
+                resetPassphraseString = DictionaryManager.getDictionary().getRandomWords(3, "-");
+                resetPassphraseLabel.setVisible(true);
+                resetPassphraseTextField.setVisible(true);
+                new StackPaneAlert(rootNode, "An email has been sent to the address provided.").show();
+                EmailSender.sendEmail(emailTextField.getText(), emailTextField.getText(), "email-smtp.us-east-2.amazonaws.com",
+                        "Password Reset", STR."Enter the passphrase \{resetPassphraseString} to reset your password.", EmailSender.SMTP_USER, EmailSender.SMTP_PASS);
+            } catch (MessagingException mex) {
+                mex.printStackTrace();
+                new StackPaneAlert(rootNode, "Email failed to send: " + mex.getMessage()).show();
+            }
         }
     }
 
@@ -80,7 +79,7 @@ public class PasswordResetRequest {
         try {
             StageManager.setScene("/login/CreateNewPassword.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading CreateNewPassword.fxml").show();
             throw new RuntimeException(e);
         }
     }
@@ -89,11 +88,7 @@ public class PasswordResetRequest {
         if(resetPassphraseTextField.getText().equals(resetPassphraseString)){
             loadCreateNewPassword();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Password Reset");
-            alert.setHeaderText("Password Reset");
-            alert.setContentText("The passphrase you entered is incorrect.");
-            alert.showAndWait();
+            new StackPaneAlert(rootNode, "The passphrase you entered is incorrect.").show();
         }
     }
 
@@ -101,7 +96,7 @@ public class PasswordResetRequest {
         try {
             StageManager.setScene("/login/WebLogin.fxml");
         } catch (IOException e) {
-            FXML_ALERT.showAndWait();
+            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
         }
     }
