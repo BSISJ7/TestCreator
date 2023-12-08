@@ -35,7 +35,6 @@ public class WebLogin {
 
 
     public void initialize() {
-
         UserManager.initialize(rootNode);
         loginBtn.disableProperty().bind(usernameField.textProperty().isEmpty()
                 .or(passwordField.textProperty().isEmpty()));
@@ -51,10 +50,8 @@ public class WebLogin {
     @FXML
     void loadMainMenu(String username) {
         try{
-            System.out.println("Loading main menu");
             UserManager.setCurrentUser(username);
             StageManager.setScene("/MainMenu.fxml");
-            System.out.println("Main menu loaded");
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);

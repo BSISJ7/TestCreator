@@ -3,6 +3,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.fxmisc.richtext.InlineCssTextArea?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="TestCreator.questions.editorPanels.FillTheBlankEditor">
     <VBox>
@@ -37,7 +38,10 @@
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <Label text="Question"/>
                 <ScrollPane fx:id="questionScrollPane" maxHeight="1.7976931348623157E308"
-                            maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
+                            maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                    <InlineCssTextArea fx:id="questionTextArea" maxHeight="1.7976931348623157E308"
+                                       maxWidth="1.7976931348623157E308" wrapText="true"/>
+                </ScrollPane>
             </VBox>
         </HBox>
         <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">

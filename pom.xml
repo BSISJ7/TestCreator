@@ -37,6 +37,11 @@
 			<id>aws-sdk-releases</id>
 			<url>https://sdk-for-java.amazonwebservices.com/latest/aws-java-sdk-bundle.zip</url>
 		</repository>
+
+		<repository>
+			<id>eclipse</id>
+			<url>https://repo.eclipse.org/content/repositories/swt-releases/</url>
+		</repository>
 	</repositories>
 
 	<parent>
@@ -204,6 +209,27 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-ses</artifactId>
 			<version>1.12.603</version>
+		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>org.eclipse.swt</groupId>-->
+<!--			<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>-->
+<!--			<version>4.3</version>-->
+<!--			<classifier>ws</classifier>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.eclipse.swt</groupId>-->
+<!--			<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>-->
+<!--			<version>4.3</version>-->
+<!--			<classifier>os</classifier>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.fxmisc.richtext</groupId>
+			<artifactId>richtextfx</artifactId>
+			<version>0.10.6</version>
 		</dependency>
 	</dependencies>
 

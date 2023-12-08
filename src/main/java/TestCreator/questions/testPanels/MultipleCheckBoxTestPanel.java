@@ -20,6 +20,15 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
 
     @Override
     public float getPointsScored() {
+        for (CheckBox checkBox : checkBoxes) {
+            checkBox.setDisable(true);
+            if (question.isCorrectAt(checkBoxes.indexOf(checkBox))) {
+                checkBox.setStyle("-fx-text-fill: green");
+            } else {
+                checkBox.setStyle("-fx-text-fill: red");
+            }
+        }
+
         for (int i = 0; i < question.getNumChoices(); i++) {
             if (question.isCorrectAt(i))
                 pointsScored += 1;

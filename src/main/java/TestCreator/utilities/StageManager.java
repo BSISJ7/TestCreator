@@ -1,6 +1,7 @@
 package TestCreator.utilities;
 
 import TestCreator.options.OptionsMenu;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ public class StageManager {
         stageController = loader.getController();
         root.getStylesheets().add(OptionsMenu.getCssFullPath());
         stage.setScene(new Scene(root));
+        JFXPanel fxPanel = new JFXPanel();
     }
 
     public static void setScene(Parent root) throws IOException {

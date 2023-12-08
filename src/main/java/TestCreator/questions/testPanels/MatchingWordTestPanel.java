@@ -14,6 +14,8 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.*;
 
+
+//TODO Fix highlights not clearing when new selection is made after test is over
 public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
 
     private MatchingWord question;

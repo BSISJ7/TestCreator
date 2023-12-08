@@ -3,6 +3,8 @@ package TestCreator.utilities;
 //http://www.codesenior.com/en/tutorial/Java-How-to-Get-Word-From-Caret-Position
 public class WordAtCaretFinder {
 
+    public static final String REPLACE_REGEX = "[.!?]+(?=\\s|$)";
+
     public static String getWordAtCaret(String hoveredWord, int caretPosition) {
         try {
             if (hoveredWord.isEmpty()) return "";
@@ -20,7 +22,7 @@ public class WordAtCaretFinder {
                 i++;
             }
             hoveredWord = hoveredWord.substring(0, i);
-            return hoveredWord;
+            return hoveredWord.replaceAll(REPLACE_REGEX, "");
         } catch (StringIndexOutOfBoundsException e) {
             return "";
         }
@@ -28,9 +30,7 @@ public class WordAtCaretFinder {
 
     public static int getPositionStart(String content, int caretPosition) {
 
-        if (content.isEmpty()) {
-            return 0;
-        }
+        if (content.isEmpty()) return 0;
         //replace non-breaking character with space
         content = content.replace(String.valueOf((char) 160), " ");
 
@@ -45,4 +45,18 @@ public class WordAtCaretFinder {
         }
         return selectionStart;
     }
+
+//    public static boolean isInsideWord(String content, int caretPosition) {
+//        if (content.isEmpty()) return false;
+//        try {
+//
+//            boolean charToLeft = content.charAt(caretPosition - 1) != ' ' && content.charAt(caretPosition - 1) != '\n';
+//            boolean charToRight = content.charAt(caretPosition) != ' ' && content.charAt(caretPosition) != '\n';
+//
+//            return charToLeft && charToRight;
+//        }catch (StringIndexOutOfBoundsException e){
+//            return false;
+//        }
+//        return true;
+//    }
 }

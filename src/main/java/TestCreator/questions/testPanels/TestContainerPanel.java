@@ -82,6 +82,7 @@ public class TestContainerPanel {
                     try {
                         return Objects.nonNull(question.getTestPanel()) && question.readyToRun();
                     } catch (IOException e) {
+                        e.printStackTrace();
                         return false;
                     }
                 })

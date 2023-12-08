@@ -9835,3 +9835,530 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length
 2023-12-02 12:10:24,118 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 4610
 2023-12-02 12:10:24,118 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
 2023-12-02 12:10:25,118 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 2067048478, browser: Google Chrome 119.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}
+2023-12-04 01:52:59,773 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 01:52:59,778 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 01:52:59,778 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 01:52:59,819 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 01:52:59,820 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 01:52:59,820 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 01:52:59,823 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 01:52:59,827 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 01:53:00,597 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 01:53:00,725 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 01:53:00,730 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701672779772, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 01:53:01,743 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 01:53:02,617 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 01:53:03,496 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 01:53:03,497 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 01:53:04,936 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2023-12-04 01:53:04,984 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - application requested: default
+2023-12-04 01:53:05,000 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - Creating Application: default
+2023-12-04 01:53:05,005 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - remoteAddress 127.0.0.1
+2023-12-04 01:53:05,009 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - host          localhost:8080
+2023-12-04 01:53:05,009 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - uri           /app/ws/default
+2023-12-04 01:53:05,427 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 2014489755, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:53:27,835 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 2014489755, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:55:35,055 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 2014489755, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 01:55:35,059 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 01:55:35,059 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 01:55:35,073 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 01:55:35 EST 2023      
+2023-12-04 01:55:35,073 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.003 
+2023-12-04 01:55:35,073 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 01:55:35,074 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 01:55:35,076 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 01:55:35,076 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 371963
+2023-12-04 01:55:35,076 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 118492
+2023-12-04 01:55:35,076 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 01:55:35,733 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-6 - application requested: default
+2023-12-04 01:55:35,734 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-6 - Creating Application: default
+2023-12-04 01:55:35,734 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-6 - remoteAddress 127.0.0.1
+2023-12-04 01:55:35,735 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-6 - host          localhost:8080
+2023-12-04 01:55:35,735 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-6 - uri           /app/ws/default
+2023-12-04 01:55:35,770 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1262194963, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:55:57,024 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1262194963, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:55:57,113 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 2014489755, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 01:56:06,164 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 01:56:29,777 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-17 - application requested: default
+2023-12-04 01:56:29,777 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-17 - Creating Application: default
+2023-12-04 01:56:29,777 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-17 - remoteAddress 127.0.0.1
+2023-12-04 01:56:29,777 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-17 - host          localhost:8080
+2023-12-04 01:56:29,777 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-17 - uri           /app/ws/default
+2023-12-04 01:56:30,784 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 01:56:30,865 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 1262194963, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 01:56:30 EST 2023      
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.002 
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.001  
+2023-12-04 01:56:30,867 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 01:56:30,868 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 01:56:30,868 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 346239
+2023-12-04 01:56:30,868 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 94589
+2023-12-04 01:56:30,868 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 01:56:30,872 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1915183932, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:56:51,989 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1915183932, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 01:56:52,024 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 1262194963, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 02:01:37,158 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 02:01:37,162 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 02:01:37,163 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 02:01:37,199 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 02:01:37,199 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 02:01:37,199 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 02:01:37,201 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 02:01:37,205 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 02:01:37,937 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 02:01:38,107 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 02:01:38,117 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701673297157, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 02:01:38,946 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 02:01:39,660 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 02:01:40,425 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 02:01:40,425 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 02:01:40,911 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - application requested: 1915183932!default
+2023-12-04 02:01:40,924 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - Creating Application: 1915183932!default
+2023-12-04 02:01:40,927 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - remoteAddress 0:0:0:0:0:0:0:1
+2023-12-04 02:01:40,929 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - host          localhost:8080
+2023-12-04 02:01:40,929 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - uri           /app/ws/1915183932!default
+2023-12-04 02:01:41,331 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1669430471, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:01:41,875 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - application requested: default
+2023-12-04 02:01:41,875 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - Creating Application: default
+2023-12-04 02:01:41,875 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - remoteAddress 0:0:0:0:0:0:0:1
+2023-12-04 02:01:41,875 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - host          localhost:8080
+2023-12-04 02:01:41,875 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - uri           /app/ws/default
+2023-12-04 02:02:03,716 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1669430471, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:02:04,220 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 2026488488, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:02:25,373 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 2026488488, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:02:25,441 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 1669430471, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: tab-closed}
+2023-12-04 02:02:25,443 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:02:25,443 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:02:25,451 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:02:04 EST 2023      
+2023-12-04 02:02:25,452 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.000 
+2023-12-04 02:02:25,453 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 02:02:25,455 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:02:25,455 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:02:25,455 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 35969
+2023-12-04 02:02:25,455 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 5415
+2023-12-04 02:02:25,455 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:02:25,467 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 1669430471, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}
+2023-12-04 02:05:11,859 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 2026488488, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: websocket-stop}
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:05:11 EST 2023      
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.003 
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.001  
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 446145
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 186267
+2023-12-04 02:05:11,861 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:05:12,212 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-13 - application requested: default
+2023-12-04 02:05:12,212 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-13 - Creating Application: default
+2023-12-04 02:05:12,212 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-13 - remoteAddress 127.0.0.1
+2023-12-04 02:05:12,213 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-13 - host          localhost:8080
+2023-12-04 02:05:12,213 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-13 - uri           /app/ws/default
+2023-12-04 02:05:12,237 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 825081808, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:05:14,822 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 825081808, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:05:14,859 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 2026488488, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 825081808, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:05:18 EST 2023      
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.002 
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 75023
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 19733
+2023-12-04 02:05:18,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:05:18,597 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - application requested: default
+2023-12-04 02:05:18,597 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - Creating Application: default
+2023-12-04 02:05:18,597 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - remoteAddress 127.0.0.1
+2023-12-04 02:05:18,597 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - host          localhost:8080
+2023-12-04 02:05:18,597 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-5 - uri           /app/ws/default
+2023-12-04 02:05:18,615 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1826454667, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:05:20,157 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1826454667, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:05:20,189 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 825081808, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 02:05:22,778 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:05:25,738 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:05:44,148 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:05:44,338 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(17789),ID(17790),ID(17791),ID(17792),ID(17793),ID(17794),ID(17795),None,ID(17796),ID(17797)),ID(17798),ID(17799),ID(17800),ID(17801),ID(17802),ID(17803),ID(17804),ID(17805),ID(17806),ID(17807),ID(17808),ID(17809),ID(17810),ID(17811),ID(17812),ID(17813)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 17814 token: UnknownPart(NodePart(OwnExtension(ID(17789),ID(17790),ID(17791),ID(17792),ID(17793),ID(17794),ID(17795),None,ID(17796),ID(17797)),ID(17798),ID(17799),ID(17800),ID(17801),ID(17802),ID(17803),ID(17804),ID(17805),ID(17806),ID(17807),ID(17808),ID(17809),ID(17810),ID(17811),ID(17812),ID(17813)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:06:31,608 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2023-12-04 02:08:19,817 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 1826454667, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:08:19 EST 2023      
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.003 
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.001  
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:08:19,832 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 7296425
+2023-12-04 02:08:19,833 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 1282381
+2023-12-04 02:08:19,833 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:08:20,222 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-12 - application requested: default
+2023-12-04 02:08:20,224 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-12 - Creating Application: default
+2023-12-04 02:08:20,225 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-12 - remoteAddress 127.0.0.1
+2023-12-04 02:08:20,225 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-12 - host          localhost:8080
+2023-12-04 02:08:20,225 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-12 - uri           /app/ws/default
+2023-12-04 02:08:20,249 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 2049497623, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:08:22,297 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 2049497623, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:08:22,322 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 1826454667, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 02:08:23,591 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:08:26,242 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:08:27,549 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:08:28,859 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:08:34,069 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:08:34,243 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(25246),ID(25247),ID(25248),ID(25249),ID(25250),ID(25251),ID(25252),None,ID(25253),ID(25254)),ID(25255),ID(25256),ID(25257),ID(25258),ID(25259),ID(25260),ID(25261),ID(25262),ID(25263),ID(25264),ID(25265),ID(25266),ID(25267),ID(25268),ID(25269),ID(25270)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 25271 token: UnknownPart(NodePart(OwnExtension(ID(25246),ID(25247),ID(25248),ID(25249),ID(25250),ID(25251),ID(25252),None,ID(25253),ID(25254)),ID(25255),ID(25256),ID(25257),ID(25258),ID(25259),ID(25260),ID(25261),ID(25262),ID(25263),ID(25264),ID(25265),ID(25266),ID(25267),ID(25268),ID(25269),ID(25270)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:15:36,844 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 02:15:36,847 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 02:15:36,847 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 02:15:36,890 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 02:15:36,890 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 02:15:36,890 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 02:15:36,893 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 02:15:36,895 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 02:15:37,613 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 02:15:37,753 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 02:15:37,758 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701674136841, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 02:15:38,640 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 02:15:39,405 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 02:15:40,131 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 02:15:40,132 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 02:15:41,294 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - application requested: default
+2023-12-04 02:15:41,303 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - Creating Application: default
+2023-12-04 02:15:41,305 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - remoteAddress 127.0.0.1
+2023-12-04 02:15:41,306 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - host          localhost:8080
+2023-12-04 02:15:41,306 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - uri           /app/ws/default
+2023-12-04 02:15:41,619 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1264574844, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:15:44,742 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1264574844, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:15:45,337 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,338 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,355 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,365 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,376 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,484 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,490 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,506 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,523 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,540 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,556 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,574 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,590 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,606 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,627 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:45,627 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:15:47,188 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:15:49,979 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:15:54,215 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:15:54,487 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(12765),ID(12766),ID(12767),ID(12768),ID(12769),ID(12770),ID(12771),None,ID(12772),ID(12773)),ID(12774),ID(12775),ID(12776),ID(12777),ID(12778),ID(12779),ID(12780),ID(12781),ID(12782),ID(12783),ID(12784),ID(12785),ID(12786),ID(12787),ID(12788),ID(12789)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 12790 token: UnknownPart(NodePart(OwnExtension(ID(12765),ID(12766),ID(12767),ID(12768),ID(12769),ID(12770),ID(12771),None,ID(12772),ID(12773)),ID(12774),ID(12775),ID(12776),ID(12777),ID(12778),ID(12779),ID(12780),ID(12781),ID(12782),ID(12783),ID(12784),ID(12785),ID(12786),ID(12787),ID(12788),ID(12789)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:16:34,200 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - application requested: 2049497623!default
+2023-12-04 02:16:34,201 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - Creating Application: 2049497623!default
+2023-12-04 02:16:34,201 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - remoteAddress 127.0.0.1
+2023-12-04 02:16:34,201 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - host          localhost:8080
+2023-12-04 02:16:34,201 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-10 - uri           /app/ws/2049497623!default
+2023-12-04 02:16:34,218 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1138542955, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:16:35,879 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1138542955, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:16:35,918 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 1138542955, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 02:16:35,920 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:16:35,920 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:16:35,929 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:16:35 EST 2023      
+2023-12-04 02:16:35,929 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.000 
+2023-12-04 02:16:35,929 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 02:16:35,931 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:16:35,931 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:16:35,932 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 28929
+2023-12-04 02:16:35,932 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 4411
+2023-12-04 02:16:35,932 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:16:36,924 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 1138542955, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 02:29:53,831 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 02:29:53,834 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 02:29:53,834 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 02:29:53,862 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 02:29:53,862 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 02:29:53,862 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 02:29:53,864 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 02:29:53,866 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 02:29:54,500 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 02:29:54,628 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 02:29:54,634 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701674993830, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 02:29:55,393 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 02:29:56,052 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 02:29:56,648 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 02:29:56,648 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 02:29:57,637 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-7 - application requested: default
+2023-12-04 02:29:57,644 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-7 - Creating Application: default
+2023-12-04 02:29:57,646 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-7 - remoteAddress 127.0.0.1
+2023-12-04 02:29:57,648 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-7 - host          localhost:8080
+2023-12-04 02:29:57,648 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-7 - uri           /app/ws/default
+2023-12-04 02:29:57,883 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 201004842, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:30:00,529 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 201004842, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 02:30:01,666 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,668 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,673 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,680 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,689 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,703 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,719 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,736 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,751 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,769 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,785 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,802 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,818 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,835 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,851 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,868 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,884 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,901 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,920 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,936 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,952 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,969 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:01,986 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,001 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,019 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,035 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,052 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,080 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,093 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,108 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,119 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,135 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,152 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,168 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,219 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,290 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 02:30:02,745 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:30:06,958 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:30:10,737 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:30:10,991 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(17741),ID(17742),ID(17743),ID(17744),ID(17745),ID(17746),ID(17747),None,ID(17748),ID(17749)),ID(17750),ID(17751),ID(17752),ID(17753),ID(17754),ID(17755),ID(17756),ID(17757),ID(17758),ID(17759),ID(17760),ID(17761),ID(17762),ID(17763),ID(17764),ID(17765)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 17766 token: UnknownPart(NodePart(OwnExtension(ID(17741),ID(17742),ID(17743),ID(17744),ID(17745),ID(17746),ID(17747),None,ID(17748),ID(17749)),ID(17750),ID(17751),ID(17752),ID(17753),ID(17754),ID(17755),ID(17756),ID(17757),ID(17758),ID(17759),ID(17760),ID(17761),ID(17762),ID(17763),ID(17764),ID(17765)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:30:16,715 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2023-12-04 02:30:20,993 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:30:24,356 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2023-12-04 02:30:39,490 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:30:39,629 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:30:39,714 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(34397),ID(34398),ID(34399),ID(34400),ID(34401),ID(34402),ID(34403),None,ID(34404),ID(34405)),ID(34406),ID(34407),ID(34408),ID(34409),ID(34410),ID(34411),ID(34412),ID(34413),ID(34414),ID(34415),ID(34416),ID(34417),ID(34418),ID(34419),ID(34420),ID(34421)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 34422 token: UnknownPart(NodePart(OwnExtension(ID(34397),ID(34398),ID(34399),ID(34400),ID(34401),ID(34402),ID(34403),None,ID(34404),ID(34405)),ID(34406),ID(34407),ID(34408),ID(34409),ID(34410),ID(34411),ID(34412),ID(34413),ID(34414),ID(34415),ID(34416),ID(34417),ID(34418),ID(34419),ID(34420),ID(34421)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:30:43,509 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2023-12-04 02:30:44,755 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:31:41,590 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 02:31:41,594 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 02:31:41,594 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 02:31:41,621 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 02:31:41,621 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 02:31:41,621 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 02:31:41,626 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 02:31:41,628 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 02:31:42,253 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 02:31:42,380 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 02:31:42,385 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701675101589, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 02:31:43,188 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 02:31:43,930 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 02:31:44,707 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 02:31:44,708 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 02:31:45,891 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - application requested: default
+2023-12-04 02:31:45,900 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - Creating Application: default
+2023-12-04 02:31:45,903 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - remoteAddress 0:0:0:0:0:0:0:1
+2023-12-04 02:31:45,905 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - host          localhost:8080
+2023-12-04 02:31:45,905 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - uri           /app/ws/default
+2023-12-04 02:31:46,162 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 2075628733, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:31:48,771 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 2075628733, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2023-12-04 02:33:34,816 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:33:45,302 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 02:33:48,085 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:33:48,311 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(16923),ID(16924),ID(16925),ID(16926),ID(16927),ID(16928),ID(16929),None,ID(16930),ID(16931)),ID(16932),ID(16933),ID(16934),ID(16935),ID(16936),ID(16937),ID(16938),ID(16939),ID(16940),ID(16941),ID(16942),ID(16943),ID(16944),ID(16945),ID(16946),ID(16947)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 16948 token: UnknownPart(NodePart(OwnExtension(ID(16923),ID(16924),ID(16925),ID(16926),ID(16927),ID(16928),ID(16929),None,ID(16930),ID(16931)),ID(16932),ID(16933),ID(16934),ID(16935),ID(16936),ID(16937),ID(16938),ID(16939),ID(16940),ID(16941),ID(16942),ID(16943),ID(16944),ID(16945),ID(16946),ID(16947)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 02:51:04,632 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 2075628733, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: websocket-stop}
+2023-12-04 02:51:04,646 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:51:04,646 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 02:51:04,657 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 02:51:04 EST 2023      
+2023-12-04 02:51:04,657 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.002 
+2023-12-04 02:51:04,657 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 02:51:04,659 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 02:51:04,661 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 02:51:04,661 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 2424106
+2023-12-04 02:51:04,661 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 616479
+2023-12-04 02:51:04,661 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 02:51:05,646 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 2075628733, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}
+2023-12-04 14:19:36,134 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 14:19:36,136 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 14:19:36,137 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 14:19:36,161 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 14:19:36,161 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 14:19:36,161 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 14:19:36,166 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 14:19:36,168 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 14:19:36,709 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 14:19:36,796 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 14:19:36,804 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701717576133, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 14:19:37,376 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-04 14:19:38,027 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 14:19:38,617 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 14:19:38,618 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 14:19:39,799 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-5 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2023-12-04 14:19:39,841 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - application requested: default
+2023-12-04 14:19:39,847 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - Creating Application: default
+2023-12-04 14:19:39,848 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - remoteAddress 127.0.0.1
+2023-12-04 14:19:39,850 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - host          localhost:8080
+2023-12-04 14:19:39,850 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - uri           /app/ws/default
+2023-12-04 14:19:40,096 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 140772761, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:19:43,022 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 140772761, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:19:47,960 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:49,837 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:51,063 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:51,924 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:53,378 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:58,542 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:19:59,066 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 14:19:59,368 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 14:19:59,501 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:00,327 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(8218),ID(8219),ID(8220),ID(8221),ID(8222),ID(8223),ID(8224),None,ID(8225),ID(8226)),ID(8227),ID(8228),ID(8229),ID(8230),ID(8231),ID(8232),ID(8233),ID(8234),ID(8235),ID(8236),ID(8237),ID(8238),ID(8239),ID(8240),ID(8241),ID(8242)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 8243 token: UnknownPart(NodePart(OwnExtension(ID(8218),ID(8219),ID(8220),ID(8221),ID(8222),ID(8223),ID(8224),None,ID(8225),ID(8226)),ID(8227),ID(8228),ID(8229),ID(8230),ID(8231),ID(8232),ID(8233),ID(8234),ID(8235),ID(8236),ID(8237),ID(8238),ID(8239),ID(8240),ID(8241),ID(8242)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 14:20:01,616 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:02,023 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:02,171 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:02,335 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:02,546 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,078 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,231 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,479 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,656 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,761 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:03,913 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:04,053 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:04,212 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:04,477 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:04,622 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:04,796 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,020 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,165 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,309 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,531 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,652 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:05,809 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:06,504 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:06,644 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:06,809 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:06,970 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:07,113 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:14,268 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:14,912 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:22,698 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:20:23,149 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-04 14:23:11,413 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-04 14:23:11,416 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-04 14:23:11,416 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-04 14:23:11,453 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-04 14:23:11,453 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-04 14:23:11,453 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-04 14:23:11,457 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-04 14:23:11,468 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-04 14:23:12,089 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-04 14:23:12,197 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-04 14:23:12,203 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1701717791412, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-04 14:23:12,882 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-4 - Slf4jLogger started
+2023-12-04 14:23:13,537 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-04 14:23:14,094 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-04 14:23:14,095 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-04 14:23:15,254 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - application requested: default
+2023-12-04 14:23:15,261 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - Creating Application: default
+2023-12-04 14:23:15,263 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - remoteAddress 127.0.0.1
+2023-12-04 14:23:15,264 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - host          localhost:8080
+2023-12-04 14:23:15,265 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - uri           /app/ws/default
+2023-12-04 14:23:15,507 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 1914548754, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:17,177 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - application requested: 140772761!default
+2023-12-04 14:23:17,178 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - Creating Application: 140772761!default
+2023-12-04 14:23:17,178 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - remoteAddress 127.0.0.1
+2023-12-04 14:23:17,178 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - host          localhost:8080
+2023-12-04 14:23:17,178 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-8 - uri           /app/ws/140772761!default
+2023-12-04 14:23:18,373 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1914548754, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:19,495 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 355658197, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:21,234 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 355658197, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:21,350 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 355658197, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 14:23:21,358 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 14:23:21,366 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 14:23:21,419 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 14:23:19 EST 2023      
+2023-12-04 14:23:21,419 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.000 
+2023-12-04 14:23:21,419 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2023-12-04 14:23:21,423 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 14:23:21,423 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 14:23:21,423 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 512
+2023-12-04 14:23:21,423 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 194
+2023-12-04 14:23:21,423 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 14:23:21,443 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 355658197, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 14:23:21,467 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:24,339 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:25,484 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:28,598 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:28,764 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:38,239 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:38,454 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:38,796 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:39,433 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:40,411 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 1914548754, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: websocket-stop}
+2023-12-04 14:23:40,412 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Mon Dec 04 14:23:40 EST 2023      
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.004 
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.001  
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 58244
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 11273
+2023-12-04 14:23:40,413 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2023-12-04 14:23:40,820 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - application requested: default
+2023-12-04 14:23:40,820 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - Creating Application: default
+2023-12-04 14:23:40,821 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - remoteAddress 127.0.0.1
+2023-12-04 14:23:40,821 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - host          localhost:8080
+2023-12-04 14:23:40,821 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - uri           /app/ws/default
+2023-12-04 14:23:40,838 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 416330845, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:43,746 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 416330845, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-04 14:23:43,803 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 1914548754, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1, reason: close-tab-closed}
+2023-12-04 14:23:44,817 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:46,573 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:50,078 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:50,822 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:51,627 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:52,177 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:53,567 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 14:23:53,691 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:53,888 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:53,888 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:53,997 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:53,997 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:54,014 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: unimplemented node type: UnknownPart(NodePart(OwnExtension(ID(8218),ID(8219),ID(8220),ID(8221),ID(8222),ID(8223),ID(8224),None,ID(8225),ID(8226)),ID(8227),ID(8228),ID(8229),ID(8230),ID(8231),ID(8232),ID(8233),ID(8234),ID(8235),ID(8236),ID(8237),ID(8238),ID(8239),ID(8240),ID(8241),ID(8242)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node) (id: 8243 token: UnknownPart(NodePart(OwnExtension(ID(8218),ID(8219),ID(8220),ID(8221),ID(8222),ID(8223),ID(8224),None,ID(8225),ID(8226)),ID(8227),ID(8228),ID(8229),ID(8230),ID(8231),ID(8232),ID(8233),ID(8234),ID(8235),ID(8236),ID(8237),ID(8238),ID(8239),ID(8240),ID(8241),ID(8242)),class: javafx.embed.swing.SwingNode ... javafx.scene.Node))
+2023-12-04 14:23:54,122 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:56,364 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:56,849 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:57,287 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:57,469 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:57,711 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-04 14:23:57,860 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
+2023-12-08 11:51:08,652 [INFO] from com.jpro.activity in scala-execution-context-global-35 - Starting the server
+2023-12-08 11:51:08,660 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 -  *** Starting JPro: https://www.jpro.one/ ***
+2023-12-08 11:51:08,660 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - OS: Windows 11
+2023-12-08 11:51:08,709 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JPro: 2023.3.1
+2023-12-08 11:51:08,709 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Java version: 21.0.1
+2023-12-08 11:51:08,709 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JVM: 21.0.1 Oracle Corporation
+2023-12-08 11:51:08,713 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - JavaFX jar: file:/C:/Users/laxle/.m2/repository/org/openjfx/javafx-graphics/21.0.2.3-jpro+0/javafx-graphics-21.0.2.3-jpro+0-win.jar
+2023-12-08 11:51:08,723 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - Configuring logging from url: 'jar:file:/C:/Users/laxle/.m2/repository/com/sandec/jpro/jpro-server_2.12/2023.3.1/jpro-server_2.12-2023.3.1.jar!/logback-jpro-default.xml'
+2023-12-08 11:51:09,331 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 21.0.2.3-jpro+0-2023-09-27T13-12-33Z
+2023-12-08 11:51:09,443 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - finished init!
+2023-12-08 11:51:09,448 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-35 - [JPro] -> Server started: {start_time: 1702054268648, os_name: Windows 11, jpro_version: 2023.3.1}
+2023-12-08 11:51:10,055 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-5 - Slf4jLogger started
+2023-12-08 11:51:10,745 [INFO] from play.api.Play in Thread-0 - Application started (Prod) (no global state)
+2023-12-08 11:51:11,345 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Enabling HTTP/2 on Akka HTTP server...
+2023-12-08 11:51:11,345 [INFO] from play.core.server.AkkaHttpServer in Thread-0 - Listening for HTTP on /[0:0:0:0:0:0:0:0]:8080
+2023-12-08 11:51:12,421 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2023-12-08 11:51:12,466 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - application requested: default
+2023-12-08 11:51:12,472 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - Creating Application: default
+2023-12-08 11:51:12,474 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - remoteAddress 127.0.0.1
+2023-12-08 11:51:12,476 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - host          localhost:8080
+2023-12-08 11:51:12,476 [INFO] from controllers.jpro in application-akka.actor.default-dispatcher-9 - uri           /app/ws/default
+2023-12-08 11:51:12,766 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 193826691, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-08 11:51:15,507 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 193826691, browser: Unknown, browser_url: http://localhost:8080/, client_ip: 127.0.0.1}
+2023-12-08 11:51:20,622 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:22,402 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:23,824 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:25,525 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:26,935 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:32,329 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:33,528 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:51:34,628 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2023-12-08 11:52:52,584 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2023-12-08 11:53:01,042 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.

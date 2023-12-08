@@ -5,14 +5,12 @@ import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import com.jpro.webapi.JProApplication;
 import javafx.application.Platform;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+
+
 public class Main extends JProApplication {
-
     public static final boolean TESTING_MODE = true;
-    private StackPane stackpane;
-
 
     public static void main(String[] args) {
         launch(Main.class, args);

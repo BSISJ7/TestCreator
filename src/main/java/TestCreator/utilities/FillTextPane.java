@@ -64,7 +64,7 @@ public class FillTextPane extends JTextPane {
                             e.printStackTrace();
                         }
                     });
-                    fillInEditor.updateWordBank();
+//                    fillInEditor.updateWordBank();
                 }
             }
         });
@@ -113,7 +113,7 @@ public class FillTextPane extends JTextPane {
                 if (typedChar.matches("[\t]|[;:,<> `~.!?/@#$%^&*)(]")) {
                     insertText(event);
                 }
-                fillInEditor.updateWordBank();
+//                fillInEditor.updateWordBank();
             }
 
             public void keyPressed(KeyEvent event) {

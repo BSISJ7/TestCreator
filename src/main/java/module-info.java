@@ -4,7 +4,7 @@ module TestCreator {
     requires javafx.fxml;
     requires org.reflections;
     requires java.xml;
-    requires javafx.swing;
+//    requires javafx.swing;
     requires aws.java.sdk.core;
     requires aws.java.sdk.dynamodb;
     requires java.sql;
@@ -16,6 +16,11 @@ module TestCreator {
     requires com.jfoenix;
     requires software.amazon.awssdk.services.ses;
     requires org.controlsfx.controls;
+    requires transitive javafx.swing;
+    requires org.fxmisc.richtext;
+    requires undofx;
+    requires reactfx;
+
 
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;

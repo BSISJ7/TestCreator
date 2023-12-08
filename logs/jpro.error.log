@@ -6737,3 +6737,11 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	... 89 common frames omitted
 2023-12-02 09:43:44,552 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:05:44,148 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:08:34,069 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:15:54,215 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:30:10,737 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:30:39,629 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 02:33:48,085 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 14:19:59,368 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node
+2023-12-04 14:23:53,567 [ERROR] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - couldn't wrap node ... class: javafx.embed.swing.SwingNode ... javafx.scene.Node

@@ -50,6 +50,9 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
 
     @Override
     public float getPointsScored() {
+        trueBtn.setDisable(true);
+        falseBtn.setDisable(true);
+
         if (question.trueSelected())
             trueBtn.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 20; -fx-padding: 15");
         else if (!question.trueSelected())

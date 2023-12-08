@@ -37,12 +37,11 @@ public class StackPaneAlert extends StackPane {
         this.setAlignment(Pos.CENTER);
         this.setMaxSize(context.getWidth() * .75, context.getHeight() * .75);
         this.setPrefSize(context.getWidth() * .75, context.getHeight() * .75);
+        this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {
             boolean isCloseButton = event.getTarget() == closeButton;
             boolean isCloseBtnText = ((Node) event.getTarget()).getParent() == closeButton;
-//            System.out.println("isCloseButton: " + isCloseButton);
-//            System.out.println("isCloseBtnText: " + isCloseBtnText);
             if (!isCloseButton && !isCloseBtnText)
                 event.consume();
         };

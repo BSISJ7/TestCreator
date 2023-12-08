@@ -2,6 +2,7 @@ package TestCreator.questions;
 
 import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
+import TestCreator.utilities.SelectionManager;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +18,6 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,6 +33,14 @@ public class FillTheBlank extends Question {
     public final static HighlightPainter NEW_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(196, 238, 129));
     public final static HighlightPainter SELECTED_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(193, 239, 248));
     public final static HighlightPainter DELETE_WORD_PAINT = new DefaultHighlighter.DefaultHighlightPainter(new Color(248, 96, 97));
+    public static final String UNDERLINE_WORD = "fx-underline: true;";
+
+    public static final String ANSWER = ("-fx-fill: blue;");
+    public static final String REMOVAL = ("-fx-fill: red;");
+    public static final String HOVER = ("-fx-fill: dodgerblue;");
+    public static final String DEFAULT = ("-fx-fill: black;");
+    public static final String CORRECT = ("-fx-fill: green;");
+    public static final String INCORRECT = ("-fx-fill: red;");
 
     static {
         StyleConstants.setUnderline(UNSELECTED_WORD, true);
@@ -47,9 +55,14 @@ public class FillTheBlank extends Question {
         StyleConstants.setBackground(CORRECT_WORD, Color.GREEN.brighter().brighter());
     }
 
+    public static final String ALLOWED_CHARS = "[a-zA-Z0-9-'_]";
+
+
     private final ObservableList<String> wordBank = FXCollections.observableArrayList();
     private String fillQuestion = "";
     private ArrayList<Integer> wordPositions = new ArrayList<>();
+
+    private SelectionManager selectionManager = new SelectionManager();
 
     private boolean displayAnswers = true;
 
@@ -164,8 +177,8 @@ public class FillTheBlank extends Question {
         return wordBank.size();
     }
 
-    public List<Integer> getAnswerOffsets() {
-        return Collections.unmodifiableList(wordPositions);
+    public List<Integer> getAnswerOffsetsCopy() {
+        return FXCollections.observableArrayList(wordPositions);
     }
 
     public void setWordIndexes(ArrayList<Integer> locations) {
@@ -177,14 +190,13 @@ public class FillTheBlank extends Question {
         int maxQuestions = 5;
         StringBuilder fillBuilder = new StringBuilder();
         for(int x = 0; x < maxQuestions; x++) {
-            //generate two random numbers from 1 to 100
-            int randNum1 = 1 + (int) (Math.random() * ((100 - 1) + 1));
-            int randNum2 = 1 + (int) (Math.random() * ((100 - 1) + 1));
+            int randNum1 = 1 + (int) (Math.random() * ((10000 - 1) + 1));
+            int randNum2 = 1 + (int) (Math.random() * ((10000 - 1) + 1));
 
             String mathProblem = STR."\{randNum1} + \{randNum2} = \{randNum1 + randNum2}";
             fillBuilder.append((x == maxQuestions-1) ? mathProblem : mathProblem + "\n");
 
-            int answerPosition = fillBuilder.indexOf(STR."\{randNum1 + randNum2}");
+            int answerPosition = fillBuilder.lastIndexOf(STR."\{randNum1 + randNum2}");
             String answer = String.valueOf(randNum1 + randNum2);
 
             wordBank.add(answer);

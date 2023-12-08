@@ -73,8 +73,10 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @Override
     public float getPointsScored() {
         radioButtons.forEach(radioButton -> {
-            if (radioButton.getText().equals(question.getAnswer()))
+            if (radioButton.getText().equals(question.getAnswer())) {
                 radioButton.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 15; -fx-padding: 15");
+                radioButton.setDisable(true);
+            }
         });
         if (question.getAnswer().equals(selectedAnswer)) {
             return 1 * question.getWeight();

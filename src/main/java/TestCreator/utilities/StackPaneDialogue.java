@@ -55,6 +55,7 @@ public class StackPaneDialogue extends StackPane{
         this.setAlignment(Pos.CENTER);
         this.setMaxSize(context.getWidth() * .75, context.getHeight() * .75);
         this.setPrefSize(context.getWidth() * .75, context.getHeight() * .75);
+        this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {
             boolean isCloseButton = event.getTarget() == closeButton;
@@ -105,6 +106,7 @@ public class StackPaneDialogue extends StackPane{
         this.setAlignment(Pos.CENTER);
         this.setMaxSize(context.getWidth() * .75, context.getHeight() * .75);
         this.setPrefSize(context.getWidth() * .75, context.getHeight() * .75);
+        this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {
             boolean isCloseButton = event.getTarget() == closeButton;

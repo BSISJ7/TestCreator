@@ -61,7 +61,6 @@ public class NewQuestionEditor {
 
     public void addNewQuestion() {
         try {
-            System.out.println(questionType.getQuestionType());
             StageManager.setScene(STR."/questions/editorPanels/\{questionType.getQuestionType()}Editor.fxml");
         } catch (IOException e) {
             new StackPaneAlert(rootNode, STR."Error loading \{questionType.getQuestionType()}Editor.fxml").show();

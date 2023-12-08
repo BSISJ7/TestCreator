@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:id="rootNode" xmlns="http://javafx.com/javafx"
-            fx:controller="TestCreator.questions.testPanels.FillTheBlankTestPanel">
-
+<?import org.fxmisc.richtext.InlineCssTextArea?>
+<BorderPane fx:id="rootNode" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.testPanels.FillTheBlankTestPanel">
 
     <top>
-        <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers"/>
+        <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers" />
     </top>
     <left>
-        <ListView fx:id="wordBankListView" styleClass="brightListView"/>
+        <ListView fx:id="wordBankListView" styleClass="brightListView" />
     </left>
     <center>
-        <HBox fx:id="questionContainer"/>
+        <ScrollPane fx:id="questionScrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    BorderPane.alignment="CENTER">
+            <InlineCssTextArea fx:id="questionTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" />
+        </ScrollPane>
     </center>
 
     <bottom>
         <HBox>
-            <RadioButton fx:id="dispCorrectBtn" disable="true" text="Display Correct Answers" onAction="#dispCorrect"/>
-            <RadioButton fx:id="dispAnswersBtn" disable="true" text="Display Answers" onAction="#dispAnswers"/>
+            <RadioButton fx:id="displayCorrectBtn" disable="true" onAction="#dispCorrect" text="Display Correct Answers" />
+            <RadioButton fx:id="displayAnswersBtn" disable="true" onAction="#dispAnswers" text="Display Answers" />
         </HBox>
     </bottom>
-
 </BorderPane>
