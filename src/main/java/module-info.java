@@ -2,9 +2,7 @@ module TestCreator {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.reflections;
     requires java.xml;
-//    requires javafx.swing;
     requires aws.java.sdk.core;
     requires aws.java.sdk.dynamodb;
     requires java.sql;

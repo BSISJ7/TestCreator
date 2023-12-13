@@ -201,4 +201,8 @@ public class UserDBIO {
         }
         return users;
     }
+
+    public void closeConnection() {
+        dbConnManager.closeConnection();
+    }
 }

@@ -171,7 +171,7 @@ public abstract class Question implements TestableQuestion {
     public abstract TestPanel getTestPanel() throws IOException;
 
 
-    public int getGradableParts() {
+    public int getMaxScore() {
         return 1;
     }
 

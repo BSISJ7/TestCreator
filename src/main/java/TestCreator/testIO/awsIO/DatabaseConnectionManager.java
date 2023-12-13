@@ -19,4 +19,12 @@ public class DatabaseConnectionManager {
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcUrl, username, password);
     }
+
+    public void closeConnection() {
+        try {
+            DriverManager.getConnection(jdbcUrl, username, password).close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -49,6 +49,7 @@ public class OptionsMenu {
         okayButton.setOnAction(_ -> {
             try{
                 StageManager.setScene("/MainMenu.fxml");
+                StageManager.clearStageController();
             } catch (IOException e) {
                 new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
                 throw new RuntimeException(e);
@@ -57,6 +58,7 @@ public class OptionsMenu {
         cancelButton.setOnAction(_ -> {
             try{
                 StageManager.setScene("/MainMenu.fxml");
+                StageManager.clearStageController();
             } catch (IOException e) {
                 new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
                 throw new RuntimeException(e);
@@ -84,6 +86,7 @@ public class OptionsMenu {
 
             try{
                 StageManager.setScene("/options/OptionsMenu.fxml");
+                StageManager.clearStageController();
             } catch (IOException e) {
                 new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
                 throw new RuntimeException(e);

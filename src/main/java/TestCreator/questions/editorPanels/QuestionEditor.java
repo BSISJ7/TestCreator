@@ -39,6 +39,7 @@ public abstract class QuestionEditor<T extends Question> {
 
         try {
             StageManager.setScene("/MainMenu.fxml");
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
@@ -47,10 +48,13 @@ public abstract class QuestionEditor<T extends Question> {
 
     public void cancel() {
         try {
-            if(editing)
+            if(editing){
                 StageManager.setScene("/MainMenu.fxml");
-            else
+                StageManager.clearStageController();
+            }
+            else{
                 StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
+            }
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
             throw new RuntimeException(e);

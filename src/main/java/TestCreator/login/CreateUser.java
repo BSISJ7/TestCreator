@@ -13,11 +13,13 @@ import software.amazon.awssdk.services.ses.model.SesException;
 import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static TestCreator.utilities.PasswordChecker.*;
 
 
 public class CreateUser {
+    @FXML
     public StackPane rootNode;
     @FXML
     private CheckBox passVisibleCheckBox;
@@ -41,6 +43,7 @@ public class CreateUser {
     private PasswordField passwordField;
     @FXML
     private Button createUserButton;
+    private UserManager userManager;
 
     public void initialize() {
         usernameField.textProperty().addListener((_, _, _) -> validateInputs());
@@ -67,6 +70,10 @@ public class CreateUser {
 
         specialCharReqLabel = new Label("Password must contain at least one special character.");
         if(REQUIRE_SPECIAL_CHAR) requirementsVBox.getChildren().add(specialCharReqLabel);
+    }
+
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
     }
 
     private void validateInputs() {
@@ -98,21 +105,34 @@ public class CreateUser {
 
     @FXML
     private void addUser() {
-
-        if(UserManager.emailDoesNotExist(emailTextField.getText())){
-            verifyEmail(emailTextField.getText());
+        if (userManager.userExists(usernameField.getText())) {
+            new StackPaneAlert(rootNode, "Username already exists.").showAndWait().thenAccept(_ -> goToLoginPage());
         }
-
-
-        if (!createUserButton.isDisabled()) {
+        else if (!createUserButton.isDisabled()) {
             try {
-                UserManager.addUser(usernameField.getText(), UserAuthenticator.generateStrongPasswordHash(passwordField.getText()));
-                new StackPaneAlert(rootNode, "New user created successfully.").show();
-                goToLoginPage();
-            } catch (Exception e) {
-                new StackPaneAlert(rootNode, "Error creating new user: " + e.getMessage()).show();
+                if(emailTextField.getText().isEmpty()) {
+                    this.userManager.addUser(usernameField.getText(), UserAuthenticator
+                            .generateStrongPasswordHash(passwordField.getText()));
+                    new StackPaneAlert(rootNode, "New user created successfully.").showAndWait()
+                            .thenAccept(_ -> goToLoginPage());
+                }
+                else if(userManager.emailDoesNotExist(emailTextField.getText())) {
+                    verifyEmail(emailTextField.getText());
+                    this.userManager.addUser(usernameField.getText(),
+                            UserAuthenticator.generateStrongPasswordHash(passwordField.getText()),
+                            emailTextField.getText());
+                    new StackPaneAlert(rootNode, "New user created successfully.  A verification email has been" +
+                            "sent to the address you have given.").showAndWait().thenAccept(_ -> goToLoginPage());
+                }else
+                    new StackPaneAlert(rootNode, "This email is already associated with an account.").show();
+            } catch (SesException e) {
+                new StackPaneAlert(rootNode, "Email verification error: " + e.getMessage()).show();
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                new StackPaneAlert(rootNode, "Database error, could not create new user: " + e.getMessage()).show();
                 throw new RuntimeException(e);
             }
+            System.out.println("Showed And Waited");
         }
     }
 
@@ -120,6 +140,8 @@ public class CreateUser {
     private void goToLoginPage() {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
+            ((WebLogin) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
@@ -127,26 +149,16 @@ public class CreateUser {
     }
 
 
-    public static void verifyEmail(String email) {
-        System.setProperty("aws.accessKeyId", System.getenv("AWS_SES_ACCESS_KEY"));
-        System.setProperty("aws.secretAccessKey", System.getenv("AWS_SES_SECRET_ACCESS_KEY"));
-
+    public void verifyEmail(String email) throws SesException {
         SesClient client = SesClient.builder()
                 .region(Region.US_EAST_2)
                 .build();
 
         try {
-            VerifyEmailIdentityRequest request = VerifyEmailIdentityRequest.builder()
-                    .emailAddress(email)
-                    .build();
-
+            VerifyEmailIdentityRequest request = VerifyEmailIdentityRequest.builder().emailAddress(email).build();
             client.verifyEmailIdentity(request);
-            System.out.println("A verification email has been sent to " + email);
-
-        } catch (
-                SesException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
+        } catch (SesException e) {
+            throw new RuntimeException(e);
         }
         client.close();
     }

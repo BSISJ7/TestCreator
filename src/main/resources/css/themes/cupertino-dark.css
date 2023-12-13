@@ -4691,11 +4691,14 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
     -fx-border-color: #ff0000;
 }
 .flagQuestionBtn.selectedQuestionBtn {
-    -fx-border-color: #ff9999;
+  -fx-border-color: #bbd7f1;
 }
 
 .correctAnswer {
     -fx-text-fill: #0deb50;
+}
+.partialCorrectAnswer {
+  -fx-text-fill: #f0ec26;
 }
 .wrongAnswer {
     -fx-text-fill: #ff0000;

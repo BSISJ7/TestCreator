@@ -1,5 +1,6 @@
 package TestCreator.login;
 
+import TestCreator.MainMenu;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
@@ -33,9 +34,9 @@ public class WebLogin {
 
     private int loginAttempts = 0;
 
+    private UserManager userManager;
 
     public void initialize() {
-        UserManager.initialize(rootNode);
         loginBtn.disableProperty().bind(usernameField.textProperty().isEmpty()
                 .or(passwordField.textProperty().isEmpty()));
 
@@ -50,10 +51,16 @@ public class WebLogin {
     @FXML
     void loadMainMenu(String username) {
         try{
-            UserManager.setCurrentUser(username);
+            userManager.setCurrentUser(username);
             StageManager.setScene("/MainMenu.fxml");
+            ((MainMenu) StageManager.getStageController()).setUsername(userManager.getCurrentUsername());
+            StageManager.clearStageController();
+            userManager.closeConnection();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            throw new RuntimeException(e);
+        } catch (NullPointerException e){
+            new StackPaneAlert(rootNode, "Error loading users.  " +e.getMessage()).show();
             throw new RuntimeException(e);
         }
     }
@@ -68,7 +75,7 @@ public class WebLogin {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        if (UserManager.isAuthorized(username, password)) {
+        if (userManager.isAuthorized(username, password)) {
             loadMainMenu(username);
         } else {
             new StackPaneAlert(rootNode, "Incorrect username or password.").show();
@@ -79,6 +86,8 @@ public class WebLogin {
     public void resetPassword() {
         try{
             StageManager.setScene("/login/PasswordResetPanel.fxml");
+            ((PasswordResetPanel) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading PasswordResetPanel").show();
             throw new RuntimeException(e);
@@ -88,6 +97,8 @@ public class WebLogin {
     public void createUser() {
         try {
             StageManager.setScene("/login/CreateUser.fxml");
+            ((CreateUser) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading CreateUser.fxml").show();
             throw new RuntimeException(e);
@@ -96,5 +107,14 @@ public class WebLogin {
 
     public void guestLogin() {
         loadMainMenu("Guest");
+    }
+
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
+
+    public void setupUserManager() {
+        userManager = new UserManager();
+        userManager.initialize(rootNode);
     }
 }

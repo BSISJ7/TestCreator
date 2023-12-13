@@ -111,7 +111,7 @@ public class MultipleChoice extends Question {
     }
 
     @Override
-    public int getGradableParts() {
+    public int getMaxScore() {
         return 1;
     }
 

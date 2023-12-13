@@ -97,8 +97,8 @@ public class Test {
     /**
      * Returns the ArrayList of questions questionList
      */
-    public List<Question> getQuestionList() {
-        return questionList;
+    public List<Question> getQuestionListCopy() {
+        return new ArrayList<>(questionList);
     }
 
 

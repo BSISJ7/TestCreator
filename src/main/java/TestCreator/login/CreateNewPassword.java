@@ -40,6 +40,7 @@ public class CreateNewPassword {
     private PasswordField passwordConfirmField;
     @FXML
     private StackPane rootNode;
+    private UserManager userManager;
 
     public void initialize() {
         StageManager.setTitle("Create New Password");
@@ -89,6 +90,8 @@ public class CreateNewPassword {
     public void goToLoginPage() {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
+            ((WebLogin) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
@@ -96,8 +99,12 @@ public class CreateNewPassword {
     }
 
     public void changePassword() {
-        UserManager.setCurrentUserPassword(passwordField.getText());
+        userManager.setCurrentUserPassword(passwordField.getText());
         new StackPaneAlert(rootNode, "Your password has been changed.").show();
         goToLoginPage();
+    }
+
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
     }
 }

@@ -31,6 +31,9 @@ public class FlashCardTestPanel implements TestPanel<FlashCard> {
     }
 
     @Override
+    public void cleanUp() {}
+
+    @Override
     public float getPointsScored() {
         isTestGraded = true;
         boolean correct = correctCheckBox.isSelected();

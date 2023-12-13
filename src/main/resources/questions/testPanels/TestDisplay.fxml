@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="TestCreator.questions.testPanels.TestContainerPanel"
+           fx:controller="TestCreator.questions.testPanels.TestDisplay"
            fx:id="rootNode">
     <BorderPane fx:id="contentPane">
 
@@ -15,7 +15,7 @@
 
                 <ToolBar>
                     <HBox spacing="10">
-                        <Button id="circle-button" fx:id="mainMenuBtn" onAction="#returnToTestMenu" text="Main Menu">
+                        <Button id="circle-button" fx:id="mainMenuBtn" onAction="#returnToMainMenu" text="Main Menu">
                             <tooltip>
                                 <Tooltip text="Goes to next question."/>
                             </tooltip>

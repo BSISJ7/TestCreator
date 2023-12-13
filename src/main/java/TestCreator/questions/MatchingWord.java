@@ -112,7 +112,7 @@ public class MatchingWord extends Question {
     }
 
     @Override
-    public int getGradableParts() {
+    public int getMaxScore() {
         return keys.size();
     }
 

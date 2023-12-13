@@ -12,6 +12,7 @@ import java.net.URL;
 
 public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
 
+
     @FXML
     public TextArea questionText;
     @FXML
@@ -67,5 +68,7 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
         }
         return 1;
     }
+
+    public void cleanUp() {}
 }
 

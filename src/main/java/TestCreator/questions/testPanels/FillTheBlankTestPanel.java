@@ -79,7 +79,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
         wordBankListView.setOnMouseClicked(event -> {
             int startIndex = isInsideAnswer(prevIndex);
-            if (event.getClickCount() == 2 && startIndex != -1) {
+            if (startIndex != -1) {
                 String selectedWord = wordBankListView.getSelectionModel().getSelectedItem();
                 while (selectedWord.length() < answerBlank.length())
                     selectedWord += "_";
@@ -228,6 +228,15 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     }
 
     @Override
+    public void cleanUp() {
+        questionTextArea.clear();
+        wordBankListView.getItems().clear();
+        wordBank.clear();
+        wordOffsets.clear();
+        origOffsetsList.clear();
+    }
+
+    @Override
     public float getPointsScored() {
         float score = 0.0f;
         isTestGraded = true;
@@ -240,7 +249,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             int startOffset = wordOffsets.get(x);
             int endOffset = startOffset + answerBlank.length();
             String answer = getWordAtCaret(questionTextArea.getText(), startOffset).replaceAll("_+$", "");
-            System.out.println("answer: " + answer + " wordBank: " + wordBank.get(x));
             if (answer.equals(wordBank.get(x))) {
                 score += 1.0f;
                 questionTextArea.setStyle(startOffset, endOffset, FillTheBlank.CORRECT);

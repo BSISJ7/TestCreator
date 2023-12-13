@@ -8,10 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
-import java.net.URL;
 import java.util.*;
 
 
@@ -29,9 +28,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
     @FXML
     private ListView<String> valueListView;
     @FXML
-    private URL location;
-    @FXML
-    private HBox rootNode;
+    private VBox rootNode;
 
     private Callback<ListView<String>, ListCell<String>> valueFactory;
     private Callback<ListView<String>, ListCell<String>> keyFactory;
@@ -81,8 +78,8 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                                 else if (keyHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
                             }  else if(correct){
-                                    setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            }   else {
+                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
+                            }   else if(keyIndex >= 0){
                                     setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                             }
                         } else//Reset style of isEmptyCell cells
@@ -129,7 +126,8 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                             super.updateItem(value, empty);
 
                         if (value != null && !empty) {
-                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty() && isCorrectAnswerList.get(keyIndex);
+                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty()
+                                    && isCorrectAnswerList.get(keyIndex);
                             if (!testIsOver) {
                                 boolean isSelected = (valueListView.getSelectionModel().getSelectedIndex() >= 0)
                                         && valueListView.getSelectionModel().getSelectedItem().equals(value);
@@ -141,10 +139,9 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                                     setStyle("-fx-background-color: rgb(0,200,0)");
                                 else if (valueHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-
                             } else if(correct){
                                 setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            } else {
+                            } else if(keyIndex >= 0){
                                 setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                             }
                         } else//Reset style of new cells being painted
@@ -217,8 +214,16 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         });
     }
 
+    @FXML
     private void clearSelection() {
-
+        if (!testIsOver) {
+            keyHoverIndex = -1;
+            valueHoverIndex = -1;
+            keyListView.getSelectionModel().clearSelection();
+            valueListView.getSelectionModel().clearSelection();
+            keyListView.refresh();
+            valueListView.refresh();
+        }
     }
 
     @Override
@@ -294,5 +299,16 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             index++;
         }
         return -1;
+    }
+
+    public void cleanUp() {
+        keyListView.getItems().clear();
+        valueListView.getItems().clear();
+        matchingPairs.clear();
+        valueIndices.clear();
+        keyHoverIndex = -1;
+        valueHoverIndex = -1;
+        testIsOver = false;
+        isCorrectAnswerList.clear();
     }
 }

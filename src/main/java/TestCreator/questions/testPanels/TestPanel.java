@@ -8,4 +8,6 @@ public interface TestPanel<T extends Question> extends GradableFX {
     void setupQuestion(T question);
 
     public Node getRootNode();
+
+    public void cleanUp();
 }

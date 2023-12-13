@@ -38,6 +38,11 @@ public class User{
         this("Guest", "");
     }
 
+    public User(String username, String hashedPassword, String email) {
+        this(username, hashedPassword);
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }

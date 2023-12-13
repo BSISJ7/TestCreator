@@ -1,6 +1,6 @@
 package TestCreator;
 
-import TestCreator.testIO.IOManager;
+import TestCreator.login.WebLogin;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import com.jpro.webapi.JProApplication;
@@ -17,11 +17,16 @@ public class Main extends JProApplication {
     }
 
     public void start(Stage stage) throws Exception {
-        IOManager.getInstance().loadTests();
+        System.setProperty("aws.accessKeyId", System.getenv("AWS_SES_ACCESS_KEY"));
+        System.setProperty("aws.secretAccessKey", System.getenv("AWS_SES_SECRET_ACCESS_KEY"));
+
+
         TestManager.getInstance().autoFillTests();
         stage.setTitle("Main Menu");
         StageManager.setStage(stage);
         StageManager.setScene("/login/WebLogin.fxml");
+        ((WebLogin) StageManager.getStageController()).setupUserManager();
+        StageManager.clearStageController();
         stage.setWidth(800);
         stage.setHeight(600);
         stage.show();

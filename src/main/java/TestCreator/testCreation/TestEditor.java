@@ -51,6 +51,7 @@ public class TestEditor {
     public void returnToMainMenu() {
         try {
             StageManager.setScene("/MainMenu.fxml");
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);

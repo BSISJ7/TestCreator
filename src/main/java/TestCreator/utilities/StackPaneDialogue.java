@@ -14,12 +14,7 @@ import javafx.scene.layout.VBox;
 import java.util.concurrent.CompletableFuture;
 
 public class StackPaneDialogue extends StackPane{
-
-    private Boolean okayClicked = false;
-    private boolean waiting = true;
-    StackPane context = null;
-
-    private String message;
+    private final String message;
     private StackPane stackpane;
 
     public StackPaneDialogue(StackPane stackpane, String message) {
@@ -28,7 +23,6 @@ public class StackPaneDialogue extends StackPane{
     }
 
     public void show() {
-        context = stackpane;
         Button closeButton = new Button("Close");
         Button okayButton = new Button("Okay");
         HBox buttonHBox = new HBox(okayButton, closeButton);
@@ -53,8 +47,8 @@ public class StackPaneDialogue extends StackPane{
 
         this.setStyle(OptionsMenu.getCssFullPath());
         this.setAlignment(Pos.CENTER);
-        this.setMaxSize(context.getWidth() * .75, context.getHeight() * .75);
-        this.setPrefSize(context.getWidth() * .75, context.getHeight() * .75);
+        this.setMaxSize(stackpane.getWidth() * .75, stackpane.getHeight() * .75);
+        this.setPrefSize(stackpane.getWidth() * .75, stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {
@@ -65,21 +59,20 @@ public class StackPaneDialogue extends StackPane{
             if (!isCloseButton && !isCloseBtnText && !isOkayButton && !isOkayBtnText)
                 event.consume();
         };
-        context.addEventFilter(MouseEvent.ANY, eventFilter);
+        stackpane.addEventFilter(MouseEvent.ANY, eventFilter);
 
         okayButton.setOnAction(_ -> {
-            context.getChildren().remove(this);
-            context.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.getChildren().remove(this);
+            stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
         });
         closeButton.setOnAction(_ ->{
-            context.getChildren().remove(this);
-            context.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.getChildren().remove(this);
+            stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
         });
-        context.getChildren().add(this);
+        stackpane.getChildren().add(this);
     }
 
     public CompletableFuture<Boolean> showAndWait() {
-        context = stackpane;
         Button closeButton = new Button("Close");
         Button okayButton = new Button("Okay");
         HBox buttonHBox = new HBox(okayButton, closeButton);
@@ -104,8 +97,8 @@ public class StackPaneDialogue extends StackPane{
 
         this.setStyle(OptionsMenu.getCssFullPath());
         this.setAlignment(Pos.CENTER);
-        this.setMaxSize(context.getWidth() * .75, context.getHeight() * .75);
-        this.setPrefSize(context.getWidth() * .75, context.getHeight() * .75);
+        this.setMaxSize(stackpane.getWidth() * .75, stackpane.getHeight() * .75);
+        this.setPrefSize(stackpane.getWidth() * .75, stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {
@@ -116,20 +109,26 @@ public class StackPaneDialogue extends StackPane{
             if (!isCloseButton && !isCloseBtnText && !isOkayButton && !isOkayBtnText)
                 event.consume();
         };
-        context.addEventFilter(MouseEvent.ANY, eventFilter);
+        stackpane.addEventFilter(MouseEvent.ANY, eventFilter);
 
         CompletableFuture<Boolean> okayClicked = new CompletableFuture<>();
         okayButton.setOnAction(_ -> {
-            context.getChildren().remove(this);
+            stackpane.getChildren().remove(this);
             okayClicked.complete(true);
-            context.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            okayButton.setOnAction(null);
+            closeButton.setOnAction(null);
+            stackpane = null;
         });
         closeButton.setOnAction(_ -> {
-            context.getChildren().remove(this);
+            stackpane.getChildren().remove(this);
             okayClicked.complete(false);
-            context.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            okayButton.setOnAction(null);
+            closeButton.setOnAction(null);
+            stackpane = null;
         });
-        context.getChildren().add(this);
+        stackpane.getChildren().add(this);
 
         return okayClicked;
     }

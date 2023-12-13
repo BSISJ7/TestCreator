@@ -103,6 +103,10 @@ public class MultipleCheckBox extends Question {
         }
     }
 
+    public int getMaxScore() {
+        return answersList.size();
+    }
+
     public int getNumChoices(){
         return answersList.size();
     }
@@ -124,9 +128,19 @@ public class MultipleCheckBox extends Question {
         this.answersList.addAll(answersList);
     }
 
-    public boolean isCorrectAt(int i) {
+    public boolean isCorrect(int i) {
         return answersList.get(i).isCorrect();
     }
+
+    public boolean isCorrect(String answer) {
+        for(CheckBoxAnswer checkBoxAnswer : answersList){
+            if(checkBoxAnswer.getAnswer().equals(answer)){
+                return checkBoxAnswer.isCorrect();
+            }
+        }
+        return false;
+    }
+
 
     public static class CheckBoxAnswer{
         private String answer;

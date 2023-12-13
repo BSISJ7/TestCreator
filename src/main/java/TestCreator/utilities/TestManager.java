@@ -49,7 +49,8 @@ public class TestManager {
 
     public void setSelectedTest(Test test) {
         selectedTest = test;
-        questionList = selectedTest.getQuestionList();
+        questionList = selectedTest.getQuestionListCopy();
+        selectedQuestion = !questionList.isEmpty() ? questionList.get(0) : null;
     }
 
     public Question getSelectedQuestion() {

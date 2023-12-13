@@ -1,6 +1,6 @@
 package TestCreator;
 
-import TestCreator.login.UserManager;
+import TestCreator.login.WebLogin;
 import TestCreator.options.OptionsMenu;
 import TestCreator.questions.Question;
 import TestCreator.questions.editorPanels.QuestionEditor;
@@ -39,6 +39,7 @@ public class MainMenu {
     public Button editQuestionBtn;
     public Button deleteQuestionBtn;
     public HBox menuBar;
+    @FXML
     public StackPane rootNode;
     @FXML
     Button newQuestionBtn;
@@ -50,12 +51,14 @@ public class MainMenu {
     private ListView<Question> questionListView;
     private ContextMenu questionContextMenu;
 
+    private String username;
+
     //TODO Fix DarkTheme pushing the menu bar buttons into the hamburger menu
     public void initialize() {
         testListView.setItems(TestManager.getInstance().getObservableTestList());
         if (TestManager.getInstance().getSelectedTest() != null) {
             testListView.getSelectionModel().select(TestManager.getInstance().getSelectedTest());
-            questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
+            questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionListCopy()));
 
             if (TestManager.getInstance().getSelectedQuestion() != null)
                 questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
@@ -72,7 +75,7 @@ public class MainMenu {
         editQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
         deleteQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
 
-        StageManager.setTitle("Main Menu - %s".formatted(UserManager.getCurrentUsername()));
+        StageManager.setTitle("Main Menu - %s".formatted(username));
         ContextMenu testContextMenu = new ContextMenu();
 
         MenuItem loginItem = new MenuItem("login");
@@ -113,14 +116,9 @@ public class MainMenu {
                             }
                             else {
                                 switch (OptionsMenu.getCssName()){
-                                    case "nord-light" -> setTextFill(Color.BLACK);
-                                    case "cupertino-light" -> setTextFill(Color.BLACK);
-                                    case "primer-light" -> setTextFill(Color.BLACK);
-                                    case "nord-dark" -> setTextFill(Color.WHITE);
-                                    case "DarkTheme" -> setTextFill(Color.WHITE);
-                                    case "dracula" -> setTextFill(Color.WHITE);
-                                    case "cupertino-dark" -> setTextFill(Color.WHITE);
-                                    case "primer-dark" -> setTextFill(Color.WHITE);
+                                    case "nord-light", "primer-light", "cupertino-light" -> setTextFill(Color.BLACK);
+                                    case "nord-dark", "DarkTheme", "dracula", "cupertino-dark",
+                                            "primer-dark" -> setTextFill(Color.WHITE);
                                     default -> setTextFill(Color.GRAY);
                                 }
                             }
@@ -160,7 +158,7 @@ public class MainMenu {
         testListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (!testListView.getSelectionModel().isEmpty()) {
                 TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
-                questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionList()));
+                questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionListCopy()));
                 if (questionListView.getItems().contains(TestManager.getInstance().getSelectedQuestion())) {
                     questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
                 }
@@ -191,14 +189,9 @@ public class MainMenu {
                                 setTextFill(Color.TOMATO);
                             else {
                                 switch (OptionsMenu.getCssName()){
-                                    case "nord-light" -> setTextFill(Color.BLACK);
-                                    case "cupertino-light" -> setTextFill(Color.BLACK);
-                                    case "primer-light" -> setTextFill(Color.BLACK);
-                                    case "nord-dark" -> setTextFill(Color.WHITE);
-                                    case "DarkTheme" -> setTextFill(Color.WHITE);
-                                    case "dracula" -> setTextFill(Color.WHITE);
-                                    case "cupertino-dark" -> setTextFill(Color.WHITE);
-                                    case "primer-dark" -> setTextFill(Color.WHITE);
+                                    case "nord-light", "primer-light", "cupertino-light" -> setTextFill(Color.BLACK);
+                                    case "nord-dark", "dracula", "cupertino-dark", "DarkTheme",
+                                            "primer-dark" -> setTextFill(Color.WHITE);
                                     default -> setTextFill(Color.GRAY);
                                 }
                             }
@@ -300,30 +293,36 @@ public class MainMenu {
     public void createTest() {
         try{
             StageManager.setScene("/testCreation/TestEditor.fxml");
+            cleanup();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(new Test());
+        StageManager.clearStageController();
     }
 
     @FXML
     public void editTest() throws RuntimeException {
         try{
             StageManager.setScene("/testCreation/TestEditor.fxml");
+            cleanup();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(TestManager.getInstance().getSelectedTest());
+        StageManager.clearStageController();
     }
 
     @FXML
     public void beginTest() {
         try{
-            StageManager.setScene("/questions/testPanels/TestingPanel.fxml");
+            StageManager.setScene("/questions/testPanels/TestDisplay.fxml");
+            cleanup();
+            StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading TestingPanel.fxml").show();
+            new StackPaneAlert(rootNode, "Error loading TestDisplay.fxml: "+ e).show();
             throw new RuntimeException(e);
         }
     }
@@ -337,6 +336,8 @@ public class MainMenu {
     public void createNewQuestion() {
         try {
             StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
+            cleanup();
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
             throw new RuntimeException(e);
@@ -360,6 +361,7 @@ public class MainMenu {
         try {
             StageManager.setScene("/questions/editorPanels/" +
                     selectedQuestion().getClass().getSimpleName() + "Editor.fxml");
+            cleanup();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading " +
                     selectedQuestion().getClass().getSimpleName() + "Editor.fxml").show();
@@ -367,6 +369,7 @@ public class MainMenu {
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
                 .getSelectedQuestion(), true, rootNode);
+        StageManager.clearStageController();
     }
 
 
@@ -380,6 +383,9 @@ public class MainMenu {
     private void openLoginPanel() {
         try{
             StageManager.setScene("/login/WebLogin.fxml");
+            ((WebLogin) StageManager.getStageController()).setupUserManager();
+            cleanup();
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
             throw new RuntimeException(e);
@@ -389,9 +395,28 @@ public class MainMenu {
     public void openOptionsMenu() {
         try {
             StageManager.setScene("/options/OptionsMenu.fxml");
+            cleanup();
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
             throw new RuntimeException(e);
         }
+    }
+
+    public void cleanup() {
+        newTestBtn.setOnAction(null);
+        editTestBtn.setOnAction(null);
+        deleteTestBtn.setOnAction(null);
+        editQuestionBtn.setOnAction(null);
+        deleteQuestionBtn.setOnAction(null);
+        newQuestionBtn.setOnAction(null);
+        beginTestBtn.setOnAction(null);
+
+        testListView.getItems().clear();
+        questionListView.getItems().clear();
+    }
+
+    public void setUsername(String currentUsername) {
+        this.username = currentUsername;
     }
 }

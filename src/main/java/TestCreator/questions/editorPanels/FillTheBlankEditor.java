@@ -206,7 +206,6 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     public void setupQuestion(FillTheBlank question) {
         this.question = question;
         wordBankListView.setItems(question.getWordBankCopy());
-        System.out.println("wordBank: " + wordBankListView.getItems());
         questionTextArea.replaceText(question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
         answerOffsetsList.addAll(question.getAnswerOffsetsCopy());
         questionName.setText(question.getName());

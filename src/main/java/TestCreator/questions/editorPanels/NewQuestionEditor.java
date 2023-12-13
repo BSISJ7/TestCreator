@@ -53,6 +53,7 @@ public class NewQuestionEditor {
     public void returnToMainMenu() {
         try {
             StageManager.setScene("/MainMenu.fxml");
+            StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
@@ -67,5 +68,6 @@ public class NewQuestionEditor {
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
+        StageManager.clearStageController();
     }
 }

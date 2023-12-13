@@ -16,24 +16,21 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
     public BorderPane rootNode;
     MultipleCheckBox question;
     private float pointsScored;
-    private final ObservableList<CheckBox> checkBoxes = FXCollections.observableArrayList();
+    private final ObservableList<CheckBox> checkBoxList = FXCollections.observableArrayList();
 
     @Override
     public float getPointsScored() {
-        for (CheckBox checkBox : checkBoxes) {
+        for (CheckBox checkBox : checkBoxList) {
             checkBox.setDisable(true);
-            if (question.isCorrectAt(checkBoxes.indexOf(checkBox))) {
+            System.out.println(checkBox.getText() + " " + checkBox.isSelected() + " " + question.isCorrect(checkBox.getText()));
+            if (question.isCorrect(checkBox.getText()) && checkBox.isSelected()) {
+                pointsScored++;
                 checkBox.setStyle("-fx-text-fill: green");
-            } else {
-                checkBox.setStyle("-fx-text-fill: red");
             }
+            else
+                checkBox.setStyle("-fx-text-fill: red");
         }
-
-        for (int i = 0; i < question.getNumChoices(); i++) {
-            if (question.isCorrectAt(i))
-                pointsScored += 1;
-        }
-        return pointsScored / question.getNumChoices();
+        return pointsScored;
     }
 
     @Override
@@ -46,11 +43,11 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
             CheckBox radioBtn = new CheckBox(choice.getAnswer());
             radioBtn.setStyle("-fx-font-size: 15; -fx-padding: 15");
 
-            checkBoxes.add(radioBtn);
+            checkBoxList.add(radioBtn);
         }
 
-        FXCollections.shuffle(checkBoxes);
-        for (CheckBox checkBox : checkBoxes) {
+        FXCollections.shuffle(checkBoxList);
+        for (CheckBox checkBox : checkBoxList) {
             answerContainerVBox.getChildren().add(checkBox);
         }
     }
@@ -58,5 +55,11 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
     @Override
     public Node getRootNode() {
         return rootNode;
+    }
+
+    public void cleanUp() {
+        checkBoxList.clear();
+        answerContainerVBox.getChildren().clear();
+        pointsScored = 0;
     }
 }

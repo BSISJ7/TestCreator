@@ -20,7 +20,7 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @FXML
     private BorderPane rootNode;
 
-    private final ObservableList<RadioButton> radioButtons= FXCollections.observableArrayList();;
+    private final ObservableList<RadioButton> radioButtonList = FXCollections.observableArrayList();;
 
     private MultipleChoice question;
 
@@ -44,10 +44,10 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
             radioBtn.setToggleGroup(choiceToggle);
             radioBtn.setStyle("-fx-font-size: 15; -fx-padding: 15");
 
-            radioButtons.add(radioBtn);
+            radioButtonList.add(radioBtn);
             radioBtn.selectedProperty().addListener((_, _, _) -> {
                 if (radioBtn.isSelected()) {
-                    selectedIndex = radioButtons.indexOf(radioBtn);
+                    selectedIndex = radioButtonList.indexOf(radioBtn);
                     selectedAnswer = radioBtn.getText();
                 }
             });
@@ -55,14 +55,14 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
 
         int column = 0;
         int row = 0;
-        FXCollections.shuffle(radioButtons);
-        for (RadioButton radioButton : radioButtons) {
+        FXCollections.shuffle(radioButtonList);
+        for (RadioButton radioButton : radioButtonList) {
             gridPane.add(radioButton, column, row);
             row = column == 1 ? row + 1 : row;
             column = column == 1 ? 0 : 1;
         }
-        radioButtons.get(0).setSelected(true);
-        selectedAnswer = radioButtons.get(0).getText();
+        radioButtonList.get(0).setSelected(true);
+        selectedAnswer = radioButtonList.get(0).getText();
     }
 
     @Override
@@ -72,17 +72,24 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
 
     @Override
     public float getPointsScored() {
-        radioButtons.forEach(radioButton -> {
+        radioButtonList.forEach(radioButton -> {
             if (radioButton.getText().equals(question.getAnswer())) {
                 radioButton.setStyle("-fx-text-fill: rgb(0,150,0);-fx-font-size: 15; -fx-padding: 15");
                 radioButton.setDisable(true);
             }
         });
         if (question.getAnswer().equals(selectedAnswer)) {
-            return 1 * question.getWeight();
+            return 1;
         } else {
-            radioButtons.get(selectedIndex).setStyle("-fx-text-fill: rgba(220,34,0,0.64);-fx-font-size: 15; -fx-padding: 15");
-            return 0.0f * question.getWeight();
+            radioButtonList.get(selectedIndex).setStyle("-fx-text-fill: rgba(220,34,0,0.64);-fx-font-size: 15; -fx-padding: 15");
+            return 0;
         }
+    }
+
+    public void cleanUp() {
+        radioButtonList.forEach(radioButton -> {
+            radioButton.setStyle("-fx-font-size: 15; -fx-padding: 15");
+            radioButton.setDisable(false);
+        });
     }
 }
