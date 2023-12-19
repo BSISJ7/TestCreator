@@ -1,4 +1,4 @@
-package TestCreator.login;
+package TestCreator.users;
 
 import TestCreator.Test;
 import org.w3c.dom.Document;

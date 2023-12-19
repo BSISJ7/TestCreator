@@ -1,9 +1,9 @@
 package TestCreator;
 
-import TestCreator.login.User;
 import TestCreator.questions.Question;
 import TestCreator.testIO.XMLIO;
 import TestCreator.testIO.XmlUtil;
+import TestCreator.users.User;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -145,7 +145,7 @@ public class Test {
     }
 
     public void loadFromXMLNode(Element testNode){
-        Node IDNode = XMLIO.findNode("Test", testNode);
+        Node IDNode = XMLIO.findNode("ID", testNode);
         ID = IDNode == null ? "" : IDNode.getTextContent();
 
         Node nameNode = XMLIO.findNode("TestName", testNode);

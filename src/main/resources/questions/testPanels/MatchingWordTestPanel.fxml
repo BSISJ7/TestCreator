@@ -12,11 +12,10 @@
       fx:id="rootNode"
       fx:controller="TestCreator.questions.testPanels.MatchingWordTestPanel">
 
-
-    <HBox alignment="CENTER" spacing="10">
-        <ListView fx:id="keyListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+    <HBox fx:id="listViewContainer" alignment="CENTER">
+        <ListView fx:id="keyListView" maxHeight="1.7976931348623157E308"
                   HBox.hgrow="ALWAYS" styleClass="brightListView"/>
-        <ListView fx:id="valueListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+        <ListView fx:id="valueListView" maxHeight="1.7976931348623157E308"
                   HBox.hgrow="ALWAYS" styleClass="brightListView"/>
     </HBox>
 </VBox>

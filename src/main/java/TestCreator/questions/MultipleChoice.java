@@ -34,6 +34,7 @@ public class MultipleChoice extends Question {
     public MultipleChoice() {
         super();
         questionType = QuestionTypes.MULTIPLE_CHOICE;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     public MultipleChoice(String questionName, QuestionTypes type) {

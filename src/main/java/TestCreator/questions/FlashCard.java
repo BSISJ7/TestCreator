@@ -20,6 +20,7 @@ public class FlashCard extends Question {
     public FlashCard() {
         super();
         questionType = QuestionTypes.FLASH_CARD;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     public FlashCard(String questionName) {

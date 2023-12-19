@@ -1,6 +1,8 @@
 package TestCreator.login;
 
 import TestCreator.MainMenu;
+import TestCreator.users.CreateUser;
+import TestCreator.users.UserManager;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
@@ -60,7 +62,7 @@ public class WebLogin {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
             throw new RuntimeException(e);
         } catch (NullPointerException e){
-            new StackPaneAlert(rootNode, "Error loading users.  " +e.getMessage()).show();
+            new StackPaneAlert(rootNode, STR."Error loading users. \{e.getMessage()}").show();
             throw new RuntimeException(e);
         }
     }
@@ -96,7 +98,7 @@ public class WebLogin {
 
     public void createUser() {
         try {
-            StageManager.setScene("/login/CreateUser.fxml");
+            StageManager.setScene("/users/CreateUser.fxml");
             ((CreateUser) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {

@@ -17,8 +17,9 @@
                     <MenuItem onAction="#exitProgram" text="Exit"/>
                 </Menu>
 
-                <Menu text="Login">
-                    <MenuItem onAction="#openLoginPanel" text="Login as Different User"/>
+                <Menu text="User">
+<!--                    <MenuItem onAction="#openProfile" text="Profile"/>-->
+                    <MenuItem onAction="#openLoginPanel" text="Logout"/>
                 </Menu>
 
                 <Menu text="Settings">

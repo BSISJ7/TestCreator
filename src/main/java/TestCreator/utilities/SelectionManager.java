@@ -14,6 +14,10 @@ public class SelectionManager {
         }
     }
 
+    public int size() {
+        return selectedWordsList.size();
+    }
+
     public enum STYLE {
         ANSWER("-fx-fill: blue;"),
         REMOVAL("-fx-fill: red;"),

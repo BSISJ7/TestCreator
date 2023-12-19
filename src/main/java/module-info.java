@@ -33,4 +33,6 @@ module TestCreator {
     exports TestCreator.questions.testPanels to javafx.fxml;
     exports TestCreator.questions.editorPanels to javafx.fxml, javafx.graphics;
     exports TestCreator.login to javafx.fxml, javafx.graphics;
+    exports TestCreator.users to javafx.fxml, javafx.graphics;
+    opens TestCreator.users to javafx.fxml;
 }

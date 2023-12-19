@@ -70,6 +70,7 @@ public class FillTheBlank extends Question {
     public FillTheBlank() {
         super();
         questionType = QuestionTypes.FILL_THE_BLANK;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     public FillTheBlank(String questionName) {
@@ -182,7 +183,8 @@ public class FillTheBlank extends Question {
     }
 
     public void setWordIndexes(ArrayList<Integer> locations) {
-        wordPositions = new ArrayList<>(locations);
+        wordPositions.clear();
+        wordPositions.addAll(locations);
     }
 
     @Override

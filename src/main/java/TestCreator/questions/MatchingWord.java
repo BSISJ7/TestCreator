@@ -23,6 +23,7 @@ public class MatchingWord extends Question {
     public MatchingWord() {
         super();
         questionType = QuestionTypes.MATCHING_WORD;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     public MatchingWord(String questionName) {

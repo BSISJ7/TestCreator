@@ -1,5 +1,6 @@
 package TestCreator.login;
 
+import TestCreator.users.UserAuthenticator;
 import TestCreator.users.UserManager;
 import TestCreator.utilities.PasswordChecker;
 import TestCreator.utilities.StackPaneAlert;
@@ -15,14 +16,16 @@ import java.io.IOException;
 
 import static TestCreator.utilities.PasswordChecker.*;
 
-public class CreateNewPassword {
+public class ChangePassword {
 
+    @FXML
+    public PasswordField oldPasswordField;
     @FXML
     private Label maxLengthReqLabel;
     @FXML
     private Button changePassButton;
     @FXML
-    private PasswordField passwordField;
+    private PasswordField newPasswordField;
     @FXML
     private Label specialCharReqLabel;
     @FXML
@@ -38,15 +41,15 @@ public class CreateNewPassword {
     @FXML
     private Label matchReqLabel;
     @FXML
-    private PasswordField passwordConfirmField;
+    private PasswordField confirmPassField;
     @FXML
     private StackPane rootNode;
     private UserManager userManager;
 
     public void initialize() {
         StageManager.setTitle("Create New Password");
-        passwordField.textProperty().addListener((_, _, _) -> validateInputs());
-        passwordConfirmField.textProperty().addListener((_, _, _) -> validateInputs());
+        newPasswordField.textProperty().addListener((_, _, _) -> validateInputs());
+        confirmPassField.textProperty().addListener((_, _, _) -> validateInputs());
 
         minLengthReqLabel.setText(STR."Password must be at least \{MIN_LENGTH} characters long.");
         maxLengthReqLabel.setText(STR."Password must be at most \{MAX_LENGTH} characters long.");
@@ -65,24 +68,24 @@ public class CreateNewPassword {
     }
 
     private void validateInputs() {
-        boolean isPasswordValid = PasswordChecker.isPasswordCorrect(passwordField.getText());
-        boolean isPasswordConfirmValid = passwordField.getText().equals(passwordConfirmField.getText());
+        boolean isPasswordValid = PasswordChecker.isPasswordCorrect(newPasswordField.getText());
+        boolean isPasswordConfirmValid = newPasswordField.getText().equals(confirmPassField.getText());
 
-        passwordField.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
-        passwordConfirmField.setStyle(isPasswordConfirmValid ? "-fx-border-color: green" : "-fx-border-color: red");
+        newPasswordField.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
+        confirmPassField.setStyle(isPasswordConfirmValid ? "-fx-border-color: green" : "-fx-border-color: red");
 
         matchReqLabel.setStyle(isPasswordConfirmValid ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        minLengthReqLabel.setStyle(PasswordChecker.checkMinLength(passwordField.getText())
+        minLengthReqLabel.setStyle(PasswordChecker.checkMinLength(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        maxLengthReqLabel.setStyle(PasswordChecker.checkMaxLength(passwordField.getText())
+        maxLengthReqLabel.setStyle(PasswordChecker.checkMaxLength(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        upperCaseReqLabel.setStyle(PasswordChecker.checkUpperCase(passwordField.getText())
+        upperCaseReqLabel.setStyle(PasswordChecker.checkUpperCase(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        lowerCaseReqLabel.setStyle(PasswordChecker.checkLowerCase(passwordField.getText())
+        lowerCaseReqLabel.setStyle(PasswordChecker.checkLowerCase(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        numberReqLabel.setStyle(PasswordChecker.checkDigit(passwordField.getText())
+        numberReqLabel.setStyle(PasswordChecker.checkDigit(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
-        specialCharReqLabel.setStyle(PasswordChecker.checkSpecialChar(passwordField.getText())
+        specialCharReqLabel.setStyle(PasswordChecker.checkSpecialChar(newPasswordField.getText())
                 ? "-fx-text-fill: black" : "-fx-text-fill: red");
 
         changePassButton.setDisable(!(isPasswordValid) || !(isPasswordConfirmValid));
@@ -100,12 +103,21 @@ public class CreateNewPassword {
     }
 
     public void changePassword() {
-        userManager.setCurrentUserPassword(passwordField.getText());
-        new StackPaneAlert(rootNode, "Your password has been changed.").show();
-        goToLoginPage();
+        if(checkOldPassword()) {
+            userManager.setCurrentUserPassword(newPasswordField.getText());
+            new StackPaneAlert(rootNode, "Your password has been changed.").show();
+            goToLoginPage();
+        }
     }
 
-    public void setUserManager(UserManager userManager) {
+    private boolean checkOldPassword(){
+        String oldHashedPassword = userManager.getHashedPass();
+        String oldHashedPassField = UserAuthenticator.generateStrongPasswordHash(oldPasswordField.getText());
+        return oldHashedPassword.equals(oldHashedPassField);
+    }
+
+    public void setUserManager(UserManager userManager, String username) {
         this.userManager = userManager;
+        userManager.setCurrentUser(username);
     }
 }

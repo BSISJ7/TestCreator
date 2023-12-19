@@ -60,18 +60,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.4.11</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
 			<version>21-ea+24</version>
@@ -120,31 +108,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>com.sandec.jpro</groupId>
 			<artifactId>jpro-webapi</artifactId>
 			<version>${jpro.version}</version>
 			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>javacv-platform</artifactId>
-			<version>1.5.9</version>
-		</dependency>
-
-		<!-- when running on desktop/device only-->
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>flandmark-platform</artifactId>
-			<version>1.07-1.5.8</version>
-			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -194,6 +161,18 @@
 			<artifactId>richtextfx</artifactId>
 			<version>0.10.6</version>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>edu.cmu.sphinx</groupId>-->
+<!--			<artifactId>sphinx4-core</artifactId>-->
+<!--			<version></version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>edu.cmu.sphinx</groupId>-->
+<!--			<artifactId>sphinx4-data</artifactId>-->
+<!--			<version>5prealpha-SNAPSHOT</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -225,6 +204,7 @@
 						<JVMArg>--enable-preview</JVMArg>
 					</JVMArgs>
 					<mainClassName>TestCreator.Main</mainClassName>
+					<port>8081</port>
 				</configuration>
 			</plugin>
 

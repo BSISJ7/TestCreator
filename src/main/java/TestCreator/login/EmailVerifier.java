@@ -33,7 +33,7 @@ public class EmailVerifier {
             ListIdentitiesResponse response = client.listIdentities(request);
             return response.identities().contains(email.toLowerCase());
         } catch (SesException e) {
-            System.out.println("Email verification failed: "+e.getMessage());
+            System.out.println(STR."Email verification failed: \{e.getMessage()}");
         } finally {
             client.close();
         }

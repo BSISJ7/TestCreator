@@ -33,6 +33,5 @@ public class EmailSender {
         message.setText(body);
 
         Transport.send(message);
-        System.out.println("Sent message successfully....");
     }
 }

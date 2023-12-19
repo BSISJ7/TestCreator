@@ -1,5 +1,6 @@
 package TestCreator.login;
 
+import TestCreator.users.UserManager;
 import TestCreator.utilities.DictionaryManager;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;

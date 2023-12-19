@@ -1,7 +1,7 @@
 package TestCreator.testIO;
 
-import TestCreator.login.User;
 import TestCreator.testIO.awsIO.DatabaseConnectionManager;
+import TestCreator.users.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

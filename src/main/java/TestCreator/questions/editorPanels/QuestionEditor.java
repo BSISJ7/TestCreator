@@ -13,7 +13,7 @@ public abstract class QuestionEditor<T extends Question> {
 
     T question;
 
-    boolean editing = false;
+    boolean editingQuestion = false;
 
     StackPane rootNode;
 
@@ -25,13 +25,13 @@ public abstract class QuestionEditor<T extends Question> {
 
     public void setupQuestion(T question, boolean editing, StackPane rootNode){
         this.rootNode = rootNode;
-        this.editing = editing;
+        this.editingQuestion = editing;
         setupQuestion(question);
     }
 
 
     public void acceptQuestion() {
-        if (!TestManager.getInstance().containsQuestion(question) && !editing)
+        if (!TestManager.getInstance().containsQuestion(question) && !editingQuestion)
             TestManager.getInstance().addQuestion(question);
 
         updateQuestion();
@@ -48,7 +48,7 @@ public abstract class QuestionEditor<T extends Question> {
 
     public void cancel() {
         try {
-            if(editing){
+            if(editingQuestion){
                 StageManager.setScene("/MainMenu.fxml");
                 StageManager.clearStageController();
             }

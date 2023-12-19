@@ -4,5 +4,6 @@ public interface TestableQuestion {
 
     /**
      */
-    void autofillData();
+    void
+    autofillData();
 }

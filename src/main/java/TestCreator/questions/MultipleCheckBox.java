@@ -43,6 +43,7 @@ public class MultipleCheckBox extends Question {
     public MultipleCheckBox() {
         super();
         questionType = QuestionTypes.MULTIPLE_CHECKBOX;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     @Override

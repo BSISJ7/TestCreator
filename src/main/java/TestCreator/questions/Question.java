@@ -92,7 +92,7 @@ public abstract class Question implements TestableQuestion {
     }
 
     public Question() {
-        this(STR."Question");
+        this("Question");
         questionName = STR."\{questionName} \{ID.substring(0,5)}";
     }
 

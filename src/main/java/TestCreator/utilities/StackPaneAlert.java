@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,6 +25,7 @@ public class StackPaneAlert extends StackPane {
 
     public void show() {
         Button closeButton = new Button("Close");
+        closeButton.requestFocus();
 
         Label messageLabel = new Label(message);
         messageLabel.setStyle("-fx-text-fill: black;");
@@ -46,23 +48,28 @@ public class StackPaneAlert extends StackPane {
         this.setPrefSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
+        EventHandler<KeyEvent> keyEventFilter = KeyEvent::consume;
+        stackpane.addEventFilter(KeyEvent.ANY, keyEventFilter);
+
         EventHandler<MouseEvent> eventFilter = event -> {
             boolean isCloseButton = event.getTarget() == closeButton;
             boolean isCloseBtnText = ((Node) event.getTarget()).getParent() == closeButton;
             if (!isCloseButton && !isCloseBtnText)
                 event.consume();
         };
-        this.stackpane.addEventFilter(MouseEvent.ANY, eventFilter);
-
+        stackpane.addEventFilter(MouseEvent.ANY, eventFilter);
         closeButton.setOnAction((_) -> {
-            this.stackpane.getChildren().remove(this);
-            this.stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.getChildren().remove(this);
+            stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.removeEventFilter(KeyEvent.ANY, keyEventFilter);
         });
         stackpane.getChildren().add(this);
+        closeButton.requestFocus();
     }
 
     public CompletableFuture<Boolean> showAndWait() {
         Button closeButton = new Button("Close");
+        closeButton.requestFocus();
 
         Label messageLabel = new Label(message);
         messageLabel.setStyle("-fx-text-fill: black;");

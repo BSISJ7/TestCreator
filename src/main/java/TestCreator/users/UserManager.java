@@ -1,4 +1,4 @@
-package TestCreator.login;
+package TestCreator.users;
 
 import TestCreator.testIO.UserDBIO;
 import TestCreator.utilities.StackPaneAlert;
@@ -21,7 +21,7 @@ public class UserManager {
             userDBIO.setupUserTable();
             USER_LIST.addAll(userDBIO.getAllUsers());
         }catch (SQLException e){
-            new StackPaneAlert(rootNode, "Connection to database failed: " + e.getMessage()).show();
+            new StackPaneAlert(rootNode, STR."Connection to database failed: \{e.getMessage()}").show();
         }
     }
 
@@ -109,5 +109,17 @@ public class UserManager {
     public void addUser(String username, String hashedPassword, String email) throws SQLException {
         USER_LIST.add(new User(username, hashedPassword, email));
         userDBIO.addUser(new User(username, hashedPassword, email));
+    }
+
+    public String getHashedPass() {
+        return currentUser.getHashedPassword();
+    }
+
+    public void setCurrentUserEmail(String text) {
+        currentUser.setEmail(text);
+    }
+
+    public String getUsername() {
+        return currentUser.getUsername();
     }
 }

@@ -20,6 +20,7 @@ public class TrueFalse extends Question {
     public TrueFalse() {
         super();
         questionType = QuestionTypes.TRUE_FALSE;
+        questionName = STR."\{questionType.getDisplayName()} \{ID.substring(0,5)}";
     }
 
     public TrueFalse(String questionName) {

@@ -4,7 +4,6 @@ import TestCreator.Test;
 import TestCreator.questions.Question;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.TestManager;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,9 +26,10 @@ import java.util.Objects;
 
 public class XMLIO {
 
-    public static final File XML_SAVE_LOCATION = new File("SavedTests.xml");
+    public static final String DATABASE_NAME = "Test Data.xml";
+    public static final File XML_SAVE_LOCATION = new File(DATABASE_NAME);
     private static Document XMLDocument;
-    private static Node testsRootNode;
+    private static Node testsXMLNode;
     private static final XMLIO xmlIoInstance = new XMLIO();
     private static StackPane rootNode;
 
@@ -39,21 +39,22 @@ public class XMLIO {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
             if (!XML_SAVE_LOCATION.exists()) {
-               createSaveFile(docBuilder);
+                createSaveFile(docBuilder);
             } else {
-                try {
-                    XMLDocument = docBuilder.parse(XML_SAVE_LOCATION);
-                    testsRootNode = findNode("Tests", XMLDocument);
-                } catch (SAXException | IOException e) {
-                    e.printStackTrace();
-                }
+                loadExistingFile(docBuilder);
             }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Could not create save file. Exiting program.").showAndWait();
-            System.exit(1);
+        } catch (TransformerException | ParserConfigurationException e) {
+            new StackPaneAlert(rootNode, STR."Could not load save file.  \{e.getMessage()}").show();
+        }
+    }
+
+    private void loadExistingFile(DocumentBuilder docBuilder) {
+        try {
+            XMLDocument = docBuilder.parse(XML_SAVE_LOCATION);
+            testsXMLNode = findNode("Tests", XMLDocument);
+        } catch (SAXException | IOException e) {
+            new StackPaneAlert(rootNode, STR."Could not load save file. Loading a backup.  \{e.getMessage()}")
+                    .showAndWait().thenAccept(_ -> loadBackup());
         }
     }
 
@@ -61,7 +62,7 @@ public class XMLIO {
         return xmlIoInstance;
     }
 
-    public static void setTestsRootNode(StackPane stackNode) {
+    public static void setTestsXMLNode(StackPane stackNode) {
         rootNode = stackNode;
     }
 
@@ -81,47 +82,60 @@ public class XMLIO {
                 XMLDocument.getDocumentElement().normalize();
             }
 
-            for (Node testNode : XmlUtil.asList(testsRootNode.getChildNodes())) {
-                if (testNode instanceof Element) {
+            for (Node testNode : XmlUtil.asList(testsXMLNode.getChildNodes())) {
+                String testID = Objects.requireNonNull(findNode("ID", testNode)).getTextContent();
+                if (testNode instanceof Element && !TestManager.getInstance().containsTest(testID)) {
                     Test newTest = new Test();
                     newTest.loadFromXMLNode((Element) testNode);
                     TestManager.getInstance().addTest(newTest);
                 }
             }
-        }catch (NullPointerException e) {
-            new File("SavedTests.xml").delete();
+        } catch (NullPointerException e) {
+            new File("Test Data.xml").delete();
             createSaveFile();
-            e.printStackTrace();
-            
         }
     }
 
     public void saveTests() {
-        for(int x = 0; x < TestManager.getInstance().getNumOfTests(); x++){
-            testsRootNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
+        for (int x = 0; x < TestManager.getInstance().getNumOfTests(); x++) {
+            testsXMLNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
         }
         saveChanges();
     }
 
-    private void saveChanges() {
+    public void saveChanges() {
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            Document XMLDocument = docBuilder.newDocument();
-            Node testsRootNode = XMLDocument.createElement("Tests");
-
-            XMLDocument.appendChild(testsRootNode);
-            TestManager.getInstance().getObservableTestList().forEach(test ->
-                    testsRootNode.appendChild(test.getTestAsXMLNode(XMLDocument)));
-            DOMSource source = new DOMSource(XMLDocument);
-            StreamResult result = new StreamResult(XML_SAVE_LOCATION);
-            transformer.transform(source, result);
+            Document XMLDocument = createNewDocument();
+            Node testsRootNode = createTestsRootNode(XMLDocument);
+            appendTestsToRootNode(testsRootNode, XMLDocument);
+            transformDocumentToXML(XMLDocument, testsRootNode);
         } catch (TransformerException | ParserConfigurationException | NullPointerException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Could not save changes.").showAndWait();
+            new StackPaneAlert(rootNode, STR."Could not save changes.  \{e.getMessage()}").show();
         }
+    }
+
+    private Document createNewDocument() throws ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        return docBuilder.newDocument();
+    }
+
+    private Node createTestsRootNode(Document XMLDocument) {
+        return XMLDocument.createElement("Tests");
+    }
+
+    private void appendTestsToRootNode(Node testsRootNode, Document XMLDocument) {
+        TestManager.getInstance().getTestlistCopy().forEach(test ->
+                testsRootNode.appendChild(test.getTestAsXMLNode(XMLDocument)));
+        XMLDocument.appendChild(testsRootNode);
+    }
+
+    private void transformDocumentToXML(Document XMLDocument, Node testsRootNode) throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(XMLDocument);
+        StreamResult result = new StreamResult(XML_SAVE_LOCATION);
+        transformer.transform(source, result);
     }
 
     private boolean nodeExists(Node searchNode, Node parent) {
@@ -137,11 +151,11 @@ public class XMLIO {
     }
 
     public void deleteTest(Test test) {
-        testsRootNode.removeChild(getTestNode(test.getID()));
+        testsXMLNode.removeChild(getTestNode(test.getID()));
     }
 
     private Node getTestNode(String testID) throws NullPointerException {
-        for (Node testNode : XmlUtil.asList(testsRootNode.getChildNodes())) {
+        for (Node testNode : XmlUtil.asList(testsXMLNode.getChildNodes())) {
             Node idNode = findNode("ID", testNode);
             if (idNode != null && idNode.getTextContent().equals(testID))
                 return testNode;
@@ -150,23 +164,23 @@ public class XMLIO {
     }
 
     public void deleteQuestion(Question question) {
-        Node testNode = findNode(question.getOwningTest().getName(), testsRootNode);
+        Node testNode = findNode(question.getOwningTest().getName(), testsXMLNode);
         Node questionNode = findNode(question.getName(), Objects.requireNonNull(testNode));
         testNode.removeChild(questionNode);
     }
 
     public void updateQuestion(Question question) {
-        Node testNode = findNode(question.getOwningTest().getName(), testsRootNode);
+        Node testNode = findNode(question.getOwningTest().getName(), testsXMLNode);
         Node questionNode = findNode(question.getName(), Objects.requireNonNull(testNode));
         testNode.replaceChild(question.getQuestionAsXMLNode(), questionNode);
     }
 
     public void updateTest(Test oldTest, Test newTest) {
-        testsRootNode.replaceChild(getTestNode(oldTest.getID()), newTest.getTestAsXMLNode(XMLDocument));
+        testsXMLNode.replaceChild(getTestNode(oldTest.getID()), newTest.getTestAsXMLNode(XMLDocument));
     }
 
 
-    private static void createSaveFile(){
+    private static void createSaveFile() {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -181,10 +195,76 @@ public class XMLIO {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         XMLDocument = docBuilder.newDocument();
-        testsRootNode = XMLDocument.createElement("Tests");
-        XMLDocument.appendChild(testsRootNode);
+        testsXMLNode = XMLDocument.createElement("Tests");
+        XMLDocument.appendChild(testsXMLNode);
         DOMSource source = new DOMSource(XMLDocument);
         StreamResult saveLocation = new StreamResult(XML_SAVE_LOCATION);
         transformer.transform(source, saveLocation);
+    }
+
+    public void backupDatabase() {
+        File backupFile = new File(STR."\{DATABASE_NAME}.backup");
+        File backupFile2 = new File(STR."\{DATABASE_NAME}.backup2");
+        File backupFile3 = new File(STR."\{DATABASE_NAME}.backup3");
+
+        if (backupFile.exists()) {
+            if (backupFile2.exists()) {
+                if (backupFile3.exists()) {
+                    backupFile3.delete();
+                }
+                backupFile2.renameTo(backupFile3);
+            }
+            backupFile.renameTo(backupFile2);
+        }
+
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document XMLDocument = docBuilder.parse(XML_SAVE_LOCATION);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(XMLDocument);
+            StreamResult result = new StreamResult(backupFile);
+            transformer.transform(source, result);
+        } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadBackup() {
+        File backupFile = new File(STR."\{DATABASE_NAME}.backup");
+        File backupFile2 = new File(STR."\{DATABASE_NAME}.backup2");
+        File backupFile3 = new File(STR."\{DATABASE_NAME}.backup3");
+
+        if (backupFile.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else if (backupFile2.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile2);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else if (backupFile3.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile3);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            createSaveFile();
+        }
     }
 }

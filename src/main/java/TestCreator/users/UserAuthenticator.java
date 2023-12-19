@@ -1,4 +1,4 @@
-package TestCreator.login;
+package TestCreator.users;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -30,7 +30,7 @@ public class UserAuthenticator {
         }
     }
 
-    static String generateStrongPasswordHash(String password) {
+    public static String generateStrongPasswordHash(String password) {
         int iterations = 10000;
         char[] chars = password.toCharArray();
         byte[] salt = getSalt();
@@ -39,7 +39,7 @@ public class UserAuthenticator {
         try {
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             byte[] hash = skf.generateSecret(spec).getEncoded();
-            return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+            return STR."\{iterations}:\{toHex(salt)}:\{toHex(hash)}";
         } catch (NoSuchAlgorithmException | java.security.spec.InvalidKeySpecException e) {
             throw new RuntimeException("Error while hashing a password", e);
         }

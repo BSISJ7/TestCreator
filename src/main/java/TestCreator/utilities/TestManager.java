@@ -47,6 +47,10 @@ public class TestManager {
         return selectedTest;
     }
 
+    public String getSelectedTestName() {
+        return selectedTest.getName();
+    }
+
     public void setSelectedTest(Test test) {
         selectedTest = test;
         questionList = selectedTest.getQuestionListCopy();
@@ -61,17 +65,18 @@ public class TestManager {
         selectedQuestion = question;
     }
 
-    public ObservableList<Test> getObservableTestList() {
+    public ObservableList<Test> getTestlistCopy() {
         return FXCollections.observableArrayList(testList);
     }
 
     public void addQuestion(Question question) {
+        selectedTest.addQuestion(question);
         questionList.add(question);
     }
 
     public void autoFillTests() {
         if (Main.TESTING_MODE) {
-            for (int x = testList.size(); x < Question.QuestionTypes.values().length; x++) {
+            for (int x = testList.size(); x < 4; x++) {
                 Test newTest = new Test(STR. "Test # \{ new Random(nanoTime()).nextInt(999) }" );
                 Arrays.stream(Question.QuestionTypes.values()).forEach(questionType -> {
                     String qName = STR. "\{ questionType } # \{ new Random().nextInt(200) }" ;
@@ -95,5 +100,13 @@ public class TestManager {
 
     public Test getTestAt(int index) {
         return testList.get(index);
+    }
+
+    public void clearTestList() {
+        testList.clear();
+    }
+
+    public boolean containsTest(String testID) {
+        return testList.stream().anyMatch(test -> test.getID().equals(testID));
     }
 }

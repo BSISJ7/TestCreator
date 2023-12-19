@@ -22,8 +22,8 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
     public float getPointsScored() {
         for (CheckBox checkBox : checkBoxList) {
             checkBox.setDisable(true);
-            System.out.println(checkBox.getText() + " " + checkBox.isSelected() + " " + question.isCorrect(checkBox.getText()));
-            if (question.isCorrect(checkBox.getText()) && checkBox.isSelected()) {
+            if (question.isCorrect(checkBox.getText()) && checkBox.isSelected()
+                    || !question.isCorrect(checkBox.getText()) && !checkBox.isSelected()) {
                 pointsScored++;
                 checkBox.setStyle("-fx-text-fill: green");
             }

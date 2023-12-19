@@ -77,13 +77,13 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             }
         });
 
-        wordBankListView.setOnMouseClicked(event -> {
+        wordBankListView.setOnMouseClicked(_ -> {
             int startIndex = isInsideAnswer(prevIndex);
-            if (startIndex != -1) {
-                String selectedWord = wordBankListView.getSelectionModel().getSelectedItem();
+            if (startIndex != -1 && !isTestGraded) {
+                StringBuilder selectedWord = new StringBuilder(wordBankListView.getSelectionModel().getSelectedItem());
                 while (selectedWord.length() < answerBlank.length())
-                    selectedWord += "_";
-                questionTextArea.replaceText(startIndex, startIndex + answerBlank.length(), selectedWord);
+                    selectedWord.append("_");
+                questionTextArea.replaceText(startIndex, startIndex + answerBlank.length(), selectedWord.toString());
                 questionTextArea.setStyle(startIndex, startIndex + answerBlank.length(), FillTheBlank.ANSWER);
             }
         });
@@ -94,7 +94,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             if (event.getCharacter().matches(FillTheBlank.ALLOWED_CHARS) && startIndex != -1 && isInsideAnswer(caretPosition) != -1
                 && caretPosition < startIndex + answerBlank.length()) {
                 questionTextArea.replaceText(caretPosition, caretPosition+1, event.getCharacter());
-                questionTextArea.setStyle(caretPosition, caretPosition, FillTheBlank.ANSWER + "-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition, caretPosition, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
                 questionTextArea.moveTo(questionTextArea.getCaretPosition());
             }
             event.consume();
@@ -108,13 +108,13 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
                 return;
             } else if (keyCode == KeyCode.DELETE && isInsideAnswer(caretPosition) != -1 && isAfterAnswer(caretPosition) == -1) {
                 questionTextArea.replaceText(caretPosition, caretPosition+1, "_");
-                questionTextArea.setStyle(caretPosition, caretPosition+1, FillTheBlank.ANSWER + "-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition, caretPosition+1, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
             }else if (keyCode == KeyCode.BACK_SPACE && (isInsideAnswer(prevIndex) > -1 || isAfterAnswer(caretPosition) > -1)
                 && isStartOfAnswer(caretPosition) == -1 && caretPosition > 1) {
                 if (questionTextArea.getSelection().getLength() > 1)
                     questionTextArea.selectRange(caretPosition, caretPosition);
                 questionTextArea.replaceText(caretPosition - 1, caretPosition, "_");
-                questionTextArea.setStyle(caretPosition - 1, caretPosition - 1, FillTheBlank.ANSWER + "-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition - 1, caretPosition - 1, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
                 questionTextArea.moveTo(questionTextArea.getCaretPosition() - 1);
             }
             event.consume();
@@ -171,7 +171,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             questionTextArea.setStyle(prevIndex, prevIndex + answerBlank.length(), FillTheBlank.DEFAULT);
         }
         if (isInsideAnswer(position) != -1) {
-            questionTextArea.setStyle(position, position, FillTheBlank.ANSWER + "-fx-underline: true;");
+            questionTextArea.setStyle(position, position, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
         }
     }
 
@@ -249,6 +249,11 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
             int startOffset = wordOffsets.get(x);
             int endOffset = startOffset + answerBlank.length();
             String answer = getWordAtCaret(questionTextArea.getText(), startOffset).replaceAll("_+$", "");
+
+            StringBuilder correctAnswer = new StringBuilder(wordBank.get(x));
+            while(correctAnswer.length() < answerBlank.length()) correctAnswer.append("_");
+            questionTextArea.replaceText(startOffset, endOffset, correctAnswer.toString());
+
             if (answer.equals(wordBank.get(x))) {
                 score += 1.0f;
                 questionTextArea.setStyle(startOffset, endOffset, FillTheBlank.CORRECT);

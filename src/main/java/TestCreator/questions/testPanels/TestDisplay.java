@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
 
 
 public class TestDisplay {
-
-    private final List<TestPanel> testPanels = new ArrayList<>();
+    private final List<TestPanel<Question>> testPanels = new ArrayList<>();
     private final Timer timer = new Timer();
     private final List<Integer> flaggedList = new ArrayList<>();
     private List<Button> questionBtnList = new ArrayList<>();
@@ -62,9 +61,10 @@ public class TestDisplay {
     public static final String SELECTED_FLAG_STYLE = "-fx-border-color: white";
     public static final String UNSELECTED_FLAG_STYLE = "-fx-border-color: red";
 
+//    private SpeechRecognizer speechRecognizer;
+
     public void initialize() {
-        StageManager.setTitle(STR. "[\{ testNameLbl.getText() }]: Question \{ (questionIndex + 1) }" );
-        setupTest(TestManager.getInstance().getSelectedTest());
+        setTitle();
 
         LocalTime tempTimer = LocalTime.of(0, 0, 0);
         timerLbl.setText(DateTimeFormatter.ofPattern("HH:mm:ss").format(tempTimer));
@@ -76,12 +76,31 @@ public class TestDisplay {
                 Platform.runLater(() -> timerLbl.setText(DateTimeFormatter.ofPattern("HH:mm:ss").format(currentTime)));
             }
         }, 1000, 1000);
+        setupTest(TestManager.getInstance().getSelectedTest());
+
+//        try {
+//            speechRecognizer = new SpeechRecognizer();
+//            speechRecognizer.startRecognition();
+//            new Thread(() -> {
+//                while (true) {
+//                    String command = speechRecognizer.getHypothesis();
+//                    if (command.equals("next question")) {
+//                        nextQuestion();
+//                    } else if (command.equals("previous question")) {
+//                        prevQuestion();
+//                    } else if (command.equals("flag question")) {
+//                        flagQuestion();
+//                    }
+//                }
+//            }).start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void setupTest(Test test) {
         this.test = test;
         questionList = test.getQuestionListCopy();
-
         questionList = questionList.stream()
                 .filter(question -> {
                     try {
@@ -92,11 +111,16 @@ public class TestDisplay {
                     }
                 }).collect(Collectors.toList());
 
+        if(questionList.isEmpty()) {
+            returnToMainMenu();
+            return;
+        }
+
         for (int x = 0; x < questionList.size(); x++) {
             try {
                 testPanels.add(questionList.get(x).getTestPanel());
                 testPanels.get(x).setupQuestion(questionList.get(x));
-                Button loadQuestionBtn = new Button(x + 1 + "");
+                Button loadQuestionBtn = new Button(STR."\{x + 1}");
                 loadQuestionBtn.minHeight(40);
                 loadQuestionBtn.setMinWidth(40);
                 loadQuestionBtn.focusedProperty().addListener((_, _, _) -> {
@@ -124,7 +148,7 @@ public class TestDisplay {
         }
 
 
-        TestManager.getInstance().setSelectedQuestion(questionList.get(0));
+        TestManager.getInstance().setSelectedQuestion(questionList.getFirst());
         Platform.runLater(() -> testNameLbl.setText(test.getName()));
         questionIndex = 0;
         questionBtnList.get(questionIndex).setStyle("-fx-border-color: #00bfff");
@@ -137,6 +161,7 @@ public class TestDisplay {
             questionIndex = questionList.size() - 1;
         loadQuestionPane();
         updateQuestionIndex();
+        setTitle();
     }
 
     public void nextQuestion() {
@@ -145,6 +170,7 @@ public class TestDisplay {
             questionIndex = 0;
         loadQuestionPane();
         updateQuestionIndex();
+        setTitle();
     }
 
     private void updateQuestionIndex() {
@@ -164,6 +190,10 @@ public class TestDisplay {
         setFlagText();
     }
 
+    private void setTitle(){
+        StageManager.setTitle(STR. "[\{ TestManager.getInstance().getSelectedTestName() }]: Question \{ (questionIndex + 1) }" );
+    }
+
     public void checkCorrectAnswers() {
         new StackPaneDialogue(rootNode, "Are you sure you want to end your test? Press OK to confirm, or cancel to back out.")
                 .showAndWait().thenAccept(okayClicked -> {
@@ -175,8 +205,6 @@ public class TestDisplay {
                         for (int i = 0; i < questionList.size(); i++) {
                             int pointsScored = (int) testPanels.get(i).getPointsScored();
                             int maxPoints = questionList.get(i).getMaxScore();
-//                            System.out.println("Question Name: " + questionList.get(i).getName());
-//                            System.out.println("Points scored: " + pointsScored + " out of " + maxPoints);
                             if (pointsScored == maxPoints)
                                 questionBtnList.get(i).getStyleClass().add("correctAnswer");
                             else if (pointsScored > 0)
@@ -213,30 +241,20 @@ public class TestDisplay {
 
     @FXML
     public void returnToMainMenu() {
-        try {
-            cleanup();
-            StageManager.setScene("/MainMenu.fxml");
-            StageManager.clearStageController();
-        } catch (IOException e) {
-            e.printStackTrace();
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
-            throw new RuntimeException(e);
-        }
-
-//        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
-//                .showAndWait().thenAccept(okayClicked -> {
-//            if (okayClicked) {
-//                try {
-//                    cleanup();
-//                    StageManager.setScene("/MainMenu.fxml");
-//                    StageManager.clearStageController();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
+        new StackPaneDialogue(rootNode, "Are you sure you want to return to the main menu? Press OK to confirm, or close to back out.")
+                .showAndWait().thenAccept(okayClicked -> {
+            if (okayClicked) {
+                try {
+                    cleanup();
+                    StageManager.setScene("/MainMenu.fxml");
+                    StageManager.clearStageController();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public void cleanup() {

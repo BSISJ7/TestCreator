@@ -19,7 +19,6 @@ public class IOManager {
 
     private IOManager() {
         IOType = IOType.XML;
-        loadTests();
     }
 
     public static IOManager getInstance() {
@@ -49,6 +48,14 @@ public class IOManager {
                 break;
         }
         TestManager.getInstance().removeTest(test);
+    }
+
+    public void backupDatabase() {
+        switch (IOType) {
+            case XML:
+                XMLIO.getInstance().backupDatabase();
+                break;
+        }
     }
 
     public void updateTest(Test oldTest, Test newTest) {

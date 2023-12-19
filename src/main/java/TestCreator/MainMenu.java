@@ -6,6 +6,7 @@ import TestCreator.questions.Question;
 import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.testCreation.TestEditor;
 import TestCreator.testIO.IOManager;
+import TestCreator.users.EditUser;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
@@ -55,7 +56,8 @@ public class MainMenu {
 
     //TODO Fix DarkTheme pushing the menu bar buttons into the hamburger menu
     public void initialize() {
-        testListView.setItems(TestManager.getInstance().getObservableTestList());
+        TestManager.getInstance().autoFillTests();
+        testListView.setItems(TestManager.getInstance().getTestlistCopy());
         if (TestManager.getInstance().getSelectedTest() != null) {
             testListView.getSelectionModel().select(TestManager.getInstance().getSelectedTest());
             questionListView.setItems(FXCollections.observableArrayList(selectedTest().getQuestionListCopy()));
@@ -259,11 +261,25 @@ public class MainMenu {
             if (okayClicked) {
                 selectedTest().removeQuestion(selectedQuestion());
                 questionListView.getItems().remove(selectedQuestion());
+                selectPrevQuestion();
                 questionListView.refresh();
                 testListView.refresh();
+                beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
                 IOManager.getInstance().saveTests();
             }
         });
+    }
+
+    private void selectPrevQuestion() {
+        if (questionListView.getSelectionModel().getSelectedIndex() > 0) {
+            TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    private void selectPrevTest() {
+        if (testListView.getSelectionModel().getSelectedIndex() > 0) {
+            TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
@@ -284,6 +300,7 @@ public class MainMenu {
                 IOManager.getInstance().deleteTest(selectedTest());
                 testListView.getItems().remove(selectedTest());
                 testListView.refresh();
+                selectPrevTest();
                 IOManager.getInstance().saveTests();
             }
         });
@@ -359,12 +376,10 @@ public class MainMenu {
     private void editQuestion() {
         TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
         try {
-            StageManager.setScene("/questions/editorPanels/" +
-                    selectedQuestion().getClass().getSimpleName() + "Editor.fxml");
+            StageManager.setScene(STR."/questions/editorPanels/\{selectedQuestion().getClass().getSimpleName()}Editor.fxml");
             cleanup();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading " +
-                    selectedQuestion().getClass().getSimpleName() + "Editor.fxml").show();
+            new StackPaneAlert(rootNode, STR."Error loading \{selectedQuestion().getClass().getSimpleName()}Editor.fxml").show();
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
@@ -374,7 +389,7 @@ public class MainMenu {
 
 
     private void resetTests() {
-        TestManager.getInstance().getObservableTestList().clear();
+        TestManager.getInstance().clearTestList();
         questionListView.getItems().clear();
         TestManager.getInstance().autoFillTests();
     }
@@ -418,5 +433,17 @@ public class MainMenu {
 
     public void setUsername(String currentUsername) {
         this.username = currentUsername;
+    }
+
+    public void openProfile() {
+        try {
+            StageManager.setScene("/users/EditUser.fxml");
+            ((EditUser) StageManager.getStageController()).setUser(username);
+            cleanup();
+            StageManager.clearStageController();
+        } catch (IOException e) {
+            new StackPaneAlert(rootNode, "Error loading Profile.fxml").show();
+            throw new RuntimeException(e);
+        }
     }
 }

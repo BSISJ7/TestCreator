@@ -1,11 +1,14 @@
 package TestCreator.utilities;
 
 import TestCreator.options.OptionsMenu;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -25,6 +28,21 @@ public class StackPaneDialogue extends StackPane{
     public void show() {
         Button closeButton = new Button("Close");
         Button okayButton = new Button("Okay");
+        okayButton.requestFocus();
+
+        okayButton.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                closeButton.requestFocus();
+            }
+        });
+        closeButton.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                okayButton.requestFocus();
+            }
+        });
+
         HBox buttonHBox = new HBox(okayButton, closeButton);
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
@@ -51,6 +69,9 @@ public class StackPaneDialogue extends StackPane{
         this.setPrefSize(stackpane.getWidth() * .75, stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
+        EventHandler<KeyEvent> keyEventFilter = KeyEvent::consume;
+        stackpane.addEventFilter(KeyEvent.ANY, keyEventFilter);
+
         EventHandler<MouseEvent> eventFilter = event -> {
             boolean isCloseButton = event.getTarget() == closeButton;
             boolean isCloseBtnText = ((Node) event.getTarget()).getParent() == closeButton;
@@ -64,17 +85,39 @@ public class StackPaneDialogue extends StackPane{
         okayButton.setOnAction(_ -> {
             stackpane.getChildren().remove(this);
             stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.removeEventFilter(KeyEvent.ANY, keyEventFilter);
         });
         closeButton.setOnAction(_ ->{
             stackpane.getChildren().remove(this);
             stackpane.removeEventFilter(MouseEvent.ANY, eventFilter);
+            stackpane.removeEventFilter(KeyEvent.ANY, keyEventFilter);
         });
         stackpane.getChildren().add(this);
+        //TODO Fix focus so that the okay button is focused when the dialogue is shown
+        Platform.runLater(() -> {
+            okayButton.setFocusTraversable(true);
+            okayButton.requestFocus();
+        });
     }
 
     public CompletableFuture<Boolean> showAndWait() {
         Button closeButton = new Button("Close");
         Button okayButton = new Button("Okay");
+        okayButton.requestFocus();
+
+        okayButton.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                closeButton.requestFocus();
+            }
+        });
+        closeButton.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                okayButton.requestFocus();
+            }
+        });
+
         HBox buttonHBox = new HBox(okayButton, closeButton);
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
@@ -130,6 +173,7 @@ public class StackPaneDialogue extends StackPane{
         });
         stackpane.getChildren().add(this);
 
+        okayButton.requestFocus();
         return okayClicked;
     }
 }

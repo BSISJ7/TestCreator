@@ -1,5 +1,6 @@
-package TestCreator.login;
+package TestCreator.users;
 
+import TestCreator.login.WebLogin;
 import TestCreator.utilities.PasswordChecker;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
@@ -56,8 +57,8 @@ public class CreateUser {
         passwordField.managedProperty().bind(passwordField.visibleProperty());
         passwordField.visibleProperty().bind(passVisibleCheckBox.selectedProperty().not());
 
-        minLengthReqLabel.setText("Password must be at least " + MIN_LENGTH + " characters long.");
-        maxLengthReqLabel.setText("Password must be at most " + MAX_LENGTH + " characters long.");
+        minLengthReqLabel.setText(STR."Password must be at least \{MIN_LENGTH} characters long.");
+        maxLengthReqLabel.setText(STR."Password must be at most \{MAX_LENGTH} characters long.");
 
         upperCaseReqLabel = new Label("Password must contain at least one uppercase letter.");
         if(REQUIRE_UPPER_CASE) requirementsVBox.getChildren().add(upperCaseReqLabel);
@@ -84,7 +85,7 @@ public class CreateUser {
         passwordField.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
         passwordFieldVisible.setStyle(isPasswordValid ? "-fx-border-color: green" : "-fx-border-color: red");
 
-        boolean isEmailValid = emailTextField.getText().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+        boolean isEmailValid = emailTextField.getText().trim().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
                 || emailTextField.getText().isEmpty();
 
         minLengthReqLabel.setStyle(PasswordChecker.checkMinLength(passwordField.getText())
@@ -126,13 +127,12 @@ public class CreateUser {
                 }else
                     new StackPaneAlert(rootNode, "This email is already associated with an account.").show();
             } catch (SesException e) {
-                new StackPaneAlert(rootNode, "Email verification error: " + e.getMessage()).show();
+                new StackPaneAlert(rootNode, STR."Email verification error: \{e.getMessage()}").show();
                 throw new RuntimeException(e);
             } catch (SQLException e) {
-                new StackPaneAlert(rootNode, "Database error, could not create new user: " + e.getMessage()).show();
+                new StackPaneAlert(rootNode, STR."Database error, could not create new user: \{e.getMessage()}").show();
                 throw new RuntimeException(e);
             }
-            System.out.println("Showed And Waited");
         }
     }
 

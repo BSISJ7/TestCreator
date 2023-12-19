@@ -3,6 +3,12 @@
 *.xml
 XMLTest.xml
 *.bak
+*.log
+*.conf
+RUNNING_PID
+*.xml.backup*
+*.jks
+*.zip
 
 .apt_generated
 .classpath

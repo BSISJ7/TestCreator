@@ -82,6 +82,9 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
         MenuItem removePair = new MenuItem("Remove Pair");
         removePair.setOnAction(_ -> removePair());
         pairContextMenu.getItems().addAll(removePair);
+
+        questionTextArea.setWrapText(true);
+        answerTextArea.setWrapText(true);
     }
 
     @FXML
