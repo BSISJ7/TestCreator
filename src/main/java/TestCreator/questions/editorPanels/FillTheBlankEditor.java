@@ -31,7 +31,6 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     private String prevWord = "";
     private boolean addingWord = false;
     private boolean removingWord = false;
-    private boolean mouseHeld = false;
     @FXML
     private ListView<String> wordBankListView;
     @FXML
@@ -45,8 +44,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
 
     private final SelectionManager selectedWordManager = new SelectionManager();
 
-    public static final String NO_ALPHANUM = "[^a-zA-Z0-9-'_]";
-    public static final String SEARCH_REGEX = "[a-zA-Z0-9-'_]";
+    public static final String NO_ALPHANUMERIC = "[^a-zA-Z0-9-'_]";
 
     public void initialize() {
         StageManager.setTitle("Fill The Blank Editor");
@@ -64,8 +62,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
 
             if (removingWord && selectedWordManager.containsWord(word, wordStartIndex, wordEndIndex)) {
                 questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.DEFAULT.getStyle());
+                wordBankListView.getItems().remove(word);
                 answerOffsetsList.remove((Integer) wordStartIndex);
-
                 selectedWordManager.removeWord(word);
                 toggleRemoveWord();
             } else if (addingWord && !selectedWordManager.containsWord(word, wordStartIndex, wordEndIndex) && !word.trim().equalsIgnoreCase("")) {
@@ -116,25 +114,11 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         });
 
         questionTextArea.setOnKeyTyped(_ -> {
-            wordBankListView.getItems().clear();
-            answerOffsetsList.clear();
-            selectedWordManager.clearList();
-
-            //have the pattern match alphanumeric characters or - or _
-            Pattern pattern = Pattern.compile("[a-zA-Z0-9-'_]+");
-            Matcher matcher = pattern.matcher(questionTextArea.getText());
-            while (matcher.find()) {
-                if (hasStyle(questionTextArea, matcher.start(), matcher.end())) {
-                    String word = questionTextArea.getText().substring(matcher.start(), matcher.end());
-                    wordBankListView.getItems().add(word);
-                    answerOffsetsList.add(matcher.start());
-                    selectedWordManager.addSelectedWord(word, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER);
-                }
-            }
+            updateAnswerLists();
 
             if (questionTextArea.getCaretPosition() > 0) {
                 String character = questionTextArea.getText().substring(questionTextArea.getCaretPosition() - 1, questionTextArea.getCaretPosition());
-                if (character.matches(NO_ALPHANUM)) {
+                if (character.matches(NO_ALPHANUMERIC)) {
                     removeStyle(questionTextArea.getCaretPosition() - 1, questionTextArea.getCaretPosition());
                 }
             }
@@ -151,6 +135,23 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         Platform.runLater(wordBankListView::refresh);
     }
 
+    private void updateAnswerLists() {
+        wordBankListView.getItems().clear();
+        answerOffsetsList.clear();
+        selectedWordManager.clearList();
+
+        //have the pattern match alphanumeric characters or - or _
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9-'_]+");
+        Matcher matcher = pattern.matcher(questionTextArea.getText());
+        while (matcher.find()) {
+            if (hasStyle(questionTextArea, matcher.start(), matcher.end())) {
+                String word = questionTextArea.getText().substring(matcher.start(), matcher.end());
+                wordBankListView.getItems().add(word);
+                answerOffsetsList.add(matcher.start());
+                selectedWordManager.addSelectedWord(word, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER);
+            }
+        }
+    }
 
 
     public boolean hasStyle(InlineCssTextArea textArea, int start, int end) {
@@ -170,7 +171,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
             removingWord = !removingWord;
             questionTextArea.setEditable(!removingWord);
             removeWordBtn.setText(removingWord ? "Cancel Remove" : "Remove Word");
-            if (addingWord) toggleAddWord();
+            if (addingWord && removingWord) toggleAddWord();
         });
     }
 
@@ -180,13 +181,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
             addingWord = !addingWord;
             questionTextArea.setEditable(!addingWord);
             addWordBtn.setText(addingWord ? "Cancel Add" : "Add Word");
-            if (removingWord) toggleRemoveWord();
+            if (removingWord && addingWord) toggleRemoveWord();
         });
-    }
-
-    private void replaceSelection(int startIndex, int endIndex, SelectionManager.STYLE style) {
-        if (selectedWordManager.isAnswer(startIndex)) return;
-        questionTextArea.setStyle(startIndex, endIndex, style.getStyle());
     }
 
     private void removeStyle(int startIndex, int endIndex) {
