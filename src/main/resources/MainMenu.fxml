@@ -18,7 +18,7 @@
                 </Menu>
 
                 <Menu text="User">
-<!--                    <MenuItem onAction="#openProfile" text="Profile"/>-->
+                    <MenuItem onAction="#openProfile" text="Profile"/>
                     <MenuItem onAction="#openLoginPanel" text="Logout"/>
                 </Menu>
 

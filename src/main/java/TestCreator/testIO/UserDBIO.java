@@ -14,15 +14,16 @@ public class UserDBIO {
     private static final String RDS_DB_USERNAME = System.getenv("RDS_USERNAME");
     private static final String RDS_DB_PASSWORD = System.getenv("RDS_PASSWORD");
 
-    public static final String USER_DATABASE_INFO = "jdbc:mysql://testcreator-db.cyqisi4dgbgt.us-east-2.rds.amazonaws.com:1433/testcreatordb?" +
-            "user=" + System.getenv("RDS_USERNAME") + "&" +
-            "hashedPassword=" + System.getenv("RDS_PASSWORD");
+    public static final String USER_DATABASE_INFO
+            = STR."jdbc:mysql://testcreator-db.cyqisi4dgbgt.us-east-2.rds.amazonaws.com:1433/testcreatordb?user"+
+            STR."=\{System.getenv("RDS_USERNAME")}&hashedPassword=\{System.getenv("RDS_PASSWORD")}";
 
     private final DatabaseConnectionManager dbConnManager = new DatabaseConnectionManager(USER_DATABASE_INFO, RDS_DB_USERNAME, RDS_DB_PASSWORD);
 
 
     public void addUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (username, hashedPassword, firstName, lastName, email, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, hashedPassword, firstName, lastName, email, phoneNumber)" +
+                " VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbConnManager.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getHashedPassword());
@@ -30,6 +31,7 @@ public class UserDBIO {
             stmt.setString(4, user.getLastName());
             stmt.setString(5, user.getEmail());
             stmt.setString(6, user.getPhoneNumber());
+//            stmt.setBoolean(7, user.isEmailVerified());
 
             stmt.executeUpdate();
         }
@@ -52,6 +54,7 @@ public class UserDBIO {
                     user.setLastName(rs.getString("lastName"));
                     user.setEmail(rs.getString("email"));
                     user.setPhoneNumber(rs.getString("phoneNumber"));
+//                    user.setEmailVerified(rs.getBoolean("emailVerified"));
 
                     return user;
                 } else {
@@ -69,6 +72,7 @@ public class UserDBIO {
                 "lastName VARCHAR(50), " +
                 "email VARCHAR(50), " +
                 "phoneNumber VARCHAR(15)" +
+//                "emailVerified BOOLEAN" +
                 ")";
 
         try (Connection conn = dbConnManager.getConnection();

@@ -16,8 +16,9 @@ public class User{
     private String lastName = "";
     private String email = "";
     private String phoneNumber = "";
+    private boolean emailVerified = false;
 
-    public User(String username, String hashedPassword, String firstName, String lastName, String email, String phoneNumber) {
+    public User(String username, String hashedPassword, String firstName, String lastName, String email, String phoneNumber, boolean emailVerified) {
         this.username = username;
         this.hashedPassword = hashedPassword;
         this.firstName = firstName;
@@ -53,6 +54,14 @@ public class User{
 
     public String getHashedPassword() {
         return hashedPassword;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
     }
 
     public void setHashedPassword(String hashedPassword) {

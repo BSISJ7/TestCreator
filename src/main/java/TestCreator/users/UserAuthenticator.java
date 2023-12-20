@@ -31,6 +31,7 @@ public class UserAuthenticator {
     }
 
     public static String generateStrongPasswordHash(String password) {
+        password = password.trim();
         int iterations = 10000;
         char[] chars = password.toCharArray();
         byte[] salt = getSalt();

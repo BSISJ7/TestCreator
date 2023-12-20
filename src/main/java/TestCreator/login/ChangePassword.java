@@ -1,5 +1,6 @@
 package TestCreator.login;
 
+import TestCreator.users.EditUser;
 import TestCreator.users.UserAuthenticator;
 import TestCreator.users.UserManager;
 import TestCreator.utilities.PasswordChecker;
@@ -13,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static TestCreator.utilities.PasswordChecker.*;
 
@@ -91,33 +93,31 @@ public class ChangePassword {
         changePassButton.setDisable(!(isPasswordValid) || !(isPasswordConfirmValid));
     }
 
-    public void goToLoginPage() {
+    public void openUserEditor() {
         try{
-            StageManager.setScene("/login/WebLogin.fxml");
-            ((WebLogin) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.setScene("/users/EditUser.fxml");
+            ((EditUser) StageManager.getStageController()).setUser(userManager.getUsername());
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
+            new StackPaneAlert(rootNode, "Error loading EditUser.fxml").show();
             throw new RuntimeException(e);
         }
     }
 
     public void changePassword() {
-        if(checkOldPassword()) {
+        if(UserAuthenticator.authenticate(userManager.getHashedPassword(), oldPasswordField.getText())) {
+            try {
             userManager.setCurrentUserPassword(newPasswordField.getText());
-            new StackPaneAlert(rootNode, "Your password has been changed.").show();
-            goToLoginPage();
-        }
+                userManager.updateUser();
+                new StackPaneAlert(rootNode, "Your password has been changed.").showAndWait().thenAccept(_ -> openUserEditor());
+            } catch (SQLException e) {
+                new StackPaneAlert(rootNode, STR."Error updating user password.\n\{e.getMessage()}").show();
+            }
+        }else
+            new StackPaneAlert(rootNode, "The previous password is incorrect.").show();
     }
 
-    private boolean checkOldPassword(){
-        String oldHashedPassword = userManager.getHashedPass();
-        String oldHashedPassField = UserAuthenticator.generateStrongPasswordHash(oldPasswordField.getText());
-        return oldHashedPassword.equals(oldHashedPassField);
-    }
-
-    public void setUserManager(UserManager userManager, String username) {
+    public void setUserManager(UserManager userManager) {
         this.userManager = userManager;
-        userManager.setCurrentUser(username);
     }
 }

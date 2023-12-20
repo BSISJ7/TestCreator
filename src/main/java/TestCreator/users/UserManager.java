@@ -111,7 +111,7 @@ public class UserManager {
         userDBIO.addUser(new User(username, hashedPassword, email));
     }
 
-    public String getHashedPass() {
+    public String getHashedPassword() {
         return currentUser.getHashedPassword();
     }
 
@@ -121,5 +121,17 @@ public class UserManager {
 
     public String getUsername() {
         return currentUser.getUsername();
+    }
+
+    public void setEmail(String trim) {
+        currentUser.setEmail(trim);
+    }
+
+    public String getEmail() {
+        return currentUser.getEmail();
+    }
+
+    public void updateUser() throws SQLException {
+        userDBIO.updateUser(currentUser);
     }
 }

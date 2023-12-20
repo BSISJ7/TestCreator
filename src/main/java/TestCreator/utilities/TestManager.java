@@ -109,4 +109,14 @@ public class TestManager {
     public boolean containsTest(String testID) {
         return testList.stream().anyMatch(test -> test.getID().equals(testID));
     }
+
+    public void selectFirstTest() {
+        if (!testList.isEmpty()) {
+            selectedTest = testList.getFirst();
+            questionList = selectedTest.getQuestionListCopy();
+            if (!questionList.isEmpty()) {
+                selectedQuestion = questionList.getFirst();
+            }
+        }
+    }
 }

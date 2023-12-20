@@ -53,9 +53,8 @@ public class WebLogin {
     @FXML
     void loadMainMenu(String username) {
         try{
-            userManager.setCurrentUser(username);
             StageManager.setScene("/MainMenu.fxml");
-            ((MainMenu) StageManager.getStageController()).setUsername(userManager.getCurrentUsername());
+            ((MainMenu) StageManager.getStageController()).setUsername(username);
             StageManager.clearStageController();
             userManager.closeConnection();
         } catch (IOException e) {

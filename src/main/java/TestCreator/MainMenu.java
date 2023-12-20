@@ -77,7 +77,6 @@ public class MainMenu {
         editQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
         deleteQuestionBtn.disableProperty().bind(questionListView.getSelectionModel().selectedItemProperty().isNull());
 
-        StageManager.setTitle("Main Menu - %s".formatted(username));
         ContextMenu testContextMenu = new ContextMenu();
 
         MenuItem loginItem = new MenuItem("login");
@@ -138,10 +137,8 @@ public class MainMenu {
 
                     @Override
                     public Test fromString(String name) {
-                        if (testListView.getSelectionModel().getSelectedIndex() >= 0) {
-                            return selectedTest();
-                        } else
-                            return null;
+                        if (testListView.getSelectionModel().getSelectedIndex() >= 0) return selectedTest();
+                        else return null;
                     }
                 });
 
@@ -170,9 +167,7 @@ public class MainMenu {
         });
 
         testListView.setOnMouseClicked(click -> {
-            if (click.getClickCount() == 2) {
-                editTest();
-            }
+            if (click.getClickCount() == 2) editTest();
             Platform.runLater(questionListView::refresh);//TODO why is the ListView blank when empty
         });
 
@@ -219,13 +214,9 @@ public class MainMenu {
                 });
 
                 shortDescCell.emptyProperty().addListener((_, _, isNowEmpty) -> {
-                    if (isNowEmpty) {
-                        shortDescCell.setContextMenu(null);
-                    } else {
-                        shortDescCell.setContextMenu(questionContextMenu);
-                    }
+                    if (isNowEmpty) shortDescCell.setContextMenu(null);
+                    else shortDescCell.setContextMenu(questionContextMenu);
                 });
-
                 return shortDescCell;
             }
         };
@@ -252,6 +243,9 @@ public class MainMenu {
 
         Platform.runLater(questionListView::refresh);
         Platform.runLater(testListView::refresh);
+        TestManager.getInstance().selectFirstTest();
+        testListView.getSelectionModel().selectFirst();
+        questionListView.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -339,7 +333,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading TestDisplay.fxml: "+ e).show();
+            new StackPaneAlert(rootNode, STR."Error loading TestDisplay.fxml: \{e}").show();
             throw new RuntimeException(e);
         }
     }
@@ -433,6 +427,7 @@ public class MainMenu {
 
     public void setUsername(String currentUsername) {
         this.username = currentUsername;
+        StageManager.setTitle("Main Menu - %s".formatted(username));
     }
 
     public void openProfile() {

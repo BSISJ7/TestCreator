@@ -1,15 +1,14 @@
 package TestCreator.users;
 
-import TestCreator.login.CreateNewPassword;
+import TestCreator.MainMenu;
+import TestCreator.login.ChangePassword;
 import TestCreator.login.EmailVerifier;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import software.amazon.awssdk.services.ses.model.SesException;
 
 import java.io.IOException;
 
@@ -20,48 +19,32 @@ public class EditUser {
     @FXML
     public Label usernameLabel;
     @FXML
-    private TextField emailTextField;
+    public Label emailLabel;
     @FXML
-    private Button updateButton;
+    public Button verifyEmailButton;
     private final UserManager userManager = new UserManager();
-    private User user;
+    @FXML
+    public Button changeEmailButton;
 
     public void initialize() {
-        emailTextField.textProperty().addListener((_, _, _) -> validateInputs());
+        userManager.initialize(rootNode);
     }
 
     public void setUser(String username) {
-        user = userManager.getUser(username);
-        usernameLabel.setText(username);
-        emailTextField.setText(user.getEmail());
-    }
-
-    private void validateInputs() {
-        boolean isEmailValid = emailTextField.getText().trim().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-                || emailTextField.getText().isEmpty();
-        updateButton.setDisable(!isEmailValid);
-    }
-
-    @FXML
-    private void updateEmail() {
-        try {
-            if (userManager.emailDoesNotExist(emailTextField.getText())) {
-                EmailVerifier.verifyEmail(emailTextField.getText());
-                user.setEmail(emailTextField.getText());
-                new StackPaneAlert(rootNode, "Email has been updated successfully.  A verification email has been" +
-                        "sent to the address you have given.").showAndWait().thenAccept(_ -> returnToMainMenu());
-            } else
-                new StackPaneAlert(rootNode, "This email is already associated with an account.").show();
-        } catch (SesException e) {
-            new StackPaneAlert(rootNode, STR."Email verification error: \{e.getMessage()}").show();
-            throw new RuntimeException(e);
-        }
+        StageManager.setTitle(STR."Profile: \{username}");
+        userManager.setCurrentUser(username);
+        usernameLabel.setText(STR."Username: \{username}");
+        emailLabel.setText(userManager.getEmail() == null ? "No email associated with this account." : userManager.getEmail());
+        boolean isVerified = username.equalsIgnoreCase("guest") || EmailVerifier.isEmailVerified(userManager.getEmail());
+        verifyEmailButton.setDisable(username.equalsIgnoreCase("guest") || isVerified);
+        changeEmailButton.setDisable(username.equalsIgnoreCase("guest"));
     }
 
     @FXML
     private void returnToMainMenu() {
         try {
-            StageManager.setScene("MainMenu.fxml");
+            StageManager.setScene("/MainMenu.fxml");
+            ((MainMenu) StageManager.getStageController()).setUsername(userManager.getUsername());
             StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
@@ -81,12 +64,29 @@ public class EditUser {
  */
 public void changePassword() {
     try {
-        StageManager.setScene("/users/ChangePassword.fxml");
-        ((CreateNewPassword) StageManager.getStageController()).setUserManager(userManager);
+        StageManager.setScene("/login/ChangePassword.fxml");
+        ((ChangePassword) StageManager.getStageController()).setUserManager(userManager);
         StageManager.clearStageController();
     } catch (IOException e) {
         new StackPaneAlert(rootNode, "Error loading ChangePassword.fxml").show();
         throw new RuntimeException(e);
     }
 }
+
+    public void changeEmail() {
+        try {
+            StageManager.setScene("/users/ChangeEmail.fxml");
+            ((ChangeEmail) StageManager.getStageController()).setUserManager(userManager);
+            StageManager.clearStageController();
+        } catch (IOException e) {
+            new StackPaneAlert(rootNode, "Error loading ChangeEmail.fxml").show();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void verifyEmail() {
+        verifyEmailButton.setDisable(true);
+        EmailVerifier.verifyEmail(userManager.getEmail());
+        new StackPaneAlert(rootNode, "A verification email has been sent to your email address.").show();
+    }
 }
