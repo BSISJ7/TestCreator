@@ -36,7 +36,7 @@ public abstract class QuestionEditor<T extends Question> {
 
         updateQuestion();
         IOManager.getInstance().saveTests();
-
+        TestManager.getInstance().selectQuestion(question);
         try {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();

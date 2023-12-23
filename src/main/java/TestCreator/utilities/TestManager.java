@@ -61,7 +61,7 @@ public class TestManager {
         return selectedQuestion;
     }
 
-    public void setSelectedQuestion(Question question) {
+    public void selectQuestion(Question question) {
         selectedQuestion = question;
     }
 

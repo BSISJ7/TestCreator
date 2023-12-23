@@ -148,7 +148,7 @@ public class TestDisplay {
         }
 
 
-        TestManager.getInstance().setSelectedQuestion(questionList.getFirst());
+        TestManager.getInstance().selectQuestion(questionList.getFirst());
         Platform.runLater(() -> testNameLbl.setText(test.getName()));
         questionIndex = 0;
         questionBtnList.get(questionIndex).setStyle("-fx-border-color: #00bfff");
@@ -182,7 +182,7 @@ public class TestDisplay {
 
     private void loadQuestionPane() {
         if (questionIndex < 0 || questionIndex >= questionList.size() || testPanels.isEmpty()) return;
-        TestManager.getInstance().setSelectedQuestion(questionList.get(questionIndex));
+        TestManager.getInstance().selectQuestion(questionList.get(questionIndex));
         Platform.runLater(() -> {
             testNameLbl.setText(test.getQuestionAtIndex((questionIndex)).getName());
             questionDisplay.setCenter(testPanels.get(questionIndex).getRootNode());

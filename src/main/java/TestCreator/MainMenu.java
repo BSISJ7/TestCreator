@@ -66,7 +66,7 @@ public class MainMenu {
                 questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
             else{
                 questionListView.getSelectionModel().select(0);
-                TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+                TestManager.getInstance().selectQuestion(questionListView.getSelectionModel().getSelectedItem());
             }
             beginTestBtn.setDisable(TestManager.getInstance().getSelectedTest().notReadyToRun());
         }
@@ -238,16 +238,29 @@ public class MainMenu {
 
         questionListView.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (questionListView.getSelectionModel().getSelectedIndex() >= 0)
-                TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+                TestManager.getInstance().selectQuestion(questionListView.getSelectionModel().getSelectedItem());
         });
 
         Platform.runLater(questionListView::refresh);
         Platform.runLater(testListView::refresh);
-        TestManager.getInstance().selectFirstTest();
-        testListView.getSelectionModel().selectFirst();
-        questionListView.getSelectionModel().selectFirst();
+
+
+        if(TestManager.getInstance().getSelectedTest() != null) {
+            testListView.getSelectionModel().select(TestManager.getInstance().getSelectedTest());
+            if(TestManager.getInstance().getSelectedQuestion() != null)
+                questionListView.getSelectionModel().select(TestManager.getInstance().getSelectedQuestion());
+            else
+                questionListView.getSelectionModel().selectFirst();
+        }else {
+            TestManager.getInstance().selectFirstTest();
+            testListView.getSelectionModel().selectFirst();
+            questionListView.getSelectionModel().selectFirst();
+        }
     }
 
+    /**
+     * Deletes the selected question from questionListView
+     */
     @FXML
     private void deleteQuestion() {
         new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
@@ -264,18 +277,27 @@ public class MainMenu {
         });
     }
 
+    /**
+     * Selects the previous question in questionListView
+     */
     private void selectPrevQuestion() {
         if (questionListView.getSelectionModel().getSelectedIndex() > 0) {
-            TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+            TestManager.getInstance().selectQuestion(questionListView.getSelectionModel().getSelectedItem());
         }
     }
 
+    /**
+     * Deletes the selected test from testListView
+     */
     private void selectPrevTest() {
         if (testListView.getSelectionModel().getSelectedIndex() > 0) {
             TestManager.getInstance().setSelectedTest(testListView.getSelectionModel().getSelectedItem());
         }
     }
 
+    /**
+     * Deletes the selected test from testListView
+     */
     @FXML
     public void checkKeyPress(KeyEvent keyEvent) {
         if (testListView.getSelectionModel().getSelectedIndex() >= 0 && keyEvent.getCode().equals(KeyCode.DELETE))
@@ -284,6 +306,9 @@ public class MainMenu {
             editTest();
     }
 
+    /**
+     * Deletes the selected test from testListView
+     */
     @FXML
     private void deleteTest() {
         new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
@@ -300,6 +325,9 @@ public class MainMenu {
         });
     }
 
+    /**
+     * Opens the test editor panel for a new test
+     */
     @FXML
     public void createTest() {
         try{
@@ -313,6 +341,9 @@ public class MainMenu {
         StageManager.clearStageController();
     }
 
+    /**
+     * Opens the test editor panel for the selected test
+     */
     @FXML
     public void editTest() throws RuntimeException {
         try{
@@ -326,6 +357,9 @@ public class MainMenu {
         StageManager.clearStageController();
     }
 
+    /**
+     * Begins the test selected in testListView
+     */
     @FXML
     public void beginTest() {
         try{
@@ -343,6 +377,9 @@ public class MainMenu {
         Platform.exit();
     }
 
+    /**
+     * Creates a new question and opens the appropriate editor panel
+     */
     @FXML
     public void createNewQuestion() {
         try {
@@ -368,7 +405,7 @@ public class MainMenu {
 
     @FXML
     private void editQuestion() {
-        TestManager.getInstance().setSelectedQuestion(questionListView.getSelectionModel().getSelectedItem());
+        TestManager.getInstance().selectQuestion(questionListView.getSelectionModel().getSelectedItem());
         try {
             StageManager.setScene(STR."/questions/editorPanels/\{selectedQuestion().getClass().getSimpleName()}Editor.fxml");
             cleanup();
