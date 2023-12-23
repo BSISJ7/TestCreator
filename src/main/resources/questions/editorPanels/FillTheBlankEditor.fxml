@@ -26,6 +26,7 @@
                         </tooltip>
                     </Button>
                     <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers"/>
+                    <CheckBox fx:id="multiSelectCheckBox" text="Multi-Selection" selected="true"/>
                 </HBox>
             </ToolBar>
         </VBox>

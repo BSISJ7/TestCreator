@@ -214,8 +214,8 @@ public class FillTheBlank extends Question {
 //
 //        for (int x = 0; x < 5; x++) {
 //            int randPos = new Random().nextInt(fillQuestion.length());
-//            String word = WordAtCaretFinder.getWordAtCaret(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
-//            int position = WordAtCaretFinder.getPositionStart(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
+//            String word = CaretUtilities.getWordAtCaret(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
+//            int position = CaretUtilities.getBeginningIndex(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
 //
 //            if (wordPositions.contains(position)) {
 //                x--;

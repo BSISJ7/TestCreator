@@ -5,15 +5,6 @@ import java.util.List;
 
 public class SelectionManager {
 
-    public void setWordAt(int wordStartIndex, String word) {
-        for (SelectedWord selectedWord : selectedWordsList) {
-            if (selectedWord.getPositionStart() == wordStartIndex) {
-                selectedWord.setWord(word);
-                return;
-            }
-        }
-    }
-
     public int size() {
         return selectedWordsList.size();
     }
@@ -26,7 +17,7 @@ public class SelectionManager {
 
         private final String styleColor;
 
-        private STYLE(String color) {
+        STYLE(String color) {
             this.styleColor = color;
         }
 
@@ -41,15 +32,6 @@ public class SelectionManager {
         selectedWordsList.add(new SelectedWord(word, positionStart, positionEnd, status));
     }
 
-    public STYLE getStyle(int position) {
-        for (SelectedWord selectedWord : selectedWordsList) {
-            if (selectedWord.getPositionStart() == position) {
-                return selectedWord.getStyle();
-            }
-        }
-        return STYLE.DEFAULT;
-    }
-
     public boolean isAnswer(int position) {
         for (SelectedWord selectedWord : selectedWordsList) {
             if (selectedWord.getPositionStart() == position) {
@@ -59,20 +41,11 @@ public class SelectionManager {
         return false;
     }
 
-    public void removeWordAtPosition(int position) {
-        for (SelectedWord selectedWord : selectedWordsList) {
-            if (selectedWord.getPositionStart() == position) {
-                selectedWordsList.remove(selectedWord);
-                return;
-            }
-        }
-    }
-
     public void clearList() {
         selectedWordsList.clear();
     }
 
-    public boolean containsWord(String word, int positionStart, int positionEnd) {
+    public boolean containsWord(String word) {
         for (SelectedWord selectedWord : selectedWordsList) {
             if (selectedWord.getWord().equals(word)) {
                 return true;
@@ -90,16 +63,16 @@ public class SelectionManager {
         }
     }
 
-    public int isBetweenIndexes(int position) {
+    public boolean isBetweenIndexes(int position) {
         for (SelectedWord selectedWord : selectedWordsList) {
             if (position > selectedWord.getPositionStart() && position < selectedWord.getPositionEnd()) {
-                return selectedWord.getPositionStart();
+                return true;
             }
         }
-        return -1;
+        return false;
     }
 
-    public class SelectedWord {
+    public static class SelectedWord {
         private String word;
         private final int positionStart;
         private final int positionEnd;

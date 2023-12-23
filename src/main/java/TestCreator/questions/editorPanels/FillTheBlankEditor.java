@@ -1,19 +1,20 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.FillTheBlank;
+import TestCreator.utilities.CaretUtilities;
 import TestCreator.utilities.SelectionManager;
 import TestCreator.utilities.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static TestCreator.utilities.WordAtCaretFinder.getPositionStart;
-import static TestCreator.utilities.WordAtCaretFinder.getWordAtCaret;
+import static TestCreator.utilities.CaretUtilities.getWordAtCaret;
 
 
 public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
@@ -25,6 +26,8 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     public CheckBox displayAnswersCheckBox;
     @FXML
     public InlineCssTextArea questionTextArea;
+    @FXML
+    public CheckBox multiSelectCheckBox;
     @FXML
     ScrollPane questionScrollPane;
     private int prevWordIndex = -1;
@@ -44,8 +47,12 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
 
     private final SelectionManager selectedWordManager = new SelectionManager();
 
-    public static final String NO_ALPHANUMERIC = "[^a-zA-Z0-9-'_]";
+    public static final String NON_ALPHANUMERIC = "[^a-zA-Z0-9-'_]";
+    public static final String ALPHANUMERIC = "[a-zA-Z0-9-'_]+";
 
+    /**
+     * This method initializes the editor.
+     */
     public void initialize() {
         StageManager.setTitle("Fill The Blank Editor");
 
@@ -55,50 +62,50 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
             double mouseX = event.getX();
             double mouseY = event.getY();
             int caretPosition = questionTextArea.hit(mouseX, mouseY).getInsertionIndex();
-            String word = getWordAtCaret(questionTextArea.getText(), caretPosition).replaceAll("[.!?]+(?=\\s|$)", "");
+            String word = getWordAtCaret(questionTextArea.getText(), caretPosition, NON_ALPHANUMERIC);
 
-            int wordStartIndex = getPositionStart(questionTextArea.getText(), caretPosition);
+            int wordStartIndex = CaretUtilities.getBeginningIndex(questionTextArea.getText(), caretPosition, NON_ALPHANUMERIC);
             int wordEndIndex = wordStartIndex + word.length();
 
-            if (removingWord && selectedWordManager.containsWord(word, wordStartIndex, wordEndIndex)) {
+            if (removingWord && selectedWordManager.containsWord(word)) {
                 questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.DEFAULT.getStyle());
                 wordBankListView.getItems().remove(word);
                 answerOffsetsList.remove((Integer) wordStartIndex);
                 selectedWordManager.removeWord(word);
-                toggleRemoveWord();
-            } else if (addingWord && !selectedWordManager.containsWord(word, wordStartIndex, wordEndIndex) && !word.trim().equalsIgnoreCase("")) {
+                if (!multiSelectCheckBox.isSelected()) toggleRemoveWord();
+            } else if (addingWord && !selectedWordManager.containsWord(word) && !word.trim().equalsIgnoreCase("")) {
                 wordBankListView.getItems().add(word);
                 answerOffsetsList.add(wordStartIndex);
                 questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.ANSWER.getStyle());
                 selectedWordManager.addSelectedWord(word, wordStartIndex, wordEndIndex, SelectionManager.STYLE.ANSWER);
-                toggleAddWord();
+                if (!multiSelectCheckBox.isSelected()) toggleAddWord();
             }
         });
 
         questionTextArea.setOnMouseMoved(event -> {
             if (removingWord || addingWord) {
                 //This is required to keep the caretPosition accurate when the mouse is hovering on over the last line of text
+                int originalLength = questionTextArea.getText().length();
                 questionTextArea.appendText("\n\n");
-
                 int caretPosition = questionTextArea.hit(event.getX(), event.getY()).getInsertionIndex();
-                String word = getWordAtCaret(questionTextArea.getText(), caretPosition).replaceAll("[.!?]+(?=\\s|$)", "");
-                int wordStartIndex = getPositionStart(questionTextArea.getText(), caretPosition);
+                questionTextArea.replaceText(originalLength, questionTextArea.getText().length(), "");
+
+                String word = getWordAtCaret(questionTextArea.getText(), caretPosition, NON_ALPHANUMERIC);
+                int wordStartIndex = CaretUtilities.getBeginningIndex(questionTextArea.getText(), caretPosition, NON_ALPHANUMERIC);
                 int wordEndIndex = wordStartIndex + word.length();
 
                 boolean isNewWord = prevWordIndex != wordStartIndex;
                 boolean isAnswer = selectedWordManager.isAnswer(wordStartIndex);
-                boolean badIndex = wordStartIndex < 0 || wordStartIndex > questionTextArea.getLength();
 
-                if (badIndex) return;
-                else if (isNewWord && !isAnswer) {
+                if (wordStartIndex < 0 || wordStartIndex > questionTextArea.getLength()) return;
+                else if (isNewWord && !isAnswer && !removingWord) {
                     questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.HOVER.getStyle());
-                } else if (isNewWord && removingWord) {
+                } else if (isNewWord && removingWord && isAnswer) {
                     questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.REMOVAL.getStyle());
                 }
 
-                boolean prevIsAnswer = selectedWordManager.isAnswer(prevWordIndex);
                 boolean prevBadIndex = prevWordIndex < 0 || prevWordIndex > questionTextArea.getLength();
-                if (prevIsAnswer && isNewWord && !prevBadIndex)
+                if (selectedWordManager.isAnswer(prevWordIndex) && isNewWord && !prevBadIndex)
                     questionTextArea.setStyle(prevWordIndex, prevWordIndex + prevWord.length(), SelectionManager.STYLE.ANSWER.getStyle());
                 else if (isNewWord && !prevBadIndex) {
                     questionTextArea.setStyle(prevWordIndex, prevWordIndex + prevWord.length(), SelectionManager.STYLE.DEFAULT.getStyle());
@@ -106,21 +113,73 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
 
                 prevWordIndex = wordStartIndex;
                 prevWord = word;
-
-                //This is required to keep the caretPosition accurate when the mouse is hovering on over the last line of text
-                int finalNewLineIndex = questionTextArea.getText().lastIndexOf("\n\n");
-                questionTextArea.replaceText(finalNewLineIndex, questionTextArea.getText().length(), "");
             }
+        });
+
+        questionTextArea.setOnMouseExited(_ -> {
+            if (prevWordIndex < 0 || prevWordIndex > questionTextArea.getLength()) return;
+            if (selectedWordManager.isAnswer(prevWordIndex)) {
+                questionTextArea.setStyle(prevWordIndex, prevWordIndex + prevWord.length(), SelectionManager.STYLE.ANSWER.getStyle());
+            } else {
+                questionTextArea.setStyle(prevWordIndex, prevWordIndex + prevWord.length(), SelectionManager.STYLE.DEFAULT.getStyle());
+            }
+
+            prevWordIndex = -1;
+            prevWord = "";
         });
 
         questionTextArea.setOnKeyTyped(_ -> {
             updateAnswerLists();
-
             if (questionTextArea.getCaretPosition() > 0) {
                 String character = questionTextArea.getText().substring(questionTextArea.getCaretPosition() - 1, questionTextArea.getCaretPosition());
-                if (character.matches(NO_ALPHANUMERIC)) {
+                if (character.matches(NON_ALPHANUMERIC)) {
                     removeStyle(questionTextArea.getCaretPosition() - 1, questionTextArea.getCaretPosition());
                 }
+            }
+        });
+
+        questionTextArea.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
+            if (event.isControlDown() && event.getCode().toString().equalsIgnoreCase("V")) {
+                event.consume();
+
+                String clipboard = Clipboard.getSystemClipboard().getString();
+                if(clipboard == null || clipboard.isEmpty()) return;
+
+                int caretPosition = questionTextArea.getCaretPosition();
+                Pattern pattern = Pattern.compile(ALPHANUMERIC);
+                boolean wordFound = pattern.matcher(clipboard).find();
+
+                if (questionTextArea.getSelectedText().isEmpty()) {
+                    int wordStartIndex = CaretUtilities.getBeginningIndex(questionTextArea.getText(), caretPosition, NON_ALPHANUMERIC);
+                    boolean isAnswer = selectedWordManager.isAnswer(wordStartIndex);
+                    if(isAnswer && wordFound)
+                        questionTextArea.insert(caretPosition, clipboard, SelectionManager.STYLE.ANSWER.getStyle());
+                    else
+                        questionTextArea.insertText(caretPosition, clipboard);
+                }else {
+                    int selectionStart = questionTextArea.getSelection().getStart();
+                    int selectionEnd = questionTextArea.getSelection().getEnd();
+                    boolean startInAnswer = selectedWordManager.isBetweenIndexes(selectionStart);
+                    boolean endInAnswer = selectedWordManager.isBetweenIndexes(selectionEnd);
+
+                    if(startInAnswer && endInAnswer)
+                        questionTextArea.replace(selectionStart, selectionEnd, clipboard, SelectionManager.STYLE.ANSWER.getStyle());
+                    else if(startInAnswer){
+                        questionTextArea.replace(selectionStart, selectionEnd, clipboard, SelectionManager.STYLE.DEFAULT.getStyle());
+                        int newWordStartIndex = CaretUtilities.getBeginningIndex(questionTextArea.getText(), selectionStart, NON_ALPHANUMERIC);
+                        int newWordEndIndex = newWordStartIndex + getWordAtCaret(questionTextArea.getText(), newWordStartIndex, NON_ALPHANUMERIC).length();
+                        questionTextArea.setStyle(newWordStartIndex, newWordEndIndex, SelectionManager.STYLE.ANSWER.getStyle());
+                    }else if(endInAnswer) {
+                        questionTextArea.replace(selectionStart, selectionEnd, clipboard, SelectionManager.STYLE.DEFAULT.getStyle());
+                        int newWordStartIndex = CaretUtilities.getBeginningIndex(questionTextArea.getText(),
+                                selectionStart + clipboard.length(), NON_ALPHANUMERIC);
+                        int wordLength = getWordAtCaret(questionTextArea.getText(), newWordStartIndex, NON_ALPHANUMERIC).length();
+                        int newWordEndIndex = newWordStartIndex + wordLength;
+                        questionTextArea.setStyle(newWordStartIndex, newWordEndIndex, SelectionManager.STYLE.ANSWER.getStyle());
+                    }else
+                        questionTextArea.replaceText(selectionStart, selectionEnd, clipboard);
+                }
+                updateAnswerLists();
             }
         });
 
@@ -135,27 +194,38 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         Platform.runLater(wordBankListView::refresh);
     }
 
+    /**
+     * This method updates the word bank and answer offsets list based on the current text in the questionTextArea.
+     */
     private void updateAnswerLists() {
         wordBankListView.getItems().clear();
         answerOffsetsList.clear();
         selectedWordManager.clearList();
 
-        //have the pattern match alphanumeric characters or - or _
-        Pattern pattern = Pattern.compile("[a-zA-Z0-9-'_]+");
+        Pattern pattern = Pattern.compile(ALPHANUMERIC);
         Matcher matcher = pattern.matcher(questionTextArea.getText());
         while (matcher.find()) {
-            if (hasStyle(questionTextArea, matcher.start(), matcher.end())) {
+            if (hasStyle(questionTextArea, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER.getStyle())) {
                 String word = questionTextArea.getText().substring(matcher.start(), matcher.end());
                 wordBankListView.getItems().add(word);
                 answerOffsetsList.add(matcher.start());
                 selectedWordManager.addSelectedWord(word, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER);
+                questionTextArea.setStyle(matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER.getStyle());
             }
         }
     }
 
 
-    public boolean hasStyle(InlineCssTextArea textArea, int start, int end) {
-        String style = SelectionManager.STYLE.ANSWER.getStyle();
+    /**
+     * This method checks if the text in the given text area has the given style from the start index to the end index.
+     *
+     * @param textArea The text area to check.
+     * @param start    The start index.
+     * @param end      The end index.
+     * @param style    The style to check for.
+     * @return True if the text has the given style from the start index to the end index, false otherwise.
+     */
+    public boolean hasStyle(InlineCssTextArea textArea, int start, int end, String style) {
         for (int i = start; i < end; i++) {
             String currentStyle = textArea.getStyleOfChar(i);
             if (!currentStyle.equals(style)) {
@@ -165,6 +235,9 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         return true;
     }
 
+    /**
+     * This method toggles the remove word mode.
+     */
     @FXML
     public void toggleRemoveWord() {
         Platform.runLater(() -> {
@@ -175,6 +248,9 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         });
     }
 
+    /**
+     * This method toggles the add word mode.
+     */
     @FXML
     public void toggleAddWord() {
         Platform.runLater(() -> {
@@ -185,10 +261,22 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         });
     }
 
+    /**
+     * This method removes the style from the text area from the start index to the end index.
+     *
+     * @param startIndex The start index.
+     * @param endIndex   The end index.
+     */
     private void removeStyle(int startIndex, int endIndex) {
         questionTextArea.setStyle(startIndex, endIndex, SelectionManager.STYLE.DEFAULT.getStyle());
     }
 
+
+    /**
+     * This method sets up the question editor with the given question.
+     *
+     * @param question The question to set up the editor with.
+     */
     @Override
     public void setupQuestion(FillTheBlank question) {
         this.question = question;
@@ -200,13 +288,16 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
 
         //add the answers and indexes to the selectedWordManager
         for (int startIndex : answerOffsetsList) {
-            String word = getWordAtCaret(questionTextArea.getText(), startIndex);
+            String word = getWordAtCaret(questionTextArea.getText(), startIndex, NON_ALPHANUMERIC);
             int endIndex = startIndex + word.length();
             selectedWordManager.addSelectedWord(word, startIndex, endIndex, SelectionManager.STYLE.ANSWER);
             questionTextArea.setStyle(startIndex, endIndex, SelectionManager.STYLE.ANSWER.getStyle());
         }
     }
 
+    /**
+     * This method updates the question with the current values in the editor.
+     */
     @Override
     public void updateQuestion() {
         question.setWordBank(wordBankListView.getItems());

@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static TestCreator.utilities.WordAtCaretFinder.getWordAtCaret;
+import static TestCreator.utilities.CaretUtilities.getWordAtCaret;
 
 
 public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
