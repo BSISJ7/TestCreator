@@ -156,7 +156,6 @@ public class FillTheBlank extends Question {
         wordPositions.addAll(locations);
     }
 
-    @Override
     public void autofillData() {
         int maxQuestions = 5;
         StringBuilder fillBuilder = new StringBuilder();

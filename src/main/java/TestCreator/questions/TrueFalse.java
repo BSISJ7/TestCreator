@@ -96,7 +96,6 @@ public class TrueFalse extends Question {
         return 1;
     }
 
-    @Override
     public void autofillData() {
 
         int num1 = 100 + (int)(Math.random() * ((3000 - 100) + 1));

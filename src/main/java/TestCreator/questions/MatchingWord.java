@@ -117,7 +117,6 @@ public class MatchingWord extends Question {
         return keys.size();
     }
 
-    @Override
     public void autofillData() {
         int minVal = 0;
         while (keys.size() < 5 && values.size() < 5) {

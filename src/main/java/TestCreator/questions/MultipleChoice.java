@@ -116,7 +116,6 @@ public class MultipleChoice extends Question {
         return 1;
     }
 
-    @Override
     public void autofillData() {
         int randNum1 = new Random().nextInt(100);
         int randNum2 = new Random().nextInt(100);

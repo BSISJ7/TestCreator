@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor"
-           fx:id="rootNode">
-    <VBox alignment="CENTER">
+<?import javafx.scene.layout.*?>
+<StackPane fx:id="rootNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor">
 
-        <ChoiceBox fx:id="typesChoiceBox" maxWidth="Infinity"/>
-        <Label text="Name"/>
-        <TextField fx:id="questionName" alignment="CENTER"/>
+    <TabPane fx:id="tabPane">
+        <Tab fx:id="defaultQuestionTab" closable="false" text="New Question">
+            <VBox fx:id="containerVBox" alignment="CENTER">
+                <ChoiceBox fx:id="typesChoiceBox" maxWidth="Infinity" />
+                <Label text="Name" />
+                <TextField fx:id="questionName" alignment="CENTER" />
 
+                <HBox alignment="TOP_CENTER" spacing="50.0">
+                    <Button fx:id="acceptBtn" onAction="#addNewQuestion" text="Accept" />
+                    <Button fx:id="cancelBtn" onAction="#returnToMainMenu" text="Cancel" />
+                </HBox>
+            </VBox>
+        </Tab>
+        <Tab fx:id="quickQuestionTab" closable="false" text="Fast New Question">
+            <VBox fx:id="fastContainerVBox" alignment="CENTER">
+                <ChoiceBox fx:id="quickTypesChoiceBox" maxWidth="Infinity" />
+                <Label text="Name" />
+                <TextField fx:id="quickQuestionName" alignment="CENTER" />
 
-        <HBox alignment="TOP_CENTER" spacing="50.0">
-            <Button fx:id="acceptBtn" onAction="#addNewQuestion" text="Accept"/>
-            <Button fx:id="cancelBtn" onAction="#returnToMainMenu" text="Cancel"/>
-        </HBox>
-    </VBox>
+                <HBox alignment="TOP_CENTER" spacing="50.0">
+                    <Button fx:id="fastAcceptBtn" onAction="#addNewQuickQuestion" text="Accept" />
+                    <Button fx:id="fastCancelBtn" onAction="#returnToMainMenu" text="Cancel" />
+                </HBox>
+            </VBox>
+        </Tab>
+    </TabPane>
 </StackPane>

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
-public abstract class Question implements TestableQuestion {
+public abstract class Question {
 
     public static final String sysSeparator;
 
@@ -200,4 +200,6 @@ public abstract class Question implements TestableQuestion {
             }
         }
     }
+
+    public abstract void autofillData();
 }

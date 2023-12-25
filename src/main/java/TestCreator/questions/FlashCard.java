@@ -72,7 +72,6 @@ public class FlashCard extends Question {
         return (TestPanel<FlashCard>) testPanel;
     }
 
-    @Override
     public void autofillData() {
         int random = (int) (Math.random() * 100);
         int random2 = (int) (Math.random() * 100);

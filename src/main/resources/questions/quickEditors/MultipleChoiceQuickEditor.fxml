@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="TestCreator.questions.quickEditors.MultipleChoiceQuickEditor"
+           fx:id="rootNode"
+           prefHeight="400.0" prefWidth="600.0">
+
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0">
+        <HBox spacing="20" alignment="CENTER">
+            <Label text="Question Name"/>
+            <TextField fx:id="questionName"/>
+        </HBox>
+
+        <TextArea fx:id="questionTextArea"/>
+
+        <HBox alignment="BOTTOM_CENTER" spacing="50.0">
+            <Button fx:id="acceptButton" onAction="#acceptQuestion" text="Accept" disable="true"/>
+            <Button onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+
+
+</StackPane>

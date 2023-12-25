@@ -14,14 +14,13 @@ import java.util.Objects;
 
 
 public class OptionsMenu {
-
+    public RadioButton defaultTheme;
     @FXML
-    private RadioButton DarkTheme;
+    private RadioButton darkTheme;
     @FXML
     private StackPane rootNode;
     @FXML
     private ToggleGroup themeGroup;
-
     @FXML
     private RadioButton nordDark;
     @FXML
@@ -80,9 +79,10 @@ public class OptionsMenu {
                 projectCssTheme = "/css/themes/primer-dark.css";
             } else if (newValue == primerLight) {
                 projectCssTheme = "/css/themes/primer-light.css";
-            } else if (newValue == DarkTheme) {
+            } else if (newValue == darkTheme) {
                 projectCssTheme = "/css/themes/DarkTheme.css";
-            }
+            }else
+                projectCssTheme = "";
 
             try{
                 StageManager.setScene("/options/OptionsMenu.fxml");
@@ -101,7 +101,8 @@ public class OptionsMenu {
             case "/css/themes/cupertino-light.css" -> cupertinoLight.setSelected(true);
             case "/css/themes/primer-dark.css" -> primerDark.setSelected(true);
             case "/css/themes/primer-light.css" -> primerLight.setSelected(true);
-            case "/css/themes/DarkTheme.css" -> DarkTheme.setSelected(true);
+            case "/css/themes/DarkTheme.css" -> darkTheme.setSelected(true);
+            case null, default -> defaultTheme.setSelected(true);
         }
     }
 
@@ -115,7 +116,7 @@ public class OptionsMenu {
             case "/css/themes/primer-dark.css" -> "primer-dark";
             case "/css/themes/primer-light.css" -> "primer-light";
             case "/css/themes/DarkTheme.css" -> "DarkTheme";
-            default -> "";
+            case null, default -> "";
         };
     }
 

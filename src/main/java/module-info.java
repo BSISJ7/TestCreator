@@ -19,7 +19,7 @@ module TestCreator {
     requires undofx;
     requires reactfx;
 
-
+    opens TestCreator.questions.quickEditors to javafx.fxml;
     opens TestCreator to javafx.fxml;
     opens TestCreator.options to javafx.fxml;
     opens TestCreator.login to javafx.fxml;
@@ -28,6 +28,7 @@ module TestCreator {
     opens TestCreator.questions.testPanels to javafx.fxml;
     opens TestCreator.questions to javafx.fxml;
 
+    exports TestCreator.questions.quickEditors to javafx.fxml;
     exports TestCreator to javafx.graphics, javafx.fxml;
     exports TestCreator.options to javafx.fxml;
     exports TestCreator.questions.testPanels to javafx.fxml;

@@ -82,7 +82,6 @@ public class MultipleCheckBox extends Question {
         }
     }
 
-    @Override
     public void autofillData() {
         checkBoxQuestion = STR."Which sums are correct?";
 

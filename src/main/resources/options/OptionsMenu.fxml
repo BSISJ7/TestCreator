@@ -15,6 +15,7 @@
 
     <VBox alignment="CENTER" spacing="10">
         <Label text="Select Theme:"/>
+        <RadioButton fx:id="defaultTheme" text="Default Theme" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="nordDark" text="Nord Dark" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="nordLight" text="Nord Light" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="dracula" text="Dracula" toggleGroup="$themeGroup"/>
@@ -22,7 +23,7 @@
         <RadioButton fx:id="cupertinoLight" text="Cupertino Light" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="primerDark" text="Primer Dark" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="primerLight" text="Primer Light" toggleGroup="$themeGroup"/>
-        <RadioButton fx:id="DarkTheme" text="Dark Theme" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="darkTheme" text="Dark Theme" toggleGroup="$themeGroup"/>
         <HBox spacing="10" alignment="CENTER">
             <Button fx:id="okayButton" text="Okay"/>
             <Button fx:id="cancelButton" text="Cancel"/>
