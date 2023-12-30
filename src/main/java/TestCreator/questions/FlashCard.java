@@ -100,5 +100,10 @@ public class FlashCard extends Question {
         flashQuestion = Objects.requireNonNull(findNode("FlashCardQuestion", questionNode)).getTextContent();
         flashAnswer = Objects.requireNonNull(findNode("FlashCardAnswer", questionNode)).getTextContent();
     }
+
+    @Override
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
 }
 

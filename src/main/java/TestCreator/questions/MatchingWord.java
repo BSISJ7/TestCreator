@@ -101,6 +101,11 @@ public class MatchingWord extends Question {
         }
     }
 
+    @Override
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
+
 
     @Override
     public boolean readyToRun() {

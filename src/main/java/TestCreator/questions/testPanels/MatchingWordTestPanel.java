@@ -58,6 +58,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             public TextFieldListCell<String> call(ListView<String> param) {
                 TextFieldListCell<String> textFieldListCell = new TextFieldListCell<>() {
                     private final Label label;
+
                     {
                         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                         label = new Label();
@@ -67,42 +68,33 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                     }
 
                     public void updateItem(String key, boolean isEmptyCell) {
-
-                        //If value has been paired with a key prepend key index to text
                         int keyIndex = getMatchingKeyIndex(key);
-                        String displayText = key;
-                        if (keyIndex >= 0) {
-                            super.updateItem(STR."\{keyIndex + 1}. \{key}", isEmptyCell);
-                            displayText = STR."\{keyIndex + 1}. \{key}";
-                        }
-                        else
-                            super.updateItem(key, isEmptyCell);
+                        String displayText = (keyIndex >= 0) ? STR."\{keyIndex + 1}. \{key}" : key;
+                        super.updateItem(displayText, isEmptyCell);
 
                         if (key != null && !isEmptyCell) {
                             label.setText(displayText);
                             setGraphic(label);
-                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty()
-                                    && isCorrectAnswerList.get(keyIndex);
-                            if (!testIsOver) {
-                                boolean isSelected = (keyListView.getSelectionModel().getSelectedIndex() >= 0)
-                                        && keyListView.getSelectionModel().getSelectedItem().equals(key);
-                                int thisIndex = keyListView.getItems().indexOf(key);
+                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty() && isCorrectAnswerList.get(keyIndex);
+                            String selectedItem = keyListView.getSelectionModel().getSelectedItem();
+                            boolean isSelected = selectedItem != null && selectedItem.equals(key);
+                            int thisIndex = keyListView.getItems().indexOf(key);
 
+                            if (!testIsOver) {
                                 if (isSelected && keyHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
                                 else if (isSelected)
                                     setStyle("-fx-background-color: rgb(0,200,0)");
                                 else if (keyHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-                            }  else if(correct){
+                            } else if (correct) {
                                 setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            }   else if(keyIndex >= 0){
-                                    setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+                            } else if (keyIndex >= 0) {
+                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                             }
                             label.setStyle("-fx-border-color: white; -fx-border-radius: 1;");
                         } else {
                             setStyle(null);
-                            setGraphic(null);
                             setText(null);
                             label.setText("");
                             setGraphic(label);
@@ -142,6 +134,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             public TextFieldListCell<String> call(ListView<String> param) {
                 TextFieldListCell<String> TextFieldListCell = new TextFieldListCell<>() {
                     private final Label label;
+
                     {
                         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                         label = new Label();
@@ -149,41 +142,35 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                         label.prefWidthProperty().bind(valueListView.widthProperty().multiply(.95));
                         label.setStyle("-fx-border-color: white; -fx-border-width: 1; -fx-padding: 0;");
                     }
+
                     public void updateItem(String value, boolean empty) {
                         int keyIndex = getMatchingKeyIndex(findKeyFromValue(value));
-                        String displayText = value;
-                        if (keyIndex >= 0) {
-                            super.updateItem(STR."\{keyIndex + 1}. \{value}", empty);
-                            displayText = STR."\{keyIndex + 1}. \{value}";
-                        }
-                        else
-                            super.updateItem(value, empty);
+                        String displayText = (keyIndex >= 0) ? STR."\{keyIndex + 1}. \{value}" : value;
+                        super.updateItem(displayText, empty);
 
                         if (value != null && !empty) {
                             label.setText(displayText);
                             setGraphic(label);
-                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty()
-                                    && isCorrectAnswerList.get(keyIndex);
-                            if (!testIsOver) {
-                                boolean isSelected = (valueListView.getSelectionModel().getSelectedIndex() >= 0)
-                                        && valueListView.getSelectionModel().getSelectedItem().equals(value);
-                                int thisIndex = valueListView.getItems().indexOf(value);
+                            boolean correct = keyIndex >= 0 && !isCorrectAnswerList.isEmpty() && isCorrectAnswerList.get(keyIndex);
+                            String selectedItem = valueListView.getSelectionModel().getSelectedItem();
+                            boolean isSelected = selectedItem != null && selectedItem.equals(value);
+                            int thisIndex = valueListView.getItems().indexOf(value);
 
+                            if (!testIsOver) {
                                 if (isSelected && valueHoverIndex != thisIndex)
                                     setStyle("-fx-background-color: rgb(0,150,0)");
                                 else if (isSelected)
                                     setStyle("-fx-background-color: rgb(0,200,0)");
                                 else if (valueHoverIndex == thisIndex)
                                     setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-                            } else if(correct){
+                            } else if (correct) {
                                 setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            } else if(keyIndex >= 0){
+                            } else if (keyIndex >= 0) {
                                 setStyle("-fx-background-color: rgba(220,34,0,0.62)");
                             }
                             label.setStyle("-fx-border-color: white; -fx-border-radius: 1;");
                         } else {
                             setStyle(null);
-                            setGraphic(null);
                             setText(null);
                             label.setText("");
                             setGraphic(label);
@@ -193,7 +180,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                 };
 
 
-                //If the value is paired with a key highlight it in the keyListView
+                //If the value is paired with a key already highlight it in the keyListView
                 TextFieldListCell.setOnMouseEntered(_ -> {
                     if (!testIsOver && TextFieldListCell.getItem() != null) {
                         valueHoverIndex = TextFieldListCell.getIndex();
@@ -245,11 +232,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         keyListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         valueListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-//        keyListView.setStyle("-fx-cell-size: 80px; -fx-fixed-cell-size: 80px; -fx-background-insets: 0; -fx-background-color: white; .scroll-bar:vertical {-fx-opacity: 1;}");
-//        valueListView.setStyle("-fx-cell-size: 80px; -fx-fixed-cell-size: 80px; -fx-background-insets: 0; -fx-background-color: white; .scroll-bar:vertical {-fx-opacity: 1;}");
-
         listViewContainer.setStyle("-fx-padding: 0px; -fx-margin: 0px; -fx-indent: 0;");
-
     }
 
     private void resetHoverIndexes(TextFieldListCell<String> textFieldListCell) {

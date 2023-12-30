@@ -21,12 +21,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class XMLIO {
 
     public static final String DATABASE_NAME = "Test Data.xml";
+    public static final String BACKUP_DATABASE_NAME = "Test Data.bak";
     public static final File XML_SAVE_LOCATION = new File(DATABASE_NAME);
     private static Document XMLDocument;
     private static Node testsXMLNode;
@@ -66,14 +68,14 @@ public class XMLIO {
         rootNode = stackNode;
     }
 
-    public static Node findNode(String childNode, Node parent) throws NullPointerException {
-        try {
-            return XmlUtil.asList(parent.getChildNodes()).stream()
-                    .filter(node -> node.getNodeName().equalsIgnoreCase(childNode))
-                    .findFirst().get();
-        } catch (NoSuchElementException e) {
-            return null;
+    public static Node findNode(String childNode, Node parent){
+        List<Node> nodeList = XmlUtil.asList(parent.getChildNodes());
+        for (Node node : nodeList) {
+            if (node.getNodeName().equalsIgnoreCase(childNode)) {
+                return node;
+            }
         }
+        return null;
     }
 
     public void loadTests() {
@@ -83,20 +85,65 @@ public class XMLIO {
             }
 
             for (Node testNode : XmlUtil.asList(testsXMLNode.getChildNodes())) {
-                String testID = Objects.requireNonNull(findNode("ID", testNode)).getTextContent();
+                if(!testNode.getNodeName().equals("Test")) continue;
+
+                Node idNode = findNode("ID", testNode);
+                if (idNode == null) throw new NoSuchElementException();
+
+                String testID = idNode.getTextContent();
                 if (testNode instanceof Element && !TestManager.getInstance().containsTest(testID)) {
                     Test newTest = new Test();
                     newTest.loadFromXMLNode((Element) testNode);
                     TestManager.getInstance().addTest(newTest);
                 }
             }
-        } catch (NullPointerException e) {
-            new File("Test Data.xml").delete();
-            createSaveFile();
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            restoreBackup();
         }
     }
 
+    private void restoreBackup() {
+        File backupFile = new File(STR."\{BACKUP_DATABASE_NAME}.xml");
+        File backupFile2 = new File(STR."\{BACKUP_DATABASE_NAME}2.xml");
+        File backupFile3 = new File(STR."\{BACKUP_DATABASE_NAME}3.xml");
+
+        if (backupFile.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else if (backupFile2.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile2);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else if (backupFile3.exists()) {
+            try {
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                XMLDocument = docBuilder.parse(backupFile3);
+                testsXMLNode = findNode("Tests", XMLDocument);
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            createSaveFile();
+        }
+
+
+    }
+
     public void saveTests() {
+        if(true) return;
         for (int x = 0; x < TestManager.getInstance().getNumOfTests(); x++) {
             testsXMLNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
         }
@@ -203,9 +250,9 @@ public class XMLIO {
     }
 
     public void backupDatabase() {
-        File backupFile = new File(STR."\{DATABASE_NAME}.backup");
-        File backupFile2 = new File(STR."\{DATABASE_NAME}.backup2");
-        File backupFile3 = new File(STR."\{DATABASE_NAME}.backup3");
+        File backupFile = new File(STR."\{BACKUP_DATABASE_NAME}.xml");
+        File backupFile2 = new File(STR."\{BACKUP_DATABASE_NAME}2.xml");
+        File backupFile3 = new File(STR."\{BACKUP_DATABASE_NAME}3.xml");
 
         if (backupFile.exists()) {
             if (backupFile2.exists()) {

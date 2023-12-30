@@ -102,6 +102,11 @@ public class MultipleChoice extends Question {
     }
 
     @Override
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
+
+    @Override
     public boolean readyToRun() {
         return !choices.isEmpty() && answerIndex >= 0 && !multChoiceQuestion.isEmpty();
     }

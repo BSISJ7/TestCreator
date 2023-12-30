@@ -82,6 +82,11 @@ public class MultipleCheckBox extends Question {
         }
     }
 
+    @Override
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
+
     public void autofillData() {
         checkBoxQuestion = STR."Which sums are correct?";
 

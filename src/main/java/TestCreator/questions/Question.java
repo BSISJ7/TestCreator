@@ -153,6 +153,8 @@ public abstract class Question {
         questionWeight = Float.parseFloat(Objects.requireNonNull(findNode("QuestionWeight", question)).getTextContent());
     }
 
+    public abstract String loadFromSQLStatement(String sqlStatement);
+
     public Question getCopy() {
         Question copy = createQuestion(questionName, questionType, test);
         copy.loadQuestionFromXMLNode(getQuestionAsXMLNode());

@@ -1,6 +1,7 @@
 package TestCreator.questions.testPanels;
 
 import TestCreator.questions.FillTheBlank;
+import TestCreator.utilities.SelectionManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -34,7 +35,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     private RadioButton displayCorrectBtn;
     @FXML
     private RadioButton displayAnswersBtn;
-    private FillTheBlank question;
 
     private List<String> wordBank;
     private List<Integer> wordOffsets;
@@ -42,7 +42,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
     private int caretPosition = -1;
 
-    private boolean isShowingAnswer = false;
     private boolean showingCorrectAnswers = false;
     private boolean isTestGraded = false;
     private String answerBlank = "";
@@ -62,19 +61,22 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
         questionTextArea.addEventFilter(MouseEvent.MOUSE_RELEASED, MouseEvent::consume);
 
         questionTextArea.setOnMouseClicked(event -> {
-            caretPosition = questionTextArea.getCaretPosition();
+            //This is required to keep the caretPosition accurate when the mouse is hovering on over the last line of text
+            int originalLength = questionTextArea.getText().length();
+            questionTextArea.appendText("\n\n");
+            caretPosition = questionTextArea.hit(event.getX(), event.getY()).getInsertionIndex();
+            questionTextArea.replaceText(originalLength, questionTextArea.getText().length(), "");
+            questionTextArea.moveTo(caretPosition);
             int wordStartIndex = isInsideAnswer(caretPosition);
             if (event.getClickCount() == 1 && wordStartIndex != -1) {
-                double mouseX = event.getX();
-                double mouseY = event.getY();
-                caretPosition = questionTextArea.hit(mouseX, mouseY).getInsertionIndex();
-
                 if (prevIndex != -1 && prevIndex < questionTextArea.getLength() && prevIndex != wordStartIndex) {
                     questionTextArea.setStyle(prevIndex, prevIndex + answerBlank.length(), "-fx-fill: black;");
                 }
                 questionTextArea.setStyle(wordStartIndex, wordStartIndex + answerBlank.length(), "-fx-fill: blue;");
                 prevIndex = wordStartIndex;
             }
+
+
         });
 
         wordBankListView.setOnMouseClicked(_ -> {
@@ -84,17 +86,31 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
                 while (selectedWord.length() < answerBlank.length())
                     selectedWord.append("_");
                 questionTextArea.replaceText(startIndex, startIndex + answerBlank.length(), selectedWord.toString());
-                questionTextArea.setStyle(startIndex, startIndex + answerBlank.length(), FillTheBlank.ANSWER);
+                questionTextArea.setStyle(startIndex, startIndex + answerBlank.length(), SelectionManager.SelectionAnswer.ANSWER);
             }
         });
+
+
+        questionTextArea.setOnMouseMoved(event -> {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            int caretPosition = questionTextArea.hit(mouseX, mouseY).getInsertionIndex();
+            int startIndex = isInsideAnswer(caretPosition);
+            boolean isInsideAnswer = startIndex != -1;
+//            if(isInsideAnswer) {
+//                System.out.println(STR."Mouse X: \{mouseX} Mouse Y: \{mouseY}");
+//                System.out.println(STR."Caret Position: \{caretPosition} Start Index: \{startIndex}");
+//            }
+        });
+
 
         questionTextArea.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             int startIndex = isInsideAnswer(prevIndex);
             int caretPosition = questionTextArea.getCaretPosition();
-            if (event.getCharacter().matches(FillTheBlank.ALLOWED_CHARS) && startIndex != -1 && isInsideAnswer(caretPosition) != -1
+            if (event.getCharacter().matches(SelectionManager.SelectionAnswer.ALLOWED_CHARS) && startIndex != -1 && isInsideAnswer(caretPosition) != -1
                 && caretPosition < startIndex + answerBlank.length()) {
                 questionTextArea.replaceText(caretPosition, caretPosition+1, event.getCharacter());
-                questionTextArea.setStyle(caretPosition, caretPosition, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition, caretPosition, STR."\{SelectionManager.SelectionAnswer.ANSWER}-fx-underline: true;");
                 questionTextArea.moveTo(questionTextArea.getCaretPosition());
             }
             event.consume();
@@ -108,13 +124,13 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
                 return;
             } else if (keyCode == KeyCode.DELETE && isInsideAnswer(caretPosition) != -1 && isAfterAnswer(caretPosition) == -1) {
                 questionTextArea.replaceText(caretPosition, caretPosition+1, "_");
-                questionTextArea.setStyle(caretPosition, caretPosition+1, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition, caretPosition+1, STR."\{SelectionManager.SelectionAnswer.ANSWER}-fx-underline: true;");
             }else if (keyCode == KeyCode.BACK_SPACE && (isInsideAnswer(prevIndex) > -1 || isAfterAnswer(caretPosition) > -1)
                 && isStartOfAnswer(caretPosition) == -1 && caretPosition > 1) {
                 if (questionTextArea.getSelection().getLength() > 1)
                     questionTextArea.selectRange(caretPosition, caretPosition);
                 questionTextArea.replaceText(caretPosition - 1, caretPosition, "_");
-                questionTextArea.setStyle(caretPosition - 1, caretPosition - 1, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
+                questionTextArea.setStyle(caretPosition - 1, caretPosition - 1, STR."\{SelectionManager.SelectionAnswer.ANSWER}-fx-underline: true;");
                 questionTextArea.moveTo(questionTextArea.getCaretPosition() - 1);
             }
             event.consume();
@@ -125,7 +141,6 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     }
 
     public void setupQuestion(FillTheBlank question) {
-        this.question = question;
         long randNum = System.nanoTime();
         showingCorrectAnswers = question.hintsDisplayed();
 
@@ -168,17 +183,17 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
     private void setStyleIfSelected(int position) {
         if (prevIndex != -1 && prevIndex < questionTextArea.getLength() && prevIndex != position) {
-            questionTextArea.setStyle(prevIndex, prevIndex + answerBlank.length(), FillTheBlank.DEFAULT);
+            questionTextArea.setStyle(prevIndex, prevIndex + answerBlank.length(), SelectionManager.SelectionAnswer.DEFAULT);
         }
         if (isInsideAnswer(position) != -1) {
-            questionTextArea.setStyle(position, position, STR."\{FillTheBlank.ANSWER}-fx-underline: true;");
+            questionTextArea.setStyle(position, position, STR."\{SelectionManager.SelectionAnswer.ANSWER}-fx-underline: true;");
         }
     }
 
     private int isStartOfAnswer(int position) {
-        for (int x = 0; x < wordOffsets.size(); x++) {
-            if (position == wordOffsets.get(x)) {
-                return wordOffsets.get(x);
+        for (Integer wordOffset : wordOffsets) {
+            if (position == wordOffset) {
+                return wordOffset;
             }
         }
         return -1;
@@ -196,7 +211,7 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
     private int isInsideAnswer(int position) {
         for (int x = 0; x < wordOffsets.size(); x++) {
-            int endOffset = wordBank.get(x).length() + wordOffsets.get(x);
+            int endOffset = wordOffsets.get(x) + answerBlank.length();
             if (position >= wordOffsets.get(x) && position <= endOffset) {
                 return wordOffsets.get(x);
             }
@@ -256,9 +271,9 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
 
             if (answer.equals(wordBank.get(x))) {
                 score += 1.0f;
-                questionTextArea.setStyle(startOffset, endOffset, FillTheBlank.CORRECT);
+                questionTextArea.setStyle(startOffset, endOffset, SelectionManager.SelectionAnswer.CORRECT);
             } else {
-                questionTextArea.setStyle(startOffset, endOffset, FillTheBlank.INCORRECT);
+                questionTextArea.setStyle(startOffset, endOffset, SelectionManager.SelectionAnswer.INCORRECT);
             }
         }
         return score;

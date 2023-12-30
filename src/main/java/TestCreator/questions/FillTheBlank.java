@@ -19,19 +19,9 @@ import java.util.Objects;
 import static TestCreator.testIO.XMLIO.findNode;
 
 public class FillTheBlank extends Question {
-    public static final String ANSWER = ("-fx-fill: blue;");
-    public static final String DEFAULT = ("-fx-fill: black;");
-    public static final String CORRECT = ("-fx-fill: green;");
-    public static final String INCORRECT = ("-fx-fill: red;");
 
-    public static final String ALLOWED_CHARS = "[a-zA-Z0-9-'_]";
-
-
-    private final ObservableList<String> wordBank = FXCollections.observableArrayList();
     private String fillQuestion = "";
-    private final ArrayList<Integer> wordPositions = new ArrayList<>();
-
-    private final SelectionManager selectionManager = new SelectionManager();
+    private final List<FillAnswer> answersList = new ArrayList<>();
 
     private boolean displayAnswers = true;
 
@@ -70,21 +60,10 @@ public class FillTheBlank extends Question {
         return fillQuestion.replaceAll("(\\r)", "");
     }
 
-    public void add(String answer) {
-        wordBank.add(answer);
-    }
-
-    public void remove(String answer) {
-        wordBank.remove(answer);
-    }
-
     public ObservableList<String> getWordBankCopy() {
+        List<String> wordBank = new ArrayList<>();
+        answersList.forEach(answer -> wordBank.add(answer.getWord()));
         return FXCollections.observableArrayList(wordBank);
-    }
-
-    public void setWordBank(List<String> newWordBank) {
-        wordBank.clear();
-        wordBank.addAll(newWordBank);
     }
 
     @Override
@@ -93,15 +72,14 @@ public class FillTheBlank extends Question {
         Element fillInAnswer = XMLDocument.createElement("FillTheBlankQuestion");
         fillInAnswer.setTextContent(fillQuestion);
 
-        wordBank.forEach(word -> {
-            Element newWord = XMLDocument.createElement("WordBankItem");
-            newWord.setTextContent(word);
-            question.appendChild(newWord);
-        });
+        answersList.forEach(answer -> {
+            Element newAnswer = XMLDocument.createElement("FillAnswer");
+            newAnswer.setTextContent(answer.getWord());
 
-        wordPositions.forEach(location -> {
             Element newPos = XMLDocument.createElement("WordBankPos");
-            newPos.setTextContent(location.toString());
+            newPos.setTextContent(String.valueOf(answer.getPositionStart()));
+
+            question.appendChild(newAnswer);
             question.appendChild(newPos);
         });
 
@@ -116,44 +94,45 @@ public class FillTheBlank extends Question {
 
     @Override
     public boolean readyToRun() {
-        return !wordBank.isEmpty() && !fillQuestion.isEmpty();
+        return !answersList.isEmpty() && !fillQuestion.isEmpty();
     }
 
     @Override
     public void loadQuestionFromXMLNode(Node questionNode) {
         super.loadQuestionFromXMLNode(questionNode);
-        fillQuestion = Objects.requireNonNull(findNode("FillTheBlankQuestion", questionNode)).getTextContent();
+        fillQuestion = findNode("FillTheBlankQuestion", questionNode).getTextContent();
 
-        NodeList wordBankItems = ((Element) questionNode).getElementsByTagName("WordBankItem");
-        for (int x = 0; x < wordBankItems.getLength(); x++) {
-            wordBank.add(wordBankItems.item(x).getTextContent());
-        }
-
+        NodeList wordBankItems = ((Element) questionNode).getElementsByTagName("FillAnswer");
         NodeList wordBankPos = ((Element) questionNode).getElementsByTagName("WordBankPos");
-        for (int x = 0; x < wordBankPos.getLength(); x++) {
-            wordPositions.add(Integer.parseInt(wordBankPos.item(x).getTextContent()));
+        for (int x = 0; x < wordBankItems.getLength(); x++) {
+            String word = wordBankItems.item(x).getTextContent();
+            int pos = Integer.parseInt(wordBankPos.item(x).getTextContent());
+            answersList.add(new FillAnswer(word, pos, pos + word.length()));
         }
 
         displayAnswers = Boolean.parseBoolean(Objects.requireNonNull(findNode("DisplayAnswers", questionNode)).getTextContent());
+        sortAnswers();
     }
 
     @Override
-    public TestPanel getTestPanel() throws IOException {
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
+
+    @Override
+    public TestPanel<FillTheBlank> getTestPanel() throws IOException {
         return (TestPanel) StageManager.getController("/questions/testPanels/FillTheBlankTestPanel.fxml");
     }
 
     @Override
     public int getMaxScore() {
-        return wordBank.size();
+        return answersList.size();
     }
 
     public List<Integer> getAnswerOffsetsCopy() {
-        return FXCollections.observableArrayList(wordPositions);
-    }
-
-    public void setWordIndexes(ArrayList<Integer> locations) {
-        wordPositions.clear();
-        wordPositions.addAll(locations);
+        ObservableList<Integer> wordPositions = FXCollections.observableArrayList();
+        answersList.forEach(answer -> wordPositions.add(answer.getPositionStart()));
+        return wordPositions;
     }
 
     public void autofillData() {
@@ -169,29 +148,9 @@ public class FillTheBlank extends Question {
             int answerPosition = fillBuilder.lastIndexOf(STR."\{randNum1 + randNum2}");
             String answer = String.valueOf(randNum1 + randNum2);
 
-            wordBank.add(answer);
-            wordPositions.add(answerPosition);
+            answersList.add(new FillAnswer(answer, answerPosition, answerPosition + answer.length()));
         }
         fillQuestion = fillBuilder.toString();
-
-//        fillQuestion = """
-//                Matching question is completely changed to now [match] multiple questions and answers
-//                Question worth is weighted instead of [correct] or incorrect
-//                Scores are now determined [based] on question weight
-//                """;
-//
-//        for (int x = 0; x < 5; x++) {
-//            int randPos = new Random().nextInt(fillQuestion.length());
-//            String word = CaretUtilities.getWordAtCaret(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
-//            int position = CaretUtilities.getBeginningIndex(fillQuestion.replace("/\n/g", ",").replace("\r", ""), randPos);
-//
-//            if (wordPositions.contains(position)) {
-//                x--;
-//                continue;
-//            }
-//            wordBank.add(word);
-//            wordPositions.add(position);
-//        }
     }
 
     public boolean hintsDisplayed() {
@@ -200,5 +159,61 @@ public class FillTheBlank extends Question {
 
     public void setDisplayAnswers(boolean displayAnswers) {
         this.displayAnswers = displayAnswers;
+    }
+
+    public List<Integer> getWordIndexes() {
+        return answersList.stream().map(FillAnswer::getPositionStart).toList();
+    }
+
+    public String getAnswer(int index) {
+        return answersList.get(index).getWord();
+    }
+
+    public int getWordIndex(int index) {
+        return answersList.get(index).getPositionStart();
+    }
+
+    public void setAnswerList(List<SelectionManager.SelectionAnswer> answerList) {
+        answersList.clear();
+        answerList.forEach(answer -> answersList.add(answer.getFillAnswer()));
+    }
+
+    public void sortAnswers(){
+        answersList.sort((o1, o2) -> o1.getPositionStart() - o2.getPositionStart());
+    }
+
+
+    public static class FillAnswer {
+        private String word;
+        private final int positionStart;
+        private final int positionEnd;
+        private final int length;
+
+        public FillAnswer(String word, int positionStart, int positionEnd) {
+            this.word = word;
+            this.positionStart = positionStart;
+            this.positionEnd = positionEnd;
+            this.length = positionEnd - positionStart;
+        }
+
+        public String getWord() {
+            return word;
+        }
+
+        public int getLength() {
+            return length;
+        }
+
+        public int getPositionStart() {
+            return positionStart;
+        }
+
+        public int getPositionEnd() {
+            return positionEnd;
+        }
+
+        public void setWord(String word) {
+            this.word = word;
+        }
     }
 }

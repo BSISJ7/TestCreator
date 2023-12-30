@@ -87,6 +87,11 @@ public class TrueFalse extends Question {
         isTrue = Boolean.parseBoolean(Objects.requireNonNull(findNode("TrueFalse", questionNode)).getTextContent());
     }
 
+    @Override
+    public String loadFromSQLStatement(String sqlStatement) {
+        return null;
+    }
+
     public TestPanel getTestPanel() throws IllegalStateException, IOException {
         return (TestPanel) StageManager.getController("/questions/testPanels/TrueFalseTestPanel.fxml");
     }

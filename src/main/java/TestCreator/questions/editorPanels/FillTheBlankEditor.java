@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import org.fxmisc.richtext.InlineCssTextArea;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,8 +42,6 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     @FXML
     private Button addWordBtn;
 
-    private final ArrayList<Integer> answerOffsetsList = new ArrayList<>();
-
     private final SelectionManager selectedWordManager = new SelectionManager();
 
     public static final String NON_ALPHANUMERIC = "[^a-zA-Z0-9-'_]";
@@ -70,12 +67,10 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
             if (removingWord && selectedWordManager.containsWord(word)) {
                 questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.DEFAULT.getStyle());
                 wordBankListView.getItems().remove(word);
-                answerOffsetsList.remove((Integer) wordStartIndex);
                 selectedWordManager.removeWord(word);
                 if (!multiSelectCheckBox.isSelected()) toggleRemoveWord();
             } else if (addingWord && !selectedWordManager.containsWord(word) && !word.trim().equalsIgnoreCase("")) {
                 wordBankListView.getItems().add(word);
-                answerOffsetsList.add(wordStartIndex);
                 questionTextArea.setStyle(wordStartIndex, wordEndIndex, SelectionManager.STYLE.ANSWER.getStyle());
                 selectedWordManager.addSelectedWord(word, wordStartIndex, wordEndIndex, SelectionManager.STYLE.ANSWER);
                 if (!multiSelectCheckBox.isSelected()) toggleAddWord();
@@ -199,7 +194,6 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
      */
     private void updateAnswerLists() {
         wordBankListView.getItems().clear();
-        answerOffsetsList.clear();
         selectedWordManager.clearList();
 
         Pattern pattern = Pattern.compile(ALPHANUMERIC);
@@ -207,12 +201,12 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         while (matcher.find()) {
             if (hasStyle(questionTextArea, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER.getStyle())) {
                 String word = questionTextArea.getText().substring(matcher.start(), matcher.end());
-                wordBankListView.getItems().add(word);
-                answerOffsetsList.add(matcher.start());
                 selectedWordManager.addSelectedWord(word, matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER);
                 questionTextArea.setStyle(matcher.start(), matcher.end(), SelectionManager.STYLE.ANSWER.getStyle());
             }
         }
+        selectedWordManager.sortList();
+        wordBankListView.getItems().addAll(selectedWordManager.getAnswers());
     }
 
 
@@ -236,7 +230,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     }
 
     /**
-     * This method toggles the remove word mode.
+     * This method toggles the removeWord word mode.
      */
     @FXML
     public void toggleRemoveWord() {
@@ -249,7 +243,7 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
     }
 
     /**
-     * This method toggles the add word mode.
+     * This method toggles the addWord word mode.
      */
     @FXML
     public void toggleAddWord() {
@@ -282,17 +276,18 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
         this.question = question;
         wordBankListView.setItems(question.getWordBankCopy());
         questionTextArea.replaceText(question.getFillQuestion().replace("/\n/g", ",").replace("\r", ""));
-        answerOffsetsList.addAll(question.getAnswerOffsetsCopy());
         questionName.setText(question.getName());
         displayAnswersCheckBox.setSelected(question.hintsDisplayed());
 
-        //add the answers and indexes to the selectedWordManager
-        for (int startIndex : answerOffsetsList) {
-            String word = getWordAtCaret(questionTextArea.getText(), startIndex, NON_ALPHANUMERIC);
+        for (int x = 0; x < question.getWordBankCopy().size(); x++) {
+            String word = question.getAnswer(x);
+            int startIndex = question.getWordIndex(x);
             int endIndex = startIndex + word.length();
+
             selectedWordManager.addSelectedWord(word, startIndex, endIndex, SelectionManager.STYLE.ANSWER);
             questionTextArea.setStyle(startIndex, endIndex, SelectionManager.STYLE.ANSWER.getStyle());
         }
+        updateAnswerLists();
     }
 
     /**
@@ -300,10 +295,9 @@ public class FillTheBlankEditor extends QuestionEditor<FillTheBlank> {
      */
     @Override
     public void updateQuestion() {
-        question.setWordBank(wordBankListView.getItems());
+        question.setAnswerList(selectedWordManager.getAnswerList());
         question.setFillTheBlankQuestion(questionTextArea.getText());
         question.setName(questionName.getText());
-        question.setWordIndexes(answerOffsetsList);
         question.setDisplayAnswers(displayAnswersCheckBox.isSelected());
     }
 }

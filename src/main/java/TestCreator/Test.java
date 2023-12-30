@@ -4,6 +4,7 @@ import TestCreator.questions.Question;
 import TestCreator.testIO.XMLIO;
 import TestCreator.testIO.XmlUtil;
 import TestCreator.users.User;
+import TestCreator.users.UserManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -144,7 +145,7 @@ public class Test {
         return testNode;
     }
 
-    public void loadFromXMLNode(Element testNode){
+    public void loadFromXMLNode(Element testNode) {
         Node IDNode = XMLIO.findNode("ID", testNode);
         ID = IDNode == null ? "" : IDNode.getTextContent();
 
@@ -168,6 +169,41 @@ public class Test {
 //                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public String getAsSQLStatement() {
+        StringBuilder sqlStatement = new StringBuilder("INSERT INTO Tests (ID, TestName, TestDescription, UserID, QuestionIDs) VALUES (");
+        sqlStatement.append("'").append(ID).append("', ");
+        sqlStatement.append("'").append(testName).append("', ");
+        sqlStatement.append("'").append(description).append("', ");
+        sqlStatement.append("'").append(user.getUsername()).append("', ");
+
+        StringBuilder questionIDs = new StringBuilder();
+        for (Question question : questionList) {
+            questionIDs.append(question.getID()).append(",");
+        }
+
+        if (!questionIDs.isEmpty()) {
+            questionIDs.setLength(questionIDs.length() - 1);
+        }
+        sqlStatement.append("'").append(questionIDs.toString()).append("');");
+
+        return sqlStatement.toString();
+    }
+
+
+
+    public void loadFromSQLStatement(String sqlStatement) {
+        UserManager userManager = new UserManager();
+        String[] values = sqlStatement.split("VALUES")[1].split(",");
+        ID = values[0].replaceAll("'", "").trim();
+        testName = values[1].replaceAll("'", "").trim();
+        description = values[2].replaceAll("'", "").trim();
+        user = userManager.getUser(values[3].replaceAll("'", "").trim());
+        String[] questionIDs = values[4].replaceAll("'", "").replaceAll("\\)", "").trim().split(",");
+        for (String questionID : questionIDs) {
+//            questionList.addWord();
         }
     }
 

@@ -10,7 +10,7 @@
                onMouseClicked="#questionAnswerClicked"
                editable="false"/>
 
-<!--    add a checkbox with text Correct and an on action setIsCorrect-->
+<!--    addWord a checkbox with text Correct and an on action setIsCorrect-->
     <CheckBox fx:id="correctCheckBox" text="Correct"/>
 
 </VBox>
