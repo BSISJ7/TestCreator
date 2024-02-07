@@ -18,22 +18,26 @@ module TestCreator {
     requires org.fxmisc.richtext;
     requires undofx;
     requires reactfx;
+    requires com.google.gson;
+    requires javafx.graphics;
 
     opens TestCreator.questions.quickEditors to javafx.fxml;
-    opens TestCreator to javafx.fxml;
+    opens TestCreator to javafx.fxml, com.google.gson;
     opens TestCreator.options to javafx.fxml;
     opens TestCreator.login to javafx.fxml;
     opens TestCreator.testCreation to javafx.fxml;
     opens TestCreator.questions.editorPanels to javafx.fxml;
     opens TestCreator.questions.testPanels to javafx.fxml;
-    opens TestCreator.questions to javafx.fxml;
+    opens TestCreator.questions to javafx.fxml, com.google.gson;
+    opens TestCreator.utilities to com.google.gson;
 
+    exports TestCreator.utilities to com.google.gson;
     exports TestCreator.questions.quickEditors to javafx.fxml;
     exports TestCreator to javafx.graphics, javafx.fxml;
     exports TestCreator.options to javafx.fxml;
     exports TestCreator.questions.testPanels to javafx.fxml;
     exports TestCreator.questions.editorPanels to javafx.fxml, javafx.graphics;
     exports TestCreator.login to javafx.fxml, javafx.graphics;
-    exports TestCreator.users to javafx.fxml, javafx.graphics;
-    opens TestCreator.users to javafx.fxml;
+    exports TestCreator.users to javafx.fxml, javafx.graphics, com.google.gson;
+    opens TestCreator.users to javafx.fxml, com.google.gson;
 }

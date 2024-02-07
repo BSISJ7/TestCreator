@@ -44,6 +44,8 @@ public class MultipleCheckBoxEditor extends QuestionEditor<MultipleCheckBox>{
             isCorrectCheckBox.setTooltip(new Tooltip("Set if the answer is correct."));
 
             TextField answerField = new TextField(answer.getAnswer());
+            //have answerField fill to the size of the window instead of the scroll pane
+            answerField.prefWidthProperty().bind(rootNode.widthProperty());
 
             Button removeAnswerBtn = new Button("X");
             removeAnswerBtn.setOnAction(_ -> removeAnswer(removeAnswerBtn));
@@ -56,7 +58,7 @@ public class MultipleCheckBoxEditor extends QuestionEditor<MultipleCheckBox>{
 
     public void addAnswer() {
         if(answersContainer.getChildren().size() > MultipleCheckBox.MAX_CHOICES) {
-            new StackPaneAlert(rootNode, "You can only have " + MultipleCheckBox.MAX_CHOICES + " answers").show();
+            new StackPaneAlert(rootNode, STR."You can only have \{MultipleCheckBox.MAX_CHOICES} answers").show();
             return;
         }
 

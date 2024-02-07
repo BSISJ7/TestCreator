@@ -44,8 +44,10 @@ public class StackPaneAlert extends StackPane {
 
         this.setStyle(OptionsMenu.getCssFullPath());
         this.setAlignment(Pos.CENTER);
+        this.prefWidthProperty().bind(StageManager.getStage().widthProperty());
+        this.prefHeightProperty().bind(StageManager.getStage().heightProperty());
         this.setMaxSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
-        this.setPrefSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
+//        this.setPrefSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
         EventHandler<KeyEvent> keyEventFilter = KeyEvent::consume;
@@ -88,8 +90,10 @@ public class StackPaneAlert extends StackPane {
 
         this.setStyle(OptionsMenu.getCssFullPath());
         this.setAlignment(Pos.CENTER);
+        this.prefWidthProperty().bind(StageManager.getStage().widthProperty());
+        this.prefHeightProperty().bind(StageManager.getStage().heightProperty());
         this.setMaxSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
-        this.setPrefSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
+//        this.setPrefSize(this.stackpane.getWidth() * .75, this.stackpane.getHeight() * .75);
         this.setMinSize(400, 200);
 
         EventHandler<MouseEvent> eventFilter = event -> {

@@ -14,23 +14,23 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
 
 
     @FXML
-    public ListView<String> questionListView;
+    private ListView<String> questionListView;
     @FXML
-    public ListView<String> answerListView;
+    private ListView<String> answerListView;
     @FXML
-    public TextArea questionTextArea;
+    private TextArea questionTextArea;
     @FXML
-    public TextArea answerTextArea;
+    private TextArea answerTextArea;
     @FXML
-    public TextField questionName;
+    private TextField questionName;
     @FXML
-    public Button addPairBtn;
+    private Button addPairBtn;
     @FXML
-    public Button removePairBtn;
+    private Button removePairBtn;
     @FXML
-    public Button updateBtn;
+    private Button updateBtn;
     @FXML
-    public StackPane rootNode;
+    private StackPane rootNode;
 
     @FXML
     public void initialize() {

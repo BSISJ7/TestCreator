@@ -5,7 +5,7 @@
 <StackPane fx:id="rootNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor">
 
     <TabPane fx:id="tabPane">
-        <Tab fx:id="defaultQuestionTab" closable="false" text="New Question">
+        <Tab closable="false" text="New Question">
             <VBox fx:id="containerVBox" alignment="CENTER">
                 <ChoiceBox fx:id="typesChoiceBox" maxWidth="Infinity" />
                 <Label text="Name" />
@@ -17,7 +17,7 @@
                 </HBox>
             </VBox>
         </Tab>
-        <Tab fx:id="quickQuestionTab" closable="false" text="Fast New Question">
+        <Tab closable="false" text="Fast New Question">
             <VBox fx:id="fastContainerVBox" alignment="CENTER">
                 <ChoiceBox fx:id="quickTypesChoiceBox" maxWidth="Infinity" />
                 <Label text="Name" />
@@ -25,9 +25,36 @@
 
                 <HBox alignment="TOP_CENTER" spacing="50.0">
                     <Button fx:id="fastAcceptBtn" onAction="#addNewQuickQuestion" text="Accept" />
-                    <Button fx:id="fastCancelBtn" onAction="#returnToMainMenu" text="Cancel" />
+                    <Button onAction="#returnToMainMenu" text="Cancel" />
                 </HBox>
             </VBox>
         </Tab>
+<!--        TODO Open Trivia API Download Questions-->
+<!--        <Tab closable="false" text="Open Trivia Questions" >-->
+<!--            <VBox spacing="10" alignment="CENTER">-->
+<!--                <Label text="Number of Questions Generated" />-->
+<!--                <HBox spacing="10" alignment="CENTER">-->
+<!--                    <Label fx:id="questionCountLabel" text="1" />-->
+<!--                    <Slider fx:id="questionCountSlider" min="1" max="50" value="1" />-->
+<!--                </HBox>-->
+<!--                <HBox spacing="10" alignment="CENTER">-->
+<!--                    <Label text="Category:" />-->
+<!--                    <ComboBox fx:id="categoryComboBox"/>-->
+<!--                </HBox>-->
+
+<!--                <Button onAction="#getQuestions" text="Get Questions" />-->
+
+<!--                <ListView fx:id="questionListView"/>-->
+<!--                <Button text="Add All Questions" onAction="#addAllQuestions"/>-->
+<!--                <Button text="Add Selected Question(s)" onAction="#addQuestion"/>-->
+<!--                <Button text="Remove Selected Question(s)" onAction="#removeAllQuestions"/>-->
+<!--                <Button text="Remove All Questions" onAction="#removeQuestion"/>-->
+
+<!--                <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">-->
+<!--                    <Button text="Accept" onAction="#acceptOpenTrivia"/>-->
+<!--                    <Button text="Cancel" onAction="#returnToMainMenu"/>-->
+<!--                </HBox>-->
+<!--            </VBox>-->
+<!--        </Tab>-->
     </TabPane>
 </StackPane>

@@ -4707,3 +4707,7 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
 .brightListView .list-cell {
   -fx-text-fill: white;
 }
+
+.hoveredMatch {
+  -fx-background-color: #ff0000;
+}

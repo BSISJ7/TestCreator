@@ -28,54 +28,52 @@
             </MenuBar>
 
             <ToolBar VBox.vgrow="ALWAYS">
-                <HBox fx:id="menuBar" spacing="10">
-                    <Button fx:id="newTestBtn" onAction="#createTest" styleClass="mainMenuBtn" text="New Test">
-                        <tooltip>
-                            <Tooltip text="Creates a new test"/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="newTestBtn" onAction="#createTest" styleClass="mainMenuBtn" text="New Test">
+                    <tooltip>
+                        <Tooltip text="Creates a new test"/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="beginTestBtn" disable="true" onAction="#beginTest" styleClass="mainMenuBtn"
-                            text="Begin Test">
-                        <tooltip>
-                            <Tooltip text="Begin the selected test"/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="beginTestBtn" disable="true" onAction="#beginTest" styleClass="mainMenuBtn"
+                        text="Begin Test">
+                    <tooltip>
+                        <Tooltip text="Begin the selected test"/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="editTestBtn" disable="true" onAction="#editTest" styleClass="mainMenuBtn"
-                            text="Edit Test">
-                        <tooltip>
-                            <Tooltip text="Return to main menu"/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="editTestBtn" disable="true" onAction="#editTest" styleClass="mainMenuBtn"
+                        text="Edit Test">
+                    <tooltip>
+                        <Tooltip text="Return to main menu"/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="deleteTestBtn" disable="true" onAction="#deleteTest" styleClass="mainMenuBtn"
-                            text="Delete Test">
-                        <tooltip>
-                            <Tooltip text="Return to main menu"/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="deleteTestBtn" disable="true" onAction="#deleteTest" styleClass="mainMenuBtn"
+                        text="Delete Test">
+                    <tooltip>
+                        <Tooltip text="Return to main menu"/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="newQuestionBtn" disable="true" onAction="#createNewQuestion" styleClass="mainMenuBtn"
-                            text="New Question">
-                        <tooltip>
-                            <Tooltip text="Return to main menu."/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="newQuestionBtn" disable="true" onAction="#createNewQuestion" styleClass="mainMenuBtn"
+                        text="New Question">
+                    <tooltip>
+                        <Tooltip text="Return to main menu."/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="editQuestionBtn" disable="true" onAction="#editQuestion" styleClass="mainMenuBtn"
-                            text="Edit Question">
-                        <tooltip>
-                            <Tooltip text="Edit selected question."/>
-                        </tooltip>
-                    </Button>
+                <Button fx:id="editQuestionBtn" disable="true" onAction="#editQuestion" styleClass="mainMenuBtn"
+                        text="Edit Question">
+                    <tooltip>
+                        <Tooltip text="Edit selected question."/>
+                    </tooltip>
+                </Button>
 
-                    <Button fx:id="deleteQuestionBtn" disable="true" onAction="#deleteQuestion" text="Delete Question">
-                        <tooltip>
-                            <Tooltip text="Delete selected question."/>
-                        </tooltip>
-                    </Button>
-                </HBox>
+                <Button fx:id="deleteQuestionBtn" disable="true" onAction="#deleteQuestion" text="Delete Question">
+                    <tooltip>
+                        <Tooltip text="Delete selected question."/>
+                    </tooltip>
+                </Button>
             </ToolBar>
         </VBox>
 

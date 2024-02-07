@@ -80,18 +80,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                             boolean isSelected = selectedItem != null && selectedItem.equals(key);
                             int thisIndex = keyListView.getItems().indexOf(key);
 
-                            if (!testIsOver) {
-                                if (isSelected && keyHoverIndex != thisIndex)
-                                    setStyle("-fx-background-color: rgb(0,150,0)");
-                                else if (isSelected)
-                                    setStyle("-fx-background-color: rgb(0,200,0)");
-                                else if (keyHoverIndex == thisIndex)
-                                    setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-                            } else if (correct) {
-                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            } else if (keyIndex >= 0) {
-                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
-                            }
+                            setSelectionStyle(this, isSelected, keyHoverIndex, thisIndex, correct, keyIndex);
                             label.setStyle("-fx-border-color: white; -fx-border-radius: 1;");
                         } else {
                             setStyle(null);
@@ -156,18 +145,7 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
                             boolean isSelected = selectedItem != null && selectedItem.equals(value);
                             int thisIndex = valueListView.getItems().indexOf(value);
 
-                            if (!testIsOver) {
-                                if (isSelected && valueHoverIndex != thisIndex)
-                                    setStyle("-fx-background-color: rgb(0,150,0)");
-                                else if (isSelected)
-                                    setStyle("-fx-background-color: rgb(0,200,0)");
-                                else if (valueHoverIndex == thisIndex)
-                                    setStyle("-fx-background-color: rgba(3,150,21,0.39)");
-                            } else if (correct) {
-                                setStyle("-fx-background-color: rgba(0,150,0,0.62)");
-                            } else if (keyIndex >= 0) {
-                                setStyle("-fx-background-color: rgba(220,34,0,0.62)");
-                            }
+                            setSelectionStyle(this, isSelected, valueHoverIndex, thisIndex, correct, keyIndex);
                             label.setStyle("-fx-border-color: white; -fx-border-radius: 1;");
                         } else {
                             setStyle(null);
@@ -233,6 +211,22 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
         valueListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         listViewContainer.setStyle("-fx-padding: 0px; -fx-margin: 0px; -fx-indent: 0;");
+    }
+
+    private void setSelectionStyle(TextFieldListCell<String> textFieldListCell, boolean isSelected, int keyHoverIndex, int thisIndex, boolean correct, int keyIndex) {
+        if (!testIsOver) {
+            if (isSelected && keyHoverIndex != thisIndex)
+                textFieldListCell.setStyle("-fx-background-color: rgb(0,150,0)");
+            else if (isSelected)
+                textFieldListCell.setStyle("-fx-background-color: rgb(0,200,0)");
+            else if (keyHoverIndex == thisIndex)
+//                textFieldListCell.setStyle("-fx-background-color: rgba(3,150,21,0.39)");
+                textFieldListCell.setStyle("-fx-background-color: rgba(3,150,21,0.69)");
+        } else if (correct) {
+            textFieldListCell.setStyle("-fx-background-color: rgba(0,150,0,0.62)");
+        } else if (keyIndex >= 0) {
+            textFieldListCell.setStyle("-fx-background-color: rgba(220,34,0,0.62)");
+        }
     }
 
     private void resetHoverIndexes(TextFieldListCell<String> textFieldListCell) {

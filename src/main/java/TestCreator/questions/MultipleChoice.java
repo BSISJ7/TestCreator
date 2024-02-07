@@ -3,6 +3,8 @@ package TestCreator.questions;
 import TestCreator.Test;
 import TestCreator.questions.testPanels.TestPanel;
 import TestCreator.utilities.StageManager;
+import TestCreator.utilities.TDBQuestion;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -45,6 +47,14 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String questionName, QuestionTypes type, Test test) {
         this(questionName, type);
         this.test = test;
+    }
+
+    public MultipleChoice(TDBQuestion question) {
+        super(question.getQuestion());
+        questionType = QuestionTypes.MULTIPLE_CHOICE;
+        answerIndex = 0;
+        choices.add(question.getCorrect_answer());
+        choices.addAll(question.getIncorrect_answers());
     }
 
     public String getAnswer() throws NullPointerException {
@@ -138,5 +148,22 @@ public class MultipleChoice extends Question {
     public void setChoices(ObservableList<String> choiceObsList) {
         choices.clear();
         choices.addAll(choiceObsList);
+    }
+
+    public void addChoices(ObservableList<String> choiceObsList) {
+        choices.addAll(choiceObsList);
+    }
+
+    public void addChoice(String choice) {
+        choices.add(choice);
+    }
+
+    private static MultipleChoice tdbToMultipleChoice(TDBQuestion tdbQuestion) {
+        MultipleChoice multipleChoice = new MultipleChoice();
+        multipleChoice.setQuestionText(tdbQuestion.getQuestion());
+        multipleChoice.setAnswerIndex(0);
+        multipleChoice.addChoice(tdbQuestion.getCorrect_answer());
+        multipleChoice.addChoices(FXCollections.observableArrayList(tdbQuestion.getIncorrect_answers()));
+        return multipleChoice;
     }
 }

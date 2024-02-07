@@ -2,6 +2,7 @@ package TestCreator.utilities;
 
 import TestCreator.Main;
 import TestCreator.Test;
+import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;
 import TestCreator.testIO.IOManager;
 import javafx.collections.FXCollections;
@@ -118,5 +119,9 @@ public class TestManager {
                 selectedQuestion = questionList.getFirst();
             }
         }
+    }
+
+    public void addQuestions(List<MultipleChoice> questionsList) {
+        questionsList.forEach(this::addQuestion);
     }
 }

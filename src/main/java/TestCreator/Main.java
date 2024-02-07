@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 
-
 public class Main extends JProApplication {
     public static final boolean TESTING_MODE = true;
 
@@ -30,6 +29,8 @@ public class Main extends JProApplication {
         StageManager.clearStageController();
         stage.setWidth(800);
         stage.setHeight(600);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.show();
         stage.setOnCloseRequest(_ -> {
             Platform.exit();

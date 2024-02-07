@@ -2,24 +2,30 @@ package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;
-import TestCreator.utilities.ClassFinder;
-import TestCreator.utilities.StackPaneAlert;
-import TestCreator.utilities.StageManager;
+import TestCreator.utilities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class NewQuestionEditor {
+    @FXML
+    public ListView<String> questionListView;
+    @FXML
+    public Slider questionCountSlider;
+    @FXML
+    public Label questionCountLabel;
+    @FXML
+    private ComboBox<String> categoryComboBox;
+    @FXML
+    private ComboBox<Integer> questionCountComboBox;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -43,6 +49,8 @@ public class NewQuestionEditor {
 
     private Question.QuestionTypes questionType = Question.QuestionTypes.MULTIPLE_CHOICE;
 
+    public static final List<MultipleChoice> triviaQuestionsList = new ArrayList<>();
+
     @FXML
     public void initialize() {
         StageManager.setTitle("New Question");
@@ -65,8 +73,7 @@ public class NewQuestionEditor {
                 acceptBtn.disableProperty().bind(questionName.textProperty().isEmpty()
                         .or(typesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
 
-
-
+        questionListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         quickQuestionName.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
         quickTypesChoiceBox.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
@@ -105,6 +112,15 @@ public class NewQuestionEditor {
                         .or(quickTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull()));
             }
         });
+
+        categoryComboBox.getItems().addAll(TDBQuestion.Categories.getCategoryNames());
+        categoryComboBox.getSelectionModel().select(0);
+
+        questionCountLabel.textProperty().bind(questionCountSlider.valueProperty().asString("%.0f"));
+
+        quickQuestionName.textProperty().addListener((_, _, _) ->
+                fastAcceptBtn.disableProperty().bind(quickQuestionName.textProperty().isEmpty()
+                        .or(quickTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
     }
 
     public void returnToMainMenu() {
@@ -136,5 +152,54 @@ public class NewQuestionEditor {
             new StackPaneAlert(rootNode, STR."Error loading \{questionType.getQuestionType()}QuickEditor.fxml").show();
             throw new RuntimeException(e);
         }
+    }
+
+    public void acceptOpenTrivia() {
+        try {
+            TestManager.getInstance().addQuestions(triviaQuestionsList);
+            StageManager.setScene("/MainMenu.fxml");
+            StageManager.clearStageController();
+        } catch (IOException e) {
+            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getQuestions() {
+        OpenTriviaDownloader downloader = new OpenTriviaDownloader();
+        try {
+            List<TDBQuestion> questions = downloader.downloadQuestions(categoryComboBox.getValue(), (int) questionCountSlider.getValue());
+            questionListView.getItems().clear();
+            questions.forEach(question -> {
+                triviaQuestionsList.add(new MultipleChoice(question));
+                questionListView.getItems().add(question.getQuestion());
+            });
+        } catch (IOException | InterruptedException e) {
+            new StackPaneAlert(rootNode, "Error downloading questions").show();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addAllQuestions() {
+        triviaQuestionsList.forEach(question -> {
+            TestManager.getInstance().addQuestion(question);
+            questionListView.getItems().remove(question.getQuestionText());
+        });
+    }
+
+    public void addQuestion() {
+        triviaQuestionsList.stream().filter(question -> questionListView.getSelectionModel().getSelectedItems().contains(question.getQuestionText()))
+                .forEach(question -> {
+                    TestManager.getInstance().addQuestion(question);
+                    questionListView.getItems().remove(question.getQuestionText());
+                });
+    }
+
+    public void removeAllQuestions() {
+
+    }
+
+    public void removeQuestion() {
+
     }
 }

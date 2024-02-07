@@ -166,7 +166,6 @@ public class Test {
                 newQuestion.loadQuestionFromXMLNode(questionNode);
                 questionList.add(newQuestion);
             } catch (NullPointerException e) {
-//                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
         }
