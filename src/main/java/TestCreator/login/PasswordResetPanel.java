@@ -38,7 +38,7 @@ public class PasswordResetPanel {
         StageManager.setTitle("Password Reset");
         emailTextField.setOnAction(_ -> sendPassResetEmail());
         emailTextField.setOnKeyTyped(_ -> {
-            if (emailTextField.getText().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            if (emailTextField.getText().trim().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                 emailTextField.setStyle("-fx-border-color: green");
                 sendButton.setDisable(false);
             } else {
@@ -52,7 +52,7 @@ public class PasswordResetPanel {
     }
 
     public void sendPassResetEmail() {
-        if (!emailTextField.getText().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (!emailTextField.getText().trim().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             new StackPaneAlert(rootNode, "Invalid email syntax.").show();
         }
         else if(userManager.emailDoesNotExist(emailTextField.getText())){
@@ -72,7 +72,7 @@ public class PasswordResetPanel {
                         "Password Reset", STR."Enter the passphrase \{resetPassphraseString} to reset your password.", EmailSender.SMTP_USER, EmailSender.SMTP_PASS);
             } catch (MessagingException mex) {
                 mex.printStackTrace();
-                new StackPaneAlert(rootNode, "Email failed to send: " + mex.getMessage()).show();
+                new StackPaneAlert(rootNode, STR."Email failed to send: \{mex.getMessage()}").show();
             }
         }
     }

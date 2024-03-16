@@ -94,7 +94,9 @@ public class XMLIO {
                 if (testNode instanceof Element && !TestManager.getInstance().containsTest(testID)) {
                     Test newTest = new Test();
                     newTest.loadFromXMLNode((Element) testNode);
-                    TestManager.getInstance().addTest(newTest);
+                    try {
+                        TestManager.getInstance().addTest(newTest);
+                    }catch (IllegalArgumentException e){}
                 }
             }
         } catch (NoSuchElementException e) {

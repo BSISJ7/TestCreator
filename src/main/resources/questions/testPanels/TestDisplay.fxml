@@ -34,7 +34,7 @@
                         </tooltip>
                     </Button>
 
-                    <Button fx:id="finishTestBtn" onAction="#checkCorrectAnswers" text="Grade Test">
+                    <Button fx:id="finishTestBtn" onAction="#endTest" text="Grade Test">
                         <tooltip>
                             <Tooltip text="End your current test session and have your test graded."/>
                         </tooltip>

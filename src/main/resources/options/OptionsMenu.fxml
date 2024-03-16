@@ -9,11 +9,13 @@
            fx:controller="TestCreator.options.OptionsMenu"
            fx:id="rootNode">
 
+
     <fx:define>
         <ToggleGroup fx:id="themeGroup"/>
     </fx:define>
 
     <VBox alignment="CENTER" spacing="10">
+        <CheckBox fx:id="audioCheckbox" text="Enable Audio" onAction="#setReadQuestion"/>
         <Label text="Select Theme:"/>
         <RadioButton fx:id="defaultTheme" text="Default Theme" toggleGroup="$themeGroup"/>
         <RadioButton fx:id="nordDark" text="Nord Dark" toggleGroup="$themeGroup"/>

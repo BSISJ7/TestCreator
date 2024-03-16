@@ -21,6 +21,28 @@ public class ExtensionChecker {
         }
     }
 
+    public enum AudioExtensions {
+        MP3("mp3"),
+        WAV("wav"),
+        AIFF("aiff"),
+        AU("au"),
+        SND("snd"),
+        MIDI("midi"),
+        M4A("m4a"),
+        WMA("wma"),
+        FLAC("flac"),
+        OGG("ogg");
+
+        private final String extension;
+
+        AudioExtensions(String extension) {
+            this.extension = extension;
+        }
+        public String getExtension() {
+            return extension;
+        }
+    }
+
     public static String getExt(File checkFile) {
         return checkFile.getName().substring(checkFile.getName().lastIndexOf(".") + 1);
     }
@@ -35,6 +57,16 @@ public class ExtensionChecker {
         String extension = ExtensionChecker.getExt(checkFile);
         for (ImageExtensions imageExtension : ImageExtensions.values()) {
             if (extension.equalsIgnoreCase(imageExtension.getExtension())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isAudio(File checkFile) {
+        String extension = ExtensionChecker.getExt(checkFile);
+        for (AudioExtensions audioExtension : AudioExtensions.values()) {
+            if (extension.equalsIgnoreCase(audioExtension.getExtension())) {
                 return true;
             }
         }

@@ -1,6 +1,7 @@
 package TestCreator.users;
 
 import TestCreator.Test;
+import TestCreator.options.Options;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,6 +18,9 @@ public class User{
     private String email = "";
     private String phoneNumber = "";
     private boolean emailVerified = false;
+    private boolean readQuestions = false;
+    private String theme = "primer-dark";
+    private Options options = new Options();
 
     public User(String username, String hashedPassword, String firstName, String lastName, String email, String phoneNumber, boolean emailVerified) {
         this.username = username;
@@ -25,6 +29,7 @@ public class User{
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.emailVerified = emailVerified;
     }
 
     public User(String username, String hashedPassword) {
@@ -129,5 +134,23 @@ public class User{
     @Override
     public String toString() {
         return getUsername();
+    }
+
+    public boolean canReadQuestions() {
+        return readQuestions;
+    }
+    public void setReadQuestions(boolean readQuestions) {
+        this.readQuestions = readQuestions;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public Options getOptions() {
+        return options;
     }
 }

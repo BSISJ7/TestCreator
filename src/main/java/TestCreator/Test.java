@@ -31,9 +31,10 @@ public class Test {
         this.user = user;
     }
 
-    public Test(String name, String description) {
+    public Test(String name, String description, User user) {
         this(name);
         this.description = description;
+        this.user = user;
     }
 
     /**

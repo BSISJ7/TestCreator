@@ -61,8 +61,12 @@ public class TestEditor {
     public void acceptTest() {
         test.setName(testName.getText());
         test.setDescription(testDescription.getText());
-        TestManager.getInstance().addTest(test);
-        returnToMainMenu();
-        IOManager.getInstance().saveTests();
+        try {
+            TestManager.getInstance().addTest(test);
+            returnToMainMenu();
+            IOManager.getInstance().saveTests();
+        }catch (IllegalArgumentException e){
+            new StackPaneAlert(rootNode, e.getMessage()).show();
+        }
     }
 }

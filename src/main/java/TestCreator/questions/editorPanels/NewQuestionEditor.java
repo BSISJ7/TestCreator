@@ -23,6 +23,8 @@ public class NewQuestionEditor {
     @FXML
     public Label questionCountLabel;
     @FXML
+    public Tab triviaTab;
+    @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
     private ComboBox<Integer> questionCountComboBox;
@@ -73,8 +75,6 @@ public class NewQuestionEditor {
                 acceptBtn.disableProperty().bind(questionName.textProperty().isEmpty()
                         .or(typesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
 
-        questionListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         quickQuestionName.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
         quickTypesChoiceBox.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
         quickQuestionName.setText(question.getName());
@@ -113,6 +113,12 @@ public class NewQuestionEditor {
             }
         });
 
+
+
+        //TODO: Change the TDBQuestion interface
+        //remove the triviaTab from the tabPane
+        tabPane.getTabs().remove(triviaTab);
+        questionListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         categoryComboBox.getItems().addAll(TDBQuestion.Categories.getCategoryNames());
         categoryComboBox.getSelectionModel().select(0);
 

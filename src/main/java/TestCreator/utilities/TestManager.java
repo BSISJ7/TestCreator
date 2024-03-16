@@ -29,10 +29,14 @@ public class TestManager {
         return TEST_MANAGER;
     }
 
-    public void addTest(Test test) {
-        if (!testList.contains(test)) {
-            testList.add(test);
-        }
+    public void addTest(Test newTest) throws IllegalArgumentException{
+        testList.forEach(test -> {
+            if (newTest.getName().equals(test.getName()))
+                throw new IllegalArgumentException("A test with the same name already exists.");
+            if(test.getID().equals(newTest.getID()) || test.equals(newTest))
+                throw new IllegalArgumentException("The test list already contains this test.");
+        });
+        testList.add(newTest);
     }
 
     public void removeTest(Test test) {
@@ -85,7 +89,13 @@ public class TestManager {
                     newQuestion.autofillData();
                     if (newQuestion.readyToRun()) newTest.addQuestion(newQuestion);
                 });
-                addTest(newTest);
+
+                try{
+                    addTest(newTest);
+                } catch (IllegalArgumentException e) {
+                    newTest.setName(STR. "\{ newTest.getName() } # \{ new Random().nextInt(9999) }");
+                    addTest(newTest);
+                }
             }
             IOManager.getInstance().saveTests();
         }

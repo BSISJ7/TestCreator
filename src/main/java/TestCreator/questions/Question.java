@@ -11,12 +11,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 import static TestCreator.testIO.XMLIO.findNode;
 
-public abstract class Question {
+public abstract class Question implements Serializable {
 
     public static final String sysSeparator;
 
@@ -62,6 +63,8 @@ public abstract class Question {
     Document XMLDocument;
 
     final String ID = UUID.randomUUID().toString();
+    private static final long serialVersionUID = 1L;
+
 
     public Question(String questionName, QuestionTypes questionType) {
         this(questionName);
@@ -155,12 +158,6 @@ public abstract class Question {
 
     public abstract String loadFromSQLStatement(String sqlStatement);
 
-    public Question getCopy() {
-        Question copy = createQuestion(questionName, questionType, test);
-        copy.loadQuestionFromXMLNode(getQuestionAsXMLNode());
-        return copy;
-    }
-
     public boolean readyToRun() {
         return false;
     }
@@ -204,4 +201,9 @@ public abstract class Question {
     }
 
     public abstract void autofillData();
+
+    @Override
+    public String toString() {
+        return STR."Question{questionName='\{questionName}\{'\''}, questionType=\{questionType}, ID='\{ID}\{'\''}\{'}'}";
+    }
 }

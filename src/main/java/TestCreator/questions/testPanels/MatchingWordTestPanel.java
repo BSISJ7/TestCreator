@@ -220,7 +220,6 @@ public class MatchingWordTestPanel implements TestPanel<MatchingWord> {
             else if (isSelected)
                 textFieldListCell.setStyle("-fx-background-color: rgb(0,200,0)");
             else if (keyHoverIndex == thisIndex)
-//                textFieldListCell.setStyle("-fx-background-color: rgba(3,150,21,0.39)");
                 textFieldListCell.setStyle("-fx-background-color: rgba(3,150,21,0.69)");
         } else if (correct) {
             textFieldListCell.setStyle("-fx-background-color: rgba(0,150,0,0.62)");

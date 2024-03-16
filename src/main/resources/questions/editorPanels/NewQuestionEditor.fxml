@@ -30,31 +30,31 @@
             </VBox>
         </Tab>
 <!--        TODO Open Trivia API Download Questions-->
-<!--        <Tab closable="false" text="Open Trivia Questions" >-->
-<!--            <VBox spacing="10" alignment="CENTER">-->
-<!--                <Label text="Number of Questions Generated" />-->
-<!--                <HBox spacing="10" alignment="CENTER">-->
-<!--                    <Label fx:id="questionCountLabel" text="1" />-->
-<!--                    <Slider fx:id="questionCountSlider" min="1" max="50" value="1" />-->
-<!--                </HBox>-->
-<!--                <HBox spacing="10" alignment="CENTER">-->
-<!--                    <Label text="Category:" />-->
-<!--                    <ComboBox fx:id="categoryComboBox"/>-->
-<!--                </HBox>-->
+        <Tab fx:id="triviaTab" closable="false" text="Open Trivia Questions" >
+            <VBox spacing="10" alignment="CENTER">
+                <Label text="Number of Questions Generated" />
+                <HBox spacing="10" alignment="CENTER">
+                    <Label fx:id="questionCountLabel" text="1" />
+                    <Slider fx:id="questionCountSlider" min="1" max="50" value="1" />
+                </HBox>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Category:" />
+                    <ComboBox fx:id="categoryComboBox"/>
+                </HBox>
 
-<!--                <Button onAction="#getQuestions" text="Get Questions" />-->
+                <Button onAction="#getQuestions" text="Get Questions" />
 
-<!--                <ListView fx:id="questionListView"/>-->
-<!--                <Button text="Add All Questions" onAction="#addAllQuestions"/>-->
-<!--                <Button text="Add Selected Question(s)" onAction="#addQuestion"/>-->
-<!--                <Button text="Remove Selected Question(s)" onAction="#removeAllQuestions"/>-->
-<!--                <Button text="Remove All Questions" onAction="#removeQuestion"/>-->
+                <ListView fx:id="questionListView"/>
+                <Button text="Add All Questions" onAction="#addAllQuestions"/>
+                <Button text="Add Selected Question(s)" onAction="#addQuestion"/>
+                <Button text="Remove Selected Question(s)" onAction="#removeAllQuestions"/>
+                <Button text="Remove All Questions" onAction="#removeQuestion"/>
 
-<!--                <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">-->
-<!--                    <Button text="Accept" onAction="#acceptOpenTrivia"/>-->
-<!--                    <Button text="Cancel" onAction="#returnToMainMenu"/>-->
-<!--                </HBox>-->
-<!--            </VBox>-->
-<!--        </Tab>-->
+                <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
+                    <Button text="Accept" onAction="#acceptOpenTrivia"/>
+                    <Button text="Cancel" onAction="#returnToMainMenu"/>
+                </HBox>
+            </VBox>
+        </Tab>
     </TabPane>
 </StackPane>

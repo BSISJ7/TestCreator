@@ -1,11 +1,14 @@
 package TestCreator.questions.testPanels;
 
 import TestCreator.Test;
-import TestCreator.questions.Question;
+import TestCreator.audio.TTSManager;
+import TestCreator.questions.*;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -61,7 +65,11 @@ public class TestDisplay {
     public static final String SELECTED_FLAG_STYLE = "-fx-border-color: white";
     public static final String UNSELECTED_FLAG_STYLE = "-fx-border-color: red";
 
-//    private SpeechRecognizer speechRecognizer;
+    private float playbackSpeed;
+
+    private final TTSManager TTS_MANAGER = new TTSManager();
+
+    private boolean firstRun = true;
 
     public void initialize() {
         setTitle();
@@ -100,6 +108,7 @@ public class TestDisplay {
 
     public void setupTest(Test test) {
         this.test = test;
+        playbackSpeed = 1.35f;
         questionList = test.getQuestionListCopy();
         questionList = questionList.stream()
                 .filter(question -> {
@@ -147,7 +156,6 @@ public class TestDisplay {
             }
         }
 
-
         TestManager.getInstance().selectQuestion(questionList.getFirst());
         Platform.runLater(() -> testNameLbl.setText(test.getName()));
         questionIndex = 0;
@@ -183,21 +191,49 @@ public class TestDisplay {
     private void loadQuestionPane() {
         if (questionIndex < 0 || questionIndex >= questionList.size() || testPanels.isEmpty()) return;
         TestManager.getInstance().selectQuestion(questionList.get(questionIndex));
-        Platform.runLater(() -> {
-            testNameLbl.setText(test.getQuestionAtIndex((questionIndex)).getName());
-            questionDisplay.setCenter(testPanels.get(questionIndex).getRootNode());
-        });
+        testNameLbl.setText(test.getQuestionAtIndex((questionIndex)).getName());
+        questionDisplay.setCenter(testPanels.get(questionIndex).getRootNode());
         setFlagText();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(firstRun ? 600 : 250), _ -> playQuestionAudio()));
+        timeline.play();
+        firstRun = false;
+    }
+
+    private void playQuestionAudio(){
+        TTS_MANAGER.stopSpeaking();
+
+        switch (test.getQuestionAtIndex(questionIndex).getType()) {
+            case "MultipleChoice":
+                TTS_MANAGER.speak(((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
+                break;
+            case "TrueFalse":
+                TTS_MANAGER.speak(((TrueFalse) test.getQuestionAtIndex(questionIndex)).getTrueFalseQuestion(), playbackSpeed);
+                break;
+            case "FillInTheBlank":
+                TTS_MANAGER.speak(((FillTheBlank) test.getQuestionAtIndex(questionIndex)).getFillQuestion(), playbackSpeed);
+                break;
+            case "Matching":
+                //TODO: implement matching question type speech
+                break;
+            case "MultipleCheckBox":
+                TTS_MANAGER.speak(((MultipleCheckBox) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
+                break;
+            case "FlashCard":
+                TTS_MANAGER.speak(((FlashCard) test.getQuestionAtIndex(questionIndex)).getFlashQuestion(), playbackSpeed);
+                break;
+        }
     }
 
     private void setTitle(){
         StageManager.setTitle(STR. "[\{ TestManager.getInstance().getSelectedTestName() }]: Question \{ (questionIndex + 1) }" );
     }
 
-    public void checkCorrectAnswers() {
+    public void endTest() {
         new StackPaneDialogue(rootNode, "Are you sure you want to end your test? Press OK to confirm, or cancel to back out.")
                 .showAndWait().thenAccept(okayClicked -> {
                     if (okayClicked) {
+                        TTS_MANAGER.stopSpeaking();
                         finishTestBtn.setDisable(true);
                         timer.cancel();
                         int numberCorrect = 0;
@@ -244,6 +280,7 @@ public class TestDisplay {
         new StackPaneDialogue(rootNode, "Are you sure you want to return to the main menu? Press OK to confirm, or close to back out.")
                 .showAndWait().thenAccept(okayClicked -> {
             if (okayClicked) {
+                TTS_MANAGER.stopSpeaking();
                 try {
                     cleanup();
                     StageManager.setScene("/MainMenu.fxml");

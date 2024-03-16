@@ -3,8 +3,10 @@ package TestCreator.options;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
@@ -40,7 +42,35 @@ public class OptionsMenu {
     private Button okayButton;
     @FXML
     private Button cancelButton;
-    private static String projectCssTheme = "/css/themes/primer-dark.css";
+    private static CSS_THEMES projectCssTheme = CSS_THEMES.PRIMER_DARK;
+
+    public enum CSS_THEMES {
+        NORD_DARK("/css/themes/nord-dark.css"),
+        NORD_LIGHT("/css/themes/nord-light.css"),
+        DRACULA("/css/themes/dracula.css"),
+        CUPERTINO_DARK("/css/themes/cupertino-dark.css"),
+        CUPERTINO_LIGHT("/css/themes/cupertino-light.css"),
+        PRIMER_DARK("/css/themes/primer-dark.css"),
+        PRIMER_LIGHT("/css/themes/primer-light.css"),
+        DARK_THEME("/css/themes/DarkTheme.css"),
+        DEFAULT(null);
+
+        private final String theme;
+
+        CSS_THEMES(String theme) {
+            this.theme = theme;
+        }
+
+        public String getTheme() {
+            return theme;
+        }
+    };
+
+
+    @FXML
+    private CheckBox audioCheckbox;
+
+
 
     @FXML
     public void initialize() {
@@ -66,23 +96,24 @@ public class OptionsMenu {
 
         Platform.runLater(() -> themeGroup.selectedToggleProperty().addListener((_, _, newValue) -> {
             if (newValue == nordDark) {
-                projectCssTheme = "/css/themes/nord-dark.css";
+                projectCssTheme = CSS_THEMES.NORD_DARK;
             } else if (newValue == nordLight) {
-                projectCssTheme = "/css/themes/nord-light.css";
+                projectCssTheme = CSS_THEMES.NORD_LIGHT;
             } else if (newValue == dracula) {
-                projectCssTheme = "/css/themes/dracula.css";
+                projectCssTheme = CSS_THEMES.DRACULA;
             } else if (newValue == cupertinoDark) {
-                projectCssTheme = "/css/themes/cupertino-dark.css";
+                projectCssTheme = CSS_THEMES.CUPERTINO_DARK;
             } else if (newValue == cupertinoLight) {
-                projectCssTheme = "/css/themes/cupertino-light.css";
+                projectCssTheme = CSS_THEMES.CUPERTINO_LIGHT;
             } else if (newValue == primerDark) {
-                projectCssTheme = "/css/themes/primer-dark.css";
+                projectCssTheme = CSS_THEMES.PRIMER_DARK;
             } else if (newValue == primerLight) {
-                projectCssTheme = "/css/themes/primer-light.css";
+                projectCssTheme = CSS_THEMES.PRIMER_LIGHT;
             } else if (newValue == darkTheme) {
-                projectCssTheme = "/css/themes/DarkTheme.css";
-            }else
-                projectCssTheme = "";
+                projectCssTheme = CSS_THEMES.DARK_THEME;
+            } else {
+                projectCssTheme = CSS_THEMES.DEFAULT;
+            }
 
             try{
                 StageManager.setScene("/options/OptionsMenu.fxml");
@@ -94,33 +125,37 @@ public class OptionsMenu {
         }));
 
         switch (projectCssTheme) {
-            case "/css/themes/nord-dark.css" -> nordDark.setSelected(true);
-            case "/css/themes/nord-light.css" -> nordLight.setSelected(true);
-            case "/css/themes/dracula.css" -> dracula.setSelected(true);
-            case "/css/themes/cupertino-dark.css" -> cupertinoDark.setSelected(true);
-            case "/css/themes/cupertino-light.css" -> cupertinoLight.setSelected(true);
-            case "/css/themes/primer-dark.css" -> primerDark.setSelected(true);
-            case "/css/themes/primer-light.css" -> primerLight.setSelected(true);
-            case "/css/themes/DarkTheme.css" -> darkTheme.setSelected(true);
-            case null, default -> defaultTheme.setSelected(true);
+            case NORD_DARK -> nordDark.setSelected(true);
+            case NORD_LIGHT -> nordLight.setSelected(true);
+            case DRACULA -> dracula.setSelected(true);
+            case CUPERTINO_DARK -> cupertinoDark.setSelected(true);
+            case CUPERTINO_LIGHT -> cupertinoLight.setSelected(true);
+            case PRIMER_DARK -> primerDark.setSelected(true);
+            case PRIMER_LIGHT -> primerLight.setSelected(true);
+            case DARK_THEME -> darkTheme.setSelected(true);
+            case DEFAULT -> defaultTheme.setSelected(true);
         }
     }
 
   public static String getCssName() {
         return switch (projectCssTheme) {
-            case "/css/themes/nord-dark.css" -> "nord-dark";
-            case "/css/themes/nord-light.css" -> "nord-light";
-            case "/css/themes/dracula.css" -> "dracula";
-            case "/css/themes/cupertino-dark.css" -> "cupertino-dark";
-            case "/css/themes/cupertino-light.css" -> "cupertino-light";
-            case "/css/themes/primer-dark.css" -> "primer-dark";
-            case "/css/themes/primer-light.css" -> "primer-light";
-            case "/css/themes/DarkTheme.css" -> "DarkTheme";
-            case null, default -> "";
+            case NORD_DARK -> "nord-dark";
+            case NORD_LIGHT -> "nord-light";
+            case DRACULA -> "dracula";
+            case CUPERTINO_DARK -> "cupertino-dark";
+            case CUPERTINO_LIGHT -> "cupertino-light";
+            case PRIMER_DARK -> "primer-dark";
+            case PRIMER_LIGHT -> "primer-light";
+            case DARK_THEME -> "DarkTheme";
+            case DEFAULT -> "";
         };
     }
 
     public static String getCssFullPath() {
-        return Objects.requireNonNull(StageManager.class.getResource(projectCssTheme)).toExternalForm();
+        return Objects.requireNonNull(StageManager.class.getResource(projectCssTheme.getTheme())).toExternalForm();
+    }
+
+    public void setReadQuestion(ActionEvent actionEvent) {
+        //TODO: set user question reading preference
     }
 }

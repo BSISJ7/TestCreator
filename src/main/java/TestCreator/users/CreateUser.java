@@ -23,6 +23,8 @@ public class CreateUser {
     @FXML
     public StackPane rootNode;
     @FXML
+    public PasswordField confirmPasswordField;
+    @FXML
     private CheckBox passVisibleCheckBox;
     @FXML
     private TextField passwordFieldVisible;
@@ -34,6 +36,7 @@ public class CreateUser {
     private Label numberReqLabel;
     private Label lowerCaseReqLabel;
     private Label upperCaseReqLabel;
+    private Label passwordsMatchLabel;
     @FXML
     private VBox requirementsVBox;
     @FXML
@@ -71,6 +74,17 @@ public class CreateUser {
 
         specialCharReqLabel = new Label("Password must contain at least one special character.");
         if(REQUIRE_SPECIAL_CHAR) requirementsVBox.getChildren().add(specialCharReqLabel);
+
+        passwordsMatchLabel = new Label("Passwords must match.");
+        confirmPasswordField.textProperty().addListener((_, _, _) -> {
+            if (!confirmPasswordField.getText().equals(passwordField.getText())) {
+                passwordsMatchLabel.setStyle("-fx-text-fill: red");
+                passwordsMatchLabel.setText("Passwords must match.");
+            } else {
+                passwordsMatchLabel.setStyle("-fx-text-fill: black");
+                passwordsMatchLabel.setText("Passwords match.");
+            }
+        });
     }
 
     public void setUserManager(UserManager userManager) {

@@ -166,4 +166,9 @@ public class MultipleChoice extends Question {
         multipleChoice.addChoices(FXCollections.observableArrayList(tdbQuestion.getIncorrect_answers()));
         return multipleChoice;
     }
+
+    @Override
+    public String toString() {
+        return STR."MultipleChoice{choices=\{choices}, multChoiceQuestion='\{multChoiceQuestion}\{'\''}, answerIndex=\{answerIndex}\{'}'}";
+    }
 }

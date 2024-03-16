@@ -19,13 +19,17 @@
                 <PasswordField fx:id="passwordField" maxWidth="400" onAction="#addUser" promptText="Password"/>
                 <TextField fx:id="passwordFieldVisible" maxWidth="400" onAction="#addUser" promptText="Password"/>
             </HBox>
-            <CheckBox fx:id="passVisibleCheckBox" GridPane.columnIndex="0" GridPane.rowIndex="2">Show Password
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Label text="Connfirm Password:"/>
+                <PasswordField fx:id="confirmPasswordField" maxWidth="400" onAction="#addUser" promptText="Password"/>
+            </HBox>
+            <CheckBox fx:id="passVisibleCheckBox" GridPane.columnIndex="0" GridPane.rowIndex="3">Show Password
             </CheckBox>
-            <VBox fx:id="requirementsVBox" GridPane.columnIndex="0" GridPane.rowIndex="3">
+            <VBox fx:id="requirementsVBox" GridPane.columnIndex="0" GridPane.rowIndex="4">
                 <Label fx:id="minLengthReqLabel"/>
                 <Label fx:id="maxLengthReqLabel"/>
             </VBox>
-            <HBox GridPane.columnIndex="0" GridPane.rowIndex="4">
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="5">
                 <Label text="Email:"/>
                 <TextField fx:id="emailTextField" maxWidth="400" onAction="#addUser" promptText="Optional"/>
             </HBox>

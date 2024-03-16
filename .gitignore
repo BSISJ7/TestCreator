@@ -9,6 +9,9 @@ RUNNING_PID
 *.xml.backup*
 *.jks
 *.zip
+*.mp3
+*.wav
+*.mp4
 
 .apt_generated
 .classpath

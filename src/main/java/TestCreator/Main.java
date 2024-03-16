@@ -10,17 +10,28 @@ import javafx.stage.Stage;
 
 public class Main extends JProApplication {
     public static final boolean TESTING_MODE = true;
+//    private ConfigurableApplicationContext applicationContext;
 
     public static void main(String[] args) {
         launch(Main.class, args);
     }
 
+    @Override
+    public void init() {
+//        applicationContext = new SpringApplicationBuilder(SpringJfxApp.class).run();
+    }
+
+    @Override
     public void start(Stage stage) throws Exception {
+//        applicationContext.publishEvent(new StageReadyEvent(stage));
+
         IOManager.getInstance().backupDatabase();
         IOManager.getInstance().loadTests();
 
         System.setProperty("aws.accessKeyId", System.getenv("AWS_SES_ACCESS_KEY"));
         System.setProperty("aws.secretAccessKey", System.getenv("AWS_SES_SECRET_ACCESS_KEY"));
+
+        //TODO Set a new StackPane to be the root of the stage
 
         stage.setTitle("Main Menu");
         StageManager.setStage(stage);
@@ -37,4 +48,20 @@ public class Main extends JProApplication {
             System.exit(0);
         });
     }
+
+    @Override
+    public void stop() {
+//        applicationContext.close();
+        Platform.exit();
+    }
+
+//    protected class StageReadyEvent extends ApplicationEvent {
+//        public StageReadyEvent(Stage stage) {
+//            super(stage);
+//        }
+//
+//        public Stage getStage() {
+//            return ((Stage) getSource());
+//        }
+//    }
 }

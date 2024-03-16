@@ -5,6 +5,7 @@ import TestCreator.users.CreateUser;
 import TestCreator.users.UserManager;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
+import com.google.api.client.auth.oauth2.Credential;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -14,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 public class WebLogin {
@@ -22,6 +24,8 @@ public class WebLogin {
     public Hyperlink resetPasswordBtn;
     public Hyperlink noLoginBtn;
     public Hyperlink newUserBtn;
+    @FXML
+    public Button googleLoginBtn;
     @FXML
     private  StackPane rootNode;
 
@@ -103,6 +107,19 @@ public class WebLogin {
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading CreateUser.fxml").show();
             throw new RuntimeException(e);
+        }
+    }
+
+    public void loginWithGoogle() {
+        try {
+            Credential credential = GoogleAuthenticator.authorize();
+            if (credential != null) {
+                loadMainMenu("Google User");
+            } else {
+                new StackPaneAlert(rootNode, "Google authorization failed.").show();
+            }
+        } catch (IOException | GeneralSecurityException e) {
+            new StackPaneAlert(rootNode, STR."Error during Google authorization: \{e.getMessage()}").show();
         }
     }
 

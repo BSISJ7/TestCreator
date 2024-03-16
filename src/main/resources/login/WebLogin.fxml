@@ -19,5 +19,8 @@
                 <Hyperlink fx:id="resetPasswordBtn" onAction="#resetPassword" text="Reset Password"/>
             </VBox>
         </center>
+        <bottom>
+            <Button fx:id="googleLoginBtn" maxWidth="200" text="Login with Google" onAction="#loginWithGoogle"/>
+        </bottom>
     </BorderPane>
 </StackPane>
