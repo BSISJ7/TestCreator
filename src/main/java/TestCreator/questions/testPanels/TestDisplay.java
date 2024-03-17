@@ -206,6 +206,10 @@ public class TestDisplay {
         switch (test.getQuestionAtIndex(questionIndex).getType()) {
             case "MultipleChoice":
                 TTS_MANAGER.speak(((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
+                for(int x = 0; x < ((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getChoicesCopy().size(); x++) {
+                    TTS_MANAGER.speak(STR."\{x + 1}. \{((MultipleChoice) test.getQuestionAtIndex(questionIndex))
+                            .getChoicesCopy().get(x)}", playbackSpeed);
+                }
                 break;
             case "TrueFalse":
                 TTS_MANAGER.speak(((TrueFalse) test.getQuestionAtIndex(questionIndex)).getTrueFalseQuestion(), playbackSpeed);

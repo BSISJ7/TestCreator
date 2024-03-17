@@ -5,6 +5,7 @@ import com.ibm.cloud.sdk.core.security.IamAuthenticator;
 import com.ibm.watson.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 import com.ibm.watson.text_to_speech.v1.util.WaveUtils;
+import javafx.scene.media.MediaPlayer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,6 +18,9 @@ import java.io.OutputStream;
 public class IBMTTS {
     private final TextToSpeech textToSpeech;
     private Clip audioClip;
+
+    private boolean isPlaying;
+
 
     public IBMTTS() {
         IamAuthenticator authenticator = new IamAuthenticator("<your-ibm-api-key>");
@@ -50,7 +54,8 @@ public class IBMTTS {
             audioClip = AudioSystem.getClip();
             audioClip.open(audioStream);
             audioClip.start();
-
+            isPlaying = true;
+            audioClip.addLineListener(event ->isPlaying = event.getType() != javax.sound.sampled.LineEvent.Type.STOP);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,5 +69,18 @@ public class IBMTTS {
         if (audioClip != null && audioClip.isRunning()) {
             audioClip.stop();
         }
+    }
+
+    public MediaPlayer getMediaPlayer() {
+//        return new MediaPlayer(new File("output.wav").toURI().toString());
+        return null;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return null;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
     }
 }

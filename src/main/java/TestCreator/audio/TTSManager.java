@@ -2,6 +2,9 @@ package TestCreator.audio;
 
 import TestCreator.audio.AWS.AmazonPollyTTS;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * This class manages the Text to Speech (TTS) services for the application.
  * It currently supports Amazon Polly and IBM Text to Speech services.
@@ -13,6 +16,9 @@ public class TTSManager {
     // Instance of IBM Text to Speech service
     private static final IBMTTS IBM_TTS = new IBMTTS();
 
+    private final Queue<String> audioQueue = new LinkedList<>();
+
+
     // Enum to represent the supported TTS services
     public enum TTSType {
         AWS_POLLY,
@@ -22,27 +28,33 @@ public class TTSManager {
     // Variable to select the TTS service to be used
     private static final TTSType SELECTED_TTS_TYPE = TTSType.AWS_POLLY;
 
-    /**
-     * This method takes a text string as input and converts it to speech using the selected TTS service.
-     * @param text The text string to be converted to speech.
-     */
-    public void speak(String text) {
-        speak(text, 1.0f);
+    public void speak(String text, float playbackSpeed) {
+        audioQueue.add(text);
+        if (!isPlaying())
+            playNextAudio(playbackSpeed);
     }
 
-    /**
-     * This method takes a text string as input and converts it to speech using the selected TTS service.
-     * @param text The text string to be converted to speech.
-     */
-    public void speak(String text, float playbackSpeed) {
+    public void playNextAudio(float playbackSpeed) {
+        if (audioQueue.isEmpty()) return;
+
+        String text = audioQueue.poll();
+
         switch (SELECTED_TTS_TYPE) {
             case AWS_POLLY:
-                AWS_POLLY_TTS.speak(text, playbackSpeed);
+                AWS_POLLY_TTS.speak(text, playbackSpeed, this);
                 break;
             case IBM_TEXT_TO_SPEECH:
                 IBM_TTS.speak(text, playbackSpeed);
                 break;
         }
+    }
+
+    private boolean isPlaying() {
+        return switch (SELECTED_TTS_TYPE) {
+            case AWS_POLLY -> AWS_POLLY_TTS.isPlaying();
+            case IBM_TEXT_TO_SPEECH -> IBM_TTS.isPlaying();
+            default -> false;
+        };
     }
 
     /**
@@ -57,5 +69,6 @@ public class TTSManager {
                 IBM_TTS.stopSpeaking();
                 break;
         }
+        audioQueue.clear();
     }
 }

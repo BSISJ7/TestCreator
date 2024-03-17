@@ -33,10 +33,5 @@ public class OpenAIChatGPT {
                 .build();
 
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-
-        System.out.println(STR."Response status code: \{response.statusCode()}");
-        System.out.println(STR."Response body: \{response.body()}");
-
-
     }
 }

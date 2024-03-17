@@ -29,7 +29,6 @@ public class GoogleAuthenticator {
 
     public static Credential authorize() throws IOException, GeneralSecurityException {
 
-        System.out.println(new File(CREDENTIALS_FILE_PATH).exists());
         // Load client secrets
 //        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
 //                GsonFactory.getDefaultInstance(),
