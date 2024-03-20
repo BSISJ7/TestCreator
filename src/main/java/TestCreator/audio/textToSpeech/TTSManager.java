@@ -1,6 +1,4 @@
-package TestCreator.audio;
-
-import TestCreator.audio.AWS.AmazonPollyTTS;
+package TestCreator.audio.textToSpeech;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -18,6 +16,7 @@ public class TTSManager {
 
     private final Queue<String> audioQueue = new LinkedList<>();
 
+    public static final String TTS_OUTPUT_FILE = "tts_output.wav";
 
     // Enum to represent the supported TTS services
     public enum TTSType {
@@ -30,7 +29,7 @@ public class TTSManager {
 
     public void speak(String text, float playbackSpeed) {
         audioQueue.add(text);
-        if (!isPlaying())
+        if (!isAudioPlaying())
             playNextAudio(playbackSpeed);
     }
 
@@ -44,12 +43,12 @@ public class TTSManager {
                 AWS_POLLY_TTS.speak(text, playbackSpeed, this);
                 break;
             case IBM_TEXT_TO_SPEECH:
-                IBM_TTS.speak(text, playbackSpeed);
+                IBM_TTS.speak(text, playbackSpeed, this);
                 break;
         }
     }
 
-    private boolean isPlaying() {
+    private boolean isAudioPlaying() {
         return switch (SELECTED_TTS_TYPE) {
             case AWS_POLLY -> AWS_POLLY_TTS.isPlaying();
             case IBM_TEXT_TO_SPEECH -> IBM_TTS.isPlaying();

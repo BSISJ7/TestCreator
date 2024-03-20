@@ -1,7 +1,7 @@
 package TestCreator.questions.testPanels;
 
 import TestCreator.Test;
-import TestCreator.audio.TTSManager;
+import TestCreator.audio.textToSpeech.TTSManager;
 import TestCreator.questions.*;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StackPaneDialogue;
@@ -71,6 +71,8 @@ public class TestDisplay {
 
     private boolean firstRun = true;
 
+    public static final String TEST_AUDIO_COMMANDS = "[\"next\", \"previous\", \"grade test\", \"main menu\", \"flag\"]";
+
     public void initialize() {
         setTitle();
 
@@ -85,25 +87,6 @@ public class TestDisplay {
             }
         }, 1000, 1000);
         setupTest(TestManager.getInstance().getSelectedTest());
-
-//        try {
-//            speechRecognizer = new SpeechRecognizer();
-//            speechRecognizer.startRecognition();
-//            new Thread(() -> {
-//                while (true) {
-//                    String command = speechRecognizer.getHypothesis();
-//                    if (command.equals("next question")) {
-//                        nextQuestion();
-//                    } else if (command.equals("previous question")) {
-//                        prevQuestion();
-//                    } else if (command.equals("flag question")) {
-//                        flagQuestion();
-//                    }
-//                }
-//            }).start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void setupTest(Test test) {
@@ -161,6 +144,32 @@ public class TestDisplay {
         questionIndex = 0;
         questionBtnList.get(questionIndex).setStyle("-fx-border-color: #00bfff");
         loadQuestionPane();
+
+
+//        VoskTranscriber voskTranscriber = new VoskTranscriber();
+//        try {
+//            voskTranscriber.listenForCommands(TEST_AUDIO_COMMANDS);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            speechRecognizer = new SpeechRecognizer();
+//            speechRecognizer.startRecognition();
+//            new Thread(() -> {
+//                while (true) {
+//                    String command = speechRecognizer.getHypothesis();
+//                    if (command.equals("next question")) {
+//                        nextQuestion();
+//                    } else if (command.equals("previous question")) {
+//                        prevQuestion();
+//                    } else if (command.equals("flag question")) {
+//                        flagQuestion();
+//                    }
+//                }
+//            }).start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void prevQuestion() {

@@ -12,6 +12,7 @@ RUNNING_PID
 *.wav
 *.mp4
 
+
 .apt_generated
 .classpath
 .factorypath
@@ -22,3 +23,4 @@ RUNNING_PID
 
 # Project exclude paths
 /out/
+vosk-model-en-us-0.22-lgraph/

@@ -29,9 +29,9 @@ import java.io.IOException;
 
 public class MainMenu {
     @FXML
-    public Button newTestBtn;
-    @FXML
     public VBox menuBarVBox;
+    @FXML
+    public Button newTestBtn;
     @FXML
     public Button editTestBtn;
     @FXML
@@ -39,13 +39,14 @@ public class MainMenu {
     @FXML
     public Button editQuestionBtn;
     public Button deleteQuestionBtn;
-    public HBox menuBar;
-    @FXML
-    public StackPane rootNode;
     @FXML
     Button newQuestionBtn;
     @FXML
     Button beginTestBtn;
+    @FXML
+    public HBox menuBar;
+    @FXML
+    public StackPane rootNode;
     @FXML
     private ListView<Test> testListView;
     @FXML
@@ -53,6 +54,9 @@ public class MainMenu {
     private ContextMenu questionContextMenu;
 
     private String username;
+
+    public static final String MAIN_MENU_AUDIO_COMMANDS = "[\"next\", \"previous\", \"delete test\", \"new test\"," +
+            "\"new question\", \"next\", \"previous\", \"grade test\", \"main menu\", \"flag\"]";
 
     //TODO Fix DarkTheme pushing the menu bar buttons into the hamburger menu
     public void initialize() {
@@ -256,6 +260,15 @@ public class MainMenu {
             testListView.getSelectionModel().selectFirst();
             questionListView.getSelectionModel().selectFirst();
         }
+
+//        new Thread(() -> {
+//            VoskTranscriber voskTranscriber = new VoskTranscriber();
+//            try {
+//                voskTranscriber.listenForCommands(COMMAND_);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
     }
 
     /**
