@@ -10,8 +10,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 
-public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
-
+public class TrueFalseTestPanel implements TestPanel<TrueFalse>{
 
     @FXML
     public TextArea questionText;
@@ -70,5 +69,13 @@ public class TrueFalseTestPanel implements TestPanel<TrueFalse> {
     }
 
     public void cleanUp() {}
+
+    public void selectVoiceAnswer(int index) {
+        if (index == 0) {
+            trueBtn.setSelected(true);
+        } else {
+            falseBtn.setSelected(true);
+        }
+    }
 }
 

@@ -2,6 +2,7 @@ package TestCreator.questions.testPanels;
 
 import TestCreator.Test;
 import TestCreator.audio.textToSpeech.TTSManager;
+import TestCreator.audio.transcription.VoskTranscriber;
 import TestCreator.questions.*;
 import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StackPaneDialogue;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 
 public class TestDisplay {
-    private final List<TestPanel<Question>> testPanels = new ArrayList<>();
+    private final List<TestPanel> testPanels = new ArrayList<>();
     private final Timer timer = new Timer();
     private final List<Integer> flaggedList = new ArrayList<>();
     private List<Button> questionBtnList = new ArrayList<>();
@@ -71,7 +72,52 @@ public class TestDisplay {
 
     private boolean firstRun = true;
 
-    public static final String TEST_AUDIO_COMMANDS = "[\"next\", \"previous\", \"grade test\", \"main menu\", \"flag\"]";
+    public enum TEST_COMMANDS {
+        NEXT("next"),
+        PREVIOUS("previous"),
+        GRADE_TEST("grade test"),
+        MAIN_MENU("main menu"),
+        FLAG("flag"),
+        ONE("one"),
+        TWO("two"),
+        THREE("three"),
+        FOUR("four"),
+        FIVE("five"),
+        SIX("six"),
+        SEVEN("seven"),
+        EIGHT("eight"),
+        READ("read"),
+        STOP("stop"),
+        FLIP("flip");
+
+        private final String command;
+
+        TEST_COMMANDS(String command) {
+            this.command = command;
+        }
+
+        public String getCommand() {
+            return command;
+        }
+    }
+
+    public static final String TEST_AUDIO_COMMANDS =
+            STR."[\"\{TEST_COMMANDS.NEXT.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.PREVIOUS.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.READ.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.STOP.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.FLIP.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.GRADE_TEST.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.MAIN_MENU.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.FLAG.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.ONE.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.TWO.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.THREE.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.FOUR.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.FIVE.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.SIX.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.SEVEN.getCommand()}\""+
+            STR.",\"\{TEST_COMMANDS.EIGHT.getCommand()}\"]";
 
     public void initialize() {
         setTitle();
@@ -87,6 +133,97 @@ public class TestDisplay {
             }
         }, 1000, 1000);
         setupTest(TestManager.getInstance().getSelectedTest());
+
+        listenForCommands();
+    }
+
+    private void listenForCommands() {
+        Thread voskThread = new Thread(() -> {
+            VoskTranscriber voskTranscriber = new VoskTranscriber();
+            try {
+                String command;
+                while ((command = voskTranscriber.listenForCommands(TEST_AUDIO_COMMANDS)) != null) {
+                    switch (command) {
+                        case "next":
+                            Platform.runLater(this::nextQuestion);
+                            break;
+                        case "previous":
+                            Platform.runLater(this::prevQuestion);
+                            break;
+                        case "grade test":
+                            Platform.runLater(this::endTest);
+                            break;
+                        case "main menu":
+                            Platform.runLater(this::returnToMainMenu);
+                            break;
+                        case "flag":
+                            Platform.runLater(this::flagQuestion);
+                            break;
+                        case "one":
+                            setVoiceAnswer(0);
+                            break;
+                        case "two":
+                            setVoiceAnswer(1);
+                            break;
+                        case "three":
+                            setVoiceAnswer(2);
+                            break;
+                        case "four":
+                            setVoiceAnswer(3);
+                            break;
+                        case "five":
+                            setVoiceAnswer(4);
+                            break;
+                        case "six":
+                            setVoiceAnswer(5);
+                            break;
+                        case "seven":
+                            setVoiceAnswer(6);
+                            break;
+                        case "eight":
+                            setVoiceAnswer(7);
+                            break;
+                        case "flip":
+                            if(questionList.get(questionIndex).getType().equals("FlashCard")) {
+                                FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
+                                flashCardTestPanel.flipCard();
+                                playQuestionAudio();
+                            }
+                            break;
+                        case "read":
+                            playQuestionAudio();
+                            break;
+                        case "stop":
+                            TTS_MANAGER.stopSpeaking();
+                            break;
+
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        voskThread.start();
+    }
+
+    private void setVoiceAnswer(int answerIndex){
+        Platform.runLater(() -> {
+            switch (questionList.get(questionIndex).getType()) {
+                case "MultipleChoice":
+                    MultipleChoiceTestPanel multTestPanel = (MultipleChoiceTestPanel) testPanels.get(questionIndex);
+                    multTestPanel.selectVoiceAnswer(answerIndex);
+
+                    break;
+                case "MultipleCheckBox":
+                    MultipleCheckBoxTestPanel multiCheckBoxTestPanel = (MultipleCheckBoxTestPanel) testPanels.get(questionIndex);
+                    multiCheckBoxTestPanel.selectVoiceAnswer(answerIndex);
+                    break;
+                case "TrueFalse":
+                    TrueFalseTestPanel trueFalseTestPanel = (TrueFalseTestPanel) testPanels.get(questionIndex);
+                    trueFalseTestPanel.selectVoiceAnswer(answerIndex);
+                    break;
+            }
+        });
     }
 
     public void setupTest(Test test) {
@@ -144,32 +281,6 @@ public class TestDisplay {
         questionIndex = 0;
         questionBtnList.get(questionIndex).setStyle("-fx-border-color: #00bfff");
         loadQuestionPane();
-
-
-//        VoskTranscriber voskTranscriber = new VoskTranscriber();
-//        try {
-//            voskTranscriber.listenForCommands(TEST_AUDIO_COMMANDS);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            speechRecognizer = new SpeechRecognizer();
-//            speechRecognizer.startRecognition();
-//            new Thread(() -> {
-//                while (true) {
-//                    String command = speechRecognizer.getHypothesis();
-//                    if (command.equals("next question")) {
-//                        nextQuestion();
-//                    } else if (command.equals("previous question")) {
-//                        prevQuestion();
-//                    } else if (command.equals("flag question")) {
-//                        flagQuestion();
-//                    }
-//                }
-//            }).start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void prevQuestion() {
@@ -205,13 +316,14 @@ public class TestDisplay {
         setFlagText();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(firstRun ? 600 : 250), _ -> playQuestionAudio()));
-        timeline.play();
+//        timeline.play();
         firstRun = false;
     }
 
     private void playQuestionAudio(){
         TTS_MANAGER.stopSpeaking();
 
+        System.out.println("Playing question audio");
         switch (test.getQuestionAtIndex(questionIndex).getType()) {
             case "MultipleChoice":
                 TTS_MANAGER.speak(((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
@@ -233,7 +345,9 @@ public class TestDisplay {
                 TTS_MANAGER.speak(((MultipleCheckBox) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
                 break;
             case "FlashCard":
-                TTS_MANAGER.speak(((FlashCard) test.getQuestionAtIndex(questionIndex)).getFlashQuestion(), playbackSpeed);
+                FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
+                flashCardTestPanel.flipCard();
+                TTS_MANAGER.speak(flashCardTestPanel.getVisibleText(), playbackSpeed);
                 break;
         }
     }
@@ -290,7 +404,7 @@ public class TestDisplay {
 
     @FXML
     public void returnToMainMenu() {
-        new StackPaneDialogue(rootNode, "Are you sure you want to return to the main menu? Press OK to confirm, or close to back out.")
+        new StackPaneDialogue(rootNode, "Are you sure you want to return to the main menu? Press OK to confirm, or stopRecording to back out.")
                 .showAndWait().thenAccept(okayClicked -> {
             if (okayClicked) {
                 TTS_MANAGER.stopSpeaking();
@@ -341,5 +455,9 @@ public class TestDisplay {
         flagQuestionBtn.setText((flaggedList.contains(questionIndex)) ? "Unflag" : "Flag");
         questionBtnList.get(questionIndex).setStyle((questionBtnList.get(questionIndex).getStyleClass()
                 .contains("flagQuestionBtn")) ? SELECTED_FLAG_STYLE : SELECTED_QUESTION_STYLE);
+    }
+
+    public void runCommand(String command){
+
     }
 }

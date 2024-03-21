@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
-public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
+public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox> {
 
     public TextArea questionTextArea;
     public FlowPane answerContainerVBox;
@@ -61,5 +61,14 @@ public class MultipleCheckBoxTestPanel implements TestPanel<MultipleCheckBox>{
         checkBoxList.clear();
         answerContainerVBox.getChildren().clear();
         pointsScored = 0;
+    }
+
+    public void selectVoiceAnswer(int index) {
+        if (index < checkBoxList.size()) {
+            checkBoxList.get(index).setSelected(!checkBoxList.get(index).isSelected());
+        }
+        else if (!checkBoxList.isEmpty()) {
+            checkBoxList.getLast().setSelected(!checkBoxList.getLast().isSelected());
+        }
     }
 }

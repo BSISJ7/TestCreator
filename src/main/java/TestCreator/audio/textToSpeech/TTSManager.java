@@ -10,13 +10,17 @@ import java.util.Queue;
  */
 public class TTSManager {
     // Instance of Amazon Polly Text to Speech service
-    private static final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS();
+    private final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS(this);
     // Instance of IBM Text to Speech service
     private static final IBMTTS IBM_TTS = new IBMTTS();
 
     private final Queue<String> audioQueue = new LinkedList<>();
 
     public static final String TTS_OUTPUT_FILE = "tts_output.wav";
+
+    public void clearQueue() {
+        audioQueue.clear();
+    }
 
     // Enum to represent the supported TTS services
     public enum TTSType {

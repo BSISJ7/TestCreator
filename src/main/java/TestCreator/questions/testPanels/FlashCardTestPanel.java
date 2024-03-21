@@ -51,4 +51,13 @@ public class FlashCardTestPanel implements TestPanel<FlashCard> {
         questionAnswerField.setText(questionDisplayed ? question.getFlashAnswer() : question.getFlashQuestion());
         questionDisplayed = !questionDisplayed;
     }
+
+    public void flipCard() {
+        questionAnswerField.setText(questionDisplayed ? question.getFlashAnswer() : question.getFlashQuestion());
+        questionDisplayed = !questionDisplayed;
+    }
+
+    public String getVisibleText() {
+        return questionAnswerField.getText();
+    }
 }

@@ -92,4 +92,11 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
             radioButton.setDisable(false);
         });
     }
+
+    public void selectVoiceAnswer(int index){
+        if(index < radioButtonList.size())
+            radioButtonList.get(index).setSelected(true);
+        else if(!radioButtonList.isEmpty())
+            radioButtonList.getLast().setSelected(true);
+    }
 }

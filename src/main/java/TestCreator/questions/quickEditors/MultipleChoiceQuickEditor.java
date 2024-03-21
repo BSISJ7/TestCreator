@@ -49,7 +49,7 @@ public class MultipleChoiceQuickEditor {
         question.setAnswerIndex(0);
 
         try {
-            StageManager.setScene("/questions/editorPanels/MultipleChoiceEditor.fxml");
+            StageManager.setRootPane("/questions/editorPanels/MultipleChoiceEditor.fxml");
             ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
             StageManager.clearStageController();
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class MultipleChoiceQuickEditor {
 
     private void returnToEditor() {
         try {
-            StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
+            StageManager.setRootPane("/questions/editorPanels/NewQuestionEditor.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
             new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();

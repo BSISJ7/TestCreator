@@ -6,14 +6,17 @@ import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
 import com.jpro.webapi.JProApplication;
 import javafx.application.Platform;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 
 public class Main extends JProApplication {
     public static final boolean TESTING_MODE = true;
 //    private ConfigurableApplicationContext applicationContext;
 
-    public static void main(String[] args) {
+    public static final StackPane ROOT_PANE = new StackPane();
 
+    public static void main(String[] args) {
         launch(Main.class, args);
     }
 
@@ -36,6 +39,7 @@ public class Main extends JProApplication {
 
         stage.setTitle("Main Menu");
         StageManager.setStage(stage);
+        StageManager.setRootPane(ROOT_PANE);
         StageManager.setScene("/login/WebLogin.fxml");
         ((WebLogin) StageManager.getStageController()).setupUserManager();
         StageManager.clearStageController();
@@ -52,7 +56,7 @@ public class Main extends JProApplication {
 
     @Override
     public void stop() {
-//        applicationContext.close();
+//        applicationContext.stopRecording();
         Platform.exit();
     }
 

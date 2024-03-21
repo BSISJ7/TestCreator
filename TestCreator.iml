@@ -3,6 +3,13 @@
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" dumb="true">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/lib.bak" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/am" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/conf" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/graph" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/ivector" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-small-en-us-0.15/conf" />
     </content>
   </component>
 </module>

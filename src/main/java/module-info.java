@@ -44,6 +44,8 @@ module TestCreator {
     requires assemblyai.java;
     requires vosk;
     requires org.json;
+    requires javafx.web;
+    requires jdk.jsobject;
 //    requires spring.web;
 //    requires spring.boot;
 //    requires spring.boot.autoconfigure;
@@ -63,7 +65,6 @@ module TestCreator {
     opens TestCreator.utilities to com.google.gson;
     opens TestCreator.audio to com.google.gson;
     opens TestCreator.users to javafx.fxml, com.google.gson;
-    opens TestCreator.audio.aws to com.google.gson;
 
     exports TestCreator.utilities to com.google.gson;
     exports TestCreator.questions.quickEditors to javafx.fxml;
@@ -72,7 +73,6 @@ module TestCreator {
     exports TestCreator.questions.editorPanels to javafx.fxml, javafx.graphics;
     exports TestCreator.login to javafx.fxml, javafx.graphics;
     exports TestCreator.users to javafx.fxml, javafx.graphics, com.google.gson;
-    exports TestCreator.audio.aws to com.google.gson;
     exports TestCreator.audio to com.google.gson;
     exports TestCreator to com.google.gson, javafx.fxml, javafx.graphics;
     exports TestCreator.audio.textToSpeech to com.google.gson;
