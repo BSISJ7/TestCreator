@@ -7303,3 +7303,367 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length
 2023-12-04 14:23:57,860 [WARN] from com.jpro.JS in JavaFX Application Thread - received msg: JS Error: scala.scalajs.js.JavaScriptException: NotFoundError: Element.setPointerCapture: Invalid pointer id
 2023-12-08 11:51:12,421 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
 2023-12-08 11:52:52,584 [WARN] from javafx.css in JavaFX Application Thread - CSS Error parsing '*{file:/C:/Program%20Files/Programming/TestCreator/target/classes/css/themes/primer-dark.css}: Unexpected token ':' at [1,9]
+2024-03-21 12:48:11,404 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2024-03-21 12:48:13,308 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.NullPointerException: null
+	at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+	at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+	at java.base/java.util.Properties.put(Properties.java:1346)
+	at java.base/java.util.Properties.setProperty(Properties.java:230)
+	at java.base/java.lang.System.setProperty(System.java:1050)
+	at TestCreator.Main.start(Main.java:43)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-21 12:48:13,314 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-21 12:49:32,808 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.NullPointerException: null
+	at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+	at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+	at java.base/java.util.Properties.put(Properties.java:1346)
+	at java.base/java.util.Properties.setProperty(Properties.java:230)
+	at java.base/java.lang.System.setProperty(System.java:1050)
+	at TestCreator.Main.start(Main.java:43)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-21 12:49:32,810 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-21 12:50:44,928 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.NullPointerException: null
+	at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+	at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+	at java.base/java.util.Properties.put(Properties.java:1346)
+	at java.base/java.util.Properties.setProperty(Properties.java:230)
+	at java.base/java.lang.System.setProperty(System.java:1050)
+	at TestCreator.Main.start(Main.java:43)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-21 12:50:44,933 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-21 12:55:12,654 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-21 13:00:47,889 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-21 13:02:13,812 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@72707450[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-21 13:02:13,814 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-21 13:03:19,596 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-21 13:06:56,916 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-21 14:10:06,823 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-21 14:12:44,507 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@ea5b032[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-21 14:12:44,509 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-22 07:00:16,575 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-5 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2024-03-22 07:00:24,207 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 07:22:46,168 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@6a664fda[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-22 07:22:46,178 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-22 09:57:43,397 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 11:20:27,527 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 11:27:33,741 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 11:45:51,265 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@7dff3692[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-22 11:45:51,267 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-22 12:08:08,518 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@6c7c0862[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-22 12:08:08,524 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-22 12:10:26,947 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 12:11:03,360 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 12:23:49,228 [ERROR] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Error while starting application: 
+java.lang.IllegalArgumentException: StackPane@5a9ba926[styleClass=root]is already set as root of another scene
+	at javafx.scene.Scene$8.invalidated(Scene.java:1275)
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:112)
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:147)
+	at javafx.scene.Scene.setRoot(Scene.java:1237)
+	at javafx.scene.Scene.<init>(Scene.java:361)
+	at javafx.scene.Scene.<init>(Scene.java:212)
+	at TestCreator.utilities.StageManager.setRootPane(StageManager.java:36)
+	at TestCreator.Main.start(Main.java:54)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1(ApplicationStarter.scala:131)
+	at com.jpro.internal.config.ApplicationStarter$.$anonfun$startJApplication$1$adapted(ApplicationStarter.scala:128)
+	at com.jpro.internal.communicator.InstanceImpl.start(InstanceImpl.scala:53)
+	at com.jpro.internal.communicator.InstanceImpl.$anonfun$new$2(InstanceImpl.scala:45)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$lzycompute$1(CoreTimeEvent.scala:147)
+	at simplefx.cores.standard.parts.CoreTimeEvent.doIt$1(CoreTimeEvent.scala:145)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTimeEvent.$anonfun$runOnceWhen$2$adapted(CoreTimeEvent.scala:149)
+	at simplefx.cores.standard.parts.CoreTypesBindable$BindableImpl.$anonfun$triggerOnChange$3(CoreTypesBindable.scala:208)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl(CoreScheduler.scala:73)
+	at simplefx.cores.standard.parts.CoreScheduler.runSchedulerImpl$(CoreScheduler.scala:52)
+	at simplefx.cores.standard.Core.runSchedulerImpl(Core.scala:9)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop(CoreScheduler.scala:44)
+	at simplefx.cores.standard.parts.CoreScheduler.tryStartSchedulerStop$(CoreScheduler.scala:42)
+	at simplefx.cores.standard.Core.tryStartSchedulerStop(Core.scala:9)
+	at com.jpro.internal.server.ViewSerializerActor$$anonfun$handleFirstClientMessage$1.$anonfun$applyOrElse$1(ViewSerializerActor.scala:67)
+	at simplefx.cores.standard.parts.CoreTimeEvent$$anon$3.run(CoreTimeEvent.scala:62)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
+	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-22 12:23:49,235 [WARN] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - Application didn't show the stage. JPro is now calling show()
+2024-03-22 12:23:49,416 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 12:33:46,572 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 17:06:02,904 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-11 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2024-03-22 17:10:37,555 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating enableMicrophone();: ReferenceError: enableMicrophone is not defined
+2024-03-22 17:28:31,710 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-11 - jpro.plainFile - Couldn't get resource for: 'jpro/html/path_to_your_audio_file'
+2024-03-22 17:31:35,228 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-6 - jpro.plainFile - Couldn't get resource for: 'jpro/html/tts_output.wav'
+2024-03-22 17:38:18,576 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var source = audioContext.createBufferSource();
+// Load audio file data into a buffer
+var request = new XMLHttpRequest();
+request.open('GET',/home/user/Programming/TestCreator/tts_output.wav, true);
+request.responseType = 'arraybuffer';
+request.onload = function() {
+    audioContext.decodeAudioData(request.response, function(buffer) {
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start(0);
+    });
+};
+request.send();: SyntaxError: Invalid regular expression flags
+2024-03-22 17:44:44,227 [ERROR] from com.jpro.JS in JavaFX Application Thread - received msg: Error while evaluating var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var source = audioContext.createBufferSource();
+// Load audio file data into a buffer
+var request = new XMLHttpRequest();
+request.open('GET',/home/user/Programming/TestCreator/tts_output.wav, true);
+request.responseType = 'arraybuffer';
+request.onload = function() {
+    audioContext.decodeAudioData(request.response, function(buffer) {
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start(0);
+    });
+};
+request.send();: SyntaxError: Invalid regular expression flags
+2024-03-22 17:47:56,136 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-5 - jpro.plainFile - Couldn't get resource for: 'jpro/html/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-22 17:50:57,300 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-9 - jpro.plainFile - Couldn't get resource for: 'jpro/html/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-23 06:55:48,106 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-13 - jpro.plainFile - Couldn't get resource for: 'jpro/html/favicon.ico'
+2024-03-23 07:37:45,892 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-23 07:42:58,720 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-12 - jpro.plainFile - Couldn't get resource for: 'jpro/html/AAAAAAAAAAAAAAAAAAAAAAAAA/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-23 12:41:24,230 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-11 - jpro.plainFile - Couldn't get resource for: 'jpro/html/AAAAAAAAAAAAAAAAAAAAAAAAA/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-23 12:50:05,885 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-8 - jpro.plainFile - Couldn't get resource for: 'jpro/html/home/user/Programming/TestCreator/tts_output.wav'
+2024-03-23 12:57:57,477 [WARN] from controllers.jpro in application-akka.actor.default-dispatcher-9 - jpro.plainFile - Couldn't get resource for: 'jpro/html/home/user/Programming/TestCreator/tts_output.wav'

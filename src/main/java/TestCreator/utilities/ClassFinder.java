@@ -26,20 +26,18 @@ public class ClassFinder {
             URI uri = url.toURI();
             Path path;
             if (uri.getScheme().equals("jar")) {
-                FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+                FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
                 path = fileSystem.getPath(packagePath);
             } else {
                 path = Paths.get(uri);
             }
 
-            List<String> javaFiles = Files.walk(path)
+            return Files.walk(path)
                     .filter(Files::isRegularFile)
                     .map(Path::getFileName)
                     .map(Path::toString)
                     .filter(name -> name.endsWith(".class"))
                     .collect(Collectors.toList());
-
-            return javaFiles;
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return Collections.emptyList();
@@ -58,7 +56,7 @@ public class ClassFinder {
             URI uri = url.toURI();
             Path path;
             if (uri.getScheme().equals("jar")) {
-                FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+                FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
                 path = fileSystem.getPath(packagePath);
             } else {
                 path = Paths.get(uri);

@@ -1,9 +1,7 @@
 package TestCreator.options;
 
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -64,7 +62,7 @@ public class OptionsMenu {
         public String getTheme() {
             return theme;
         }
-    };
+    }
 
 
     @FXML
@@ -80,7 +78,7 @@ public class OptionsMenu {
                 StageManager.setScene("/MainMenu.fxml");
                 StageManager.clearStageController();
             } catch (IOException e) {
-                new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+                StageManager.showAlert("Error loading MainMenu.fxml");
                 throw new RuntimeException(e);
             }
         });
@@ -89,7 +87,7 @@ public class OptionsMenu {
                 StageManager.setScene("/MainMenu.fxml");
                 StageManager.clearStageController();
             } catch (IOException e) {
-                new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+                StageManager.showAlert("Error loading MainMenu.fxml");
                 throw new RuntimeException(e);
             }
         });
@@ -119,7 +117,7 @@ public class OptionsMenu {
                 StageManager.setScene("/options/OptionsMenu.fxml");
                 StageManager.clearStageController();
             } catch (IOException e) {
-                new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
+                StageManager.showAlert("Error loading OptionsMenu.fxml");
                 throw new RuntimeException(e);
             }
         }));
@@ -155,7 +153,4 @@ public class OptionsMenu {
         return Objects.requireNonNull(StageManager.class.getResource(projectCssTheme.getTheme())).toExternalForm();
     }
 
-    public void setReadQuestion(ActionEvent actionEvent) {
-        //TODO: set user question reading preference
-    }
 }

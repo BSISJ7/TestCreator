@@ -13,12 +13,12 @@
 
                 <HBox alignment="TOP_CENTER" spacing="50.0">
                     <Button fx:id="acceptBtn" onAction="#addNewQuestion" text="Accept" />
-                    <Button fx:id="cancelBtn" onAction="#returnToMainMenu" text="Cancel" />
+                    <Button onAction="#returnToMainMenu" text="Cancel" />
                 </HBox>
             </VBox>
         </Tab>
         <Tab closable="false" text="Fast New Question">
-            <VBox fx:id="fastContainerVBox" alignment="CENTER">
+            <VBox alignment="CENTER">
                 <ChoiceBox fx:id="quickTypesChoiceBox" maxWidth="Infinity" />
                 <Label text="Name" />
                 <TextField fx:id="quickQuestionName" alignment="CENTER" />

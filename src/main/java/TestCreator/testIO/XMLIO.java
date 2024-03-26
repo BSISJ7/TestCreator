@@ -2,7 +2,7 @@ package TestCreator.testIO;
 
 import TestCreator.Test;
 import TestCreator.questions.Question;
-import TestCreator.utilities.StackPaneAlert;
+import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.scene.layout.StackPane;
 import org.w3c.dom.Document;
@@ -46,7 +46,7 @@ public class XMLIO {
                 loadExistingFile(docBuilder);
             }
         } catch (TransformerException | ParserConfigurationException e) {
-            new StackPaneAlert(rootNode, STR."Could not load save file.  \{e.getMessage()}").show();
+            StageManager.showAlert(STR."Could not load save file.  \{e.getMessage()}");
         }
     }
 
@@ -55,8 +55,8 @@ public class XMLIO {
             XMLDocument = docBuilder.parse(XML_SAVE_LOCATION);
             testsXMLNode = findNode("Tests", XMLDocument);
         } catch (SAXException | IOException e) {
-            new StackPaneAlert(rootNode, STR."Could not load save file. Loading a backup.  \{e.getMessage()}")
-                    .showAndWait().thenAccept(_ -> loadBackup());
+            StageManager.showDialog(STR."Could not load save file. Loading a backup.  \{e.getMessage()}")
+                    .thenAccept(_ -> loadBackup());
         }
     }
 
@@ -145,6 +145,7 @@ public class XMLIO {
     }
 
     public void saveTests() {
+        //TODO Fix issue with saving tests
         if(true) return;
         for (int x = 0; x < TestManager.getInstance().getNumOfTests(); x++) {
             testsXMLNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
@@ -159,7 +160,7 @@ public class XMLIO {
             appendTestsToRootNode(testsRootNode, XMLDocument);
             transformDocumentToXML(XMLDocument, testsRootNode);
         } catch (TransformerException | ParserConfigurationException | NullPointerException e) {
-            new StackPaneAlert(rootNode, STR."Could not save changes.  \{e.getMessage()}").show();
+            StageManager.showAlert(STR."Could not save changes.  \{e.getMessage()}");
         }
     }
 
@@ -236,7 +237,7 @@ public class XMLIO {
             createSaveFile(docBuilder);
         } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
-            new StackPaneAlert(rootNode, "Could not create save file.").show();
+            StageManager.showAlert("Could not create save file.");
         }
     }
 

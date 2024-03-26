@@ -20,7 +20,7 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
     @FXML
     private BorderPane rootNode;
 
-    private final ObservableList<RadioButton> radioButtonList = FXCollections.observableArrayList();;
+    private final ObservableList<RadioButton> radioButtonList = FXCollections.observableArrayList();
 
     private MultipleChoice question;
 
@@ -61,8 +61,8 @@ public class MultipleChoiceTestPanel implements TestPanel<MultipleChoice> {
             row = column == 1 ? row + 1 : row;
             column = column == 1 ? 0 : 1;
         }
-        radioButtonList.get(0).setSelected(true);
-        selectedAnswer = radioButtonList.get(0).getText();
+        radioButtonList.getFirst().setSelected(true);
+        selectedAnswer = radioButtonList.getFirst().getText();
     }
 
     @Override

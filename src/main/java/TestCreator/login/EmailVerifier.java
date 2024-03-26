@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
 
 public class EmailVerifier {
 
-    public static Region EMAIL_REGION = Region.US_EAST_2;
+    public static final Region EMAIL_REGION = Region.US_EAST_2;
 
     public static void verifyEmail(String email) throws RuntimeException{
         SesClient client = SesClient.builder().region(EMAIL_REGION).build();
@@ -25,17 +25,14 @@ public class EmailVerifier {
     }
 
     public static boolean isEmailVerified(String email){
-        SesClient client = SesClient.builder()
+        try (SesClient client = SesClient.builder()
                 .region(EMAIL_REGION)
-                .build();
-        try {
+                .build()) {
             ListIdentitiesRequest request = ListIdentitiesRequest.builder().build();
             ListIdentitiesResponse response = client.listIdentities(request);
             return response.identities().contains(email.toLowerCase());
         } catch (SesException e) {
             System.out.println(STR."Email verification failed: \{e.getMessage()}");
-        } finally {
-            client.close();
         }
         return false;
     }

@@ -1,7 +1,6 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleCheckBox;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,7 +57,7 @@ public class MultipleCheckBoxEditor extends QuestionEditor<MultipleCheckBox>{
 
     public void addAnswer() {
         if(answersContainer.getChildren().size() > MultipleCheckBox.MAX_CHOICES) {
-            new StackPaneAlert(rootNode, STR."You can only have \{MultipleCheckBox.MAX_CHOICES} answers").show();
+            StageManager.showAlert(STR."You can only have \{MultipleCheckBox.MAX_CHOICES} answers");
             return;
         }
 

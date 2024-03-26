@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -48,7 +49,7 @@ public abstract class Question implements Serializable {
 
     static {
         if (System.getProperty("os.name").toLowerCase().contains("win"))
-            sysSeparator = "\\" + File.separator;
+            sysSeparator = STR."\\\{File.separator}";
         else
             sysSeparator = File.separator;
     }
@@ -63,6 +64,7 @@ public abstract class Question implements Serializable {
     Document XMLDocument;
 
     final String ID = UUID.randomUUID().toString();
+    @Serial
     private static final long serialVersionUID = 1L;
 
 

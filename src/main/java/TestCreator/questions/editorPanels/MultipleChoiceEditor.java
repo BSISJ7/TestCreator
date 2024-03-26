@@ -1,7 +1,6 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MultipleChoice;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -118,7 +117,7 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
         choicesListView.setItems(choiceObsList);
         if (!choiceObsList.isEmpty()) {
             choicesListView.getSelectionModel().select(0);
-            choiceTextArea.setText(choiceObsList.get(0));
+            choiceTextArea.setText(choiceObsList.getFirst());
         }
 
         if (!choicesListView.getSelectionModel().isEmpty())
@@ -164,7 +163,7 @@ public class MultipleChoiceEditor extends QuestionEditor<MultipleChoice> {
     @FXML
     public void newChoice() {
         if(choicesListView.getItems().size() >= MultipleChoice.MAX_CHOICES) {
-            new StackPaneAlert(rootNode, "You can only have 10 choices per question.").show();
+            StageManager.showAlert("You can only have 10 choices per question.");
             return;
         }
         choicesListView.setDisable(false);

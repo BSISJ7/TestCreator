@@ -10,13 +10,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Test {
     public final static DateTimeFormatter shortDateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     public final static DateTimeFormatter shortTimeFormat = DateTimeFormatter.ofPattern("hh:mm");
     private final List<Question> questionList = new ArrayList<>();
-    private String testName = "";
+    private String testName;
     private String description = "";
     private String ID = UUID.randomUUID().toString();
 
@@ -156,9 +159,7 @@ public class Test {
         Node descriptionNode = XMLIO.findNode("TestDescription", testNode);
         description = descriptionNode == null ? "" : descriptionNode.getTextContent();
 
-        Iterator<Node> questionIterator = XmlUtil.asList(testNode.getElementsByTagName("Question")).iterator();
-        while (questionIterator.hasNext()) {
-            Node questionNode = questionIterator.next();
+        for (Node questionNode : XmlUtil.asList(testNode.getElementsByTagName("Question"))) {
             try {
                 String questionName = Objects.requireNonNull(XMLIO.findNode("QuestionName", questionNode)).getTextContent();
                 Question.QuestionTypes questionType = Question.QuestionTypes.valueOf(Objects.requireNonNull(XMLIO.
@@ -187,7 +188,7 @@ public class Test {
         if (!questionIDs.isEmpty()) {
             questionIDs.setLength(questionIDs.length() - 1);
         }
-        sqlStatement.append("'").append(questionIDs.toString()).append("');");
+        sqlStatement.append("'").append(questionIDs).append("');");
 
         return sqlStatement.toString();
     }

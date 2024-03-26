@@ -32,6 +32,6 @@ public class OpenTriviaDownloader {
     }
 
     public static class OpenTDBResponse {
-        public List<TDBQuestion> results = new ArrayList<>();
+        public final List<TDBQuestion> results = new ArrayList<>();
     }
 }

@@ -96,11 +96,6 @@ public class TrueFalse extends Question {
         return (TestPanel) StageManager.getController("/questions/testPanels/TrueFalseTestPanel.fxml");
     }
 
-    @Override
-    public int getMaxScore() {
-        return 1;
-    }
-
     public void autofillData() {
 
         int num1 = 100 + (int)(Math.random() * ((3000 - 100) + 1));

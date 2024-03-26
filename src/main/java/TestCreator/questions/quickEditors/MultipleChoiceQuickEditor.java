@@ -2,7 +2,6 @@ package TestCreator.questions.quickEditors;
 
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.editorPanels.QuestionEditor;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -43,8 +42,8 @@ public class MultipleChoiceQuickEditor {
     public void acceptQuestion() {
         questionName.setText(question.getName());
         List<String> sentencesList = new ArrayList<>(questionTextArea.getText().trim().lines().toList());
-        question.setQuestionText(sentencesList.get(0));
-        sentencesList.remove(0);
+        question.setQuestionText(sentencesList.getFirst());
+        sentencesList.removeFirst();
         question.setChoices(FXCollections.observableList(sentencesList));
         question.setAnswerIndex(0);
 
@@ -53,7 +52,7 @@ public class MultipleChoiceQuickEditor {
             ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MultipleChoiceEditor.fxml").show();
+            StageManager.showAlert("Error loading MultipleChoiceEditor.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -67,7 +66,7 @@ public class MultipleChoiceQuickEditor {
             StageManager.setRootPane("/questions/editorPanels/NewQuestionEditor.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }

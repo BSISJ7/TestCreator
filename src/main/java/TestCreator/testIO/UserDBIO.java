@@ -15,7 +15,7 @@ public class UserDBIO {
     private static final String RDS_DB_PASSWORD = System.getenv("RDS_PASSWORD");
 
     public static final String USER_DATABASE_INFO
-            = STR."jdbc:mysql://testcreator-db.cyqisi4dgbgt.us-east-2.rds.amazonaws.com:1433/testcreatordb?user"+
+            = "jdbc:mysql://testcreator-db.cyqisi4dgbgt.us-east-2.rds.amazonaws.com:1433/testcreatordb?user" +
             STR."=\{System.getenv("RDS_USERNAME")}&hashedPassword=\{System.getenv("RDS_PASSWORD")}";
 
     private final DatabaseConnectionManager dbConnManager = new DatabaseConnectionManager(USER_DATABASE_INFO, RDS_DB_USERNAME, RDS_DB_PASSWORD);

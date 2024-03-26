@@ -4,7 +4,6 @@ import TestCreator.users.EditUser;
 import TestCreator.users.UserAuthenticator;
 import TestCreator.users.UserManager;
 import TestCreator.utilities.PasswordChecker;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -99,7 +98,7 @@ public class ChangePassword {
             ((EditUser) StageManager.getStageController()).setUser(userManager.getUsername());
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading EditUser.fxml").show();
+            StageManager.showAlert("Error loading EditUser.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -109,12 +108,12 @@ public class ChangePassword {
             try {
             userManager.setCurrentUserPassword(newPasswordField.getText());
                 userManager.updateUser();
-                new StackPaneAlert(rootNode, "Your password has been changed.").showAndWait().thenAccept(_ -> openUserEditor());
+                StageManager.showDialog("Your password has been changed.").thenAccept(_ -> openUserEditor());
             } catch (SQLException e) {
-                new StackPaneAlert(rootNode, STR."Error updating user password.\n\{e.getMessage()}").show();
+                StageManager.showAlert(STR."Error updating user password.\n\{e.getMessage()}");
             }
         }else
-            new StackPaneAlert(rootNode, "The previous password is incorrect.").show();
+            StageManager.showAlert("The previous password is incorrect.");
     }
 
     public void setUserManager(UserManager userManager) {

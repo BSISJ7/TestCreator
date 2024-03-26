@@ -88,22 +88,22 @@ public class MultipleCheckBox extends Question {
     }
 
     public void autofillData() {
-        checkBoxQuestion = STR."Which sums are correct?";
+        checkBoxQuestion = "Which sums are correct?";
 
         int num1 = 100 + (int)(Math.random() * ((3000 - 100) + 1));
         int num2 = 100 + (int)(Math.random() * ((3000 - 100) + 1));
-        answersList.add(new CheckBoxAnswer(num1 + " + " + num2 + " = " + (num1 + num2), true));
+        answersList.add(new CheckBoxAnswer(STR."\{num1} + \{num2} = \{num1 + num2}", true));
 
         while(answersList.size() < 5){
             boolean isCorrect = Math.random() < 0.50;
             if(isCorrect){
                 int x = 100 + (int)(Math.random() * ((3000 - 100) + 1));
                 int y = 100 + (int)(Math.random() * ((3000 - 100) + 1));
-                answersList.add(new CheckBoxAnswer(x + " + " + y + " = " + (x + y), true));
+                answersList.add(new CheckBoxAnswer(STR."\{x} + \{y} = \{x + y}", true));
             }else{
                 int x = 100 + (int)(Math.random() * ((3000 - 100) + 1));
                 int y = 100 + (int)(Math.random() * ((3000 - 100) + 1));
-                answersList.add(new CheckBoxAnswer(x + " + " + y + " = " + (x - y), false));
+                answersList.add(new CheckBoxAnswer(STR."\{x} + \{y} = \{x - y}", false));
             }
         }
     }
@@ -148,7 +148,7 @@ public class MultipleCheckBox extends Question {
 
 
     public static class CheckBoxAnswer{
-        private String answer;
+        private final String answer;
         private boolean isCorrect;
 
         public CheckBoxAnswer(String answer, boolean isCorrect) {

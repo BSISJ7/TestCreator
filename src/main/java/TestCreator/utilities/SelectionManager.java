@@ -113,7 +113,7 @@ public class SelectionManager {
         return false;
     }
 
-    public class SelectionAnswer extends FillTheBlank.FillAnswer{
+    public static class SelectionAnswer extends FillTheBlank.FillAnswer{
 
         public static final String ANSWER = ("-fx-fill: blue;");
         public static final String DEFAULT = ("-fx-fill: black;");

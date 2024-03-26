@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 public class StackPaneAlert extends StackPane {
 
     private StackPane stackpane;
-    private final  String message;
+    private final String message;
 
     public StackPaneAlert(StackPane stackpane, String message) {
         this.stackpane = stackpane;

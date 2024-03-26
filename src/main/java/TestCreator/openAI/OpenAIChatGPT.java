@@ -24,10 +24,10 @@ public class OpenAIChatGPT {
             %s
         """.formatted(numChoices - 1, question.getQuestionText());
 
-        String requestBody = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 100}";
+        String requestBody = STR."{\"prompt\": \"\{prompt}\", \"max_tokens\": 100}";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(ENDPOINT))
-                .header("Authorization", "Bearer " + API_KEY)
+                .header("Authorization", STR."Bearer \{API_KEY}")
                 .header("Content-Type", "application/json")
                 .POST(BodyPublishers.ofString(requestBody))
                 .build();

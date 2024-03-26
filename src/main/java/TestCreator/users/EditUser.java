@@ -3,7 +3,6 @@ package TestCreator.users;
 import TestCreator.MainMenu;
 import TestCreator.login.ChangePassword;
 import TestCreator.login.EmailVerifier;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,7 +26,7 @@ public class EditUser {
     public Button changeEmailButton;
 
     public void initialize() {
-        userManager.initialize(rootNode);
+        userManager.initialize();
     }
 
     public void setUser(String username) {
@@ -47,7 +46,7 @@ public class EditUser {
             ((MainMenu) StageManager.getStageController()).setUsername(userManager.getUsername());
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -60,7 +59,6 @@ public class EditUser {
  * If there is an IOException while loading the ChangePassword.fxml file, it shows an alert with the error message
  * and throws a RuntimeException.
  *
- * @throws IOException If there is an error loading the ChangePassword.fxml file.
  */
 public void changePassword() {
     try {
@@ -68,7 +66,7 @@ public void changePassword() {
         ((ChangePassword) StageManager.getStageController()).setUserManager(userManager);
         StageManager.clearStageController();
     } catch (IOException e) {
-        new StackPaneAlert(rootNode, "Error loading ChangePassword.fxml").show();
+        StageManager.showAlert("Error loading ChangePassword.fxml");
         throw new RuntimeException(e);
     }
 }
@@ -79,7 +77,7 @@ public void changePassword() {
             ((ChangeEmail) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading ChangeEmail.fxml").show();
+            StageManager.showAlert("Error loading ChangeEmail.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -87,6 +85,6 @@ public void changePassword() {
     public void verifyEmail() {
         verifyEmailButton.setDisable(true);
         EmailVerifier.verifyEmail(userManager.getEmail());
-        new StackPaneAlert(rootNode, "A verification email has been sent to your email address.").show();
+        StageManager.showAlert("A verification email has been sent to your email address.");
     }
 }

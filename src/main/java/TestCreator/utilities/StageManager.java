@@ -4,15 +4,16 @@ import TestCreator.options.OptionsMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-
-import static TestCreator.Main.ROOT_PANE;
+import java.util.concurrent.CompletableFuture;
 
 public class StageManager {
 
+    private static StackPane rootPane;
     private static Stage stage;
     private static Object stageController;
 
@@ -23,6 +24,7 @@ public class StageManager {
     }
 
     public static void setRootPane(String fxmlPath) throws IOException {
+        //TODO Look over this
         FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));
         Parent root = loader.load();
         stageController = loader.getController();
@@ -30,7 +32,8 @@ public class StageManager {
         stage.setScene(new Scene(root));
     }
 
-    public static void setRootPane(Parent root) throws IOException {
+    public static void setRootPane(StackPane root) throws IOException {
+        rootPane = root;
         stageController = root;
         root.getStylesheets().add(OptionsMenu.getCssFullPath());
         stage.setScene(new Scene(root));
@@ -59,10 +62,18 @@ public class StageManager {
     }
 
     public static void setScene(String newScene) throws IOException {
-        ROOT_PANE.getChildren().clear();
+        rootPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(newScene));
         Parent root = loader.load();
-        ROOT_PANE.getChildren().add(root);
+        rootPane.getChildren().add(root);
         stageController = loader.getController();
+    }
+
+    public static CompletableFuture<Boolean> showDialog(String message) {
+        return new StackPaneDialogue(rootPane, message).showAndWait();
+    }
+
+    public static void showAlert(String message) {
+        new StackPaneAlert(rootPane, message);
     }
 }

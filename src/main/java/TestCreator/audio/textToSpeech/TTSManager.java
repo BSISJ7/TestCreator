@@ -1,5 +1,7 @@
 package TestCreator.audio.textToSpeech;
 
+import com.jpro.webapi.WebAPI;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -16,7 +18,11 @@ public class TTSManager {
 
     private final Queue<String> audioQueue = new LinkedList<>();
 
-    public static final String TTS_OUTPUT_FILE = "tts_output.wav";
+    public static final String  TTS_OUTPUT_NAME = "tts_output.wav";
+
+    public static final String TTS_OUTPUT_FILE = WebAPI.isBrowser()
+            ? STR."\{System.getProperty("user.dir")}/src/main/resources/jpro/html/"+TTS_OUTPUT_NAME
+            : STR."\{System.getProperty("user.dir")}/\{TTS_OUTPUT_NAME}";
 
     public void clearQueue() {
         audioQueue.clear();
@@ -38,17 +44,16 @@ public class TTSManager {
     }
 
     public void playNextAudio(float playbackSpeed) {
-        if (audioQueue.isEmpty()) return;
-
-        String text = audioQueue.poll();
-
-        switch (SELECTED_TTS_TYPE) {
-            case AWS_POLLY:
-                AWS_POLLY_TTS.speak(text, playbackSpeed, this);
-                break;
-            case IBM_TEXT_TO_SPEECH:
-                IBM_TTS.speak(text, playbackSpeed, this);
-                break;
+        if (!audioQueue.isEmpty()) {
+            String text = audioQueue.poll();
+            switch (SELECTED_TTS_TYPE) {
+                case AWS_POLLY:
+                    AWS_POLLY_TTS.speak(text, playbackSpeed, this);
+                    break;
+                case IBM_TEXT_TO_SPEECH:
+                    IBM_TTS.speak(text, playbackSpeed, this);
+                    break;
+            }
         }
     }
 

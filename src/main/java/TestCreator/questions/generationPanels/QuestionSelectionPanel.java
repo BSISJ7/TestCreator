@@ -2,7 +2,10 @@ package TestCreator.questions.generationPanels;
 
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;
-import TestCreator.utilities.*;
+import TestCreator.utilities.OpenTriviaDownloader;
+import TestCreator.utilities.StageManager;
+import TestCreator.utilities.TDBQuestion;
+import TestCreator.utilities.TestManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,7 +54,7 @@ public class QuestionSelectionPanel {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -60,7 +63,7 @@ public class QuestionSelectionPanel {
         try {
             StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
+            StageManager.showAlert("Error loading NewQuestionEditor.fxml");
             throw new RuntimeException(e);
         }
     }

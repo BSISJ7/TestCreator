@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,7 +144,7 @@ public class FillTheBlank extends Question {
             int randNum2 = 1 + (int) (Math.random() * ((10000 - 1) + 1));
 
             String mathProblem = STR."\{randNum1} + \{randNum2} = \{randNum1 + randNum2}";
-            fillBuilder.append((x == maxQuestions-1) ? mathProblem : mathProblem + "\n");
+            fillBuilder.append((x == maxQuestions-1) ? mathProblem : STR."\{mathProblem}\n");
 
             int answerPosition = fillBuilder.lastIndexOf(STR."\{randNum1 + randNum2}");
             String answer = String.valueOf(randNum1 + randNum2);
@@ -179,7 +180,7 @@ public class FillTheBlank extends Question {
     }
 
     public void sortAnswers(){
-        answersList.sort((o1, o2) -> o1.getPositionStart() - o2.getPositionStart());
+        answersList.sort(Comparator.comparingInt(FillAnswer::getPositionStart));
     }
 
 

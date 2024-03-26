@@ -2,7 +2,6 @@ package TestCreator.login;
 
 import TestCreator.users.UserManager;
 import TestCreator.utilities.PasswordChecker;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -94,14 +93,14 @@ public class CreateNewPassword {
             ((WebLogin) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
+            StageManager.showAlert("Error loading WebLogin.fxml");
             throw new RuntimeException(e);
         }
     }
 
     public void changePassword() {
         userManager.setCurrentUserPassword(passwordField.getText());
-        new StackPaneAlert(rootNode, "Your password has been changed.").show();
+        StageManager.showAlert("Your password has been changed.");
         goToLoginPage();
     }
 

@@ -287,7 +287,7 @@ public class DefaultFillHighlighter extends DefaultHighlighter {
         if (size == 0) {
             return noHighlights;
         }
-        return highlights.toArray(new HighlightInfo[highlights.size()]);
+        return highlights.toArray(new HighlightInfo[0]);
     }
 
     /**

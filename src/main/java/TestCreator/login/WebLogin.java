@@ -3,7 +3,6 @@ package TestCreator.login;
 import TestCreator.MainMenu;
 import TestCreator.users.CreateUser;
 import TestCreator.users.UserManager;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import com.google.api.client.auth.oauth2.Credential;
 import javafx.fxml.FXML;
@@ -62,10 +61,10 @@ public class WebLogin {
             StageManager.clearStageController();
             userManager.closeConnection();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         } catch (NullPointerException e){
-            new StackPaneAlert(rootNode, STR."Error loading users. \{e.getMessage()}").show();
+            StageManager.showAlert(STR."Error loading users. \{e.getMessage()}");
             throw new RuntimeException(e);
         }
     }
@@ -73,7 +72,7 @@ public class WebLogin {
     @FXML
     public void login() {
         if(loginAttempts >= 3){
-            new StackPaneAlert(rootNode, "Too many failed login attempts. Please reset your password.").show();
+            StageManager.showAlert("Too many failed login attempts. Please reset your password.");
             resetPassword();
             return;
         }
@@ -83,7 +82,7 @@ public class WebLogin {
         if (userManager.isAuthorized(username, password)) {
             loadMainMenu(username);
         } else {
-            new StackPaneAlert(rootNode, "Incorrect username or password.").show();
+            StageManager.showAlert("Incorrect username or password.");
             loginAttempts++;
         }
     }
@@ -94,7 +93,7 @@ public class WebLogin {
             ((PasswordResetPanel) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading PasswordResetPanel").show();
+            StageManager.showAlert("Error loading PasswordResetPanel");
             throw new RuntimeException(e);
         }
     }
@@ -105,7 +104,7 @@ public class WebLogin {
             ((CreateUser) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading CreateUser.fxml").show();
+            StageManager.showAlert("Error loading CreateUser.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -116,10 +115,10 @@ public class WebLogin {
             if (credential != null) {
                 loadMainMenu("Google User");
             } else {
-                new StackPaneAlert(rootNode, "Google authorization failed.").show();
+                StageManager.showAlert("Google authorization failed.");
             }
         } catch (IOException | GeneralSecurityException e) {
-            new StackPaneAlert(rootNode, STR."Error during Google authorization: \{e.getMessage()}").show();
+            StageManager.showAlert(STR."Error during Google authorization: \{e.getMessage()}");
         }
     }
 
@@ -133,6 +132,6 @@ public class WebLogin {
 
     public void setupUserManager() {
         userManager = new UserManager();
-        userManager.initialize(rootNode);
+        userManager.initialize();
     }
 }

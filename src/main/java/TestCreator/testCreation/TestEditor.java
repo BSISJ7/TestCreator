@@ -2,7 +2,6 @@ package TestCreator.testCreation;
 
 import TestCreator.Test;
 import TestCreator.testIO.IOManager;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.fxml.FXML;
@@ -53,7 +52,7 @@ public class TestEditor {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -66,7 +65,7 @@ public class TestEditor {
             returnToMainMenu();
             IOManager.getInstance().saveTests();
         }catch (IllegalArgumentException e){
-            new StackPaneAlert(rootNode, e.getMessage()).show();
+            StageManager.showAlert(e.getMessage());
         }
     }
 }

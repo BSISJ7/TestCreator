@@ -2,7 +2,6 @@ package TestCreator.users;
 
 import TestCreator.login.WebLogin;
 import TestCreator.utilities.PasswordChecker;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -121,14 +120,14 @@ public class CreateUser {
     @FXML
     private void addUser() {
         if (userManager.userExists(usernameField.getText())) {
-            new StackPaneAlert(rootNode, "Username already exists.").showAndWait().thenAccept(_ -> goToLoginPage());
+            StageManager.showDialog("Username already exists.").thenAccept(_ -> goToLoginPage());
         }
         else if (!createUserButton.isDisabled()) {
             try {
                 if(emailTextField.getText().isEmpty()) {
                     this.userManager.addUser(usernameField.getText(), UserAuthenticator
                             .generateStrongPasswordHash(passwordField.getText()));
-                    new StackPaneAlert(rootNode, "New user created successfully.").showAndWait()
+                    StageManager.showDialog("New user created successfully.")
                             .thenAccept(_ -> goToLoginPage());
                 }
                 else if(userManager.emailDoesNotExist(emailTextField.getText())) {
@@ -136,15 +135,15 @@ public class CreateUser {
                     this.userManager.addUser(usernameField.getText(),
                             UserAuthenticator.generateStrongPasswordHash(passwordField.getText()),
                             emailTextField.getText());
-                    new StackPaneAlert(rootNode, "New user created successfully.  A verification email has been" +
-                            "sent to the address you have given.").showAndWait().thenAccept(_ -> goToLoginPage());
+                    StageManager.showDialog("New user created successfully.  A verification email has been" +
+                            "sent to the address you have given.").thenAccept(_ -> goToLoginPage());
                 }else
-                    new StackPaneAlert(rootNode, "This email is already associated with an account.").show();
+                    StageManager.showAlert("This email is already associated with an account.");
             } catch (SesException e) {
-                new StackPaneAlert(rootNode, STR."Email verification error: \{e.getMessage()}").show();
+                StageManager.showAlert(STR."Email verification error: \{e.getMessage()}");
                 throw new RuntimeException(e);
             } catch (SQLException e) {
-                new StackPaneAlert(rootNode, STR."Database error, could not create new user: \{e.getMessage()}").show();
+                StageManager.showAlert(STR."Database error, could not create new user: \{e.getMessage()}");
                 throw new RuntimeException(e);
             }
         }
@@ -157,7 +156,7 @@ public class CreateUser {
             ((WebLogin) StageManager.getStageController()).setUserManager(userManager);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
+            StageManager.showAlert("Error loading WebLogin.fxml");
             throw new RuntimeException(e);
         }
     }

@@ -1,8 +1,6 @@
 package TestCreator.users;
 
 import TestCreator.login.EmailVerifier;
-import TestCreator.utilities.StackPaneAlert;
-import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,21 +45,20 @@ public class ChangeEmail {
             userManager.updateUser();
             changeEmailButton.setDisable(true);
             if (EmailVerifier.isEmailVerified(userManager.getEmail()))
-                new StackPaneAlert(rootNode, "Email changed successfully!").showAndWait().thenAccept(_ -> returnToUserEditor());
+                StageManager.showDialog("Email changed successfully!").thenAccept(_ -> returnToUserEditor());
             else
-                new StackPaneDialogue(rootNode, "Email changed successfully! Do you want to verify it?")
-                        .showAndWait().thenAccept(result -> {
+                StageManager.showDialog("Email changed successfully! Do you want to verify it?").thenAccept(result -> {
                             if (result) {
                                 EmailVerifier.verifyEmail(userManager.getEmail());
-                                new StackPaneAlert(rootNode, "Verification email sent!").showAndWait().thenAccept(_ -> returnToUserEditor());
+                                StageManager.showDialog("Verification email sent!").thenAccept(_ -> returnToUserEditor());
                             } else
                                 returnToUserEditor();
                         });
         }catch (SQLException e) {
-            new StackPaneAlert(rootNode, "Error loading EditUser.fxml").show();
+            StageManager.showAlert("Error loading EditUser.fxml");
             throw new RuntimeException(e);
         } catch (Exception e) {
-            new StackPaneAlert(rootNode, STR."Error updating user: \n\{e.getMessage()}").show();
+            StageManager.showAlert(STR."Error updating user: \n\{e.getMessage()}");
         }
     }
 
@@ -71,7 +68,7 @@ public class ChangeEmail {
             ((EditUser) StageManager.getStageController()).setUser(userManager.getUsername());
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading EditUser.fxml").show();
+            StageManager.showAlert("Error loading EditUser.fxml");
             throw new RuntimeException(e);
         }
     }

@@ -14,8 +14,6 @@ public class Main extends JProApplication {
     public static final boolean TESTING_MODE = true;
 //    private ConfigurableApplicationContext applicationContext;
 
-    public static final StackPane ROOT_PANE = new StackPane();
-
     public static void main(String[] args) {
         launch(Main.class, args);
     }
@@ -35,11 +33,9 @@ public class Main extends JProApplication {
         System.setProperty("aws.accessKeyId", System.getenv("AWS_SES_ACCESS_KEY"));
         System.setProperty("aws.secretAccessKey", System.getenv("AWS_SES_SECRET_ACCESS_KEY"));
 
-        //TODO Set a new StackPane to be the root of the stage
-
         stage.setTitle("Main Menu");
         StageManager.setStage(stage);
-        StageManager.setRootPane(ROOT_PANE);
+        StageManager.setRootPane(new StackPane());
         StageManager.setScene("/login/WebLogin.fxml");
         ((WebLogin) StageManager.getStageController()).setupUserManager();
         StageManager.clearStageController();

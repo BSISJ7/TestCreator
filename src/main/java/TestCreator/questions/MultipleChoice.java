@@ -126,11 +126,6 @@ public class MultipleChoice extends Question {
         return (TestPanel<MultipleChoice>) StageManager.getController("/questions/testPanels/MultipleChoiceTestPanel.fxml");
     }
 
-    @Override
-    public int getMaxScore() {
-        return 1;
-    }
-
     public void autofillData() {
         int randNum1 = new Random().nextInt(100);
         int randNum2 = new Random().nextInt(100);

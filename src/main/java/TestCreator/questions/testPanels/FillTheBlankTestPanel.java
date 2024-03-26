@@ -210,10 +210,10 @@ public class FillTheBlankTestPanel implements TestPanel<FillTheBlank> {
     }
 
     private int isInsideAnswer(int position) {
-        for (int x = 0; x < wordOffsets.size(); x++) {
-            int endOffset = wordOffsets.get(x) + answerBlank.length();
-            if (position >= wordOffsets.get(x) && position <= endOffset) {
-                return wordOffsets.get(x);
+        for (Integer wordOffset : wordOffsets) {
+            int endOffset = wordOffset + answerBlank.length();
+            if (position >= wordOffset && position <= endOffset) {
+                return wordOffset;
             }
         }
         return -1;

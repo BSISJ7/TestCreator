@@ -134,7 +134,7 @@ public class NewQuestionEditor {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -145,7 +145,7 @@ public class NewQuestionEditor {
             ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, STR."Error loading \{questionType.getQuestionType()}Editor.fxml").show();
+            StageManager.showAlert(STR."Error loading \{questionType.getQuestionType()}Editor.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -155,7 +155,7 @@ public class NewQuestionEditor {
             StageManager.setScene(STR."/questions/quickEditors/\{questionType.getQuestionType()}QuickEditor.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, STR."Error loading \{questionType.getQuestionType()}QuickEditor.fxml").show();
+            StageManager.showAlert(STR."Error loading \{questionType.getQuestionType()}QuickEditor.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -166,7 +166,7 @@ public class NewQuestionEditor {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -181,7 +181,7 @@ public class NewQuestionEditor {
                 questionListView.getItems().add(question.getQuestion());
             });
         } catch (IOException | InterruptedException e) {
-            new StackPaneAlert(rootNode, "Error downloading questions").show();
+            StageManager.showAlert("Error downloading questions");
             throw new RuntimeException(e);
         }
     }
@@ -201,11 +201,4 @@ public class NewQuestionEditor {
                 });
     }
 
-    public void removeAllQuestions() {
-
-    }
-
-    public void removeQuestion() {
-
-    }
 }

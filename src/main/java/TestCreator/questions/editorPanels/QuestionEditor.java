@@ -2,7 +2,6 @@ package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.Question;
 import TestCreator.testIO.IOManager;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.scene.layout.StackPane;
@@ -41,7 +40,7 @@ public abstract class QuestionEditor<T extends Question> {
             StageManager.setScene("/MainMenu.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+            StageManager.showAlert("Error loading MainMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -56,7 +55,7 @@ public abstract class QuestionEditor<T extends Question> {
                 StageManager.setScene("/questions/editorPanels/NewQuestionEditor.fxml");
             }
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
+            StageManager.showAlert("Error loading NewQuestionEditor.fxml");
             throw new RuntimeException(e);
         }
     }

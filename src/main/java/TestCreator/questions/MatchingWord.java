@@ -128,10 +128,10 @@ public class MatchingWord extends Question {
             int num1 = new Random(System.nanoTime()).nextInt(minVal + 5);
             int num2 = new Random(System.nanoTime()).nextInt(minVal + 5);
             minVal += 5;
-            if (keys.contains(num1 + " + " + num2 + " = ") || values.contains(num1 + num2 + ""))
+            if (keys.contains(STR."\{num1} + \{num2} = ") || values.contains(STR."\{num1 + num2}"))
                 continue;
-            keys.add(num1 + " + " + num2 + " = ");
-            values.add(num1 + num2 + "");
+            keys.add(STR."\{num1} + \{num2} = ");
+            values.add(STR."\{num1 + num2}");
         }
     }
 

@@ -7,8 +7,6 @@ import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.testCreation.TestEditor;
 import TestCreator.testIO.IOManager;
 import TestCreator.users.EditUser;
-import TestCreator.utilities.StackPaneAlert;
-import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.application.Platform;
@@ -56,7 +54,7 @@ public class MainMenu {
     private String username;
 
     public static final String MAIN_MENU_AUDIO_COMMANDS = "[\"next\", \"previous\", \"delete test\", \"new test\"," +
-            "\"new question\", \"next\", \"previous\", \"grade test\", \"main menu\", \"flag\"]";
+            "\"new question\", \"grade test\", \"main menu\", \"flag\"]";
 
     //TODO Fix DarkTheme pushing the menu bar buttons into the hamburger menu
     public void initialize() {
@@ -276,8 +274,7 @@ public class MainMenu {
      */
     @FXML
     private void deleteQuestion() {
-        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
-                .showAndWait().thenAccept(okayClicked -> {
+        StageManager.showDialog("Are you sure? Press OK to confirm, or cancel to back out.").thenAccept(okayClicked -> {
             if (okayClicked) {
                 selectedTest().removeQuestion(selectedQuestion());
                 questionListView.getItems().remove(selectedQuestion());
@@ -324,8 +321,7 @@ public class MainMenu {
      */
     @FXML
     private void deleteTest() {
-        new StackPaneDialogue(rootNode, "Are you sure? Press OK to confirm, or cancel to back out.")
-                .showAndWait().thenAccept(okayClicked -> {
+        StageManager.showDialog("Are you sure? Press OK to confirm, or cancel to back out.").thenAccept(okayClicked -> {
             if (okayClicked) {
                 questionListView.getItems().clear();
                 questionListView.refresh();
@@ -347,7 +343,7 @@ public class MainMenu {
             StageManager.setScene("/testCreation/TestEditor.fxml");
             cleanup();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
+            StageManager.showAlert("Error loading TestEditor.fxml");
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(new Test());
@@ -363,7 +359,7 @@ public class MainMenu {
             StageManager.setScene("/testCreation/TestEditor.fxml");
             cleanup();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading TestEditor.fxml").show();
+            StageManager.showAlert("Error loading TestEditor.fxml");
             throw new RuntimeException(e);
         }
         ((TestEditor) StageManager.getStageController()).setTest(TestManager.getInstance().getSelectedTest());
@@ -380,7 +376,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, STR."Error loading TestDisplay.fxml: \{e}").show();
+            StageManager.showAlert(STR."Error loading TestDisplay.fxml: \{e}");
             throw new RuntimeException(e);
         }
     }
@@ -400,7 +396,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading NewQuestionEditor.fxml").show();
+            StageManager.showAlert("Error loading NewQuestionEditor.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -423,7 +419,7 @@ public class MainMenu {
             StageManager.setScene(STR."/questions/editorPanels/\{selectedQuestion().getClass().getSimpleName()}Editor.fxml");
             cleanup();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, STR."Error loading \{selectedQuestion().getClass().getSimpleName()}Editor.fxml").show();
+            StageManager.showAlert(STR."Error loading \{selectedQuestion().getClass().getSimpleName()}Editor.fxml");
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
@@ -446,7 +442,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading WebLogin.fxml").show();
+            StageManager.showAlert("Error loading WebLogin.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -457,7 +453,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading OptionsMenu.fxml").show();
+            StageManager.showAlert("Error loading OptionsMenu.fxml");
             throw new RuntimeException(e);
         }
     }
@@ -487,7 +483,7 @@ public class MainMenu {
             cleanup();
             StageManager.clearStageController();
         } catch (IOException e) {
-            new StackPaneAlert(rootNode, "Error loading Profile.fxml").show();
+            StageManager.showAlert("Error loading Profile.fxml");
             throw new RuntimeException(e);
         }
     }

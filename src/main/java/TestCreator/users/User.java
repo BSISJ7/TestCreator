@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class User{
     private final ArrayList<Test> TESTS_CREATED = new ArrayList<>();
 
-    private String username = "";
-    private String hashedPassword = "";
+    private String username;
+    private String hashedPassword;
     private String firstName = "";
     private String lastName = "";
     private String email = "";
@@ -20,7 +20,7 @@ public class User{
     private boolean emailVerified = false;
     private boolean readQuestions = false;
     private String theme = "primer-dark";
-    private Options options = new Options();
+    private final Options options = new Options();
 
     public User(String username, String hashedPassword, String firstName, String lastName, String email, String phoneNumber, boolean emailVerified) {
         this.username = username;

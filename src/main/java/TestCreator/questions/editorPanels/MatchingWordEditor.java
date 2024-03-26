@@ -1,7 +1,6 @@
 package TestCreator.questions.editorPanels;
 
 import TestCreator.questions.MatchingWord;
-import TestCreator.utilities.StackPaneAlert;
 import TestCreator.utilities.StageManager;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -90,7 +89,7 @@ public class MatchingWordEditor extends QuestionEditor<MatchingWord> {
     @FXML
     public void addPair() {
         if(questionListView.getItems().size() >= MatchingWord.MAX_PAIRS || answerListView.getItems().size() >= MatchingWord.MAX_PAIRS) {
-            new StackPaneAlert(rootNode, "You can only have 10 pairs of matching questions and answers.").show();
+            StageManager.showAlert("You can only have 10 pairs of matching questions and answers.");
             return;
         }
         if (!questionListView.getItems().contains(questionTextArea.getText()) &&

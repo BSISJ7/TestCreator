@@ -1,8 +1,7 @@
 package TestCreator.users;
 
 import TestCreator.testIO.UserDBIO;
-import TestCreator.utilities.StackPaneAlert;
-import javafx.scene.layout.StackPane;
+import TestCreator.utilities.StageManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +15,12 @@ public class UserManager {
     private final UserDBIO userDBIO = new UserDBIO();
 
 
-    public void initialize(StackPane rootNode) {
+    public void initialize() {
         try {
             userDBIO.setupUserTable();
             USER_LIST.addAll(userDBIO.getAllUsers());
         }catch (SQLException e){
-            new StackPaneAlert(rootNode, STR."Connection to database failed: \{e.getMessage()}").show();
+            StageManager.showAlert(STR."Connection to database failed: \{e.getMessage()}");
         }
     }
 

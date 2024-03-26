@@ -9,7 +9,7 @@ public class IOManager {
     public enum IOType {
         XML(),
         MYSQL(),
-        DYNAMODB();
+        DYNAMODB()
     }
 
     private static final IOManager instance = new IOManager();

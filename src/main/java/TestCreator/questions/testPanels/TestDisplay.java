@@ -2,10 +2,8 @@ package TestCreator.questions.testPanels;
 
 import TestCreator.Test;
 import TestCreator.audio.textToSpeech.TTSManager;
-import TestCreator.audio.transcription.VoskTranscriber;
+import TestCreator.audio.transcription.TranscrptionManager;
 import TestCreator.questions.*;
-import TestCreator.utilities.StackPaneAlert;
-import TestCreator.utilities.StackPaneDialogue;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.animation.KeyFrame;
@@ -74,9 +72,9 @@ public class TestDisplay {
 
     public enum TEST_COMMANDS {
         NEXT("next"),
-        PREVIOUS("previous"),
-        GRADE_TEST("grade test"),
-        MAIN_MENU("main menu"),
+        BACK("back"),
+        GRADE_TEST("grade"),
+        MAIN_MENU("main"),
         FLAG("flag"),
         ONE("one"),
         TWO("two"),
@@ -101,23 +99,33 @@ public class TestDisplay {
         }
     }
 
-    public static final String TEST_AUDIO_COMMANDS =
-            STR."[\"\{TEST_COMMANDS.NEXT.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.PREVIOUS.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.READ.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.STOP.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.FLIP.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.GRADE_TEST.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.MAIN_MENU.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.FLAG.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.ONE.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.TWO.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.THREE.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.FOUR.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.FIVE.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.SIX.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.SEVEN.getCommand()}\""+
-            STR.",\"\{TEST_COMMANDS.EIGHT.getCommand()}\"]";
+    public static final String TEST_AUDIO_COMMANDS;
+    static {
+        TEST_AUDIO_COMMANDS = STR."[\{
+                Arrays.stream(TEST_COMMANDS.values())
+                        .map(command -> STR."\"\{command.getCommand()}\"")
+                        .collect(Collectors.joining(","))
+                }]";
+    }
+//            STR."[\"\{TEST_COMMANDS.NEXT.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.BACK.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.READ.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.STOP.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.FLIP.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.GRADE_TEST.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.MAIN_MENU.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.FLAG.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.ONE.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.TWO.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.THREE.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.FOUR.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.FIVE.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.SIX.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.SEVEN.getCommand()}\""+
+//            STR.",\"\{TEST_COMMANDS.EIGHT.getCommand()}\"]";
+
+    public TestDisplay() {
+    }
 
     public void initialize() {
         setTitle();
@@ -134,20 +142,30 @@ public class TestDisplay {
         }, 1000, 1000);
         setupTest(TestManager.getInstance().getSelectedTest());
 
-        listenForCommands();
+        try {
+            listenForCommands();
+        } catch (IOException e) {
+            StageManager.showAlert(STR."Error listening for commands: \{e.getMessage()}");
+        }
     }
 
-    private void listenForCommands() {
-        Thread voskThread = new Thread(() -> {
-            VoskTranscriber voskTranscriber = new VoskTranscriber();
+    private void listenForCommands() throws IOException{
+        Thread transcriptionThread = new Thread(() -> {
+            TranscrptionManager transcrptionManager = null;
+            try {
+                transcrptionManager = new TranscrptionManager();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             try {
                 String command;
-                while ((command = voskTranscriber.listenForCommands(TEST_AUDIO_COMMANDS)) != null) {
+                while ((command = transcrptionManager.listenForCommands(TEST_AUDIO_COMMANDS)) != null) {
                     switch (command) {
                         case "next":
                             Platform.runLater(this::nextQuestion);
                             break;
-                        case "previous":
+                        case "back":
                             Platform.runLater(this::prevQuestion);
                             break;
                         case "grade test":
@@ -187,7 +205,6 @@ public class TestDisplay {
                             if(questionList.get(questionIndex).getType().equals("FlashCard")) {
                                 FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
                                 flashCardTestPanel.flipCard();
-                                playQuestionAudio();
                             }
                             break;
                         case "read":
@@ -203,7 +220,7 @@ public class TestDisplay {
                 e.printStackTrace();
             }
         });
-        voskThread.start();
+        transcriptionThread.start();
     }
 
     private void setVoiceAnswer(int answerIndex){
@@ -323,7 +340,6 @@ public class TestDisplay {
     private void playQuestionAudio(){
         TTS_MANAGER.stopSpeaking();
 
-        System.out.println("Playing question audio");
         switch (test.getQuestionAtIndex(questionIndex).getType()) {
             case "MultipleChoice":
                 TTS_MANAGER.speak(((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
@@ -346,7 +362,6 @@ public class TestDisplay {
                 break;
             case "FlashCard":
                 FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
-                flashCardTestPanel.flipCard();
                 TTS_MANAGER.speak(flashCardTestPanel.getVisibleText(), playbackSpeed);
                 break;
         }
@@ -357,8 +372,8 @@ public class TestDisplay {
     }
 
     public void endTest() {
-        new StackPaneDialogue(rootNode, "Are you sure you want to end your test? Press OK to confirm, or cancel to back out.")
-                .showAndWait().thenAccept(okayClicked -> {
+        StageManager.showDialog("Are you sure you want to end your test? Press OK to confirm, or cancel to back out.")
+                .thenAccept(okayClicked -> {
                     if (okayClicked) {
                         TTS_MANAGER.stopSpeaking();
                         finishTestBtn.setDisable(true);
@@ -379,8 +394,8 @@ public class TestDisplay {
                         }
 
                         float percentCorrect = ((float) numberCorrect / (float) maximumScore) * 100;
-                        percentCorrectLbl.setText("Percent Correct: " + (int) percentCorrect + "%");
-                        numCorrectLbl.setText("Correct Answers: " + numberCorrect + "/" + maximumScore);
+                        percentCorrectLbl.setText(STR."Percent Correct: \{(int) percentCorrect}%");
+                        numCorrectLbl.setText(STR."Correct Answers: \{numberCorrect}/\{maximumScore}");
 
                         if (percentCorrect >= 90) {
                             numCorrectLbl.setStyle("-fx-background-color: rgb(173, 255, 47)");
@@ -404,8 +419,7 @@ public class TestDisplay {
 
     @FXML
     public void returnToMainMenu() {
-        new StackPaneDialogue(rootNode, "Are you sure you want to return to the main menu? Press OK to confirm, or stopRecording to back out.")
-                .showAndWait().thenAccept(okayClicked -> {
+        StageManager.showDialog("Are you sure you want to return to the main menu? Press OK to confirm, or stopRecording to back out.").thenAccept(okayClicked -> {
             if (okayClicked) {
                 TTS_MANAGER.stopSpeaking();
                 try {
@@ -414,7 +428,7 @@ public class TestDisplay {
                     StageManager.clearStageController();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    new StackPaneAlert(rootNode, "Error loading MainMenu.fxml").show();
+                    StageManager.showAlert("Error loading MainMenu.fxml");
                     throw new RuntimeException(e);
                 }
             }
@@ -457,7 +471,4 @@ public class TestDisplay {
                 .contains("flagQuestionBtn")) ? SELECTED_FLAG_STYLE : SELECTED_QUESTION_STYLE);
     }
 
-    public void runCommand(String command){
-
-    }
 }

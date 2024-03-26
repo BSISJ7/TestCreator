@@ -43,8 +43,8 @@ public class TestManager {
         testList.remove(test);
         selectedTest = null;
         if (!testList.isEmpty()) {
-            setSelectedTest(testList.get(0));
-            if (!questionList.isEmpty()) selectedQuestion = questionList.get(0);
+            setSelectedTest(testList.getFirst());
+            if (!questionList.isEmpty()) selectedQuestion = questionList.getFirst();
         }
     }
 
@@ -59,7 +59,7 @@ public class TestManager {
     public void setSelectedTest(Test test) {
         selectedTest = test;
         questionList = selectedTest.getQuestionListCopy();
-        selectedQuestion = !questionList.isEmpty() ? questionList.get(0) : null;
+        selectedQuestion = !questionList.isEmpty() ? questionList.getFirst() : null;
     }
 
     public Question getSelectedQuestion() {
