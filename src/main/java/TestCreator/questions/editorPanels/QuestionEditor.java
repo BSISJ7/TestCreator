@@ -1,7 +1,7 @@
 package TestCreator.questions.editorPanels;
 
+import TestCreator.dataIO.IOManager;
 import TestCreator.questions.Question;
-import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.scene.layout.StackPane;

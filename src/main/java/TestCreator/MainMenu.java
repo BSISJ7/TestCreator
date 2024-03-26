@@ -1,11 +1,11 @@
 package TestCreator;
 
+import TestCreator.dataIO.IOManager;
 import TestCreator.login.WebLogin;
 import TestCreator.options.OptionsMenu;
 import TestCreator.questions.Question;
 import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.testCreation.TestEditor;
-import TestCreator.testIO.IOManager;
 import TestCreator.users.EditUser;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
@@ -258,15 +258,6 @@ public class MainMenu {
             testListView.getSelectionModel().selectFirst();
             questionListView.getSelectionModel().selectFirst();
         }
-
-//        new Thread(() -> {
-//            VoskTranscriber voskTranscriber = new VoskTranscriber();
-//            try {
-//                voskTranscriber.listenForCommands(COMMAND_);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
     }
 
     /**

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static TestCreator.testIO.XMLIO.findNode;
+import static TestCreator.dataIO.XMLIO.findNode;
 
 public class MultipleCheckBox extends Question {
 

@@ -2,9 +2,9 @@ package TestCreator.utilities;
 
 import TestCreator.Main;
 import TestCreator.Test;
+import TestCreator.dataIO.IOManager;
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;
-import TestCreator.testIO.IOManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import java.io.IOException;
 import java.util.Objects;
 
-import static TestCreator.testIO.XMLIO.findNode;
+import static TestCreator.dataIO.XMLIO.findNode;
 
 public class TrueFalse extends Question {
 

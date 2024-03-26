@@ -1,4 +1,4 @@
-package TestCreator.testIO.awsIO;
+package TestCreator.dataIO.awsIO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

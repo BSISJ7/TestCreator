@@ -1,6 +1,6 @@
 package TestCreator.users;
 
-import TestCreator.testIO.UserDBIO;
+import TestCreator.dataIO.UserDBIO;
 import TestCreator.utilities.StageManager;
 
 import java.sql.SQLException;

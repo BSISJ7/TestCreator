@@ -1,8 +1,8 @@
 package TestCreator;
 
 
+import TestCreator.dataIO.IOManager;
 import TestCreator.login.WebLogin;
-import TestCreator.testIO.IOManager;
 import TestCreator.utilities.StageManager;
 import com.jpro.webapi.JProApplication;
 import javafx.application.Platform;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends JProApplication {
-    public static final boolean TESTING_MODE = true;
+    public static final boolean TESTING_MODE = false;
 //    private ConfigurableApplicationContext applicationContext;
 
     public static void main(String[] args) {

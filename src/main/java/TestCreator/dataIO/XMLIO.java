@@ -1,4 +1,4 @@
-package TestCreator.testIO;
+package TestCreator.dataIO;
 
 import TestCreator.Test;
 import TestCreator.questions.Question;
@@ -146,7 +146,7 @@ public class XMLIO {
 
     public void saveTests() {
         //TODO Fix issue with saving tests
-        if(true) return;
+//        if(true) return;
         for (int x = 0; x < TestManager.getInstance().getNumOfTests(); x++) {
             testsXMLNode.appendChild(TestManager.getInstance().getTestAt(x).getTestAsXMLNode(XMLDocument));
         }

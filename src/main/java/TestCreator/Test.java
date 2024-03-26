@@ -1,8 +1,8 @@
 package TestCreator;
 
+import TestCreator.dataIO.XMLIO;
+import TestCreator.dataIO.XmlUtil;
 import TestCreator.questions.Question;
-import TestCreator.testIO.XMLIO;
-import TestCreator.testIO.XmlUtil;
 import TestCreator.users.User;
 import TestCreator.users.UserManager;
 import org.w3c.dom.Document;

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static TestCreator.testIO.XMLIO.findNode;
+import static TestCreator.dataIO.XMLIO.findNode;
 
 public class MultipleChoice extends Question {
 

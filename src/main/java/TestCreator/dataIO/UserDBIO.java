@@ -1,6 +1,6 @@
-package TestCreator.testIO;
+package TestCreator.dataIO;
 
-import TestCreator.testIO.awsIO.DatabaseConnectionManager;
+import TestCreator.dataIO.awsIO.DatabaseConnectionManager;
 import TestCreator.users.User;
 
 import java.sql.Connection;

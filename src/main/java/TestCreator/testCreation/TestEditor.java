@@ -1,7 +1,7 @@
 package TestCreator.testCreation;
 
 import TestCreator.Test;
-import TestCreator.testIO.IOManager;
+import TestCreator.dataIO.IOManager;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package TestCreator.testIO;
+package TestCreator.dataIO;
 
 import TestCreator.Test;
 import TestCreator.utilities.TestManager;
