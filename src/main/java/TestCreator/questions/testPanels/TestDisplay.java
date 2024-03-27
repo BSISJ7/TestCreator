@@ -107,22 +107,6 @@ public class TestDisplay {
                         .collect(Collectors.joining(","))
                 }]";
     }
-//            STR."[\"\{TEST_COMMANDS.NEXT.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.BACK.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.READ.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.STOP.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.FLIP.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.GRADE_TEST.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.MAIN_MENU.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.FLAG.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.ONE.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.TWO.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.THREE.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.FOUR.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.FIVE.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.SIX.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.SEVEN.getCommand()}\""+
-//            STR.",\"\{TEST_COMMANDS.EIGHT.getCommand()}\"]";
 
     public TestDisplay() {
     }
@@ -203,8 +187,11 @@ public class TestDisplay {
                             break;
                         case "flip":
                             if(questionList.get(questionIndex).getType().equals("FlashCard")) {
-                                FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
-                                flashCardTestPanel.flipCard();
+                                Platform.runLater(() -> {
+                                    FlashCardTestPanel flashCardTestPanel = (FlashCardTestPanel) testPanels.get(questionIndex);
+                                    flashCardTestPanel.flipCard();
+                                    playQuestionAudio();
+                                });
                             }
                             break;
                         case "read":
@@ -333,20 +320,21 @@ public class TestDisplay {
         setFlagText();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(firstRun ? 600 : 250), _ -> playQuestionAudio()));
-//        timeline.play();
+        timeline.play();
         firstRun = false;
     }
 
     private void playQuestionAudio(){
         TTS_MANAGER.stopSpeaking();
 
+        System.out.println("Playing question audio");
         switch (test.getQuestionAtIndex(questionIndex).getType()) {
             case "MultipleChoice":
                 TTS_MANAGER.speak(((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getQuestionText(), playbackSpeed);
-                for(int x = 0; x < ((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getChoicesCopy().size(); x++) {
-                    TTS_MANAGER.speak(STR."\{x + 1}. \{((MultipleChoice) test.getQuestionAtIndex(questionIndex))
-                            .getChoicesCopy().get(x)}", playbackSpeed);
-                }
+//                for(int x = 0; x < ((MultipleChoice) test.getQuestionAtIndex(questionIndex)).getChoicesCopy().size(); x++) {
+//                    TTS_MANAGER.speak(STR."\{x + 1}. \{((MultipleChoice) test.getQuestionAtIndex(questionIndex))
+//                            .getChoicesCopy().get(x)}", playbackSpeed);
+//                }
                 break;
             case "TrueFalse":
                 TTS_MANAGER.speak(((TrueFalse) test.getQuestionAtIndex(questionIndex)).getTrueFalseQuestion(), playbackSpeed);

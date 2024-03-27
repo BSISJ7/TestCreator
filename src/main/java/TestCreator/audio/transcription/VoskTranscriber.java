@@ -71,7 +71,7 @@ public class VoskTranscriber {
     }
 
     public String transcribe() throws IOException, UnsupportedAudioFileException {
-        LibVosk.setLogLevel(LogLevel.DEBUG);
+        LibVosk.setLogLevel(LogLevel.WARNINGS);
         InputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(TTS_OUTPUT_FILE)));
 
         int nbytes;

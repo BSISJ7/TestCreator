@@ -21,12 +21,8 @@ public class TTSManager {
     public static final String  TTS_OUTPUT_NAME = "tts_output.wav";
 
     public static final String TTS_OUTPUT_FILE = WebAPI.isBrowser()
-            ? STR."\{System.getProperty("user.dir")}/src/main/resources/jpro/html/"+TTS_OUTPUT_NAME
+            ? STR."\{System.getProperty("user.dir")}/target/classes/jpro/html/"+TTS_OUTPUT_NAME
             : STR."\{System.getProperty("user.dir")}/\{TTS_OUTPUT_NAME}";
-
-    public void clearQueue() {
-        audioQueue.clear();
-    }
 
     // Enum to represent the supported TTS services
     public enum TTSType {
@@ -38,16 +34,22 @@ public class TTSManager {
     private static final TTSType SELECTED_TTS_TYPE = TTSType.AWS_POLLY;
 
     public void speak(String text, float playbackSpeed) {
+        System.out.println("Adding to audio queue: " + text);
         audioQueue.add(text);
-        if (!isAudioPlaying())
+        System.out.println("Is Audio Playing? "+!isAudioPlaying());
+        if (!isAudioPlaying()) {
+            System.out.println("Inside isAudioPlaying if");
             playNextAudio(playbackSpeed);
+        }
     }
 
     public void playNextAudio(float playbackSpeed) {
+        System.out.println("Playing next audio");
         if (!audioQueue.isEmpty()) {
             String text = audioQueue.poll();
             switch (SELECTED_TTS_TYPE) {
                 case AWS_POLLY:
+                    System.out.println("Switching to AWS Polly");
                     AWS_POLLY_TTS.speak(text, playbackSpeed, this);
                     break;
                 case IBM_TEXT_TO_SPEECH:
