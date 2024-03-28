@@ -1,17 +1,16 @@
 *.properties
 *.xml
-XMLTest.xml
 *.bak
 *.log
 *.conf
-RUNNING_PID
 *.xml.backup*
 *.jks
 *.zip
 *.mp3
 *.wav
 *.mp4
-
+XMLTest.xml
+RUNNING_PID
 
 .apt_generated
 .classpath

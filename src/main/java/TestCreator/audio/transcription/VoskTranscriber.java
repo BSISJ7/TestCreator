@@ -2,7 +2,6 @@ package TestCreator.audio.transcription;
 
 import org.json.JSONObject;
 import org.vosk.LibVosk;
-import org.vosk.LogLevel;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 
@@ -18,13 +17,17 @@ public class VoskTranscriber {
 
     public static final String VOSK_LGRAPH = STR."\{System.getProperty("user.dir")}/vosk-model-en-us-0.22-lgraph";
     public static final String VOSK_SMALL = STR."\{System.getProperty("user.dir")}/vosk-model-small-en-us-0.15";
-    private final Model model = new Model(VOSK_SMALL);
-    private final Recognizer recognizer = new Recognizer(model, 16000);
+    private final Model model;
+    private final Recognizer recognizer;
     private final AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
     private final DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
+    public static final int VOSK_SILENT_LOGGING = -1;
+
     public VoskTranscriber() throws IOException {
-        LibVosk.setLogLevel(LogLevel.WARNINGS);
+        LibVosk.vosk_set_log_level(VOSK_SILENT_LOGGING);
+        model = new Model(VOSK_SMALL);
+        recognizer = new Recognizer(model, 16000);
 
     }
 
@@ -71,7 +74,6 @@ public class VoskTranscriber {
     }
 
     public String transcribe() throws IOException, UnsupportedAudioFileException {
-        LibVosk.setLogLevel(LogLevel.WARNINGS);
         InputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(TTS_OUTPUT_FILE)));
 
         int nbytes;

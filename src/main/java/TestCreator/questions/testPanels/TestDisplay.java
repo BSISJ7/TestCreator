@@ -135,7 +135,7 @@ public class TestDisplay {
 
     private void listenForCommands() throws IOException{
         Thread transcriptionThread = new Thread(() -> {
-            TranscrptionManager transcrptionManager = null;
+            TranscrptionManager transcrptionManager;
             try {
                 transcrptionManager = new TranscrptionManager();
             } catch (IOException e) {

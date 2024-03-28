@@ -12,7 +12,7 @@ import java.util.Queue;
  */
 public class TTSManager {
     // Instance of Amazon Polly Text to Speech service
-    private final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS(this);
+    private final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS();
     // Instance of IBM Text to Speech service
     private static final IBMTTS IBM_TTS = new IBMTTS();
 
@@ -63,7 +63,6 @@ public class TTSManager {
         return switch (SELECTED_TTS_TYPE) {
             case AWS_POLLY -> AWS_POLLY_TTS.isPlaying();
             case IBM_TEXT_TO_SPEECH -> IBM_TTS.isPlaying();
-            default -> false;
         };
     }
 
