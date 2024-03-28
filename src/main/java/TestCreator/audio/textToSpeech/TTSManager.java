@@ -12,7 +12,7 @@ import java.util.Queue;
  */
 public class TTSManager {
     // Instance of Amazon Polly Text to Speech service
-    private final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS(this);
+    private final AmazonPollyTTS AWS_POLLY_TTS = new AmazonPollyTTS();
     // Instance of IBM Text to Speech service
     private static final IBMTTS IBM_TTS = new IBMTTS();
 
@@ -34,6 +34,9 @@ public class TTSManager {
     private static final TTSType SELECTED_TTS_TYPE = TTSType.AWS_POLLY;
 
     public void speak(String text, float playbackSpeed) {
+        try {
+            
+        }catch (Exception e){e.printStackTrace();}
         System.out.println("Adding to audio queue: " + text);
         audioQueue.add(text);
         System.out.println("Is Audio Playing? "+!isAudioPlaying());
@@ -44,6 +47,9 @@ public class TTSManager {
     }
 
     public void playNextAudio(float playbackSpeed) {
+        try {
+            
+        }catch (Exception e){e.printStackTrace();}
         System.out.println("Playing next audio");
         if (!audioQueue.isEmpty()) {
             String text = audioQueue.poll();

@@ -327,6 +327,9 @@ public class TestDisplay {
     private void playQuestionAudio(){
         TTS_MANAGER.stopSpeaking();
 
+        try {
+            
+        }catch (Exception e){e.printStackTrace();}
         System.out.println("Playing question audio");
         switch (test.getQuestionAtIndex(questionIndex).getType()) {
             case "MultipleChoice":

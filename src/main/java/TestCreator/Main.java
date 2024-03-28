@@ -27,6 +27,10 @@ public class Main extends JProApplication {
     public void start(Stage stage) throws Exception {
 //        applicationContext.publishEvent(new StageReadyEvent(stage));
 
+
+//        System.setOut(new PrintStream("consoleLog.log"));
+        System.out.println("Starting TestCreator");
+
         IOManager.getInstance().backupDatabase();
         IOManager.getInstance().loadTests();
 
