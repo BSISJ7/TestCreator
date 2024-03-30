@@ -10,6 +10,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/graph" />
       <excludeFolder url="file://$MODULE_DIR$/vosk-model-en-us-0.22-lgraph/ivector" />
       <excludeFolder url="file://$MODULE_DIR$/vosk-model-small-en-us-0.15/conf" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-small-en-us-0.15/am" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-small-en-us-0.15/graph" />
+      <excludeFolder url="file://$MODULE_DIR$/vosk-model-small-en-us-0.15/ivector" />
     </content>
   </component>
 </module>
