@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="TestCreator.options.OptionsMenu"
+           fx:id="rootNode">
+
+
+    <fx:define>
+        <ToggleGroup fx:id="themeGroup"/>
+    </fx:define>
+
+    <VBox alignment="CENTER" spacing="10">
+        <CheckBox fx:id="audioCheckbox" text="Enable Audio" onAction="#setReadQuestion"/>
+        <Label text="Select Theme:"/>
+        <RadioButton fx:id="defaultTheme" text="Default Theme" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="nordDark" text="Nord Dark" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="nordLight" text="Nord Light" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="dracula" text="Dracula" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="cupertinoDark" text="Cupertino Dark" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="cupertinoLight" text="Cupertino Light" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="primerDark" text="Primer Dark" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="primerLight" text="Primer Light" toggleGroup="$themeGroup"/>
+        <RadioButton fx:id="darkTheme" text="Dark Theme" toggleGroup="$themeGroup"/>
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="okayButton" text="Okay"/>
+            <Button fx:id="cancelButton" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

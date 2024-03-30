@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="TestCreator.questions.generationPanels.QuestionSelectionPanel"
+           fx:id="rootNode"
+           prefHeight="400.0" prefWidth="600.0">
+
+    <VBox>
+        <HBox spacing="10">
+            <Label text="Number of Questions:" />
+            <ComboBox fx:id="questionCountComboBox"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Category:" />
+            <ComboBox fx:id="categoryComboBox"/>
+        </HBox>
+
+
+        <ListView fx:id="questionListView" />
+        <Button fx:id="addQuestionButton" text="Add Selected Question" />
+
+        <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
+            <Button onAction="#acceptQuestion" text="Accept"/>
+            <Button onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

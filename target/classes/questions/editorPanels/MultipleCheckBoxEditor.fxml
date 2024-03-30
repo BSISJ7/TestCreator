@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.MultipleCheckBoxEditor"
+           fx:id="rootNode">
+
+    <VBox fx:id="containerVBox" alignment="TOP_CENTER" spacing="10.0">
+        <HBox alignment="CENTER">
+            <HBox alignment="CENTER" spacing="20">
+                <Label text="Question Name"/>
+                <TextField fx:id="questionName"/>
+            </HBox>
+        </HBox>
+        <Label text="Question"/>
+        <TextArea fx:id="questionTextArea"/>
+        <ToolBar>
+            <HBox spacing="10">
+                <Button onAction="#addAnswer" text="New Answer">
+                    <tooltip>
+                        <Tooltip text="Adds a new answer."/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </ToolBar>
+        <ScrollPane fx:id="answerScroll" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="answersContainer" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
+        </ScrollPane>
+
+        <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
+            <Button onAction="#acceptQuestion" text="Accept"/>
+            <Button onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

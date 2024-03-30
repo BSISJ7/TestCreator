@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.FlashCardEditor">
+    <VBox alignment="CENTER">
+        <HBox alignment="TOP_CENTER" prefWidth="478.0" spacing="20">
+            <Label text="Question Name"/>
+            <TextField fx:id="questionName"/>
+        </HBox>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Flash Question"/>
+            <TextArea fx:id="flashQuestionTextArea"/>
+            <Label text="Flash Answer"/>
+            <TextArea fx:id="flashAnswerTextArea"/>
+        </VBox>
+        <HBox alignment="TOP_CENTER" spacing="50.0">
+            <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept"/>
+            <Button fx:id="cancelBtn" onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.login.WebLogin"
+           fx:id="rootNode">
+    <BorderPane>
+        <center>
+            <VBox fx:id="loginPane" alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
+                <TextField fx:id="usernameField" maxWidth="200" promptText="Username"/>
+                <PasswordField fx:id="passwordField" maxWidth="200" promptText="Password"/>
+                <Button fx:id="loginBtn" maxWidth="200" onAction="#login" text="Login"/>
+                <Hyperlink fx:id="noLoginBtn" onAction="#guestLogin" text="Guest Login"/>
+                <Hyperlink fx:id="newUserBtn" onAction="#createUser" text="New User"/>
+                <Hyperlink fx:id="resetPasswordBtn" onAction="#resetPassword" text="Reset Password"/>
+            </VBox>
+        </center>
+        <bottom>
+            <Button fx:id="googleLoginBtn" maxWidth="200" text="Login with Google" onAction="#loginWithGoogle"/>
+        </bottom>
+    </BorderPane>
+</StackPane>

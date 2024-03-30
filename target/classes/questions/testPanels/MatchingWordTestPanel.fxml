@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="TOP_CENTER"
+      maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308"
+      xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="rootNode"
+      fx:controller="TestCreator.questions.testPanels.MatchingWordTestPanel">
+
+    <HBox fx:id="listViewContainer" alignment="CENTER">
+        <ListView fx:id="keyListView" maxHeight="1.7976931348623157E308"
+                  HBox.hgrow="ALWAYS" styleClass="brightListView"/>
+        <ListView fx:id="valueListView" maxHeight="1.7976931348623157E308"
+                  HBox.hgrow="ALWAYS" styleClass="brightListView"/>
+    </HBox>
+</VBox>

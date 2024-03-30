@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.fxmisc.richtext.InlineCssTextArea?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.FillTheBlankEditor">
+    <VBox>
+        <VBox>
+            <HBox spacing="20">
+                <Label text="Question Name"/>
+                <TextField fx:id="questionName"/>
+            </HBox>
+
+            <ToolBar>
+                <HBox spacing="10">
+                    <Button fx:id="addWordBtn" onAction="#toggleAddWord" text="Add Word">
+                        <tooltip>
+                            <Tooltip text="Sets this choice as the correct answer."/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="removeWordBtn" onAction="#toggleRemoveWord" text="Remove Word">
+                        <tooltip>
+                            <Tooltip text="Sets this choice as the correct answer."/>
+                        </tooltip>
+                    </Button>
+                    <CheckBox fx:id="displayAnswersCheckBox" text="Display Answers"/>
+                    <CheckBox fx:id="multiSelectCheckBox" text="Multi-Selection" selected="true"/>
+                </HBox>
+            </ToolBar>
+        </VBox>
+        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" HBox.hgrow="ALWAYS" minWidth="100">
+                <Label text="Word Bank"/>
+                <ListView fx:id="wordBankListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                          VBox.vgrow="ALWAYS" styleClass="brightListView"/>
+            </VBox>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                <Label text="Question"/>
+                <ScrollPane fx:id="questionScrollPane" maxHeight="1.7976931348623157E308"
+                            maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                    <InlineCssTextArea fx:id="questionTextArea" maxHeight="1.7976931348623157E308"
+                                       maxWidth="1.7976931348623157E308" wrapText="true"/>
+                </ScrollPane>
+            </VBox>
+        </HBox>
+        <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
+            <Button fx:id="acceptBtn" onAction="#acceptQuestion" text="Accept"/>
+            <Button fx:id="cancelBtn" onAction="#cancel" text="Cancel"/>
+        </HBox>
+    </VBox>
+</StackPane>
