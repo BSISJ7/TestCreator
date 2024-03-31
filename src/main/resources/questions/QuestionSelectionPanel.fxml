@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="TestCreator.questions.generationPanels.QuestionSelectionPanel"
+           fx:controller="TestCreator.questions.openTrivia.QuestionSelectionPanel"
            fx:id="rootNode"
            prefHeight="400.0" prefWidth="600.0">
 

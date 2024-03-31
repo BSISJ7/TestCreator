@@ -23,15 +23,6 @@ public class StageManager {
         StageManager.stage = stage;
     }
 
-    public static void setRootPane(String fxmlPath) throws IOException {
-        //TODO Look over this
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));
-        Parent root = loader.load();
-        stageController = loader.getController();
-        root.getStylesheets().add(OptionsMenu.getCssFullPath());
-        stage.setScene(new Scene(root));
-    }
-
     public static void setRootPane(StackPane root) throws IOException {
         rootPane = root;
         stageController = root;
@@ -64,16 +55,16 @@ public class StageManager {
     public static void setScene(String newScene) throws IOException {
         rootPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(newScene));
-        Parent root = loader.load();
-        rootPane.getChildren().add(root);
+        Parent node = loader.load();
+        rootPane.getChildren().add(node);
         stageController = loader.getController();
-    }
-
-    public static CompletableFuture<Boolean> showDialog(String message) {
-        return new StackPaneDialogue(rootPane, message).showAndWait();
     }
 
     public static void showAlert(String message) {
         new StackPaneAlert(rootPane, message);
+    }
+
+    public static CompletableFuture<Boolean> showDialog(String message) {
+        return new StackPaneDialogue(rootPane, message).showAndWait();
     }
 }

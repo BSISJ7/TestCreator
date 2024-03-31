@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="TestCreator.questions.quickEditors.MultipleChoiceQuickEditor"
+           fx:controller="TestCreator.questions.quickEditors.FlashCardQuickEditor"
            prefHeight="400.0" prefWidth="600.0">
 
     <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0">

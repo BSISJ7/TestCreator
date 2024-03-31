@@ -46,18 +46,12 @@ module TestCreator {
     requires org.json;
     requires javafx.web;
     requires jdk.jsobject;
-//    requires spring.web;
-//    requires spring.boot;
-//    requires spring.boot.autoconfigure;
-//    requires spring.security.config;
-//    requires spring.context;
-//    requires spring.security.web;
-//    requires spring.beans;
 
-    opens TestCreator to javafx.fxml, com.google.gson, spring.core, spring.beans, spring.context;
+    opens TestCreator to javafx.fxml, com.google.gson;
     opens TestCreator.questions.quickEditors to javafx.fxml;
+    opens TestCreator.questions.quickEditors.multiEditors to javafx.fxml;
     opens TestCreator.options to javafx.fxml;
-    opens TestCreator.login to javafx.fxml, spring.core, spring.beans, spring.context;
+    opens TestCreator.login to javafx.fxml;
     opens TestCreator.testCreation to javafx.fxml;
     opens TestCreator.questions.editorPanels to javafx.fxml;
     opens TestCreator.questions.testPanels to javafx.fxml;
@@ -65,6 +59,8 @@ module TestCreator {
     opens TestCreator.utilities to com.google.gson;
     opens TestCreator.audio to com.google.gson;
     opens TestCreator.users to javafx.fxml, com.google.gson;
+    opens TestCreator.audio.textToSpeech to com.google.gson;
+    opens TestCreator.audio.transcription to com.google.gson;
 
     exports TestCreator.utilities to com.google.gson;
     exports TestCreator.questions.quickEditors to javafx.fxml;
@@ -76,7 +72,6 @@ module TestCreator {
     exports TestCreator.audio to com.google.gson;
     exports TestCreator to com.google.gson, javafx.fxml, javafx.graphics;
     exports TestCreator.audio.textToSpeech to com.google.gson;
-    opens TestCreator.audio.textToSpeech to com.google.gson;
     exports TestCreator.audio.transcription to com.google.gson;
-    opens TestCreator.audio.transcription to com.google.gson;
+    exports TestCreator.questions.quickEditors.multiEditors to javafx.fxml;
 }

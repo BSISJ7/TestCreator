@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -21,8 +20,7 @@ public class TestEditor {
     private Button cancelBtn;
     @FXML
     private VBox testInfoVBox;
-    @FXML
-    private StackPane rootNode;
+
     @FXML
     TextField testName;
     @FXML

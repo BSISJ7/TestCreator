@@ -414,7 +414,7 @@ public class MainMenu {
             throw new RuntimeException(e);
         }
         ((QuestionEditor) StageManager.getStageController()).setupQuestion(TestManager.getInstance()
-                .getSelectedQuestion(), true, rootNode);
+                .getSelectedQuestion(), true);
         StageManager.clearStageController();
     }
 

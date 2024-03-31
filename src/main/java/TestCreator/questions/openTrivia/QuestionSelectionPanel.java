@@ -1,4 +1,4 @@
-package TestCreator.questions.generationPanels;
+package TestCreator.questions.openTrivia;
 
 import TestCreator.questions.MultipleChoice;
 import TestCreator.questions.Question;

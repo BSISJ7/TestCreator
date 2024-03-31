@@ -2,7 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<StackPane fx:id="rootNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor">
+<StackPane fx:id="rootNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+           prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="TestCreator.questions.editorPanels.NewQuestionEditor">
 
     <TabPane fx:id="tabPane">
         <Tab closable="false" text="New Question">
@@ -17,14 +20,26 @@
                 </HBox>
             </VBox>
         </Tab>
-        <Tab closable="false" text="Fast New Question">
+        <Tab closable="false" text="Quick Editor">
             <VBox alignment="CENTER">
                 <ChoiceBox fx:id="quickTypesChoiceBox" maxWidth="Infinity" />
                 <Label text="Name" />
                 <TextField fx:id="quickQuestionName" alignment="CENTER" />
 
                 <HBox alignment="TOP_CENTER" spacing="50.0">
-                    <Button fx:id="fastAcceptBtn" onAction="#addNewQuickQuestion" text="Accept" />
+                    <Button fx:id="quickAcceptBtn" onAction="#addNewQuickQuestion" text="Accept" />
+                    <Button onAction="#returnToMainMenu" text="Cancel" />
+                </HBox>
+            </VBox>
+        </Tab>
+        <Tab closable="false" text="Multi Quick Editor">
+            <VBox alignment="CENTER">
+                <ChoiceBox fx:id="quickMultiTypesChoiceBox" maxWidth="Infinity" />
+                <Label text="Name Pattern" />
+                <TextField fx:id="quickMultiQuestionName" alignment="CENTER" />
+
+                <HBox alignment="TOP_CENTER" spacing="50.0">
+                    <Button fx:id="quickMultiAcceptBtn" onAction="#addNewQuickMultiQuestion" text="Accept" />
                     <Button onAction="#returnToMainMenu" text="Cancel" />
                 </HBox>
             </VBox>
@@ -47,8 +62,8 @@
                 <ListView fx:id="questionListView"/>
                 <Button text="Add All Questions" onAction="#addAllQuestions"/>
                 <Button text="Add Selected Question(s)" onAction="#addQuestion"/>
-                <Button text="Remove Selected Question(s)" onAction="#removeAllQuestions"/>
-                <Button text="Remove All Questions" onAction="#removeQuestion"/>
+<!--                <Button text="Remove Selected Question(s)" onAction="#removeAllQuestions"/>-->
+<!--                <Button text="Remove All Questions" onAction="#removeQuestion"/>-->
 
                 <HBox alignment="TOP_CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
                     <Button text="Accept" onAction="#acceptOpenTrivia"/>

@@ -4,17 +4,13 @@ import TestCreator.dataIO.IOManager;
 import TestCreator.questions.Question;
 import TestCreator.utilities.StageManager;
 import TestCreator.utilities.TestManager;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
 public abstract class QuestionEditor<T extends Question> {
 
     T question;
-
     boolean editingQuestion = false;
-
-    StackPane rootNode;
 
     public T getQuestion() {
         return question;
@@ -22,8 +18,7 @@ public abstract class QuestionEditor<T extends Question> {
 
     public abstract void setupQuestion(T question);
 
-    public void setupQuestion(T question, boolean editing, StackPane rootNode){
-        this.rootNode = rootNode;
+    public void setupQuestion(T question, boolean editing){
         this.editingQuestion = editing;
         setupQuestion(question);
     }

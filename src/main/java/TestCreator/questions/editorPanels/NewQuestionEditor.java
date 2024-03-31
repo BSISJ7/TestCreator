@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -25,13 +24,19 @@ public class NewQuestionEditor {
     @FXML
     public Tab triviaTab;
     @FXML
+    public Button quickMultiAcceptBtn;
+    @FXML
+    public TextField quickMultiQuestionName;
+    @FXML
+    public ChoiceBox<String> quickMultiTypesChoiceBox;
+    @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
     private ComboBox<Integer> questionCountComboBox;
     @FXML
     private TabPane tabPane;
     @FXML
-    private Button fastAcceptBtn;
+    private Button quickAcceptBtn;
     @FXML
     private TextField quickQuestionName;
     @FXML
@@ -40,8 +45,6 @@ public class NewQuestionEditor {
     private VBox containerVBox;
     @FXML
     private Button acceptBtn;
-    @FXML
-    private StackPane rootNode;
     @FXML
     private ChoiceBox<String> typesChoiceBox;
     @FXML
@@ -75,10 +78,10 @@ public class NewQuestionEditor {
                 acceptBtn.disableProperty().bind(questionName.textProperty().isEmpty()
                         .or(typesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
 
+
         quickQuestionName.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
         quickTypesChoiceBox.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
         quickQuestionName.setText(question.getName());
-
         ClassFinder classFinder = new ClassFinder();
         List<String> quickEditorNames = classFinder.getFilesInDirectory("TestCreator/questions/quickEditors");
         quickEditorNames.stream().map(name -> name.substring(0, name.indexOf("QuickEditor")))
@@ -90,6 +93,29 @@ public class NewQuestionEditor {
             question = Question.createQuestion(questionType);
             quickQuestionName.setText(question.getName());
         });
+        quickQuestionName.textProperty().addListener((_, _, _) ->
+                quickAcceptBtn.disableProperty().bind(quickQuestionName.textProperty().isEmpty()
+                        .or(quickTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
+
+
+        quickMultiQuestionName.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
+        quickMultiTypesChoiceBox.prefWidthProperty().bind(containerVBox.widthProperty().multiply(0.8));
+        quickMultiQuestionName.setText(question.getName());
+
+        List<String> quickMultiEditorNames = classFinder.getFilesInDirectory("TestCreator/questions/quickEditors/multiEditors");
+        quickMultiEditorNames.stream().map(name -> name.substring(0, name.indexOf("QuickMultiEditor")))
+                .map(name -> name.charAt(0) + name.substring(1).replaceAll("(?=[A-Z])", " "))
+                .forEach(quickMultiTypesChoiceBox.getItems()::add);
+        quickMultiTypesChoiceBox.getSelectionModel().selectFirst();
+        quickMultiTypesChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newQuestionType) ->{
+            questionType = Question.QuestionTypes.valueOf(newQuestionType.replace(" ", "_").toUpperCase());
+            question = Question.createQuestion(questionType);
+            quickMultiQuestionName.setText(question.getName());
+        });
+        quickMultiQuestionName.textProperty().addListener((_, _, _) ->
+                quickMultiAcceptBtn.disableProperty().bind(quickMultiQuestionName.textProperty().isEmpty()
+                        .or(quickMultiTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
+
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
             if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
@@ -101,32 +127,36 @@ public class NewQuestionEditor {
                 questionName.setText(question.getName());
                 acceptBtn.disableProperty().bind(questionName.textProperty().isEmpty()
                         .or(typesChoiceBox.getSelectionModel().selectedItemProperty().isNull()));
-            } else {
+            } else if(tabPane.getSelectionModel().getSelectedIndex() == 1){
                 quickTypesChoiceBox.getSelectionModel().selectFirst();
                 if (!quickTypesChoiceBox.getSelectionModel().isEmpty())
                     questionType = Question.QuestionTypes.valueOf(quickTypesChoiceBox.getSelectionModel()
                             .getSelectedItem().replace(" ", "_").toUpperCase());
                 question = Question.createQuestion(questionType);
                 quickQuestionName.setText(question.getName());
-                fastAcceptBtn.disableProperty().bind(quickQuestionName.textProperty().isEmpty()
+                quickAcceptBtn.disableProperty().bind(quickQuestionName.textProperty().isEmpty()
                         .or(quickTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull()));
+            } else if (tabPane.getSelectionModel().getSelectedIndex() == 2){
+                quickMultiTypesChoiceBox.getSelectionModel().selectFirst();
+                if(!quickMultiTypesChoiceBox.getSelectionModel().isEmpty())
+                    questionType = Question.QuestionTypes.valueOf(quickTypesChoiceBox.getSelectionModel()
+                            .getSelectedItem().replace(" ","_").toUpperCase());
+                quickMultiQuestionName.setText("Flash Card");
+                quickMultiAcceptBtn.disableProperty().bind(quickMultiQuestionName.textProperty().isEmpty()
+                        .or(quickMultiTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull()));
             }
         });
 
 
 
         //TODO: Change the TDBQuestion interface
-        //remove the triviaTab from the tabPane
-        tabPane.getTabs().remove(triviaTab);
+        tabPane.getTabs().remove(triviaTab);  //remove the triviaTab from the tabPane
+
         questionListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         categoryComboBox.getItems().addAll(TDBQuestion.Categories.getCategoryNames());
         categoryComboBox.getSelectionModel().select(0);
 
         questionCountLabel.textProperty().bind(questionCountSlider.valueProperty().asString("%.0f"));
-
-        quickQuestionName.textProperty().addListener((_, _, _) ->
-                fastAcceptBtn.disableProperty().bind(quickQuestionName.textProperty().isEmpty()
-                        .or(quickTypesChoiceBox.getSelectionModel().selectedItemProperty().isNull())));
     }
 
     public void returnToMainMenu() {
@@ -142,7 +172,7 @@ public class NewQuestionEditor {
     public void addNewQuestion() {
         try {
             StageManager.setScene(STR."/questions/editorPanels/\{questionType.getQuestionType()}Editor.fxml");
-            ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false, rootNode);
+            ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false);
             StageManager.clearStageController();
         } catch (IOException e) {
             StageManager.showAlert(STR."Error loading \{questionType.getQuestionType()}Editor.fxml");
@@ -153,6 +183,16 @@ public class NewQuestionEditor {
     public void addNewQuickQuestion() {
         try {
             StageManager.setScene(STR."/questions/quickEditors/\{questionType.getQuestionType()}QuickEditor.fxml");
+            StageManager.clearStageController();
+        } catch (IOException e) {
+            StageManager.showAlert(STR."Error loading \{questionType.getQuestionType()}QuickEditor.fxml");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addNewQuickMultiQuestion() {
+        try {
+            StageManager.setScene(STR."/questions/quickEditors/multiEditors/\{questionType.getQuestionType()}QuickMultiEditor.fxml");
             StageManager.clearStageController();
         } catch (IOException e) {
             StageManager.showAlert(STR."Error loading \{questionType.getQuestionType()}QuickEditor.fxml");

@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -38,8 +37,7 @@ public class CreateNewPassword {
     private Label matchReqLabel;
     @FXML
     private PasswordField passwordConfirmField;
-    @FXML
-    private StackPane rootNode;
+
     private UserManager userManager;
 
     public void initialize() {

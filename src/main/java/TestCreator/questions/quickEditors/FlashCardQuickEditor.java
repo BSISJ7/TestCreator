@@ -1,9 +1,8 @@
 package TestCreator.questions.quickEditors;
 
-import TestCreator.questions.MultipleChoice;
+import TestCreator.questions.FlashCard;
 import TestCreator.questions.editorPanels.QuestionEditor;
 import TestCreator.utilities.StageManager;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -13,8 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//
-public class MultipleChoiceQuickEditor {
+public class FlashCardQuickEditor {
 
     @FXML
     public TextArea questionTextArea;
@@ -23,32 +21,31 @@ public class MultipleChoiceQuickEditor {
     @FXML
     public Button acceptButton;
 
-    private MultipleChoice question;
+    private FlashCard question;
 
     @FXML
     public void initialize() {
-        question = new MultipleChoice();
+        question = new FlashCard();
         questionTextArea.setWrapText(true);
         questionName.setText(question.getName());
 
         questionTextArea.textProperty().addListener((_, _, _) ->
-                acceptButton.setDisable(questionTextArea.getText().trim().lines().count() < 3));
+            acceptButton.setDisable(questionTextArea.getText().trim().lines().count() < 3));
     }
 
     public void acceptQuestion() {
         questionName.setText(question.getName());
         List<String> sentencesList = new ArrayList<>(questionTextArea.getText().trim().lines().toList());
-        question.setQuestionText(sentencesList.getFirst());
+        question.setFlashQuestion(sentencesList.getFirst());
         sentencesList.removeFirst();
-        question.setChoices(FXCollections.observableList(sentencesList));
-        question.setAnswerIndex(0);
+        question.setFlashAnswer(sentencesList.getFirst());
 
         try {
-            StageManager.setScene("/questions/editorPanels/MultipleChoiceEditor.fxml");
+            StageManager.setScene("/questions/editorPanels/FlashCardEditor.fxml");
             ((QuestionEditor) StageManager.getStageController()).setupQuestion(question, false);
             StageManager.clearStageController();
         } catch (IOException e) {
-            StageManager.showAlert("Error loading MultipleChoiceEditor.fxml");
+            StageManager.showAlert("Error loading FlashCardEditor.fxml");
             throw new RuntimeException(e);
         }
     }
