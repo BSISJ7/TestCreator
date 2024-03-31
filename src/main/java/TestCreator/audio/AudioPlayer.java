@@ -49,7 +49,6 @@ public class AudioPlayer {
         mediaPlayer.play();
         isPlaying = true;
         mediaPlayer.setOnEndOfMedia(() -> isPlaying = false);
-        System.out.println("Playing");
     }
 
     public void stopSound() {

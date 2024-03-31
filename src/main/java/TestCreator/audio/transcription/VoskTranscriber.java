@@ -50,7 +50,6 @@ public class VoskTranscriber {
                 JSONObject resultJson = new JSONObject(recognizer.getResult());
                 String text = resultJson.getString("text");
                 if (!text.isEmpty() && isCommand(text, cleanedCommandsList)) {
-                    System.out.println(STR."Text: \{text}");
                     return text;
                 }
             } else {

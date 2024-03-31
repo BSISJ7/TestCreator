@@ -28,7 +28,6 @@ public class AmazonPollyTTS {
     }
 
     public void speak(String text, float playbackSpeed, TTSManager ttsManager) {
-        System.out.println("Polly speaking: " + text);
         stopping = false;
         String ssmlText = STR."<speak><prosody rate=\"\{playbackSpeed}\">\{text}</prosody></speak>";
 
@@ -39,19 +38,15 @@ public class AmazonPollyTTS {
                 .outputFormat(OutputFormat.MP3)
                 .build();
 
-        System.out.println("Synthesizing speech");
         try (ResponseInputStream<SynthesizeSpeechResponse> stream = polly.synthesizeSpeech(synthReq);
              OutputStream outputStream = new FileOutputStream(STR."\{TTS_OUTPUT_FILE}.mp3")) {
             byte[] buffer = new byte[1024];
             int readBytes;
 
-            System.out.println("Writing to file");
             while ((readBytes = stream.read(buffer)) > 0 && !stopping) {
                 outputStream.write(buffer, 0, readBytes);
             }
 
-            System.out.println(STR."\{TTS_OUTPUT_FILE}.mp3");
-            System.out.println(STR."\{TTS_OUTPUT_FILE}");
             AudioConverter.convertToWav(STR."\{TTS_OUTPUT_FILE}.mp3", STR."\{TTS_OUTPUT_FILE}");
             audioPlayer.playSound(STR."\{TTS_OUTPUT_FILE}");
             isPlaying = true;

@@ -12,25 +12,13 @@ import javafx.stage.Stage;
 
 public class Main extends JProApplication {
     public static final boolean TESTING_MODE = false;
-//    private ConfigurableApplicationContext applicationContext;
 
     public static void main(String[] args) {
         launch(Main.class, args);
     }
 
     @Override
-    public void init() {
-//        applicationContext = new SpringApplicationBuilder(SpringJfxApp.class).run();
-    }
-
-    @Override
     public void start(Stage stage) throws Exception {
-//        applicationContext.publishEvent(new StageReadyEvent(stage));
-
-
-//        System.setOut(new PrintStream("consoleLog.log"));
-        System.out.println("Starting TestCreator");
-
         IOManager.getInstance().backupDatabase();
         IOManager.getInstance().loadTests();
 

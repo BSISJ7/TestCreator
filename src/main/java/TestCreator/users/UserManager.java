@@ -69,7 +69,7 @@ public class UserManager {
         try {
             currentUser = getUser(username);
         } catch (NullPointerException e) {
-            System.out.println("User does not exist");
+            e.printStackTrace();
         }
     }
 
